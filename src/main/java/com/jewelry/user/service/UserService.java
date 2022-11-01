@@ -1,5 +1,9 @@
 package com.jewelry.user.service;
 
-public interface UserService {
+import com.jewelry.user.domain.UserTO;
 
+public interface UserService {
+	
+	void addUser(UserTO to);
+	
 }

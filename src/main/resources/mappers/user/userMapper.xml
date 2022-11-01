@@ -2,5 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jewelry.user.mapper.UserMapper">
 
-
+	<select id="selectUserWithLogin" parameterType="String" resultType="CustomUserDetails">
+		SELECT user_id as username, user_pwd as password, user_role as userrole, IFNULL(use_yn,'N') as enableyn
+		FROM tb_user
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="selectUser" parameterType="String" resultType="UserVO">
+		SELECT user_id, user_name, user_role, email, celnum
+		FROM tb_user
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<insert id="insertUser" parameterType="UserTO">
+    INSERT INTO tb_user (
+    	user_id, user_pwd, user_name, user_role, email, celnum, use_yn, inpt_id, inpt_dt
+   	)
+    VALUES (
+    	#{user_id}, #{user_pwd}, #{user_name}, #{user_role}, #{email}, #{celnum}, #{use_yn}, #{inpt_id}, NOW()
+   	)
+  </insert>
 </mapper>

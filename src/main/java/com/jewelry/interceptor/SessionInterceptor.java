@@ -11,7 +11,6 @@ import com.jewelry.user.domain.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class SessionInterceptor implements HandlerInterceptor {
 	
 	/**
@@ -22,20 +21,20 @@ public class SessionInterceptor implements HandlerInterceptor {
 		// 요청 URL 
 		String url = request.getRequestURI();
 		
-		log.debug("==================== BEGIN ====================");
-		log.debug("Request URI ===> " + url);
-		log.debug("===============================================");
+		System.out.println("==================== BEGIN ====================");
+		System.out.println("Request URI ===> " + url);
+		System.out.println("===============================================");
 		HttpSession session = request.getSession();
 		
     	// UserDto는 User에 대한 Dto인데 로직 흐름을 참고만 하셔도 됩니다.
-		UserVO user = (UserVO)session.getAttribute("USER_INFO");
         
-		if(!url.contains("login")) {
+		if(!url.contains("signin")) {
 	        // 로그인 정보가 없으면 튕겨내기
-			if(user == null) {
-				log.debug("No Session");
-				log.debug(request.getContextPath());
-				response.sendRedirect(request.getContextPath() + "/error");
+			if(session.getAttribute("USER_INFO") == null) {
+				System.out.println("===============================================");
+				System.out.println("================== No Session =================");
+				System.out.println("===============================================");
+				response.sendRedirect(request.getContextPath() + "/signin");
 				return false;
 			}
 		}
@@ -48,9 +47,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 	 */
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-		log.debug("===================== END =====================");
-		log.debug("Request URI ===> " + request.getRequestURI());
-		log.debug("===================== END =====================");
+		System.out.println("===================== END =====================");
+		System.out.println("Request URI ===> " + request.getRequestURI());
+		System.out.println("===================== END =====================");
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 
