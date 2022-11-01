@@ -17,6 +17,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 		if(authentication != null && authentication.getDetails() != null){
 			try {
 				request.getSession().invalidate();
+				System.out.println("세션 로그아웃");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
