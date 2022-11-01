@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler())
-                .deleteCookies("JSESSIONID","remember-me")
+                .deleteCookies("JSESSIONID")
             .and()
             .csrf().disable()
             .userDetailsService(userDetailsService)		//로그인 창
