@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewelry.cms.menu.mapper.MenuMapper">
+
+	<select id="selectMenuList" parameterType="MenuTO" resultType="MenuVO">
+		SELECT menu_id, menu_nm, menu_link, menu_ord, up_menu_id, use_yn
+		FROM tb_menu
+		WHERE 1 = 1
+		<if test='use_yn != null and !use_yn.equals("")'>
+			AND use_yn = #{use_yn}
+		</if>
+		ORDER BY menu_ord ASC, menu_id ASC
+	</select>
+	
+</mapper>

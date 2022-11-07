@@ -30,7 +30,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 		System.out.println("**************Found User***************");
 		ServletRequestAttributes attr = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
 		HttpSession session = attr.getRequest().getSession(true); // true == allow create
-		session.setAttribute("USER_INFO", session);
+		session.setAttribute("USER_INFO", vo);
 		
 		return vo;
 	}

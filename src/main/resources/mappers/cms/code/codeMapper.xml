@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewelry.cms.code.mapper.CodeMapper">
+
+	<sql id="search">
+		<!-- 검색 키워드가 있을 때 -->
+		<if test='searchword != null and !searchword.equals("")'>
+			<choose>
+				<!-- 검색 유형이 있을 때 -->
+				<when test='searchtype == null or searchtype.equals("")'>
+					AND (
+				    cd_id LIKE CONCAT('%', #{searchword}, '%')
+						OR cd_nm LIKE CONCAT('%', #{searchword}, '%')
+					)
+				</when>
+				<!-- 검색 유형이 없을 때 -->
+				<otherwise>
+					<if test='searchtype.equals("id")'>
+						AND cd_id LIKE CONCAT('%', #{searchword}, '%')
+					</if>
+					<if test='searchtype.equals("name")'>
+						AND cd_nm LIKE CONCAT('%', #{searchword}, '%')
+					</if>
+				</otherwise>
+			</choose>
+		</if>
+	</sql>
+	
+	<select id="selectCodeListCount" parameterType="CodeTO" resultType="Integer">
+		SELECT COUNT(*)
+		FROM tb_code
+		WHERE 1 = 1
+		<include refid="search" />
+	</select>
+	
+	<select id="selectCodeList" parameterType="CodeTO" resultType="CodeVO">
+		SELECT a.cd_id, a.cd_nm, a.cd_ord, a.up_cd_id, a.inpt_id, b.user_name as inpt_nm, a.inpt_dt
+		FROM tb_code a
+			LEFT OUTER JOIN tb_user b
+				ON a.inpt_id = b.user_id
+		WHERE 1 = 1
+		<include refid="search" />
+		ORDER BY cd_ord ASC, cd_id ASC
+		<include refid="commonMapper.paging" />
+	</select>
+	
+	<select id="selectCode" parameterType="CodeTO" resultType="CodeVO">
+		SELECT cd_id, cd_nm, cd_ord, up_cd_id, inpt_id, inpt_dt, updt_id, updt_dt
+		FROM tb_code
+		WHERE cd_id = #{cd_id}
+	</select>
+	
+	<insert id="insertCode" parameterType="CodeTO">
+		INSERT INTO tb_code (
+			cd_id, cd_nm, inpt_id, inpt_dt
+			<if test='cd_ord != null and cd_ord > 0'>, cd_ord</if>
+			<if test='up_cd_id != null and cd_ord > 0'>, up_cd_id</if>
+			<if test='cd_depth != null and cd_ord > 0'>, cd_depth</if>
+			<if test='use_yn != null and cd_ord > 0'>, use_yn</if>
+		)
+		VALUES (
+			#{cd_id}, #{cd_nm}, #{inpt_id}, NOW()
+			<if test='cd_ord != null and cd_ord > 0'>, #{cd_ord}</if>
+			<if test='up_cd_id != null and !up_cd_id.equals("")'>, #{up_cd_id}</if>
+			<if test='cd_depth != null and cd_depth > 0'>, #{cd_depth}</if>
+			<if test='use_yn != null and !use_yn.equals("")'>, #{use_yn}</if>
+		)
+	</insert>
+	
+	<update id="updateCode" parameterType="CodeTO">
+		UPDATE tb_code
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='cd_nm != null and !cd_nm.equals("")'>
+			, cd_nm = #{cd_nm}
+		</if> 
+		<if test='cd_ord != null and cd_ord > 0'>
+			, cd_ord = #{cd_ord}
+		</if>
+		<if test='use_yn != null and !use_yn.equals("")'>
+			, use_yn = #{use_yn}
+		</if>
+		WHERE cd_id = #{cd_id}
+	</update>
+	
+	<delete id="deleteCode" parameterType="CodeTO">
+		DELETE FROM tb_code
+		WHERE cd_id = #{cd_id}
+	</delete>
+	
+</mapper>

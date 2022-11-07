@@ -6,16 +6,16 @@ public class UserVO {
 
 	private List<UserVO> list;
 	
-	private String user_id;
-	private String user_pwd;
-	private String user_name;
+	private String userid;
+	private String userpwd;
+	private String username;
 	private String email;
 	private String celnum;
-	private String use_yn;
-	private String inpt_id;
-	private String inpt_dt;
-	private String updt_id;
-	private String updt_dt;
+	private String useyn;
+	private String inptid;
+	private String inptdt;
+	private String updtid;
+	private String updtdt;
 	
 	public List<UserVO> getList() {
 		return list;
@@ -23,23 +23,23 @@ public class UserVO {
 	public void setList(List<UserVO> list) {
 		this.list = list;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getUserid() {
+		return userid;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	public String getUser_pwd() {
-		return user_pwd;
+	public String getUserpwd() {
+		return userpwd;
 	}
-	public void setUser_pwd(String user_pwd) {
-		this.user_pwd = user_pwd;
+	public void setUserpwd(String userpwd) {
+		this.userpwd = userpwd;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getEmail() {
 		return email;
@@ -53,35 +53,34 @@ public class UserVO {
 	public void setCelnum(String celnum) {
 		this.celnum = celnum;
 	}
-	public String getUse_yn() {
-		return use_yn;
+	public String getUseyn() {
+		return useyn;
 	}
-	public void setUse_yn(String use_yn) {
-		this.use_yn = use_yn;
+	public void setUseyn(String useyn) {
+		this.useyn = useyn;
 	}
-	public String getInpt_id() {
-		return inpt_id;
+	public String getInptid() {
+		return inptid;
 	}
-	public void setInpt_id(String inpt_id) {
-		this.inpt_id = inpt_id;
+	public void setInptid(String inptid) {
+		this.inptid = inptid;
 	}
-	public String getInpt_dt() {
-		return inpt_dt;
+	public String getInptdt() {
+		return inptdt;
 	}
-	public void setInpt_dt(String inpt_dt) {
-		this.inpt_dt = inpt_dt;
+	public void setInptdt(String inptdt) {
+		this.inptdt = inptdt;
 	}
-	public String getUpdt_id() {
-		return updt_id;
+	public String getUpdtid() {
+		return updtid;
 	}
-	public void setUpdt_id(String updt_id) {
-		this.updt_id = updt_id;
+	public void setUpdtid(String updtid) {
+		this.updtid = updtid;
 	}
-	public String getUpdt_dt() {
-		return updt_dt;
+	public String getUpdtdt() {
+		return updtdt;
 	}
-	public void setUpdt_dt(String updt_dt) {
-		this.updt_dt = updt_dt;
+	public void setUpdtdt(String updtdt) {
+		this.updtdt = updtdt;
 	}
-	
 }

@@ -7,21 +7,29 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="utf-8" />
-    <!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <script src="/vendor/jquery/jquery.js"></script>
+  <!-- Custom styles for this template-->
+  <link href="/css/sb-admin-2.css" rel="stylesheet">
+  <link href="/css/common.css" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-<title>너의 금방</title>
+  <!-- <link href="/css/style.css" rel="stylesheet"> -->
+	<link href="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
 
-<style>
+  <!-- Custom styles for this page -->
+  <!-- <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
+  
+  
+	<title>너의 금방</title>
 
-</style>
-<script type="text/javascript">
-
-</script>
-<sitemesh:write property="head"/>
+	<script type="text/javascript">
+		function fncLogout(){
+			$("#logoutSubmitBtn").click();
+		}
+	</script>
+	<sitemesh:write property="head"/>
 </head>
 <body id="page-top">
 	<%-- <%@ include file="/WEB-INF/decorators/include/admin/header.jsp"%> --%>
@@ -43,6 +51,18 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
+            <c:forEach var="menu" items="${menus}">
+            	<li class="nav-item">
+                <a class="nav-link" href="/html/index.html">
+                  <i class="fas fa-fw fa-tachometer-alt"></i>
+                  <span> ${menu.menunm} </span>
+                </a>
+	            </li>
+	
+	            <!-- Divider -->
+	            <hr class="sidebar-divider">
+            </c:forEach>
+            <%--
             <li class="nav-item active">
                 <a class="nav-link" href="/html/index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -119,34 +139,38 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="/html/charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
+          <!-- Nav Item - Charts -->
+          <li class="nav-item">
+            <a class="nav-link" href="/html/charts.html">
+              <i class="fas fa-fw fa-chart-area"></i>
+              <span>Charts</span>
+            </a>
+          </li>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/html/tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
+          <!-- Nav Item - Tables -->
+          <li class="nav-item">
+            <a class="nav-link" href="/html/tables.html">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Tables</span>
+            </a>
+          </li>
+					
+          <!-- Divider -->
+          <hr class="sidebar-divider d-none d-md-block">
+				  --%>
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+              <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="/img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>
+          <!-- Sidebar Message -->
+         	<%--
+          <div class="sidebar-card d-none d-lg-flex">
+            <img class="sidebar-card-illustration mb-2" src="/img/undraw_rocket.svg" alt="...">
+            <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
+            <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+          </div>
+          --%>
 
         </ul>
         <!-- End of Sidebar -->
@@ -166,6 +190,7 @@
 			       </button>
 			
 			       <!-- Topbar Search -->
+			       <%--
 			       <form
 			           class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 			           <div class="input-group">
@@ -178,7 +203,7 @@
 			               </div>
 			           </div>
 			       </form>
-			
+						 --%>
 			       <!-- Topbar Navbar -->
 			       <ul class="navbar-nav ml-auto">
 			
@@ -207,57 +232,60 @@
 			           </li>
 			
 			           <!-- Nav Item - Alerts -->
+  	           	 <%--
 			           <li class="nav-item dropdown no-arrow mx-1">
-			               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-			                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			                   <i class="fas fa-bell fa-fw"></i>
-			                   <!-- Counter - Alerts -->
-			                   <span class="badge badge-danger badge-counter">3+</span>
-			               </a>
-			               <!-- Dropdown - Alerts -->
-			               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-			                   aria-labelledby="alertsDropdown">
-			                   <h6 class="dropdown-header">
-			                       Alerts Center
-			                   </h6>
-			                   <a class="dropdown-item d-flex align-items-center" href="#">
-			                       <div class="mr-3">
-			                           <div class="icon-circle bg-primary">
-			                               <i class="fas fa-file-alt text-white"></i>
-			                           </div>
-			                       </div>
-			                       <div>
-			                           <div class="small text-gray-500">December 12, 2019</div>
-			                           <span class="font-weight-bold">A new monthly report is ready to download!</span>
-			                       </div>
-			                   </a>
-			                   <a class="dropdown-item d-flex align-items-center" href="#">
-			                       <div class="mr-3">
-			                           <div class="icon-circle bg-success">
-			                               <i class="fas fa-donate text-white"></i>
-			                           </div>
-			                       </div>
-			                       <div>
-			                           <div class="small text-gray-500">December 7, 2019</div>
-			                           $290.29 has been deposited into your account!
-			                       </div>
-			                   </a>
-			                   <a class="dropdown-item d-flex align-items-center" href="#">
-			                       <div class="mr-3">
-			                           <div class="icon-circle bg-warning">
-			                               <i class="fas fa-exclamation-triangle text-white"></i>
-			                           </div>
-			                       </div>
-			                       <div>
-			                           <div class="small text-gray-500">December 2, 2019</div>
-			                           Spending Alert: We've noticed unusually high spending for your account.
-			                       </div>
-			                   </a>
-			                   <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-			               </div>
+		               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+		                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                   <i class="fas fa-bell fa-fw"></i>
+		                   <!-- Counter - Alerts -->
+		                   <span class="badge badge-danger badge-counter">3+</span>
+		               </a>
+		               <!-- Dropdown - Alerts -->
+		               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+		                   aria-labelledby="alertsDropdown">
+		                   <h6 class="dropdown-header">
+		                       Alerts Center
+		                   </h6>
+		                   <a class="dropdown-item d-flex align-items-center" href="#">
+		                       <div class="mr-3">
+		                           <div class="icon-circle bg-primary">
+		                               <i class="fas fa-file-alt text-white"></i>
+		                           </div>
+		                       </div>
+		                       <div>
+		                           <div class="small text-gray-500">December 12, 2019</div>
+		                           <span class="font-weight-bold">A new monthly report is ready to download!</span>
+		                       </div>
+		                   </a>
+		                   <a class="dropdown-item d-flex align-items-center" href="#">
+		                       <div class="mr-3">
+		                           <div class="icon-circle bg-success">
+		                               <i class="fas fa-donate text-white"></i>
+		                           </div>
+		                       </div>
+		                       <div>
+		                           <div class="small text-gray-500">December 7, 2019</div>
+		                           $290.29 has been deposited into your account!
+		                       </div>
+		                   </a>
+		                   <a class="dropdown-item d-flex align-items-center" href="#">
+		                       <div class="mr-3">
+		                           <div class="icon-circle bg-warning">
+		                               <i class="fas fa-exclamation-triangle text-white"></i>
+		                           </div>
+		                       </div>
+		                       <div>
+		                           <div class="small text-gray-500">December 2, 2019</div>
+		                           Spending Alert: We've noticed unusually high spending for your account.
+		                       </div>
+		                   </a>
+		                   <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+		               </div>
 			           </li>
+	               --%>
 			
 			           <!-- Nav Item - Messages -->
+			           <%--
 			           <li class="nav-item dropdown no-arrow mx-1">
 			               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
 			                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -322,15 +350,18 @@
 			                   <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
 			               </div>
 			           </li>
-			
+								 --%>
 			           <div class="topbar-divider d-none d-sm-block"></div>
 			
 			           <!-- Nav Item - User Information -->
 			           <li class="nav-item dropdown no-arrow">
-			               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-			                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			                   <span class="mr-2 d-none d-lg-inline text-gray-600 small">Logout</span>
-			               </a>
+		               <a class="nav-link dropdown-toggle" href="#" role="button"
+		                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                 <form action="/logout" method="post">
+	                   	 <span class="mr-2 d-none d-lg-inline text-gray-600 small" onclick="fncLogout(); return false;"> Logout </span>
+                   	 	 <button type="submit" style="display:none;" id="logoutSubmitBtn">Logout</button>
+                   	 </form>
+		               </a>
 			           </li>
 			
 			       </ul>
@@ -377,20 +408,33 @@
     </div>
     
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<!-- <script src="/vendor/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script> -->
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
+    <!-- 
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+		-->
+		
+    <!-- Page level custom scripts -->
+    <!-- <script src="/js/demo/datatables-demo.js"></script> -->
+    
+    <!-- Page level plugins -->
+    <%--
     <script src="/vendor/chart.js/Chart.min.js"></script>
-
+		
     <!-- Page level custom scripts -->
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
+		--%>
+    
 </body>
 </html>
