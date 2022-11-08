@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,32 +30,16 @@ public class CodePageController {
 		return "cms/code/codeWrite";
 	}
 	
-	@GetMapping("/modify")
-	public String modify() {
+	@GetMapping("/modify/{cdid}")
+	public String modify(@PathVariable final String cdid, Model model){
+		model.addAttribute("cdid", cdid);
 		return "cms/code/codeModify";
 	}
-	
-	@PostMapping("/register")
-	public String register(@ModelAttribute CodeTO to, final MultipartFile[] files, Model model){
-		
-		String result = codeService.insertCode(to);
-		
-		return "";
+
+	@GetMapping("/view/{num}")
+	public String boardView(@PathVariable final Long num, Model model) {
+		model.addAttribute("num", num);
+		return "board/view";
 	}
 	
-	@PostMapping("modify")
-	public String modify(@ModelAttribute CodeTO to, final MultipartFile[] files, Model model){
-		
-		String result = codeService.updateCode(to);
-		
-		return "";
-	}
-	
-	@PostMapping("remove")
-	public String remove(@ModelAttribute CodeTO to, final MultipartFile[] files, Model model){
-		
-		String result = codeService.deleteCode(to);
-		
-		return "";
-	}
 }

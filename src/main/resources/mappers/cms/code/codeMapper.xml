@@ -44,8 +44,8 @@
 		<include refid="commonMapper.paging" />
 	</select>
 	
-	<select id="selectCode" parameterType="CodeTO" resultType="CodeVO">
-		SELECT cd_id, cd_nm, cd_ord, up_cd_id, inpt_id, inpt_dt, updt_id, updt_dt
+	<select id="selectCode" parameterType="String" resultType="CodeVO">
+		SELECT cd_id, cd_nm, cd_ord, up_cd_id, use_yn, inpt_id, inpt_dt, updt_id, updt_dt
 		FROM tb_code
 		WHERE cd_id = #{cd_id}
 	</select>
@@ -54,9 +54,9 @@
 		INSERT INTO tb_code (
 			cd_id, cd_nm, inpt_id, inpt_dt
 			<if test='cd_ord != null and cd_ord > 0'>, cd_ord</if>
-			<if test='up_cd_id != null and cd_ord > 0'>, up_cd_id</if>
-			<if test='cd_depth != null and cd_ord > 0'>, cd_depth</if>
-			<if test='use_yn != null and cd_ord > 0'>, use_yn</if>
+			<if test='up_cd_id != null and !up_cd_id.equals("")'>, up_cd_id</if>
+			<if test='cd_depth != null and cd_depth > 0'>, cd_depth</if>
+			<if test='use_yn != null and !use_yn.equals("")'>, use_yn</if>
 		)
 		VALUES (
 			#{cd_id}, #{cd_nm}, #{inpt_id}, NOW()
@@ -83,7 +83,7 @@
 		WHERE cd_id = #{cd_id}
 	</update>
 	
-	<delete id="deleteCode" parameterType="CodeTO">
+	<delete id="deleteCode" parameterType="String">
 		DELETE FROM tb_code
 		WHERE cd_id = #{cd_id}
 	</delete>

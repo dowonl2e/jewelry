@@ -14,12 +14,12 @@ public interface CodeMapper {
 	
 	List<CodeVO> selectCodeList(CodeTO to);
 
-	CodeVO selectCode(CodeTO to);
+	CodeVO selectCode(String cdid);
 	
 	int insertCode(CodeTO to);
 	
 	int updateCode(CodeTO to);
 	
-	int deleteCode(CodeTO to);
+	int deleteCode(String cdid);
 
 }

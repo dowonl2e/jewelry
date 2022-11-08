@@ -32,10 +32,10 @@
 						<thead>
 							<tr>
 								<th class="text-center">번호</th>
-								<th class="text-center">제목</th>
-								<th class="text-center">작성자</th>
+								<th class="text-center">코드</th>
+								<th class="text-center">코드명</th>
+								<th class="text-center">등록자</th>
 								<th class="text-center">등록일</th>
-								<th class="text-center">조회 수</th>
 							</tr>
 						</thead>
 						<tbody id="list"></tbody>
@@ -140,11 +140,14 @@
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
      		response.list.forEach((obj, idx) => {
+     			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
        				<tr>
   						<td class="text-center">`+(num--)+`</td>
   						<td class="text-center">`+obj.cdid+`</td>
-  						<td class="text-center bold">`+obj.cdnm+`</td>
+  						<td class="text-center bold">
+								<a href="`+viewUri+`">`+obj.cdnm+`</a>
+							</td>
   						<td class="text-center">`+obj.inptnm+`(`+obj.inptid+`)</td>
   						<td class="text-center">`+obj.inptdt+`</td>
        				</tr>
@@ -198,6 +201,7 @@
 		function goWrite() {
 	    location.href = '/code/write' + location.search;
 		}
+		
 	</script>
 </body>
 </html>

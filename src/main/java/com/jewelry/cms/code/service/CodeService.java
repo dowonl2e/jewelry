@@ -9,11 +9,11 @@ public interface CodeService {
 	
 	Map<String, Object> getCodeList(CodeTO to);
 	
-	CodeVO getCode(CodeTO to);
+	CodeVO getCode(String cdid);
 	
 	String insertCode(CodeTO to);
 	
 	String updateCode(CodeTO to);
 	
-	String deleteCode(CodeTO to);
+	String deleteCode(String cdid);
 }

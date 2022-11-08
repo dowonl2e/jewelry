@@ -34,31 +34,23 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public CodeVO getCode(CodeTO to) {
-		return codeMapper.selectCode(to);
+	public CodeVO getCode(String cdid) {
+		return codeMapper.selectCode(cdid);
 	}
 
 	@Override
 	public String insertCode(CodeTO to) {
-		String result = "Success";
-		try {
-			result = codeMapper.insertCode(to) > 0 ? "Success" : "Fail";
-		}
-		catch (Exception e) {
-			result = "Fail";
-			e.printStackTrace();
-		}
-		return result;
+		return codeMapper.insertCode(to) > 0 ? "success" : "fail";
 	}
 
 	@Override
 	public String updateCode(CodeTO to) {
-		return codeMapper.updateCode(to) > 0 ? "Success" : "Fail";
+		return codeMapper.updateCode(to) > 0 ? "success" : "fail";
 	}
 
 	@Override
-	public String deleteCode(CodeTO to) {
-		return codeMapper.deleteCode(to) > 0 ? "Success" : "Fail";
+	public String deleteCode(String cdid) {
+		return codeMapper.deleteCode(cdid) > 0 ? "success" : "fail";
 	}
 	
 	

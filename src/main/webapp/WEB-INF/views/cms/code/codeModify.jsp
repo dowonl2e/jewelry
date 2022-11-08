@@ -4,20 +4,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코드 추가</title>
+<title>코드수정</title>
 </head>
 <body>
 	<div class="container-fluid">
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">코드등록</h6>
+				<h6 class="m-0 font-weight-bold text-primary">코드수정</h6>
 			</div>
 			<form id="form" class="form-horizontal">
 				<div class="form-group row border-top">
 					<div class="col-sm-3 text-right mt20">코드ID</div>
 					<div class="col-sm-8 mt10">
-						<input type="text" id="cd_id" class="form-control" oninput="fncChangeUpperCase(this);" maxlength="5"/>
+						<input type="text" id="cd_id" class="form-control" oninput="fncChangeUpperCase(this);" readonly="readonly"/>
 					</div>
 				</div>
 				<div class="form-group row border-top">
@@ -36,7 +36,8 @@
 				</div>
 				
 				<div class="btn_wrap text-center mb-3">
-					<a href="javascript:void(0);" onclick="save(); return false;" class="btn btn-primary waves-effect waves-light"><span class="text">저장</span></a>
+					<a href="javascript:void(0);" onclick="modify(); return false;" class="btn btn-primary waves-effect waves-light"><span class="text">저장</span></a>
+					<a href="javascript:void(0);" onclick="remove(); return false;" class="btn btn-danger waves-effect waves-light"><span class="text">삭제</span></a>
 	    		<a href="javascript:void(0);" onclick="goList();" class="btn btn-secondary btn-icon-split"><span class="text">목록</span></a>
 				</div>
 			</form>
@@ -45,21 +46,47 @@
 	
 	<script>
 		/*<![CDATA[*/
-			function save(){
-				/* if( !isValid() ){
-					return false;
-				} */
+			window.onload = () => {
+				findCode();
+	  	}
+			
+			function findCode() {
 				
+				const cdid = '${cdid}';
+				if ( !cdid ) {
+		    	return false;
+		    }
+				
+				fetch(`/api/code/${cdid}`).then(response => {
+		    	if (!response.ok) {
+						throw new Error('Request failed...');
+			    }
+		    	return response.json();
+		
+		   	}).then(json => {
+		   		const form = document.getElementById('form');
+		   		form.cd_id.value = json.cdid;
+		   		form.cd_nm.value = json.cdnm;
+		   		json.useyn == 'N' ? form.use_n.checked = true : form.use_n.checked = false;
+		   		json.useyn == 'Y' ? form.use_y.checked = true : form.use_y.checked = false;
+		   		
+		   	}).catch(error => {
+		    	alert('코드 정보를 찾을 수 없습니다.');
+		    	location.href = '/code/list';
+		   	});
+			}
+			
+			function modify(){
 				const form = document.getElementById('form');
 				const params = {
-					cd_id : form.cd_id.value,
 					cd_nm : form.cd_nm.value,
 					use_yn : form.use_yn.value,
-					up_cd_id : '00'
 				};
+
+				const cdid = '${cdid}';
 				
-				fetch('/api/code/write', {
-					method: 'POST',
+				fetch(`/api/code/${cdid}`, {
+					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',
 					},
@@ -68,8 +95,9 @@
 					if(!response.ok){
 						throw new Error('Request Failed...');
 					}
-					alert('저장되었습니다.');
-					location.href = '/code/list';
+					
+					alert('수정되었습니다.');
+					goList();
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
 				});
@@ -87,7 +115,33 @@
 					}
 				}
 			}
-		
+			
+			//코드 삭제
+			function remove() {
+				
+  	  	const cdid = '${cdid}'
+
+      	if ( !confirm(`코드를 삭제하시겠습니까?`) ) {
+      		return false;
+      	}
+
+      	fetch(`/api/code/${cdid}`, {
+					method: 'DELETE',
+        	headers: { 'Content-Type': 'application/json' },
+
+      	}).then(response => {
+      		if (!response.ok) {
+         		throw new Error('Request failed...');
+        	}
+
+        	alert('삭제되었습니다.');
+        	goList();
+
+      	}).catch(error => {
+      		alert('오류가 발생하였습니다.');
+      	});
+	  	}
+			
 			function goList(){
 				location.href = '/code/list' + location.search;
 			}
