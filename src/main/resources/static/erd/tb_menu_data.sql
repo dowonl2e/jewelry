@@ -6,4 +6,4 @@ INSERT INTO tb_menu VALUES ('stock', '재고관리', null, 5, '00', 'Y', 'admin'
 INSERT INTO tb_menu VALUES ('sale', '판매관리', null, 6, '00', 'Y', 'admin', NOW(), null, null);
 INSERT INTO tb_menu VALUES ('vender', '거래처', null, 7, '00', 'Y', 'admin', NOW(), null, null);
 INSERT INTO tb_menu VALUES ('cash', '금/현금', null, 8, '00', 'Y', 'admin', NOW(), null, null);
-
+INSERT INTO tb_menu VALUES ('code', '코드관리', null, 9, '00', 'Y', 'admin', NOW(), null, null);
