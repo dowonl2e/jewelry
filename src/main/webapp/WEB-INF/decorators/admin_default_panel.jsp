@@ -51,11 +51,12 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
+            <c:set var="uri" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
             <c:forEach var="menu" items="${menus}">
-            	<li class="nav-item">
+            	<li class="nav-item ${fn:contains(uri,menu.menuid) ? 'active' : ''}">
                 <a class="nav-link" href="/html/index.html">
                   <i class="fas fa-fw fa-tachometer-alt"></i>
-                  <span> ${menu.menunm} </span>
+                  <span> ${menu.menunm}</span>
                 </a>
 	            </li>
 	

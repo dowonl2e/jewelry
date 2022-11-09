@@ -23,6 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
 					"/fonts/**", 
 					"/plugin/**", 
 					"/vendor/**",
+					"/erd/**",
 					"/**.js",
 					"/**.json",
 					"/favicon**"

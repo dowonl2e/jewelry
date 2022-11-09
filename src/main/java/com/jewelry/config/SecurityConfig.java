@@ -40,10 +40,10 @@ public class SecurityConfig {
 	        .authorizeRequests()
             .antMatchers(
         			"/signin", "/signup", "/access_denied",
-        			"/css/**", "/html/**", "/img/**", "/js/**", "/scss/**", "/vendor/**", "/plugin/**",
+        			"/css/**", "/html/**", "/img/**", "/js/**", "/scss/**", "/vendor/**", "/plugin/**", "/erd/**",
         			"/**.js",  "/**.json"
 			).permitAll() // 로그인 권한은 누구나, resources파일도 모든권한
-//            .antMatchers("/main/**").hasAnyRole("ADMIN","MANAGER")	// => /admin으로 시작하는 경로는 ADMIN,MANAGER권한만 가능
+            .antMatchers("/api/**").hasAnyRole("ADMIN","MANAGER")	// => /admin으로 시작하는 경로는 ADMIN,MANAGER권한만 가능
             .anyRequest().authenticated()
             .and()
             .formLogin()
