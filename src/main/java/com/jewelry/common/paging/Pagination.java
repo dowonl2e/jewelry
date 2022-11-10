@@ -38,7 +38,7 @@ public class Pagination {
 	public Pagination() {
 		this.currentpage = 1;
 		this.recordcount = 20;
-		this.pagesize = 15;
+		this.pagesize = 10;
 	}
 	
 	public int getStartPage() {

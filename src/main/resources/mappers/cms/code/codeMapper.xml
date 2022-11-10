@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jewelry.cms.code.mapper.CodeMapper">
 
-	<sql id="search">
+	<sql id="code-search">
 		<!-- 검색 키워드가 있을 때 -->
 		<if test='searchword != null and !searchword.equals("")'>
 			<choose>
@@ -30,16 +30,17 @@
 		SELECT COUNT(*)
 		FROM tb_code
 		WHERE 1 = 1
-		<include refid="search" />
+		<include refid="code-search" />
 	</select>
 	
 	<select id="selectCodeList" parameterType="CodeTO" resultType="CodeVO">
 		SELECT a.cd_id, a.cd_nm, a.cd_ord, a.up_cd_id, a.inpt_id, b.user_name as inpt_nm, a.inpt_dt
+						, IF(a.use_yn = 'Y','사용','미사용') as use_yn
 		FROM tb_code a
 			LEFT OUTER JOIN tb_user b
 				ON a.inpt_id = b.user_id
 		WHERE 1 = 1
-		<include refid="search" />
+		<include refid="code-search" />
 		ORDER BY cd_ord ASC, cd_id ASC
 		<include refid="commonMapper.paging" />
 	</select>

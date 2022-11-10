@@ -4,30 +4,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코드관리</title>
+<title>카다로그</title>
 </head>
 <body>
   <div class="container-fluid">
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">코드현황</h6>
+				<h6 class="m-0 font-weight-bold text-primary">카다로그 현황</h6>
 			</div>
 			<div class="card-body">
 	    	<form id="searchForm" onsubmit="return false;">
-					<div class="mb20" id="adv-search">
-						<div class="form-inline">
-			        <select id="searchtype" class="form-control" style="width: 100px;">
-		            <option value="">전체</option>
-		            <option value="id">코드</option>
-		            <option value="name">코드명</option>
-			        </select>
-			        <input type="text" id="searchword" class="form-control mlr5" placeholder="키워드를 입력해 주세요." style="width: 200px;" />
-					    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
-				        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
-					    </button>
-					    <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
-				    </div>
+					<div class="input-group mb20" id="adv-search">
+		        <select id="searchtype" class="form-control" style="width: 100px;">
+	            <option value="">전체</option>
+	            <option value="id">코드</option>
+	            <option value="name">코드명</option>
+		        </select>
+		        <input type="text" id="searchword" class="form-control" placeholder="키워드를 입력해 주세요." style="width: 200px;" />
+			    <button type="button" onclick="findAll(0);" class="btn btn-primary">
+		        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
+			    </button>
 					</div>
 		    </form>
 				<div class="table-responsive clearfix">
@@ -37,13 +34,15 @@
 								<th class="text-center">번호</th>
 								<th class="text-center">코드</th>
 								<th class="text-center">코드명</th>
-								<th class="text-center">사용여부</th>
 								<th class="text-center">등록자</th>
 								<th class="text-center">등록일</th>
 							</tr>
 						</thead>
 						<tbody id="list"></tbody>
 					</table>
+					<div class="btn_wrap text-right">
+		    		<a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light">코드추가</a>
+		    	</div>
 					<nav aria-label="Page navigation" class="text-center">
 				    <ul class="pagination"></ul>
 					</nav>
@@ -131,9 +130,9 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/code/list', params).then(response => {
+			getJson('/api/catalog/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="5" class="text-center">등록된 코드가 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="5" class="text-center">등록된 카다로그가 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -145,13 +144,12 @@
      			html += `
        				<tr>
   						<td class="text-center">`+(num--)+`</td>
-  						<td class="text-center">`+obj.cdid+`</td>
+  						<td class="text-center">`+obj.modelid+`</td>
   						<td class="text-center bold">
-								<a href="`+viewUri+`">`+obj.cdnm+`</a>
+								<a href="`+viewUri+`">`+obj.modelnm+`</a>
 							</td>
-  						<td class="text-center">`+obj.useyn+`</td>
-  						<td class="text-center">`+obj.inptnm+`</td>
-  						<td class="text-center">`+obj.inptdt+`</td>
+  						<td class="text-center">`+obj.stddmaterialcd+`(`+obj.inptid+`)</td>
+  						<td class="text-center">`+obj.stddweightcd+`</td>
        				</tr>
        			`;
      		});

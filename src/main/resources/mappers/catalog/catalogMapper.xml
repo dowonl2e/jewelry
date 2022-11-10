@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewelry.catalog.mapper.CatalogMapper">
+
+	<sql id="catalog-search">
+		<if test='searchvenderid != null and searchvenderid > 0'>
+			AND a.vender_id = #{searchvenderid}
+		</if>
+		<!-- 검색 키워드가 있을 때 -->
+		<if test='searchword != null and !searchword.equals("")'>
+			<choose>
+				<!-- 검색 유형이 없을 때 -->
+				<when test='searchtype == null or searchtype.equals("")'>
+					AND (
+				    model_id LIKE CONCAT('%', #{searchword}, '%')
+						OR model_nm LIKE CONCAT('%', #{searchword}, '%')
+					)
+				</when>
+				<!-- 검색 유형이 있을 때 -->
+				<otherwise>
+					<if test='searchtype.equals("id")'>
+						AND a.model_id LIKE CONCAT('%', #{searchword}, '%')
+					</if>
+					<if test='searchtype.equals("name")'>
+						AND a.model_nm LIKE CONCAT('%', #{searchword}, '%')
+					</if>
+				</otherwise>
+			</choose>
+		</if>
+	</sql>
+
+	<select id="selectCatalogListCount" parameterType="CatalogTO" resultType="Integer">
+		SELECT COUNT(a.catalog_no)
+		FROM tb_catalog a
+		WHERE a.del_yn = 'N'
+		<include refid="catalog-search" />
+	</select>
+	
+	<select id="selectCatalogList" parameterType="CatalogTO" resultType="CatalogVO">
+		SELECT a.catalog_no, a.vender_id, a.model_id, a.model_nm, a.stdd_size, a.stdd_weight_cd, a.stdd_material_cd, a.stdd_size
+		FROM tb_catalog a
+		WHERE a.del_yn = 'N'
+		<include refid="catalog-search" />
+		ORDER BY a.reg_dt DESC
+		<include refid="commonMapper.paging" />
+	</select>
+</mapper>

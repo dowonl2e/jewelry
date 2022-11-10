@@ -4,46 +4,62 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코드관리</title>
+<title>고객관리</title>
 </head>
 <body>
   <div class="container-fluid">
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">코드현황</h6>
+				<h6 class="m-0 font-weight-bold text-primary">고객관리</h6>
 			</div>
 			<div class="card-body">
 	    	<form id="searchForm" onsubmit="return false;">
 					<div class="mb20" id="adv-search">
 						<div class="form-inline">
-			        <select id="searchtype" class="form-control" style="width: 100px;">
-		            <option value="">전체</option>
-		            <option value="id">코드</option>
-		            <option value="name">코드명</option>
-			        </select>
-			        <input type="text" id="searchword" class="form-control mlr5" placeholder="키워드를 입력해 주세요." style="width: 200px;" />
+							<span class="mlr5">등록일</span>
+							<input type="date" id="searchstdt" class="form-control mlr5"/> ~
+							<input type="date" id="searcheddt" class="form-control mlr5"/>
+			        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" style="width:100px;"/>
+			        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
 					    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 				        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 					    </button>
-					    <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
-				    </div>
+			        <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
+						</div>
 					</div>
 		    </form>
 				<div class="table-responsive clearfix">
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th class="text-center">번호</th>
-								<th class="text-center">코드</th>
-								<th class="text-center">코드명</th>
-								<th class="text-center">사용여부</th>
-								<th class="text-center">등록자</th>
-								<th class="text-center">등록일</th>
+								<th rowspan="2" class="text-center">No.</th>
+								<th rowspan="2" class="text-center border-left"><input type="checkbox" id="arr_customer_no"/></th>
+								<th rowspan="2" class="text-center border-left">등록일</th>
+								<th rowspan="2" class="text-center border-left">계약구분</th>
+								<th rowspan="2" class="text-center border-left">고객코드</th>
+								<th colspan="2" class="text-center border-left">계약고객</th>
+								<th colspan="5" class="text-center border-left">건수</th>
+								<th colspan="2" class="text-center border-left">(단위:천원)</th>
+								<th rowspan="2" class="text-center border-left">비고</th>
+							</tr>
+							<tr>
+								<th class="text-center border-left">이름</th>
+								<th class="text-center border-left">H.P</th>
+								<th class="text-center border-left">주문</th>
+								<th class="text-center border-left">수리</th>
+								<th class="text-center border-left">예약</th>
+								<th class="text-center border-left">상담</th>
+								<th class="text-center border-left">견적</th>
+								<th class="text-center border-left">매츨</th>
+								<th class="text-center border-left">매수</th>
 							</tr>
 						</thead>
 						<tbody id="list"></tbody>
 					</table>
+					<div class="btn_wrap text-right">
+		    		
+		    	</div>
 					<nav aria-label="Page navigation" class="text-center">
 				    <ul class="pagination"></ul>
 					</nav>
@@ -123,7 +139,9 @@
 			
 			var params = {
 			  page: page
-				, searchtype: form.searchtype.value
+				, searchstdt: form.searchstdt.value
+				, searcheddt: form.searcheddt.value
+				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
 	
@@ -131,9 +149,9 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/code/list', params).then(response => {
+			getJson('/api/customer/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="5" class="text-center">등록된 코드가 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="15" class="text-center">등록된 고객이 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -143,17 +161,25 @@
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
-       				<tr>
-  						<td class="text-center">`+(num--)+`</td>
-  						<td class="text-center">`+obj.cdid+`</td>
-  						<td class="text-center bold">
-								<a href="`+viewUri+`">`+obj.cdnm+`</a>
+     				<tr>
+							<td class="text-center">`+(num--)+`</td>
+							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+obj.customerno+`"/></td>
+							<td class="text-center">`+obj.regdt+`</td>
+							<td class="text-center bold">
+								<a href="#">`+obj.customerno+`</a>
 							</td>
-  						<td class="text-center">`+obj.useyn+`</td>
-  						<td class="text-center">`+obj.inptnm+`</td>
-  						<td class="text-center">`+obj.inptdt+`</td>
-       				</tr>
-       			`;
+							<td class="text-center">`+obj.constractornm+`</td>
+							<td class="text-center">`+obj.constractorcel+`</td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center">`+obj.etc+`</td>
+	   				</tr>
+     			`;
      		});
      		
 	
@@ -200,7 +226,7 @@
 		/**
 		 * 작성하기
 		 */
-		function goWrite() {
+		function goWritePop() {
 	    location.href = '/code/write' + location.search;
 		}
 		

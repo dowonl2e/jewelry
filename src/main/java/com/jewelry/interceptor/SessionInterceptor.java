@@ -7,10 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jewelry.user.domain.UserVO;
-
-import lombok.extern.slf4j.Slf4j;
-
 public class SessionInterceptor implements HandlerInterceptor {
 	
 	/**

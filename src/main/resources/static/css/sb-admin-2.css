@@ -1496,8 +1496,13 @@ pre code {
 }
 
 .table thead th {
-  vertical-align: bottom;
+  vertical-align: middle;
+  background: #f8f9fc;
   border-bottom: 2px solid #e3e6f0;
+}
+
+.table tbody th, .table tbody td {
+  vertical-align: middle;
 }
 
 .table tbody + tbody {
@@ -2252,6 +2257,8 @@ textarea.form-control {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  justify-content: center;
+  
 }
 
 .form-inline .form-check {
@@ -3356,10 +3363,12 @@ input[type="button"].btn-block {
 
 .input-group {
   position: relative;
-  display: flex;
+  display: inline-table;
   flex-wrap: wrap;
   align-items: stretch;
   width: 100%;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .input-group > .form-control,

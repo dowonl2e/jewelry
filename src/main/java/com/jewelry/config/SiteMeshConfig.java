@@ -24,6 +24,7 @@ public class SiteMeshConfig extends ConfigurableSiteMeshFilter {
 		//.addDecoratorPath("**/popup/*", "/WEB-INF/decorators/popup.jsp")
 		// Exclude path from decoration.
 		.addExcludedPath("**/signin")
+		.addExcludedPath("**/access-denied")
 		.addExcludedPath("**/download/*")
 		.addExcludedPath("**/ajax/*")
 		.addExcludedPath("**/api/*")

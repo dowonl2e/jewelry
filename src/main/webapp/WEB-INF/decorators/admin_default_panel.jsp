@@ -54,7 +54,7 @@
             <c:set var="uri" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
             <c:forEach var="menu" items="${menus}">
             	<li class="nav-item ${fn:contains(uri,menu.menuid) ? 'active' : ''}">
-                <a class="nav-link" href="/html/index.html">
+                <a class="nav-link" href="${empty menu.menulink ? '#none' : menu.menulink}">
                   <i class="fas fa-fw fa-tachometer-alt"></i>
                   <span> ${menu.menunm}</span>
                 </a>
@@ -358,7 +358,7 @@
 			           <li class="nav-item dropdown no-arrow">
 		               <a class="nav-link dropdown-toggle" href="#" role="button"
 		                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                 <form action="/logout" method="post">
+		                 <form action="/signout" method="post">
 	                   	 <span class="mr-2 d-none d-lg-inline text-gray-600 small" onclick="fncLogout(); return false;"> Logout </span>
                    	 	 <button type="submit" style="display:none;" id="logoutSubmitBtn">Logout</button>
                    	 </form>

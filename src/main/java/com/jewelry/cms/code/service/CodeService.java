@@ -7,9 +7,9 @@ import com.jewelry.cms.code.domain.CodeVO;
 
 public interface CodeService {
 	
-	Map<String, Object> getCodeList(CodeTO to);
+	Map<String, Object> findAllCode(CodeTO to);
 	
-	CodeVO getCode(String cdid);
+	CodeVO findCodeById(String cdid);
 	
 	String insertCode(CodeTO to);
 	

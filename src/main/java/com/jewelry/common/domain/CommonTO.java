@@ -10,8 +10,11 @@ public class CommonTO extends Pagination {
 	private String updt_id;
 	private String updt_dt;
 	
+	private String searchrecordcnt;
 	private String searchtype;
 	private String searchword;
+	private String searchstdt;
+	private String searcheddt;
 	
 	public String getUser_id() {
 		return user_id;
@@ -55,5 +58,27 @@ public class CommonTO extends Pagination {
 	public void setSearchword(String searchword) {
 		this.searchword = searchword;
 	}
+	public String getSearchstdt() {
+		return searchstdt;
+	}
+	public void setSearchstdt(String searchstdt) {
+		this.searchstdt = searchstdt;
+	}
+	public String getSearcheddt() {
+		return searcheddt;
+	}
+	public void setSearcheddt(String searcheddt) {
+		this.searcheddt = searcheddt;
+	}
+	public String getSearchrecordcnt() {
+		return searchrecordcnt;
+	}
+	public void setSearchrecordcnt(String searchrecordcnt) {
+		this.searchrecordcnt = searchrecordcnt;
+		if(searchrecordcnt != null && searchrecordcnt.length() > 0) {
+			setRecordcount(Integer.parseInt(searchrecordcnt));
+		}
+	}
+	
 	
 }

@@ -39,7 +39,7 @@ public class SecurityConfig {
 			.csrf().disable()
 	        .authorizeRequests()
             .antMatchers(
-        			"/signin", "/signup", "/access_denied",
+        			"/signin", "/access-denied",
         			"/css/**", "/html/**", "/img/**", "/js/**", "/scss/**", "/vendor/**", "/plugin/**", "/erd/**",
         			"/**.js",  "/**.json"
 			).permitAll() // 로그인 권한은 누구나, resources파일도 모든권한
@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .failureUrl("/signin?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다.
             .and()
                 .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/signout")
                 .logoutSuccessHandler(logoutSuccessHandler())
                 .deleteCookies("JSESSIONID")
             .and()
@@ -64,7 +64,7 @@ public class SecurityConfig {
             .sessionManagement()
             	.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
             	.maximumSessions(1)
-            	.expiredUrl("/signin");
+            	.expiredUrl("/access-denied");
         return http.build();
 	}
 	

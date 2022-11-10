@@ -2,7 +2,6 @@ package com.jewelry.cms.code;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +32,14 @@ public class CodeApiController {
     private HttpSession session;
 	
 	@GetMapping("/list")
-	public Map<String, Object> codeList(final CodeTO params){
-		return codeService.getCodeList(params);
+	public Map<String, Object> findAll(final CodeTO to){
+		return codeService.findAllCode(to);
 	}
 	
 	@PostMapping("/write")
-	public ResponseEntity<Object> codeWrite(@RequestBody final CodeTO params) {
-		params.setInpt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
-		String result = codeService.insertCode(params);
+	public ResponseEntity<Object> write(@RequestBody final CodeTO to) {
+		to.setInpt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = codeService.insertCode(to);
 		
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return  new ResponseEntity<>(response.getStatus());
@@ -48,22 +47,22 @@ public class CodeApiController {
 	}
 
 	@GetMapping("/{cdid}")
-	public CodeVO findById(@PathVariable final String cdid) {
-		return codeService.getCode(cdid);
+	public CodeVO findCodeById(@PathVariable final String cdid) {
+		return codeService.findCodeById(cdid);
 	}
 	
 	@PatchMapping("/{cdid}")
-	public ResponseEntity<Object> codeModify(@PathVariable final String cdid, @RequestBody final CodeTO params){
-		params.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
-		params.setCd_id(cdid);
-		String result = codeService.updateCode(params);
+	public ResponseEntity<Object> modify(@PathVariable final String cdid, @RequestBody final CodeTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		to.setCd_id(cdid);
+		String result = codeService.updateCode(to);
 		
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());
 	}
 
 	@DeleteMapping("/{cdid}")
-	public String delete(@PathVariable final String cdid) {
+	public String remove(@PathVariable final String cdid) {
 		return codeService.deleteCode(cdid);
 	}
 }

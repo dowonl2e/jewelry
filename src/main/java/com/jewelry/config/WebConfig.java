@@ -15,7 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
 			.addInterceptor(new SessionInterceptor())
 			.excludePathPatterns(
 					"/css/**", 
-					"/login", "/error", "/test",  
+					"/signin","/access-denied",
+					"/error",
 					"/html/**", 
 					"/img/**", 
 					"/js/**",

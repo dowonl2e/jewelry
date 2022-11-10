@@ -19,7 +19,7 @@ public class CodeServiceImpl implements CodeService {
 	private CodeMapper codeMapper;
 
 	@Override
-	public Map<String, Object> getCodeList(CodeTO to) {
+	public Map<String, Object> findAllCode(CodeTO to) {
 		Map<String, Object> response = new HashMap<>();
 
 		int totalcount = codeMapper.selectCodeListCount(to);
@@ -34,7 +34,7 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public CodeVO getCode(String cdid) {
+	public CodeVO findCodeById(String cdid) {
 		return codeMapper.selectCode(cdid);
 	}
 
