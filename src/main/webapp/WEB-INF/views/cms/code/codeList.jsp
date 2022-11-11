@@ -7,47 +7,45 @@
 <title>코드관리</title>
 </head>
 <body>
-  <div class="container-fluid">
-		<!-- DataTales Example -->
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">코드현황</h6>
-			</div>
-			<div class="card-body">
-	    	<form id="searchForm" onsubmit="return false;">
-					<div class="mb20" id="adv-search">
-						<div class="form-inline">
-			        <select id="searchtype" class="form-control" style="width: 100px;">
-		            <option value="">전체</option>
-		            <option value="id">코드</option>
-		            <option value="name">코드명</option>
-			        </select>
-			        <input type="text" id="searchword" class="form-control mlr5" placeholder="키워드를 입력해 주세요." style="width: 200px;" />
-					    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
-				        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
-					    </button>
-					    <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
-				    </div>
-					</div>
-		    </form>
-				<div class="table-responsive clearfix">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th class="text-center">번호</th>
-								<th class="text-center">코드</th>
-								<th class="text-center">코드명</th>
-								<th class="text-center">사용여부</th>
-								<th class="text-center">등록자</th>
-								<th class="text-center">등록일</th>
-							</tr>
-						</thead>
-						<tbody id="list"></tbody>
-					</table>
-					<nav aria-label="Page navigation" class="text-center">
-				    <ul class="pagination"></ul>
-					</nav>
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">코드현황</h6>
+		</div>
+		<div class="card-body">
+    	<form id="searchForm" onsubmit="return false;">
+				<div class="mb20" id="adv-search">
+					<div class="form-inline">
+		        <select id="searchtype" class="form-control" style="width: 100px;">
+	            <option value="">전체</option>
+	            <option value="id">코드</option>
+	            <option value="name">코드명</option>
+		        </select>
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="키워드를 입력해 주세요." style="width: 200px;" />
+				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
+			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
+				    </button>
+				    <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
+			    </div>
 				</div>
+	    </form>
+			<div class="table-responsive clearfix">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th class="text-center">번호</th>
+							<th class="text-center">코드</th>
+							<th class="text-center">코드명</th>
+							<th class="text-center">사용여부</th>
+							<th class="text-center">등록자</th>
+							<th class="text-center">등록일</th>
+						</tr>
+					</thead>
+					<tbody id="list"></tbody>
+				</table>
+				<nav aria-label="Page navigation" class="text-center">
+			    <ul class="pagination"></ul>
+				</nav>
 			</div>
 		</div>
 	</div>

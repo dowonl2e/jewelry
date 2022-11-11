@@ -13,9 +13,18 @@
 .mb40 {margin-bottom:40px;}
 
 .mlr5 {margin-left:5px; margin-right:5px;}
+.mlr10 {margin-left:10px; margin-right:10px;}
+.mlr15 {margin-left:15px; margin-right:15px;}
+.mlr20 {margin-left:20px; margin-right:20px;}
+
+.m5 {margin: 5px;}
+.m10 {margin: 10px;}
+.m15 {margin: 15px;}
+.m20 {margin: 20px;}
 
 .vertical-middle {vertical-align:middle;}
 
 .border-left { border-left: 2px solid #e3e6f0; }
+.border-right { border-right: 2px solid #e3e6f0; }
 .border-top { border-top: 2px solid #e3e6f0; }
 .border-bottom { border-bottom: 2px solid #e3e6f0; }

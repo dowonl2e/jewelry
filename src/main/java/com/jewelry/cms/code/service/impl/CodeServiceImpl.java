@@ -34,7 +34,7 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public CodeVO findCodeById(String cdid) {
+	public CodeVO findCodeByCdId(String cdid) {
 		return codeMapper.selectCode(cdid);
 	}
 
@@ -51,6 +51,14 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public String deleteCode(String cdid) {
 		return codeMapper.deleteCode(cdid) > 0 ? "success" : "fail";
+	}
+
+	@Override
+	public List<CodeVO> findAllByUpCdId(String upcdid, Integer cddepth) {
+		CodeTO to = new CodeTO();
+		to.setUp_cd_id(upcdid);
+		to.setCd_depth(cddepth);
+		return codeMapper.selectCodeListByUpCdId(to);
 	}
 	
 	

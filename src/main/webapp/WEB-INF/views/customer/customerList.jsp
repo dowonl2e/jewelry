@@ -7,63 +7,61 @@
 <title>고객관리</title>
 </head>
 <body>
-  <div class="container-fluid">
-		<!-- DataTales Example -->
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">고객관리</h6>
-			</div>
-			<div class="card-body">
-	    	<form id="searchForm" onsubmit="return false;">
-					<div class="mb20" id="adv-search">
-						<div class="form-inline">
-							<span class="mlr5">등록일</span>
-							<input type="date" id="searchstdt" class="form-control mlr5"/> ~
-							<input type="date" id="searcheddt" class="form-control mlr5"/>
-			        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" style="width:100px;"/>
-			        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
-					    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
-				        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
-					    </button>
-			        <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
-						</div>
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">고객관리</h6>
+		</div>
+		<div class="card-body">
+    	<form id="searchForm" onsubmit="return false;">
+				<div class="mb20" id="adv-search">
+					<div class="form-inline">
+						<span class="mlr5">등록일</span>
+						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
+						<input type="date" id="searcheddt" class="form-control mlr5"/>
+		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" style="width:100px;"/>
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
+			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
+				    </button>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
 					</div>
-		    </form>
-				<div class="table-responsive clearfix">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th rowspan="2" class="text-center">No.</th>
-								<th rowspan="2" class="text-center border-left"><input type="checkbox" id="arr_customer_no"/></th>
-								<th rowspan="2" class="text-center border-left">등록일</th>
-								<th rowspan="2" class="text-center border-left">계약구분</th>
-								<th rowspan="2" class="text-center border-left">고객코드</th>
-								<th colspan="2" class="text-center border-left">계약고객</th>
-								<th colspan="5" class="text-center border-left">건수</th>
-								<th colspan="2" class="text-center border-left">(단위:천원)</th>
-								<th rowspan="2" class="text-center border-left">비고</th>
-							</tr>
-							<tr>
-								<th class="text-center border-left">이름</th>
-								<th class="text-center border-left">H.P</th>
-								<th class="text-center border-left">주문</th>
-								<th class="text-center border-left">수리</th>
-								<th class="text-center border-left">예약</th>
-								<th class="text-center border-left">상담</th>
-								<th class="text-center border-left">견적</th>
-								<th class="text-center border-left">매츨</th>
-								<th class="text-center border-left">매수</th>
-							</tr>
-						</thead>
-						<tbody id="list"></tbody>
-					</table>
-					<div class="btn_wrap text-right">
-		    		
-		    	</div>
-					<nav aria-label="Page navigation" class="text-center">
-				    <ul class="pagination"></ul>
-					</nav>
 				</div>
+	    </form>
+			<div class="table-responsive clearfix">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th rowspan="2" class="">No.</th>
+							<th rowspan="2" class="border-left"><input type="checkbox" id="arr_customer_no"/></th>
+							<th rowspan="2" class="border-left">등록일</th>
+							<th rowspan="2" class="border-left">계약구분</th>
+							<th rowspan="2" class="border-left">고객코드</th>
+							<th colspan="2" class="border-left">계약고객</th>
+							<th colspan="5" class="border-left">건수</th>
+							<th colspan="2" class="border-left">(단위:천원)</th>
+							<th rowspan="2" class="border-left">비고</th>
+						</tr>
+						<tr>
+							<th class="border-left">이름</th>
+							<th class="border-left">H.P</th>
+							<th class="border-left">주문</th>
+							<th class="border-left">수리</th>
+							<th class="border-left">예약</th>
+							<th class="border-left">상담</th>
+							<th class="border-left">견적</th>
+							<th class="border-left">매츨</th>
+							<th class="border-left">매수</th>
+						</tr>
+					</thead>
+					<tbody id="list"></tbody>
+				</table>
+				<div class="btn_wrap text-right">
+	    		
+	    	</div>
+				<nav aria-label="Page navigation" class="text-center">
+			    <ul class="pagination"></ul>
+				</nav>
 			</div>
 		</div>
 	</div>
@@ -226,8 +224,11 @@
 		/**
 		 * 작성하기
 		 */
-		function goWritePop() {
-	    location.href = '/code/write' + location.search;
+		function fncPopupWrite() {
+			 var url = "./popup/write";
+       var name = "customerWritePopup";
+       var option = "width = 700, height = 800, top = 100, left = 200, location = no";
+       window.open(url, name, option);
 		}
 		
 	</script>

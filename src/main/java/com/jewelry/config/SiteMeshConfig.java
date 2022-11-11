@@ -21,7 +21,7 @@ public class SiteMeshConfig extends ConfigurableSiteMeshFilter {
 		builder 
 		// Map decorators to path patterns.		
 		.addDecoratorPath("/*", "/WEB-INF/decorators/admin_default_panel.jsp")
-		//.addDecoratorPath("**/popup/*", "/WEB-INF/decorators/popup.jsp")
+		.addDecoratorPath("**/popup/*", "/WEB-INF/decorators/popup_panel.jsp")
 		// Exclude path from decoration.
 		.addExcludedPath("**/signin")
 		.addExcludedPath("**/access-denied")

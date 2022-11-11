@@ -89,4 +89,13 @@
 		WHERE cd_id = #{cd_id}
 	</delete>
 	
+	<select id="selectCodeListByUpCdId" parameterType="CodeTO" resultType="CodeVO">
+		SELECT cd_id, cd_nm, cd_ord
+		FROM tb_code
+		WHERE up_cd_id = #{up_cd_id}
+		AND cd_depth = #{cd_depth}
+		AND use_yn = 'Y'
+		ORDER BY cd_ord ASC
+	</select>
+	
 </mapper>

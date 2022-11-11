@@ -7,40 +7,38 @@
 <title>코드 추가</title>
 </head>
 <body>
-	<div class="container-fluid">
-		<!-- DataTales Example -->
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">코드등록</h6>
-			</div>
-			<form id="form" class="form-horizontal">
-				<div class="form-group row border-top">
-					<div class="col-sm-3 text-right mt20">코드ID</div>
-					<div class="col-sm-8 mt10">
-						<input type="text" id="cd_id" class="form-control" oninput="fncChangeUpperCase(this);" maxlength="5"/>
-					</div>
-				</div>
-				<div class="form-group row border-top">
-					<div class="col-sm-3 text-right mt20">코드명</div>
-					<div class="col-sm-8 mt10">
-						<input type="text" id="cd_nm" class="form-control" maxlength="20"/>
-					</div>
-				</div>
-	
-				<div class="form-group row border-top border-bottom">
-					<div class="col-sm-3 text-right mt10">사용여부</div>
-					<div class="col-sm-8 mt10">
-						<input type="radio" name="use_yn" id="use_y" value="Y"/><label for="use_y">&nbsp;사용</label>&nbsp;
-						<input type="radio" name="use_yn" id="use_n" value="N"/><label for="use_n">&nbsp;미사용</label>
-					</div>
-				</div>
-				
-				<div class="btn_wrap text-center mb-3">
-					<a href="javascript:void(0);" onclick="save(); return false;" class="btn btn-primary waves-effect waves-light"><span class="text">저장</span></a>
-	    		<a href="javascript:void(0);" onclick="goList();" class="btn btn-secondary btn-icon-split"><span class="text">목록</span></a>
-				</div>
-			</form>
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">코드등록</h6>
 		</div>
+		<form id="form" class="form-horizontal">
+			<div class="form-group row border-top">
+				<div class="col-sm-3 text-right mt20">코드ID</div>
+				<div class="col-sm-8 mt10">
+					<input type="text" id="cd_id" class="form-control" oninput="fncChangeUpperCase(this);" maxlength="5"/>
+				</div>
+			</div>
+			<div class="form-group row border-top">
+				<div class="col-sm-3 text-right mt20">코드명</div>
+				<div class="col-sm-8 mt10">
+					<input type="text" id="cd_nm" class="form-control" maxlength="20"/>
+				</div>
+			</div>
+
+			<div class="form-group row border-top border-bottom">
+				<div class="col-sm-3 text-right mt10">사용여부</div>
+				<div class="col-sm-8 mt10">
+					<input type="radio" name="use_yn" id="use_y" value="Y"/><label for="use_y">&nbsp;사용</label>&nbsp;
+					<input type="radio" name="use_yn" id="use_n" value="N"/><label for="use_n">&nbsp;미사용</label>
+				</div>
+			</div>
+			
+			<div class="btn_wrap text-center mb-3">
+				<a href="javascript:void(0);" onclick="save(); return false;" class="btn btn-primary waves-effect waves-light"><span class="text">저장</span></a>
+    		<a href="javascript:void(0);" onclick="goList();" class="btn btn-secondary btn-icon-split"><span class="text">목록</span></a>
+			</div>
+		</form>
 	</div>
 	
 	<script>

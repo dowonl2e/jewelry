@@ -369,8 +369,9 @@
 			
 			   </nav>
 			   <!-- End of Topbar -->
-			   <sitemesh:write property="body"/>
-			
+			   <div class="container-fluid">
+			  	 <sitemesh:write property="body"/>
+				 </div>
 			</div>
 			<!-- End of Main Content -->
 			

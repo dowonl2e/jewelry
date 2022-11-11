@@ -1499,6 +1499,12 @@ pre code {
   vertical-align: middle;
   background: #f8f9fc;
   border-bottom: 2px solid #e3e6f0;
+  text-align: center;
+}
+
+.table tbody th {
+  text-align: center;
+	background: #f8f9fc;
 }
 
 .table tbody th, .table tbody td {

@@ -11,6 +11,8 @@ public class CodeTO extends CommonTO {
 	private Integer cd_depth;
 	private String use_yn;
 	
+	private String[] up_cd_id_arr;
+	
 	public String getCd_id() {
 		return cd_id;
 	}
@@ -47,6 +49,11 @@ public class CodeTO extends CommonTO {
 	public void setUse_yn(String use_yn) {
 		this.use_yn = use_yn;
 	}
-	
+	public String[] getUp_cd_id_arr() {
+		return up_cd_id_arr;
+	}
+	public void setUp_cd_id_arr(String[] up_cd_id_arr) {
+		this.up_cd_id_arr = up_cd_id_arr;
+	}
 	
 }

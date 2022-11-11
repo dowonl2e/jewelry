@@ -47,8 +47,8 @@ public class CodeApiController {
 	}
 
 	@GetMapping("/{cdid}")
-	public CodeVO findCodeById(@PathVariable final String cdid) {
-		return codeService.findCodeById(cdid);
+	public CodeVO findCodeByCdId(@PathVariable final String cdid) {
+		return codeService.findCodeByCdId(cdid);
 	}
 	
 	@PatchMapping("/{cdid}")
