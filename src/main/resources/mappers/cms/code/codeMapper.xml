@@ -29,7 +29,7 @@
 	<select id="selectCodeListCount" parameterType="CodeTO" resultType="Integer">
 		SELECT COUNT(*)
 		FROM tb_code
-		WHERE 1 = 1
+		WHERE cd_depth = #{cd_depth}
 		<include refid="code-search" />
 	</select>
 	
@@ -39,7 +39,7 @@
 		FROM tb_code a
 			LEFT OUTER JOIN tb_user b
 				ON a.inpt_id = b.user_id
-		WHERE 1 = 1
+		WHERE a.cd_depth = #{cd_depth}
 		<include refid="code-search" />
 		ORDER BY cd_ord ASC, cd_id ASC
 		<include refid="commonMapper.paging" />
