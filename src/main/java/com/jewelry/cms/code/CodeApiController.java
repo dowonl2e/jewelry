@@ -33,6 +33,7 @@ public class CodeApiController {
 	
 	@GetMapping("/list")
 	public Map<String, Object> findAll(final CodeTO to){
+		to.setCd_depth(1);
 		return codeService.findAllCode(to);
 	}
 	
