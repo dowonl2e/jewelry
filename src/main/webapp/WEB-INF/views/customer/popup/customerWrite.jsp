@@ -46,7 +46,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th rowspan="2">고객</th>
+								<th rowspan="2" class="border-right">고객</th>
 								<th></th>
 								<th>이름</th>
 								<th>성별</th>
@@ -56,7 +56,25 @@
 								<th>이메일</th>
 							</tr>
 							<tr>
-							
+								<th class="border-right">계약고객</th>
+								<td class="border-right"><input type="text" id="constractor_nm" class="form-control"/></td>
+								<td class="border-right">
+									<select id="constractor_gen" class="form-control">
+										<option value=""></option>
+										<option value="남">남</option>
+										<option value="여">여</option>
+									</select>
+								</td>
+								<td class="border-right"><input type="text" id="constractor_cel" class="form-control"/></td>
+								<td class="border-right"><input type="date" id="constractor_birth" class="form-control"/></td>
+								<td class="border-right">
+									<select id="constractor_gen" class="form-control">
+										<option value=""></option>
+										<option value="Y">Y</option>
+										<option value="N">N</option>
+									</select>
+								</td>
+								<td><input type="text" id="constractor_email" class="form-control"/></td>
 							</tr>
 						</tbody>
 					</table>

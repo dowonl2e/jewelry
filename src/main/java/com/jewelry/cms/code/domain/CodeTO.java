@@ -3,7 +3,7 @@ package com.jewelry.cms.code.domain;
 import com.jewelry.common.domain.CommonTO;
 
 public class CodeTO extends CommonTO {
-	
+
 	private String cd_id;
 	private String cd_nm;
 	private Integer cd_ord;

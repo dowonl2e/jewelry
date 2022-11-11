@@ -227,7 +227,7 @@
 		function fncPopupWrite() {
 			 var url = "./popup/write";
        var name = "customerWritePopup";
-       var option = "width = 700, height = 800, top = 100, left = 200, location = no";
+       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
        window.open(url, name, option);
 		}
 		

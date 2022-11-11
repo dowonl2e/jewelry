@@ -120,9 +120,9 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  page: page
-				, searchtype: form.searchtype.value
-				, searchword: form.searchword.value
+			  page: page,
+				searchtype: form.searchtype.value,
+				searchword: form.searchword.value
 			}
 	
 			const queryString = new URLSearchParams(params).toString();
@@ -141,7 +141,7 @@
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
-       				<tr>
+      			<tr>
   						<td class="text-center">`+(num--)+`</td>
   						<td class="text-center">`+obj.cdid+`</td>
   						<td class="text-center bold">
@@ -150,8 +150,8 @@
   						<td class="text-center">`+obj.useyn+`</td>
   						<td class="text-center">`+obj.inptnm+`</td>
   						<td class="text-center">`+obj.inptdt+`</td>
-       				</tr>
-       			`;
+      			</tr>
+     			`;
      		});
      		
 	
