@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,6 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-	@Autowired
-	private CodeMapper codeMapper;
-	
 	@Override
 	public Map<String, Object> findAllCustomer(CustomerTO to) {
 		Map<String, Object> response = new HashMap<>();
@@ -34,20 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
 		List<CustomerVO> list = customerMapper.selectCustomerList(to);
 		
 		to.setTotalcount(totalcount);
-		
-		CodeTO codeto = new CodeTO();
-		codeto.setUp_cd_id_arr(new String[]{"CT"});
-		codeto.setCd_depth(2);
-		List<CodeVO> codeList = codeMapper.selectCodeListByUpCdIdArr(codeto);
-		if(codeList == null) codeList = new ArrayList<>();
-		
-		Map<String, String> map = new HashMap<>();
-	    for (CodeVO codevo : codeList)
-	        map.put(codevo.getCdid(), codevo.getCdnm());
-	    
+
 		response.put("params", to);
 		response.put("list", list);
-		response.put("codemap", map);
 		
 		return response;
 	}

@@ -14,9 +14,7 @@
 			<choose>
 				<!-- 검색 유형이 없을 때 -->
 				<when test='searchtype == null or searchtype.equals("")'>
-					AND (
-				    a.contractor_nm LIKE CONCAT('%', #{searchword}, '%')
-					)
+					AND a.contractor_nm LIKE CONCAT('%', <![CDATA[ #{searchword} ]]>, '%')
 				</when>
 			</choose>
 		</if>
@@ -25,7 +23,7 @@
 	<select id="selectCustomerListCount" parameterType="CustomerTO" resultType="Integer">
 		SELECT COUNT(a.customer_no)
 		FROM tb_customer a
-		WHERE 1 = 1
+		WHERE a.del_yn = 'N'
 		<include refid="customer-search" />
 	</select>
 	
@@ -34,7 +32,7 @@
 						, a.contractor_nm, a.contractor_gen, a.contractor_cel, a.contractor_birth, a.contractor_lunar, a.contractor_email
 		        , a.del_yn, a.reg_dt, a.inpt_dt
 		FROM tb_customer a
-		WHERE 1 = 1
+		WHERE a.del_yn = 'N'
 		<include refid="customer-search" />
 		ORDER BY a.reg_dt DESC
 		<include refid="commonMapper.paging" />
@@ -85,4 +83,33 @@
 			<if test='reg_dt != null and !reg_dt.equals("")'>, #{reg_dt}</if>
 		)
 	</insert>
+	
+	<update id="updateCustomer" parameterType="CustomerTO">
+		UPDATE tb_customer
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='store_cd != null and !store_cd.equals("")'>, store_cd = #{store_cd}</if>
+		<if test='contract_cd != null and !contract_cd.equals("")'>, contract_cd = #{contract_cd}</if>
+		, contractor_nm = #{contractor_nm}
+		, contractor_gen = #{contractor_gen}
+		, contractor_cel = #{contractor_cel}
+		, contractor_birth = #{contractor_birth}
+		, contractor_lunar = #{contractor_lunar}
+		, contractor_email = #{contractor_email}
+		, zipcode = #{zipcode}
+		, address1 = #{address1}
+		, address2 = #{address2}
+		, etc = #{etc}
+		<if test='reg_dt != null and !reg_dt.equals("")'>, reg_dt = #{reg_dt}</if>
+		WHERE customer_no = #{customer_no}
+	</update>
+	
+	<update id="updateCustomerToDelete" parameterType="CustomerTO">
+		UPDATE tb_customer
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, del_yn = 'Y'
+		WHERE customer_no = #{customer_no}
+	</update>
+	
 </mapper>

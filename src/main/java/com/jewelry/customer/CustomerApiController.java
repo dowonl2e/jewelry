@@ -51,7 +51,8 @@ public class CustomerApiController {
 	}
 	
 	@PatchMapping("/{customerno}")
-	public ResponseEntity<Object> modify(@RequestBody final CustomerTO to) {
+	public ResponseEntity<Object> modify(@PathVariable final Long customerno, @RequestBody final CustomerTO to) {
+		to.setCustomer_no(customerno);
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
 		String result = customerService.updateCustomer(to);
 		
@@ -60,7 +61,8 @@ public class CustomerApiController {
 	}
 	
 	@DeleteMapping("/{customerno}")
-	public ResponseEntity<Object> remove(@PathVariable final Long customerno, @RequestBody final CustomerTO to) {
+	public ResponseEntity<Object> remove(@PathVariable final Long customerno) {
+		CustomerTO to = new CustomerTO();
 		to.setCustomer_no(customerno);
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
 		String result = customerService.updateCustomerToDelete(to);

@@ -18,5 +18,7 @@ public interface CodeService {
 	
 	String deleteCode(String cdid);
 	
-	List<CodeVO> findAllByUpCdId(String upcdidarr, Integer cddepth);
+	List<CodeVO> findAllByUpCdId(String upcdid, Integer cddepth);
+	
+	List<CodeVO> findAllByUpCdId(String[] upcdid, Integer cddepth);
 }

@@ -17,7 +17,8 @@ public class CustomerPageController {
 	private CodeService codeService;
 	
 	@GetMapping("/list")
-	public String list() {
+	public String list(Model model) {
+		model.addAttribute("codelist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
 		return "customer/customerList";
 	}
 	
@@ -31,6 +32,7 @@ public class CustomerPageController {
 	@GetMapping("/popup/view/{customerno}")
 	public String viewPopup(@PathVariable final Long customerno, Model model) {
 		model.addAttribute("customerno", customerno);
+		model.addAttribute("cdlist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
 		return "customer/popup/customerView";
 	}
 	

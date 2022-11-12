@@ -1,6 +1,7 @@
 package com.jewelry.customer.domain;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jewelry.common.domain.CommonVO;
 
@@ -25,6 +26,9 @@ public class CustomerVO extends CommonVO {
 	private String contractoremail;
     private String delyn;
 	private String regdt;
+	
+	private Map<String, String> codemap;
+	
 	
 	public List<CustomerVO> getList() {
 		return list;
@@ -133,6 +137,12 @@ public class CustomerVO extends CommonVO {
 	}
 	public void setRegdt(String regdt) {
 		this.regdt = regdt;
+	}
+	public Map<String, String> getCodemap() {
+		return codemap;
+	}
+	public void setCodemap(Map<String, String> codemap) {
+		this.codemap = codemap;
 	}
 	
 }

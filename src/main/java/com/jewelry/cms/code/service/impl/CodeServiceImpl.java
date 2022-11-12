@@ -60,6 +60,14 @@ public class CodeServiceImpl implements CodeService {
 		to.setCd_depth(cddepth);
 		return codeMapper.selectCodeListByUpCdId(to);
 	}
+
+	@Override
+	public List<CodeVO> findAllByUpCdId(String[] upcdid, Integer cddepth) {
+		CodeTO to = new CodeTO();
+		to.setUp_cd_id_arr(upcdid);
+		to.setCd_depth(cddepth);
+		return codeMapper.selectCodeListByUpCdIdArr(to);
+	}
 	
 	
 }

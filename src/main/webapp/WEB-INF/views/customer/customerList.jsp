@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/decorators/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +57,6 @@
 					<tbody id="list"></tbody>
 				</table>
 				<div class="btn_wrap text-right">
-	    		
 	    	</div>
 				<nav aria-label="Page navigation" class="text-center">
 			    <ul class="pagination"></ul>
@@ -70,6 +69,12 @@
 		/**
 		 * 페이지 HTML 렌더링
 		 */
+		var codemap = {
+				<c:forEach var="code" items="${codelist}" varStatus="loop">
+				  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
+				</c:forEach>
+		};
+		
 		window.onload = () => {
 			setQueryStringParams();
 	    findAll();
@@ -156,7 +161,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				var codemap = response.codemap;
+				
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
