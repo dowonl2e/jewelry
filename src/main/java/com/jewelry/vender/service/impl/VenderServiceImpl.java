@@ -2,10 +2,13 @@ package com.jewelry.vender.service.impl;
 
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.jewelry.vender.domain.VenderTO;
 import com.jewelry.vender.domain.VenderVO;
 import com.jewelry.vender.service.VenderService;
 
+@Service
 public class VenderServiceImpl implements VenderService{
 
 	@Override
