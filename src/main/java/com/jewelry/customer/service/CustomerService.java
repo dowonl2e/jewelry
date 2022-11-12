@@ -15,6 +15,6 @@ public interface CustomerService {
 	
 	String updateCustomer(CustomerTO to);
 	
-	String updateCustomerToDelete(Long customerno);
+	String updateCustomerToDelete(CustomerTO to);
 	
 }

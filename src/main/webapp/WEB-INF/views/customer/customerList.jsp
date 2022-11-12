@@ -162,14 +162,14 @@
      			html += `
      				<tr>
 							<td class="text-center">` + (num--) + `</td>
-							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+obj.customerno+`"/></td>
-							<td class="text-center">` + (obj.regdt != null ? obj.regdt.substring(0,10) : '') + `</td>
-							<td class="text-center">` + codemap[obj.contractcd] +`</td>
+							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+checkNullVal(obj.customerno)+`"/></td>
+							<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.contractcd)]) +`</td>
 							<td class="text-center bold">
-								<a href="#">`+obj.customerno+`</a>
+								<a href="javascript: void(0);" onclick="fncPopupModify('` + obj.customerno + `'); return false;">`+checkNullVal(obj.customerno)+`</a>
 							</td>
-							<td class="text-center">` + obj.contractornm+`</td>
-							<td class="text-center">` + obj.contractorcel+`</td>
+							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>
@@ -177,7 +177,7 @@
 							<td class="text-center"></td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>
-							<td class="text-center">`+obj.etc+`</td>
+							<td class="text-center">`+checkNullVal(obj.etc)+`</td>
 	   				</tr>
      			`;
      		});
@@ -227,12 +227,21 @@
 		 * 작성하기
 		 */
 		function fncPopupWrite() {
-			 var url = "./popup/write";
-       var name = "customerWritePopup";
-       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-       window.open(url, name, option);
+		  var url = "./popup/write";
+      var name = "customerWritePopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
 		}
-		
+
+		/**
+		 * 수정하기
+		 */
+		function fncPopupModify(customerno) {
+		  var url = "./popup/modify/"+customerno;
+      var name = "customeModifyPopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
 	</script>
 </body>
 </html>

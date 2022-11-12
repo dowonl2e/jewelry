@@ -20,6 +20,6 @@ public interface CustomerMapper {
 
 	int updateCustomer(CustomerTO to);
 
-	int updateCustomerToDelete(Long customerno);
+	int updateCustomerToDelete(CustomerTO to);
 
 }

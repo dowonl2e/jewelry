@@ -41,7 +41,7 @@
 	</select>
 	
 	<select id="selectCustomer" parameterType="CustomerTO" resultType="CustomerVO">
-		SELECT a.customer_no, a.store_cd, a.contract_cd, a.zipcode, a.address1, a.address2
+		SELECT a.customer_no, a.store_cd, a.contract_cd, a.zipcode, a.address1, a.address2, a.etc
 						, a.contractor_nm, a.contractor_gen, a.contractor_cel, a.contractor_birth, a.contractor_lunar, a.contractor_email
 		        , a.del_yn, a.reg_dt, a.inpt_dt
 		FROM tb_customer a

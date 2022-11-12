@@ -68,8 +68,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String updateCustomerToDelete(Long customerno) {
-		return customerMapper.updateCustomerToDelete(customerno) > 0 ? "success" : "fail";
+	public String updateCustomerToDelete(CustomerTO to) {
+		return customerMapper.updateCustomerToDelete(to) > 0 ? "success" : "fail";
 	}
 
 }

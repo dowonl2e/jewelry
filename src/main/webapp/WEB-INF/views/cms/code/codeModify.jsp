@@ -146,6 +146,6 @@
 				location.href = '/code/list' + location.search;
 			}
 		/*]]>*/
-	    </script>
+  </script>
 </body>
 </html>
