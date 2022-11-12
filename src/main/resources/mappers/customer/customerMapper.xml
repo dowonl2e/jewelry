@@ -15,7 +15,7 @@
 				<!-- 검색 유형이 없을 때 -->
 				<when test='searchtype == null or searchtype.equals("")'>
 					AND (
-				    a.constractor_nm LIKE CONCAT('%', #{searchword}, '%')
+				    a.contractor_nm LIKE CONCAT('%', #{searchword}, '%')
 					)
 				</when>
 			</choose>
@@ -31,7 +31,7 @@
 	
 	<select id="selectCustomerList" parameterType="CustomerTO" resultType="CustomerVO">
 		SELECT a.customer_no, a.store_cd, a.contract_cd, a.zipcode, a.address1, a.address2, a.etc
-						, a.constractor_nm, a.constractor_gen, a.constractor_cel, a.constractor_birth, a.constractor_lunar, a.constractor_email
+						, a.contractor_nm, a.contractor_gen, a.contractor_cel, a.contractor_birth, a.contractor_lunar, a.contractor_email
 		        , a.del_yn, a.reg_dt, a.inpt_dt
 		FROM tb_customer a
 		WHERE 1 = 1
@@ -42,7 +42,7 @@
 	
 	<select id="selectCustomer" parameterType="CustomerTO" resultType="CustomerVO">
 		SELECT a.customer_no, a.store_cd, a.contract_cd, a.zipcode, a.address1, a.address2
-						, a.constractor_nm, a.constractor_gen, a.constractor_cel, a.constractor_birth, a.constractor_lunar, a.constractor_email
+						, a.contractor_nm, a.contractor_gen, a.contractor_cel, a.contractor_birth, a.contractor_lunar, a.contractor_email
 		        , a.del_yn, a.reg_dt, a.inpt_dt
 		FROM tb_customer a
 		WHERE a.customer_no = #{customer_no}
@@ -53,34 +53,34 @@
 		(
 			inpt_id, inpt_dt
 			<if test='store_cd != null and !store_cd.equals("")'>, store_cd</if>
-			<if test='constract_cd != null and !constract_cd.equals("")'>, constract_cd</if>
+			<if test='contract_cd != null and !contract_cd.equals("")'>, contract_cd</if>
+			<if test='contractor_nm != null and !contractor_nm.equals("")'>, contractor_nm</if>
+			<if test='contractor_gen != null and !contractor_gen.equals("")'>, contractor_gen</if>
+			<if test='contractor_cel != null and !contractor_cel.equals("")'>, contractor_cel</if>
+			<if test='contractor_birth != null and !contractor_birth.equals("")'>, contractor_birth</if>
+			<if test='contractor_lunar != null and !contractor_lunar.equals("")'>, contractor_lunar</if>
+			<if test='contractor_email != null and !contractor_email.equals("")'>, contractor_email</if>
 			<if test='zipcode != null and !zipcode.equals("")'>, zipcode</if>
 			<if test='address1 != null and !address1.equals("")'>, address1</if>
 			<if test='address2 != null and !address2.equals("")'>, address2</if>
 			<if test='etc != null and !etc.equals("")'>, etc</if>
-			<if test='constractor_nm != null and !constractor_nm.equals("")'>, constractor_nm</if>
-			<if test='constractor_gen != null and !constractor_gen.equals("")'>, constractor_gen</if>
-			<if test='constractor_cel != null and !constractor_cel.equals("")'>, constractor_cel</if>
-			<if test='constractor_birth != null and !constractor_birth.equals("")'>, constractor_birth</if>
-			<if test='constractor_lunar != null and !constractor_lunar.equals("")'>, constractor_lunar</if>
-			<if test='constractor_email != null and !constractor_email.equals("")'>, constractor_email</if>
 			<if test='del_yn != null and !del_yn.equals("")'>, del_yn</if>
 			<if test='reg_dt != null and !reg_dt.equals("")'>, reg_dt</if>
 		)
 		VALUES (
 			#{inpt_id}, NOW()
 			<if test='store_cd != null and !store_cd.equals("")'>, #{store_cd}</if>
-			<if test='constract_cd != null and !constract_cd.equals("")'>, #{constract_cd}</if>
+			<if test='contract_cd != null and !contract_cd.equals("")'>, #{contract_cd}</if>
+			<if test='contractor_nm != null and !contractor_nm.equals("")'>, #{contractor_nm}</if>
+			<if test='contractor_gen != null and !contractor_gen.equals("")'>, #{contractor_gen}</if>
+			<if test='contractor_cel != null and !contractor_cel.equals("")'>, #{contractor_cel}</if>
+			<if test='contractor_birth != null and !contractor_birth.equals("")'>, #{contractor_birth}</if>
+			<if test='contractor_lunar != null and !contractor_lunar.equals("")'>, #{contractor_lunar}</if>
+			<if test='contractor_email != null and !contractor_email.equals("")'>, #{contractor_email}</if>
 			<if test='zipcode != null and !zipcode.equals("")'>, #{zipcode}</if>
 			<if test='address1 != null and !address1.equals("")'>, #{address1}</if>
 			<if test='address2 != null and !address2.equals("")'>, #{address2}</if>
 			<if test='etc != null and !etc.equals("")'>, #{etc}</if>
-			<if test='constractor_nm != null and !constractor_nm.equals("")'>, #{constractor_nm}</if>
-			<if test='constractor_gen != null and !constractor_gen.equals("")'>, #{constractor_gen}</if>
-			<if test='constractor_cel != null and !constractor_cel.equals("")'>, #{constractor_cel}</if>
-			<if test='constractor_birth != null and !constractor_birth.equals("")'>, #{constractor_birth}</if>
-			<if test='constractor_lunar != null and !constractor_lunar.equals("")'>, #{constractor_lunar}</if>
-			<if test='constractor_email != null and !constractor_email.equals("")'>, #{constractor_email}</if>
 			<if test='del_yn != null and !del_yn.equals("")'>, #{del_yn}</if>
 			<if test='reg_dt != null and !reg_dt.equals("")'>, #{reg_dt}</if>
 		)

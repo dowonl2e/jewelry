@@ -15,12 +15,22 @@
 		<div class="card-body">
 			<form id="form" class="form-horizontal m10">
 				<div class="table-responsive clearfix">
-					<table class="table table-hover">
+					<table class="table">
+						<colgroup>
+							<col width="10%;"/>
+							<col width="10%;"/>
+							<col />
+							<col width="10%;"/>
+							<col />
+							<col />
+							<col width="10%;"/>
+							<col />
+						</colgroup>
 						<tbody>
 							<tr>
 								<th rowspan="2" class="text-center border-right">관리매장</th>
-								<th colspan="4" class="text-center border-right">등록일</th>
-								<th colspan="3" class="text-center">매장</th>
+								<th colspan="4" class="text-center border-right">등록일<span class="important"> *</span></th>
+								<th colspan="3" class="text-center">매장<span class="important"> *</span></th>
 							</tr>
 							<tr>
 								<td colspan="4" class="border-right"><input type="date" id="reg_dt" class="form-control"/></td>
@@ -34,11 +44,11 @@
 							</tr>
 							<tr>
 								<th rowspan="2" class="text-center border-right">구분</th>
-								<th colspan="7" class="text-center border-right">계약구분</th>
+								<th colspan="7" class="text-center border-right">계약구분<span class="important"> *</span></th>
 							</tr>
 							<tr>
 								<td colspan="7" class="text-center">
-									<select id="constract_cd" class="form-control">
+									<select id="contract_cd" class="form-control">
 				            <c:forEach var="ctlist" items="${ctlist}">
 				            	<option value="${ctlist.cdid}">${ctlist.cdnm}</option>
 				            </c:forEach>
@@ -57,29 +67,49 @@
 							</tr>
 							<tr>
 								<th class="border-right">계약고객</th>
-								<td class="border-right"><input type="text" id="constractor_nm" class="form-control"/></td>
+								<td class="border-right"><input type="text" id="contractor_nm" class="form-control"/></td>
 								<td class="border-right">
-									<select id="constractor_gen" class="form-control">
+									<select id="contractor_gen" class="form-control">
 										<option value=""></option>
 										<option value="남">남</option>
 										<option value="여">여</option>
 									</select>
 								</td>
-								<td class="border-right"><input type="text" id="constractor_cel" class="form-control"/></td>
-								<td class="border-right"><input type="date" id="constractor_birth" class="form-control"/></td>
+								<td class="border-right"><input type="text" id="contractor_cel" class="form-control"/></td>
+								<td class="border-right"><input type="date" id="contractor_birth" class="form-control"/></td>
 								<td class="border-right">
-									<select id="constractor_gen" class="form-control">
+									<select id="contractor_lunar" class="form-control">
 										<option value=""></option>
 										<option value="Y">Y</option>
 										<option value="N">N</option>
 									</select>
 								</td>
-								<td><input type="text" id="constractor_email" class="form-control"/></td>
+								<td><input type="text" id="contractor_email" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th rowspan="3" class="border-right">주소</th>
+								<th class="border-right">우편번호</th>
+								<td colspan="6"><input type="text" id="zipcode" class="form-control" style="width: 100px;"/></td>
+							</tr>
+							<tr>
+								<th class="border-right">기본주소</th>
+								<td colspan="6"><input type="text" id="address1" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th class="border-right">나머지</th>
+								<td colspan="6"><input type="text" id="address2" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th class="border-right border-bottom">비고</th>
+								<td colspan="7" class="border-bottom">
+									<textarea id="etc" class="form-control"></textarea>
+								</td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="btn_wrap text-right">
-		    		
+					<div class="btn_wrap text-center">
+		        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
+		        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 		    	</div>
 					<nav aria-label="Page navigation" class="text-center">
 				    <ul class="pagination"></ul>
@@ -91,20 +121,45 @@
 	
 	<script>
 		/*<![CDATA[*/
-			function save(){
+			function fncSave(){
 				/* if( !isValid() ){
 					return false;
 				} */
 				
+				if($("#reg_dt").val() == ''){
+					alert('등록일을 입력해주세요.');
+					$("#reg_dt").focus();
+					return false;
+				}
+				if($("#store_cd").val() == ''){
+					alert('매장을 선택해주세요.');
+					$("#store_cd").focus();
+					return false;
+				}
+				if($("#contract_cd").val() == ''){
+					alert('계약구분을 선택해주세요.');
+					$("#contract_cd").focus();
+					return false;
+				}
+
 				const form = document.getElementById('form');
 				const params = {
-					cd_id : form.cd_id.value,
-					cd_nm : form.cd_nm.value,
-					use_yn : form.use_yn.value,
-					up_cd_id : '00'
+						reg_dt : form.reg_dt.value,
+						store_cd : form.store_cd.value,
+						contract_cd : form.contract_cd.value,
+						contractor_nm : form.contractor_nm.value,
+						contractor_gen : form.contractor_gen.value,
+						contractor_cel : form.contractor_cel.value,
+						contractor_birth : form.contractor_birth.value,
+						contractor_lunar : form.contractor_lunar.value,
+						contractor_email : form.contractor_email.value,
+						zipcode : form.zipcode.value,
+						address1 : form.address1.value,
+						address2 : form.address2.value,
+						etc : form.etc.value
 				};
 				
-				fetch('/api/code/write', {
+				fetch('/api/customer/write', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -115,27 +170,19 @@
 						throw new Error('Request Failed...');
 					}
 					alert('저장되었습니다.');
-					location.href = '/code/list';
+					window.opener.findAll();
+					fncClose();
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
 				});
 			}
-		
-			function fncChangeUpperCase(obj){
-				if($(obj).val() != ''){
-					const regex = /^[a-z|A-Z]+$/;
-					if(!regex.test($(obj).val())){
-						alert('영문만 입력해주세요.');
-						$(obj).val('');
-					}
-					else {
-						$(obj).val($(obj).val().toUpperCase());
-					}
-				}
-			}
-		
+			
 			function goList(){
 				location.href = '/code/list' + location.search;
+			}
+			
+			function fncClose(){
+				self.close();
 			}
 		/*]]>*/
 	    </script>

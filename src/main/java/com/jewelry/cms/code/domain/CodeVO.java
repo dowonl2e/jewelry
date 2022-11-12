@@ -14,6 +14,11 @@ public class CodeVO extends CommonVO {
 	private Integer cddepth;
 	private String useyn;
 	
+	public CodeVO(String cdid, String cdnm) {
+		this.cdid = cdid;
+		this.cdnm = cdnm;
+	}
+	
 	public List<CodeVO> getList() {
 		return list;
 	}

@@ -156,18 +156,20 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
+				var codemap = response.codemap;
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
      				<tr>
-							<td class="text-center">`+(num--)+`</td>
+							<td class="text-center">` + (num--) + `</td>
 							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+obj.customerno+`"/></td>
-							<td class="text-center">`+obj.regdt+`</td>
+							<td class="text-center">` + (obj.regdt != null ? obj.regdt.substring(0,10) : '') + `</td>
+							<td class="text-center">` + codemap[obj.contractcd] +`</td>
 							<td class="text-center bold">
 								<a href="#">`+obj.customerno+`</a>
 							</td>
-							<td class="text-center">`+obj.constractornm+`</td>
-							<td class="text-center">`+obj.constractorcel+`</td>
+							<td class="text-center">` + obj.contractornm+`</td>
+							<td class="text-center">` + obj.contractorcel+`</td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>

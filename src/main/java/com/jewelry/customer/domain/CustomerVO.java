@@ -17,18 +17,12 @@ public class CustomerVO extends CommonVO {
 	private String address1;
 	private String address2;
 	private String etc;
-	private String constractornm;
-	private String constractorgen;
-	private String constractorcel;
-	private String constractorbirth;
-	private String constractorlunar;
-	private String constractoremail;
-	private String spousenm;
-	private String spousegen;
-	private String spousecel;
-	private String spousebirth;
-	private String spouselunar;
-	private String spouseemail;
+	private String contractornm;
+	private String contractorgen;
+	private String contractorcel;
+	private String contractorbirth;
+	private String contractorlunar;
+	private String contractoremail;
     private String delyn;
 	private String regdt;
 	
@@ -92,77 +86,41 @@ public class CustomerVO extends CommonVO {
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
-	public String getConstractornm() {
-		return constractornm;
+	public String getContractornm() {
+		return contractornm;
 	}
-	public void setConstractornm(String constractornm) {
-		this.constractornm = constractornm;
+	public void setContractornm(String contractornm) {
+		this.contractornm = contractornm;
 	}
-	public String getConstractorgen() {
-		return constractorgen;
+	public String getContractorgen() {
+		return contractorgen;
 	}
-	public void setConstractorgen(String constractorgen) {
-		this.constractorgen = constractorgen;
+	public void setContractorgen(String contractorgen) {
+		this.contractorgen = contractorgen;
 	}
-	public String getConstractorcel() {
-		return constractorcel;
+	public String getContractorcel() {
+		return contractorcel;
 	}
-	public void setConstractorcel(String constractorcel) {
-		this.constractorcel = constractorcel;
+	public void setContractorcel(String contractorcel) {
+		this.contractorcel = contractorcel;
 	}
-	public String getConstractorbirth() {
-		return constractorbirth;
+	public String getContractorbirth() {
+		return contractorbirth;
 	}
-	public void setConstractorbirth(String constractorbirth) {
-		this.constractorbirth = constractorbirth;
+	public void setContractorbirth(String contractorbirth) {
+		this.contractorbirth = contractorbirth;
 	}
-	public String getConstractorlunar() {
-		return constractorlunar;
+	public String getContractorlunar() {
+		return contractorlunar;
 	}
-	public void setConstractorlunar(String constractorlunar) {
-		this.constractorlunar = constractorlunar;
+	public void setContractorlunar(String contractorlunar) {
+		this.contractorlunar = contractorlunar;
 	}
-	public String getConstractoremail() {
-		return constractoremail;
+	public String getContractoremail() {
+		return contractoremail;
 	}
-	public void setConstractoremail(String constractoremail) {
-		this.constractoremail = constractoremail;
-	}
-	public String getSpousenm() {
-		return spousenm;
-	}
-	public void setSpousenm(String spousenm) {
-		this.spousenm = spousenm;
-	}
-	public String getSpousegen() {
-		return spousegen;
-	}
-	public void setSpousegen(String spousegen) {
-		this.spousegen = spousegen;
-	}
-	public String getSpousecel() {
-		return spousecel;
-	}
-	public void setSpousecel(String spousecel) {
-		this.spousecel = spousecel;
-	}
-	public String getSpousebirth() {
-		return spousebirth;
-	}
-	public void setSpousebirth(String spousebirth) {
-		this.spousebirth = spousebirth;
-	}
-	public String getSpouselunar() {
-		return spouselunar;
-	}
-	public void setSpouselunar(String spouselunar) {
-		this.spouselunar = spouselunar;
-	}
-	public String getSpouseemail() {
-		return spouseemail;
-	}
-	public void setSpouseemail(String spouseemail) {
-		this.spouseemail = spouseemail;
+	public void setContractoremail(String contractoremail) {
+		this.contractoremail = contractoremail;
 	}
 	public String getDelyn() {
 		return delyn;
@@ -176,6 +134,5 @@ public class CustomerVO extends CommonVO {
 	public void setRegdt(String regdt) {
 		this.regdt = regdt;
 	}
-	
 	
 }

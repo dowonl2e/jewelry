@@ -23,5 +23,7 @@ public interface CodeMapper {
 	int deleteCode(String cdid);
 	
 	List<CodeVO> selectCodeListByUpCdId(CodeTO to);
+	
+	List<CodeVO> selectCodeListByUpCdIdArr(CodeTO to);
 
 }

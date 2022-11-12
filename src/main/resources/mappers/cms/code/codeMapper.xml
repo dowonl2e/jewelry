@@ -98,4 +98,17 @@
 		ORDER BY cd_ord ASC
 	</select>
 	
+	<select id="selectCodeListByUpCdIdArr" parameterType="CodeTO" resultType="CodeVO">
+		SELECT cd_id, cd_nm, cd_ord
+		FROM tb_code
+		WHERE cd_depth = #{cd_depth}
+		<if test='up_cd_id_arr != null'>
+			AND up_cd_id IN 
+			<foreach item="up_cd_id" collection="up_cd_id_arr" open="(" separator="," close=")">
+				 #{up_cd_id}
+			</foreach>
+		</if>
+		ORDER BY cd_ord ASC
+	</select>
+	
 </mapper>

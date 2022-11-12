@@ -11,18 +11,12 @@ public class CustomerTO extends CommonTO {
 	private String address1;
 	private String address2;
 	private String etc;
-	private String constractor_nm;
-	private String constractor_gen;
-	private String constractor_cel;
-	private String constractor_birth;
-	private String constractor_lunar;
-	private String constractor_email;
-	private String spouse_nm;
-	private String spouse_gen;
-	private String spouse_cel;
-	private String spouse_birth;
-	private String spouse_lunar;
-	private String spouse_email;
+	private String contractor_nm;
+	private String contractor_gen;
+	private String contractor_cel;
+	private String contractor_birth;
+	private String contractor_lunar;
+	private String contractor_email;
     private String del_yn;
 	private String reg_dt;
 	
@@ -68,77 +62,41 @@ public class CustomerTO extends CommonTO {
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
-	public String getConstractor_nm() {
-		return constractor_nm;
+	public String getContractor_nm() {
+		return contractor_nm;
 	}
-	public void setConstractor_nm(String constractor_nm) {
-		this.constractor_nm = constractor_nm;
+	public void setContractor_nm(String contractor_nm) {
+		this.contractor_nm = contractor_nm;
 	}
-	public String getConstractor_gen() {
-		return constractor_gen;
+	public String getContractor_gen() {
+		return contractor_gen;
 	}
-	public void setConstractor_gen(String constractor_gen) {
-		this.constractor_gen = constractor_gen;
+	public void setContractor_gen(String contractor_gen) {
+		this.contractor_gen = contractor_gen;
 	}
-	public String getConstractor_cel() {
-		return constractor_cel;
+	public String getContractor_cel() {
+		return contractor_cel;
 	}
-	public void setConstractor_cel(String constractor_cel) {
-		this.constractor_cel = constractor_cel;
+	public void setContractor_cel(String contractor_cel) {
+		this.contractor_cel = contractor_cel;
 	}
-	public String getConstractor_birth() {
-		return constractor_birth;
+	public String getContractor_birth() {
+		return contractor_birth;
 	}
-	public void setConstractor_birth(String constractor_birth) {
-		this.constractor_birth = constractor_birth;
+	public void setContractor_birth(String contractor_birth) {
+		this.contractor_birth = contractor_birth;
 	}
-	public String getConstractor_lunar() {
-		return constractor_lunar;
+	public String getContractor_lunar() {
+		return contractor_lunar;
 	}
-	public void setConstractor_lunar(String constractor_lunar) {
-		this.constractor_lunar = constractor_lunar;
+	public void setContractor_lunar(String contractor_lunar) {
+		this.contractor_lunar = contractor_lunar;
 	}
-	public String getConstractor_email() {
-		return constractor_email;
+	public String getContractor_email() {
+		return contractor_email;
 	}
-	public void setConstractor_email(String constractor_email) {
-		this.constractor_email = constractor_email;
-	}
-	public String getSpouse_nm() {
-		return spouse_nm;
-	}
-	public void setSpouse_nm(String spouse_nm) {
-		this.spouse_nm = spouse_nm;
-	}
-	public String getSpouse_gen() {
-		return spouse_gen;
-	}
-	public void setSpouse_gen(String spouse_gen) {
-		this.spouse_gen = spouse_gen;
-	}
-	public String getSpouse_cel() {
-		return spouse_cel;
-	}
-	public void setSpouse_cel(String spouse_cel) {
-		this.spouse_cel = spouse_cel;
-	}
-	public String getSpouse_birth() {
-		return spouse_birth;
-	}
-	public void setSpouse_birth(String spouse_birth) {
-		this.spouse_birth = spouse_birth;
-	}
-	public String getSpouse_lunar() {
-		return spouse_lunar;
-	}
-	public void setSpouse_lunar(String spouse_lunar) {
-		this.spouse_lunar = spouse_lunar;
-	}
-	public String getSpouse_email() {
-		return spouse_email;
-	}
-	public void setSpouse_email(String spouse_email) {
-		this.spouse_email = spouse_email;
+	public void setContractor_email(String contractor_email) {
+		this.contractor_email = contractor_email;
 	}
 	public String getDel_yn() {
 		return del_yn;
@@ -152,6 +110,5 @@ public class CustomerTO extends CommonTO {
 	public void setReg_dt(String reg_dt) {
 		this.reg_dt = reg_dt;
 	}
-	
 	
 }

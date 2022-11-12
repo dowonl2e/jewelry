@@ -39,6 +39,7 @@
 							<th class="text-center">사용여부</th>
 							<th class="text-center">등록자</th>
 							<th class="text-center">등록일</th>
+							<th class="text-center"></th>
 						</tr>
 					</thead>
 					<tbody id="list"></tbody>
@@ -150,6 +151,7 @@
   						<td class="text-center">`+obj.useyn+`</td>
   						<td class="text-center">`+obj.inptnm+`</td>
   						<td class="text-center">`+obj.inptdt+`</td>
+  						<td class="text-center"><a href="javascript: void(0);" onclick="findSubCodeAll(\'`+obj.cdid+`\'); return false;" class="btn btn-info">하위코드</a></td>
       			</tr>
      			`;
      		});
