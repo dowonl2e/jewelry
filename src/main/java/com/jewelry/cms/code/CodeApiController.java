@@ -66,4 +66,10 @@ public class CodeApiController {
 	public String remove(@PathVariable final String cdid) {
 		return codeService.deleteCode(cdid);
 	}
+	
+	//********************************하위코드********************************
+	@GetMapping("/list/{upcdid}/{cddepth}")
+	public Map<String, Object> findAll(@PathVariable("upcdid") final String cdid, @PathVariable("cddepth") final Integer cddepth){
+		return codeService.findAllSubCode(cdid, cddepth);
+	}
 }

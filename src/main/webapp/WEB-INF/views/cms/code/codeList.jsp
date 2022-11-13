@@ -124,15 +124,16 @@
 			  page: page,
 				searchtype: form.searchtype.value,
 				searchword: form.searchword.value
-			}
-	
+			};
+			checkListNullParams(params);
+
 			const queryString = new URLSearchParams(params).toString();
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
 			getJson('/api/code/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="5" class="text-center">등록된 코드가 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="7" class="text-center">등록된 코드가 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -151,7 +152,7 @@
   						<td class="text-center">`+obj.useyn+`</td>
   						<td class="text-center">`+obj.inptnm+`</td>
   						<td class="text-center">`+obj.inptdt+`</td>
-  						<td class="text-center"><a href="javascript: void(0);" onclick="findSubCodeAll(\'`+obj.cdid+`\'); return false;" class="btn btn-info">하위코드</a></td>
+  						<td class="text-center"><a href="javascript: void(0);" onclick="fncPopupSubCodeList(\'`+obj.cdid+`\'); return false;" class="btn btn-info">하위코드</a></td>
       			</tr>
      			`;
      		});
@@ -202,6 +203,17 @@
 		 */
 		function goWrite() {
 	    location.href = '/code/write' + location.search;
+		}
+		
+
+		/**
+		 * 하위코드 팝업
+		 */
+		function fncPopupSubCodeList(up_cd_id) {
+		  var url = "./popup/list/"+up_cd_id+"/2";
+      var name = "subCodeListPopup";
+      var option = "width = 800, height = 500, top = 100, left = 200, location = no";
+      window.open(url, name, option);
 		}
 		
 	</script>

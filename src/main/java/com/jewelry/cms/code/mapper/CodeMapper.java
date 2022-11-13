@@ -26,4 +26,6 @@ public interface CodeMapper {
 	
 	List<CodeVO> selectCodeListByUpCdIdArr(CodeTO to);
 
+	List<CodeVO> selectSubCodeList(CodeTO to);
+
 }

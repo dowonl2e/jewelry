@@ -14,6 +14,8 @@ public class CodeVO extends CommonVO {
 	private Integer cddepth;
 	private String useyn;
 	
+	private Integer childcnt;
+	
 	public CodeVO(String cdid, String cdnm) {
 		this.cdid = cdid;
 		this.cdnm = cdnm;
@@ -60,6 +62,12 @@ public class CodeVO extends CommonVO {
 	}
 	public void setCddepth(Integer cddepth) {
 		this.cddepth = cddepth;
+	}
+	public Integer getChildcnt() {
+		return childcnt;
+	}
+	public void setChildcnt(Integer childcnt) {
+		this.childcnt = childcnt;
 	}
 	
 	

@@ -21,4 +21,8 @@ public interface CodeService {
 	List<CodeVO> findAllByUpCdId(String upcdid, Integer cddepth);
 	
 	List<CodeVO> findAllByUpCdId(String[] upcdid, Integer cddepth);
+	
+	//********************************하위코드********************************
+	Map<String, Object> findAllSubCode(String upcdid, Integer cddepth);
+
 }

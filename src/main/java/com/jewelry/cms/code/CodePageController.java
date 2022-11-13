@@ -25,5 +25,25 @@ public class CodePageController {
 		model.addAttribute("cdid", cdid);
 		return "cms/code/codeModify";
 	}
+	
+	@GetMapping("/popup/list/{upcdid}/{cddepth}")
+	public String listPopup(@PathVariable("upcdid") final String upcdid, @PathVariable("cddepth") final Integer cddepth, Model model) {
+		model.addAttribute("upcdid", upcdid);
+		model.addAttribute("cddepth", cddepth);
+		return "cms/code/popup/codeList";
+	}
 
+	@GetMapping("/popup/write/{upcdid}/{cddepth}")
+	public String writePopup(@PathVariable("upcdid") final String upcdid, @PathVariable("cddepth") final Integer cddepth, Model model) {
+		model.addAttribute("upcdid", upcdid);
+		model.addAttribute("cddepth", cddepth);
+		return "cms/code/popup/codeWrite";
+	}
+
+	@GetMapping("/popup/modify/{cdid}/{cddepth}")
+	public String modifyPopup(@PathVariable("cdid") final String cdid, @PathVariable("cddepth") final Integer cddepth, Model model){
+		model.addAttribute("cdid", cdid);
+		model.addAttribute("cddepth", cddepth);
+		return "cms/code/popup/codeModify";
+	}
 }

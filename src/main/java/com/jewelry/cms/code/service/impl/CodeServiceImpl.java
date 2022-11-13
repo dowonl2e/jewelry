@@ -68,6 +68,20 @@ public class CodeServiceImpl implements CodeService {
 		to.setCd_depth(cddepth);
 		return codeMapper.selectCodeListByUpCdIdArr(to);
 	}
+
+	@Override
+	public Map<String, Object> findAllSubCode(String upcdid, Integer cddepth) {
+		CodeTO to = new CodeTO();
+		to.setUp_cd_id(upcdid);
+		to.setCd_depth(cddepth);
+
+		Map<String, Object> response = new HashMap<>();
+		CodeVO vo = codeMapper.selectCode(upcdid);
+		response.put("vo", vo);
+		response.put("list", codeMapper.selectSubCodeList(to));
+		
+		return response;
+	}
 	
 	
 }

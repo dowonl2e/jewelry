@@ -19,7 +19,7 @@
 						<span class="mlr5">등록일</span>
 						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
 						<input type="date" id="searcheddt" class="form-control mlr5"/>
-		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" style="width:100px;"/>
+		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
 		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
@@ -80,9 +80,10 @@
 	    findAll();
 			addEnterSearchEvent();
 		}
-		 /**
-			 * 키워드 - 엔터 검색 이벤트 바인딩
-			 */
+		
+	  /**
+	 	  * 키워드 - 엔터 검색 이벤트 바인딩
+		  */
 		function addEnterSearchEvent() {
 			document.getElementById('searchword').addEventListener('keyup', (e) => {
 				if (e.keyCode === 13) {
@@ -147,6 +148,7 @@
 				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
+			checkListNullParams(params);
 	
 			const queryString = new URLSearchParams(params).toString();
 			const replaceUri = location.pathname + '?' + queryString;
@@ -246,6 +248,17 @@
       var name = "customeModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
+		}
+		
+		function fncCheckZero(obj){
+			if($(obj).val() != ''){
+				if(Number($(obj).val()) <= 0){
+					$(obj).val('1');
+				}
+				if(Number($(obj).val()) > 100){
+					$(obj).val('100');
+				}
+			}
 		}
 	</script>
 </body>

@@ -47,7 +47,8 @@
 	
 	<select id="selectCode" parameterType="String" resultType="CodeVO">
 		SELECT cd_id, cd_nm, cd_ord, up_cd_id, use_yn, inpt_id, inpt_dt, updt_id, updt_dt
-		FROM tb_code
+						 , (SELECT COUNT(*) FROM tb_code WHERE up_cd_id = a.cd_id) as child_cnt
+		FROM tb_code a
 		WHERE cd_id = #{cd_id}
 	</select>
 	
@@ -109,6 +110,17 @@
 			</foreach>
 		</if>
 		ORDER BY cd_ord ASC
+	</select>
+	
+	<select id="selectSubCodeList" parameterType="CodeTO" resultType="CodeVO">
+		SELECT a.cd_id, a.cd_nm, a.cd_ord, a.up_cd_id, a.cd_depth, a.inpt_id, b.user_name as inpt_nm, a.inpt_dt
+						, IF(a.use_yn = 'Y','사용','미사용') as use_yn
+		FROM tb_code a
+			LEFT OUTER JOIN tb_user b
+				ON a.inpt_id = b.user_id
+		WHERE a.up_cd_id = #{up_cd_id}
+		AND a.cd_depth = #{cd_depth}
+		ORDER BY a.cd_ord ASC
 	</select>
 	
 </mapper>
