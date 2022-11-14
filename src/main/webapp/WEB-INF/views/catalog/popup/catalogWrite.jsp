@@ -21,7 +21,7 @@
 				<div class="row text-center">
 					<div class="col bg-light">
 						<label for="file" id="file-label" class="custom-file custom-file-label mt5">파일 첨부하기</label>
-						<input type="file" id="file" class="custom-file-input" onchange="readURL(this);" style="display:none;"/>
+						<input type="file" name="file" id="file" class="custom-file-input" onchange="readURL(this);" style="display:none;"/>
 					</div>
 				</div>
 				<div class="row text-center">
@@ -38,13 +38,13 @@
 				</div>
 				<div class="row row-cols-3 border-bottom text-center">
 					<div class="col border-right">
-						<input type="text" id="vender_id" class="form-control mtb5" readonly="readonly"/>
+						<input type="text" name="vender_id" id="vender_id" class="form-control mtb5" readonly="readonly"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" id="model_id" class="form-control mtb5"/>
+						<input type="text" name="model_id" id="model_id" class="form-control mtb5"/>
 					</div>
 					<div class="col">
-						<input type="text" id="model_nm" class="form-control mtb5"/>
+						<input type="text" name="model_nm" id="model_nm" class="form-control mtb5"/>
 					</div>
 				</div>
 				<div class="row row-cols-3 border-bottom text-center">
@@ -54,18 +54,18 @@
 				</div>
 				<div class="row row-cols-3 border-bottom text-center">
 					<div class="col border-right">
-						<select id="" class="form-control mtb5">
-							<option value="stdd_material_cd">선택</option>
+						<select name="stdd_material_cd" id="stdd_material_cd" class="form-control mtb5">
+							<option value="">선택</option>
 							<c:forEach var="smlist" items="${smlist}">
 								<option value="${smlist.cdid}">${smlist.cdnm}</option>
 							</c:forEach>
 						</select>
 					</div>
 					<div class="col border-right">
-						<input type="text" id="stdd_weight" class="form-control mtb5" maxlength="10"/>
+						<input type="text" name="stdd_weight" id="stdd_weight" class="form-control mtb5" maxlength="10"/>
 					</div>
 					<div class="col">
-						<select id="stdd_color_cd" class="form-control mtb5">
+						<select name="stdd_color_cd" id="stdd_color_cd" class="form-control mtb5">
 							<option value="">선택</option>
 							<c:forEach var="smlist" items="${smlist}">
 								<option value="${smlist.cdid}">${smlist.cdnm}</option>
@@ -81,13 +81,13 @@
 				</div>
 				<div class="row row-cols-3 border-bottom text-center">
 					<div class="col border-right">
-						<input type="text" id="stdd_size" class="form-control mtb5" maxlength="20"/>
+						<input type="text" name="stdd_size" id="stdd_size" class="form-control mtb5" maxlength="20"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" id="odr_notice" class="form-control mtb5" maxlength="500"/>
+						<input type="text" name="odr_notice" id="odr_notice" class="form-control mtb5" maxlength="500"/>
 					</div>
 					<div class="col">
-						<input type="date" id="reg_dt" class="form-control mtb5" maxlength="10"/>
+						<input type="date" name="reg_dt" id="reg_dt" class="form-control mtb5" maxlength="10"/>
 					</div>
 				</div>
 				
@@ -102,16 +102,16 @@
 				</div>
 				<div class="row row-cols-4 border-bottom text-center">
 					<div class="col border-right">
-						<input type="text" id="basic_idst" class="form-control mtb5" maxlength="50"/>
+						<input type="text" name="basic_idst" id="basic_idst" class="form-control mtb5" maxlength="50"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" id="main_price" class="form-control mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="main_price" id="main_price" class="form-control mtb5" readonly="readonly" maxlength="10"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" id="sub_price" class="form-control mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="sub_price" id="sub_price" class="form-control mtb5" readonly="readonly" maxlength="10"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" id="total_price" class="form-control mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="total_price" id="total_price" class="form-control mtb5" readonly="readonly" maxlength="10"/>
 					</div>
 				</div>
 				<div class="table-responsive clearfix mt-3">
@@ -144,24 +144,24 @@
 								<tr>
 									<td class="text-center border-right">${idx}</td>
 									<td class="text-center border-right">
-										<select name="stone_type" id="stone_type" class="form-control mtb5">
+										<select name="stone_type_arr" id="stone_type_${idx}" class="form-control mtb5">
 											<option value="">선택</option>
 										</select>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="stone_nm" id="stone_nm" class="form-control mtb5" maxlength="50"/>
+										<input type="text" name="stone_nm_arr" id="stone_nm_${idx}" class="form-control mtb5" maxlength="50"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="bead_cnt" id="bead_cnt" class="form-control mtb5 beadcnt" min="0"/>
+										<input type="number" name="bead_cnt_arr" id="bead_cnt_${idx}" class="form-control mtb5 beadcnt" min="0"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="purchase_price" id="purchase_price" class="form-control mtb5 purchaseprice" min="0"/>
+										<input type="number" name="purchase_price_arr" id="purchase_price_${idx}" class="form-control mtb5 purchaseprice" min="0"/>
 									</td>
 									<td class="text-center border-right">
 										<input type="text" class="form-control mtb5 totalpurchaseprice" readonly="readonly"/>
 									</td>
 									<td class="text-center">
-										<input type="text" name="ston_desc" id="ston_desc" class="form-control mtb5" maxlength="500"/>
+										<input type="text" name="stone_desc_arr" id="ston_desc_${idx}" class="form-control mtb5" maxlength="500"/>
 									</td>
 								</tr>
 							</c:forEach>
@@ -250,44 +250,21 @@
 			  }
 			}
 			
-			function fncChangeBeadCnt(obj){
-				
-			}
-		
 			function fncSave(){
 				/* if( !isValid() ){
 					return false;
 				} */
 
 				const form = document.getElementById('form');
+				const writeForm = new FormData(form);
+				const payload = new URLSearchParams(writeForm);
 				
-				const payload = new FormData(form);
-				console.log([...payload]);
-				
-				
-				return;
-				const params = {
-						reg_dt : form.reg_dt.value,
-						store_cd : form.store_cd.value,
-						contract_cd : form.contract_cd.value,
-						contractor_nm : form.contractor_nm.value,
-						contractor_gen : form.contractor_gen.value,
-						contractor_cel : form.contractor_cel.value,
-						contractor_birth : form.contractor_birth.value,
-						contractor_lunar : form.contractor_lunar.value,
-						contractor_email : form.contractor_email.value,
-						zipcode : form.zipcode.value,
-						address1 : form.address1.value,
-						address2 : form.address2.value,
-						etc : form.etc.value
-				};
-				
-				fetch('/api/customer/write', {
+				fetch('/api/catalog/write', {
 					method: 'POST',
 					headers: {
-						'Content-Type': 'application/json',
+						'Content-Type': 'application/x-www-form-urlencoded'
 					},
-					body: JSON.stringify(params)
+					body: payload
 				}).then(response => {
 					if(!response.ok){
 						throw new Error('Request Failed...');
@@ -298,10 +275,6 @@
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
 				});
-			}
-			
-			function goList(){
-				location.href = '/code/list' + location.search;
 			}
 			
 			function fncClose(){

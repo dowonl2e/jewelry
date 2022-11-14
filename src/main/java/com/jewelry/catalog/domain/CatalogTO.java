@@ -22,6 +22,12 @@ public class CatalogTO extends CommonTO {
 	
 	private Integer searchvender;
 	
+	private String[] stone_type_arr;
+	private String[] stone_nm_arr;
+	private Integer[] bead_cnt_arr;
+	private String[] purchase_price_arr;
+	private String[] stone_desc_arr;
+	
 	public CatalogTO() {
 		this.recordcount = 16;
 	}
@@ -115,6 +121,36 @@ public class CatalogTO extends CommonTO {
 	}
 	public void setRecordcount(int recordcount) {
 		this.recordcount = recordcount;
+	}
+	public String[] getStone_type_arr() {
+		return stone_type_arr;
+	}
+	public void setStone_type_arr(String[] stone_type_arr) {
+		this.stone_type_arr = stone_type_arr;
+	}
+	public String[] getStone_nm_arr() {
+		return stone_nm_arr;
+	}
+	public void setStone_nm_arr(String[] stone_nm_arr) {
+		this.stone_nm_arr = stone_nm_arr;
+	}
+	public Integer[] getBead_cnt_arr() {
+		return bead_cnt_arr;
+	}
+	public void setBead_cnt_arr(Integer[] bead_cnt_arr) {
+		this.bead_cnt_arr = bead_cnt_arr;
+	}
+	public String[] getPurchase_price_arr() {
+		return purchase_price_arr;
+	}
+	public void setPurchase_price_arr(String[] purchase_price_arr) {
+		this.purchase_price_arr = purchase_price_arr;
+	}
+	public String[] getStone_desc_arr() {
+		return stone_desc_arr;
+	}
+	public void setStone_desc_arr(String[] stone_desc_arr) {
+		this.stone_desc_arr = stone_desc_arr;
 	}
 	
 }
