@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>고객관리</title>
+<script>
+	var minNumberLen = 1;
+	var maxNumberLen = 100;
+</script>
 </head>
 <body>
 	<!-- DataTales Example -->
@@ -252,10 +256,10 @@
 		
 		function fncCheckZero(obj){
 			if($(obj).val() != ''){
-				if(Number($(obj).val()) <= 0){
+				if(Number($(obj).val()) < minNumberLen){
 					$(obj).val('1');
 				}
-				if(Number($(obj).val()) > 100){
+				if(Number($(obj).val()) > maxNumberLen){
 					$(obj).val('100');
 				}
 			}

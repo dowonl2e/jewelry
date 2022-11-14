@@ -31,6 +31,15 @@
 	    </form>
 			<div class="table-responsive clearfix">
 				<table class="table table-hover">
+					<colgroup>
+						<col width="10%"/>
+						<col width="15%"/>
+						<col />
+						<col width="10%"/>
+						<col width="15%"/>
+						<col width="17%"/>
+						<col width="13%"/>
+					</colgroup>
 					<thead>
 						<tr>
 							<th class="text-center">번호</th>
