@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코드 추가</title>
+<title>고객 등록</title>
 </head>
 <body>
 	<!-- DataTales Example -->

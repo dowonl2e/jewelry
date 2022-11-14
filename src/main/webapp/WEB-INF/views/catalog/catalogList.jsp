@@ -1,51 +1,52 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/decorators/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>카다로그</title>
+<title>고객관리</title>
+<script>
+	var minNumberLen = 1;
+	var maxNumberLen = 100;
+</script>
 </head>
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">카다로그 현황</h6>
+			<h6 class="m-0 font-weight-bold text-primary">카다로그 관리</h6>
 		</div>
 		<div class="card-body">
-    	<form id="searchForm" onsubmit="return false;">
-				<div class="input-group mb20" id="adv-search">
-	        <select id="searchtype" class="form-control" style="width: 100px;">
-            <option value="">전체</option>
-            <option value="id">코드</option>
-            <option value="name">코드명</option>
-	        </select>
-	        <input type="text" id="searchword" class="form-control" placeholder="키워드를 입력해 주세요." style="width: 200px;" />
-		    <button type="button" onclick="findAll(0);" class="btn btn-primary">
-	        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
-		    </button>
+    	<form id="searchForm" onsubmit="return false;" class="border-bottom">
+				<div class="mb20" id="adv-search">
+					<div class="form-inline">
+						<select id="searchvender" class="form-control">
+	            <option value="">제조사구분</option>
+	            <option value="1">제조사1</option>
+	            <option value="2">제조사2</option>
+		        </select>
+		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
+			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
+				    </button>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">단독등록</a>
+					</div>
 				</div>
 	    </form>
-			<div class="table-responsive clearfix">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th class="text-center">번호</th>
-							<th class="text-center">코드</th>
-							<th class="text-center">코드명</th>
-							<th class="text-center">등록자</th>
-							<th class="text-center">등록일</th>
-						</tr>
-					</thead>
-					<tbody id="list"></tbody>
-				</table>
-				<div class="btn_wrap text-right">
-	    		<a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light">코드추가</a>
-	    	</div>
-				<nav aria-label="Page navigation" class="text-center">
-			    <ul class="pagination"></ul>
-				</nav>
+	    <div class="table-responsive clearfix text-center border-bottom" id="list">
+	    
 			</div>
+			
+			<div class="btn_wrap text-left mt-3">
+        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">가성주문</a>
+        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">고객주문</a>
+        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">재고등록</a>
+    	</div>
+    	
+			<nav aria-label="Page navigation" class="text-center">
+		    <ul class="pagination"></ul>
+			</nav>
 		</div>
 	</div>
 	
@@ -53,14 +54,21 @@
 		/**
 		 * 페이지 HTML 렌더링
 		 */
+		var codemap = {
+				<c:forEach var="code" items="${codelist}" varStatus="loop">
+				  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
+				</c:forEach>
+		};
+		
 		window.onload = () => {
 			setQueryStringParams();
 	    findAll();
 			addEnterSearchEvent();
 		}
-		 /**
-			 * 키워드 - 엔터 검색 이벤트 바인딩
-			 */
+		
+	  /**
+	 	  * 키워드 - 엔터 검색 이벤트 바인딩
+		  */
 		function addEnterSearchEvent() {
 			document.getElementById('searchword').addEventListener('keyup', (e) => {
 				if (e.keyCode === 13) {
@@ -120,9 +128,11 @@
 			
 			var params = {
 			  page: page
-				, searchtype: form.searchtype.value
+				, searchvender: form.searchvender.value
+				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
+			checkListNullParams(params);
 	
 			const queryString = new URLSearchParams(params).toString();
 			const replaceUri = location.pathname + '?' + queryString;
@@ -130,26 +140,46 @@
 			
 			getJson('/api/catalog/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="5" class="text-center">등록된 카다로그가 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<div class="row row-cols-1" style="line-height:80px;"><div class="col">등록된 카다로그가 없습니다.</div></div>';
 					drawPages();
 					return false;
 				}
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
+				
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
+     			if(idx%4 == 0){
+     				html += `<div class="row row-cols-4">`;
+     			}
      			html += `
-       				<tr>
-  						<td class="text-center">`+(num--)+`</td>
-  						<td class="text-center">`+obj.modelid+`</td>
-  						<td class="text-center bold">
-								<a href="`+viewUri+`">`+obj.modelnm+`</a>
-							</td>
-  						<td class="text-center">`+obj.stddmaterialcd+`(`+obj.inptid+`)</td>
-  						<td class="text-center">`+obj.stddweightcd+`</td>
-       				</tr>
-       			`;
+     				
+     		    	<div class="col text-center text-black">
+     		    		<div class="card bg-light shadow rounded">
+     		    			<div class="row row-cols-1">
+     		    				<div class="col mt5">a1</div>
+     		    			</div>
+     		    			<div class="row row-cols-1 mlr5">
+     		    				<div class="col text-center">
+     		    					<input type="checkbox" class="form-check-inline"/><label for="" class="form-label">모델명1</label>
+     		    				</div>
+     		    			</div>
+     		    			<div class="row mlr5">
+     		    				<div class="col text-left">a1</div>
+     		    				<div class="col text-right">a2</div>
+     		    			</div>
+     		    			<div class="row mlr5">
+     		    				<div class="col text-left">a3</div>
+     		    				<div class="col text-right">a4</div>
+     		    			</div>
+     		    		</div>
+     		    	</div>
+							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+checkNullVal(obj.customerno)+`"/></td>
+     			`;
+     			if(idx > 0 && idx%4 == 0){
+     				html += `</div>`;
+     			}
      		});
      		
 	
@@ -196,10 +226,33 @@
 		/**
 		 * 작성하기
 		 */
-		function goWrite() {
-	    location.href = '/code/write' + location.search;
+		function fncPopupWrite() {
+		  var url = "./popup/write";
+      var name = "catalogWritePopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+
+		/**
+		 * 수정하기
+		 */
+		function fncPopupModify(customerno) {
+		  var url = "./popup/modify/"+customerno;
+      var name = "customeModifyPopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
 		}
 		
+		function fncCheckZero(obj){
+			if($(obj).val() != ''){
+				if(Number($(obj).val()) < minNumberLen){
+					$(obj).val('1');
+				}
+				if(Number($(obj).val()) > maxNumberLen){
+					$(obj).val('100');
+				}
+			}
+		}
 	</script>
 </body>
 </html>

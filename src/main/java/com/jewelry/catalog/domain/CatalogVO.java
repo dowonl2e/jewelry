@@ -13,10 +13,13 @@ public class CatalogVO extends CommonVO {
 	private String modelid;
 	private String modelnm;
 	private String stddmaterialcd;
-	private String stddweightcd;
+	private String stddweight;
 	private String stddsize;
 	private String odrnotice;
 	private String regdt;
+	private String basicidst;
+	private String mainprice;
+	private String subprice;
 	private String delyn;
 
 	private String vendernm;
@@ -57,11 +60,11 @@ public class CatalogVO extends CommonVO {
 	public void setStddmaterialcd(String stddmaterialcd) {
 		this.stddmaterialcd = stddmaterialcd;
 	}
-	public String getStddweightcd() {
-		return stddweightcd;
+	public String getStddweight() {
+		return stddweight;
 	}
-	public void setStddweightcd(String stddweightcd) {
-		this.stddweightcd = stddweightcd;
+	public void setStddweight(String stddweight) {
+		this.stddweight = stddweight;
 	}
 	public String getStddsize() {
 		return stddsize;
@@ -92,6 +95,24 @@ public class CatalogVO extends CommonVO {
 	}
 	public void setVendernm(String vendernm) {
 		this.vendernm = vendernm;
+	}
+	public String getBasicidst() {
+		return basicidst;
+	}
+	public void setBasicidst(String basicidst) {
+		this.basicidst = basicidst;
+	}
+	public String getMainprice() {
+		return mainprice;
+	}
+	public void setMainprice(String mainprice) {
+		this.mainprice = mainprice;
+	}
+	public String getSubprice() {
+		return subprice;
+	}
+	public void setSubprice(String subprice) {
+		this.subprice = subprice;
 	}
 	
 	

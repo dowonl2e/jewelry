@@ -25,7 +25,9 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-				    <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
+				    <c:if test="${sessionScope.USER_INFO.username eq 'admin'}">
+					    <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
+				    </c:if>
 			    </div>
 				</div>
 	    </form>

@@ -17,6 +17,9 @@
 .mlr15 {margin-left:15px; margin-right:15px;}
 .mlr20 {margin-left:20px; margin-right:20px;}
 
+.mtb5 {margin-top: 5px; margin-bottom: 5px;}
+.mtb10 {margin-top: 10px; margin-bottom: 10px;}
+
 .m5 {margin: 5px;}
 .m10 {margin: 10px;}
 .m15 {margin: 15px;}
@@ -28,5 +31,10 @@
 .border-right { border-right: 2px solid #e3e6f0; }
 .border-top { border-top: 2px solid #e3e6f0; }
 .border-bottom { border-bottom: 2px solid #e3e6f0; }
+
+.border-1 { border: 1px solid #e3e6f0 !important; }
+
+.bg-light-grey { background: #f8f9fc; }
+.box-shadow { box-shadow: 2px 2px 2px 2px #dddddd; }
 
 .important {color: #e74a3b;}

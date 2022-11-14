@@ -9,13 +9,22 @@ public class CatalogTO extends CommonTO {
 	private String model_id;
 	private String model_nm;
 	private String stdd_material_cd;
-	private String stdd_weight_cd;
+	private String stdd_weight;
 	private String stdd_size;
 	private String odr_notice;
 	private String reg_dt;
+	private String basic_idst;
+	private String main_price;
+	private String sub_price;
 	private String del_yn;
 	
-	private String searchvenderid;
+	private int recordcount;
+	
+	private Integer searchvender;
+	
+	public CatalogTO() {
+		this.recordcount = 16;
+	}
 	
 	public Long getCatalog_no() {
 		return catalog_no;
@@ -47,11 +56,11 @@ public class CatalogTO extends CommonTO {
 	public void setStdd_material_cd(String stdd_material_cd) {
 		this.stdd_material_cd = stdd_material_cd;
 	}
-	public String getStdd_weight_cd() {
-		return stdd_weight_cd;
+	public String getStdd_weight() {
+		return stdd_weight;
 	}
-	public void setStdd_weight_cd(String stdd_weight_cd) {
-		this.stdd_weight_cd = stdd_weight_cd;
+	public void setStdd_weight(String stdd_weight) {
+		this.stdd_weight = stdd_weight;
 	}
 	public String getStdd_size() {
 		return stdd_size;
@@ -71,19 +80,41 @@ public class CatalogTO extends CommonTO {
 	public void setReg_dt(String reg_dt) {
 		this.reg_dt = reg_dt;
 	}
+	public String getBasic_idst() {
+		return basic_idst;
+	}
+	public void setBasic_idst(String basic_idst) {
+		this.basic_idst = basic_idst;
+	}
+	public String getMain_price() {
+		return main_price;
+	}
+	public void setMain_price(String main_price) {
+		this.main_price = main_price;
+	}
+	public String getSub_price() {
+		return sub_price;
+	}
+	public void setSub_price(String sub_price) {
+		this.sub_price = sub_price;
+	}
 	public String getDel_yn() {
 		return del_yn;
 	}
 	public void setDel_yn(String del_yn) {
 		this.del_yn = del_yn;
 	}
-	public String getSearchvenderid() {
-		return searchvenderid;
+	public Integer getSearchvender() {
+		return searchvender;
 	}
-	public void setSearchvenderid(String searchvenderid) {
-		this.searchvenderid = searchvenderid;
+	public void setSearchvender(Integer searchvender) {
+		this.searchvender = searchvender;
 	}
-	
-	
+	public int getRecordcount() {
+		return recordcount;
+	}
+	public void setRecordcount(int recordcount) {
+		this.recordcount = recordcount;
+	}
 	
 }
