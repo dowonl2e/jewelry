@@ -24,6 +24,10 @@ public class CatalogVO extends CommonVO {
 
 	private String vendernm;
 
+	private String filepath;
+	private String originnm;
+	private String filenm;
+	
 	public List<CatalogVO> getList() {
 		return list;
 	}
@@ -113,6 +117,24 @@ public class CatalogVO extends CommonVO {
 	}
 	public void setSubprice(String subprice) {
 		this.subprice = subprice;
+	}
+	public String getFilepath() {
+		return filepath;
+	}
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
+	}
+	public String getOriginnm() {
+		return originnm;
+	}
+	public void setOriginnm(String originnm) {
+		this.originnm = originnm;
+	}
+	public String getFilenm() {
+		return filenm;
+	}
+	public void setFilenm(String filenm) {
+		this.filenm = filenm;
 	}
 	
 	

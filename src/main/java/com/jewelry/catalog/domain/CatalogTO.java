@@ -1,21 +1,25 @@
 package com.jewelry.catalog.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.jewelry.common.domain.CommonTO;
 
 public class CatalogTO extends CommonTO {
 	
 	private Long catalog_no;
-	private Long vender_id;
+	private Long vender_no;
 	private String model_id;
 	private String model_nm;
 	private String stdd_material_cd;
 	private String stdd_weight;
+	private String stdd_color_cd;
 	private String stdd_size;
 	private String odr_notice;
 	private String reg_dt;
 	private String basic_idst;
 	private String main_price;
 	private String sub_price;
+	private String total_price;
 	private String del_yn;
 	
 	private int recordcount;
@@ -28,6 +32,8 @@ public class CatalogTO extends CommonTO {
 	private String[] purchase_price_arr;
 	private String[] stone_desc_arr;
 	
+	private MultipartFile catalogfile;
+	
 	public CatalogTO() {
 		this.recordcount = 16;
 	}
@@ -38,11 +44,11 @@ public class CatalogTO extends CommonTO {
 	public void setCatalog_no(Long catalog_no) {
 		this.catalog_no = catalog_no;
 	}
-	public Long getVender_id() {
-		return vender_id;
+	public Long getVender_no() {
+		return vender_no;
 	}
-	public void setVender_id(Long vender_id) {
-		this.vender_id = vender_id;
+	public void setVender_no(Long vender_no) {
+		this.vender_no = vender_no;
 	}
 	public String getModel_id() {
 		return model_id;
@@ -152,5 +158,26 @@ public class CatalogTO extends CommonTO {
 	public void setStone_desc_arr(String[] stone_desc_arr) {
 		this.stone_desc_arr = stone_desc_arr;
 	}
-	
+	public MultipartFile getCatalogfile() {
+		return catalogfile;
+	}
+	public void setCatalogfile(MultipartFile catalogfile) {
+		this.catalogfile = catalogfile;
+	}
+
+	public String getStdd_color_cd() {
+		return stdd_color_cd;
+	}
+
+	public void setStdd_color_cd(String stdd_color_cd) {
+		this.stdd_color_cd = stdd_color_cd;
+	}
+
+	public String getTotal_price() {
+		return total_price;
+	}
+
+	public void setTotal_price(String total_price) {
+		this.total_price = total_price;
+	}
 }

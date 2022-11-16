@@ -154,15 +154,21 @@
      				html += `<div class="row row-cols-4">`;
      			}
      			html += `
-     				
      		    	<div class="col text-center text-black">
-     		    		<div class="card bg-light shadow rounded">
+     		    		<div class="card bg-light shadow rounded m10">
      		    			<div class="row row-cols-1">
-     		    				<div class="col mt5">a1</div>
+     		    				<div class="col">
+     		    					<div class="m5 rounded">
+     		    						<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
+     		    							<img src="https://yourjewelrybucket.s3.ap-northeast-2.amazonaws.com/`+obj.filepath+`/`+obj.filenm+`" width="100%" style="height:200px;"/>
+     		    						</a>
+     		    					</div>
+     		    				</div>
      		    			</div>
-     		    			<div class="row row-cols-1 mlr5">
+     		    			<div class="row row-cols-1 mlr5 mt5">
      		    				<div class="col text-center">
-     		    					<input type="checkbox" class="form-check-inline"/><label for="" class="form-label">모델명1</label>
+     		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
+     		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">모델명1</label>
      		    				</div>
      		    			</div>
      		    			<div class="row mlr5">
@@ -175,14 +181,12 @@
      		    			</div>
      		    		</div>
      		    	</div>
-							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+checkNullVal(obj.customerno)+`"/></td>
      			`;
-     			if(idx > 0 && idx%4 == 0){
+     			if(idx > 0 && (idx+1)%4 == 0){
      				html += `</div>`;
      			}
      		});
      		
-	
 				document.getElementById('list').innerHTML = html;
 				drawPages(response.params);
 			});
@@ -232,13 +236,23 @@
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
-
+	
 		/**
 		 * 수정하기
 		 */
-		function fncPopupModify(customerno) {
-		  var url = "./popup/modify/"+customerno;
-      var name = "customeModifyPopup";
+		function fncPopupView(catalogno) {
+		  var url = "./popup/"+catalogno;
+      var name = "catalogViewPopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+		
+		/**
+		 * 수정하기
+		 */
+		function fncPopupModify(catalogno) {
+		  var url = "./popup/modify/"+catalogno;
+      var name = "catalogModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewelry.common.mapper.FileMapper">
+	
+	<insert id="insertFile" parameterType="FileTO">
+		INSERT INTO tb_file
+		(
+			inpt_id, inpt_dt
+			<if test='ref_no != null and ref_no > 0'>, ref_no</if>
+			<if test='ref_info != null and !ref_info.equals("")'>, ref_info</if>
+			<if test='file_path != null and !file_path.equals("")'>, file_path</if>
+			<if test='origin_nm != null and !origin_nm.equals("")'>, origin_nm</if>
+			<if test='file_nm != null and !file_nm.equals("")'>, file_nm</if>
+			<if test='file_ord != null and file_ord > 0'>, file_ord</if>
+			<if test='file_ext != null and !file_ext.equals("")'>, file_ext</if>
+			<if test='file_size != null and file_size > 0'>, file_size</if>
+			<if test='version_id != null and !version_id.equals("")'>, version_id</if>
+		)
+		VALUES
+		(
+			#{inpt_id}, NOW()
+			<if test='ref_no != null and ref_no > 0'>, #{ref_no}</if>
+			<if test='ref_info != null and !ref_info.equals("")'>, #{ref_info}</if>
+			<if test='file_path != null and !file_path.equals("")'>, #{file_path}</if>
+			<if test='origin_nm != null and !origin_nm.equals("")'>, #{origin_nm}</if>
+			<if test='file_nm != null and !file_nm.equals("")'>, #{file_nm}</if>
+			<if test='file_ord != null and file_ord > 0'>, #{file_ord}</if>
+			<if test='file_ext != null and !file_ext.equals("")'>, #{file_ext}</if>
+			<if test='file_size != null and file_size > 0'>, #{file_size}</if>
+			<if test='version_id != null and !version_id.equals("")'>, #{version_id}</if>
+		)
+	</insert>
+	
+	
+</mapper>

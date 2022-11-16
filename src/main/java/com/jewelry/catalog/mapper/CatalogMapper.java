@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.jewelry.catalog.domain.CatalogTO;
 import com.jewelry.catalog.domain.CatalogVO;
+import com.jewelry.catalog.domain.StoneTO;
 
 @Mapper
 public interface CatalogMapper {
@@ -16,9 +17,11 @@ public interface CatalogMapper {
 	
 	CatalogVO selectCatalog(Long catalogid);
 	
-	int insertCode(CatalogTO to);
+	int insertCatalog(CatalogTO to) throws Exception;
 	
-	int updateCode(CatalogTO to);
+	int insertStone(List<StoneTO> list) throws Exception;
+	
+	int updateCatalog(CatalogTO to);
 	
 	int updateCatalogDelete(Long catalogid);
 }
