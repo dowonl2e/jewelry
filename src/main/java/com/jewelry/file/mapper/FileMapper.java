@@ -1,12 +1,15 @@
-package com.jewelry.common.mapper;
+package com.jewelry.file.mapper;
+
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.jewelry.common.s3.domain.FileTO;
+import com.jewelry.file.domain.FileTO;
+import com.jewelry.file.domain.FileVO;
 
 @Mapper
 public interface FileMapper {
-	
+
 	Long insertFile(FileTO to) throws Exception;
 	
 	int updateFile(FileTO to);
@@ -14,4 +17,6 @@ public interface FileMapper {
 	int updateFileToDelete(FileTO to);
 	
 	int updateFileToDeleteWithRef(FileTO to);
+	
+	List<FileVO> selectFileListByRefInfo(FileTO to);
 }

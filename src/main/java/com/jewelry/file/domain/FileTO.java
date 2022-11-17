@@ -1,8 +1,6 @@
-package com.jewelry.common.s3.domain;
+package com.jewelry.file.domain;
 
-import com.jewelry.common.domain.CommonTO;
-
-public class FileTO extends CommonTO {
+public class FileTO {
 
 	private Long file_no;
 	private Long ref_no;
@@ -15,6 +13,15 @@ public class FileTO extends CommonTO {
 	private Long file_size;
 	private String version_id;
 	private String del_yn;
+	private String inpt_id;
+	private String updt_id;
+	
+	public FileTO() {}
+	
+	public FileTO(Long ref_no, String ref_info) {
+		this.ref_no = ref_no;
+		this.ref_info = ref_info;
+	}
 	
 	public Long getFile_no() {
 		return file_no;
@@ -81,6 +88,18 @@ public class FileTO extends CommonTO {
 	}
 	public void setVersion_id(String version_id) {
 		this.version_id = version_id;
+	}
+	public String getInpt_id() {
+		return inpt_id;
+	}
+	public void setInpt_id(String inpt_id) {
+		this.inpt_id = inpt_id;
+	}
+	public String getUpdt_id() {
+		return updt_id;
+	}
+	public void setUpdt_id(String updt_id) {
+		this.updt_id = updt_id;
 	}
 	
 }

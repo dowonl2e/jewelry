@@ -1,4 +1,4 @@
-package com.jewelry.common.s3.service.impl;
+package com.jewelry.file.service.impl;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,13 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
-import com.jewelry.common.s3.domain.FileTO;
-import com.jewelry.common.s3.service.AmazonS3Service;
+import com.jewelry.file.domain.FileTO;
+import com.jewelry.file.service.AmazonS3Service;
 
 @Service
 public class AmazonS3ServiceImpl implements AmazonS3Service {

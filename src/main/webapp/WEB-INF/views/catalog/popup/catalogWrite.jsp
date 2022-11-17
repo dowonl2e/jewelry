@@ -36,7 +36,8 @@
 				</div>
 				<div class="row row-cols-3 border-bottom text-center">
 					<div class="col border-right">
-						<input type="text" name="vender_no" id="vender_no" class="form-control form-data mtb5" readonly="readonly"/>
+						<input type="hidden" name="vender_no" id="vender_no" class="form-data"/>
+						<input type="text" id="vender_nm" class="form-control mtb5" readonly="readonly"/>
 					</div>
 					<div class="col border-right">
 						<input type="text" name="model_id" id="model_id" class="form-control form-data mtb5"/>
@@ -103,13 +104,13 @@
 						<input type="text" name="basic_idst" id="basic_idst" class="form-control form-data mtb5" maxlength="50"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="main_price" id="main_price" class="form-control form-data mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="main_price" id="main_price" class="form-control form-data mtb5" maxlength="10"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="sub_price" id="sub_price" class="form-control form-data mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="sub_price" id="sub_price" class="form-control form-data mtb5" maxlength="10"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" maxlength="10"/>
 					</div>
 				</div>
 				<div class="table-responsive clearfix mt-3">
@@ -138,11 +139,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="idx" begin="1" end="5">
+							<c:forEach var="idx" begin="1" end="10">
 								<tr>
 									<td class="text-center border-right">${idx}</td>
 									<td class="text-center border-right">
-										<select name="stone_type_arr" id="stone_type_${idx}" class="form-control mtb5">
+										<select name="stone_type_cd_arr" id="stone_type_cd_${idx}" class="form-control mtb5">
 											<option value="">선택</option>
 											<c:forEach var="ttlist" items="${ttlist}">
 												<option value="${ttlist.cdid}">${ttlist.cdnm}</option>
@@ -255,6 +256,19 @@
 				/* if( !isValid() ){
 					return false;
 				} */
+				
+				/* if($("#vender_no").val() == ''){
+					alert('제조사를 선택해주세요.');
+					$("#vender_nm").focus();
+					return false;
+				} */
+				
+				if($("#model_id").val() == ''){
+					alert('모델번호를 입력해주세요.');
+					$("#model_id").focus();
+					return false;
+				}
+
 				const fileField = document.querySelector('input[type="file"]');
 				const form = document.getElementById('form');
 				const writeForm = new FormData(form);
@@ -263,8 +277,8 @@
 				$(".form-data").each(function(){
 					formData.append($(this).attr("name"), checkNullVal($(this).val()));
 				});
-				$("select[name=stone_type_arr]").each(function(){
-					formData.append("stone_type_arr[]", checkNullVal($(this).val()));
+				$("select[name=stone_type_cd_arr]").each(function(){
+					formData.append("stone_type_cd_arr[]", checkNullVal($(this).val()));
 				});
 				$("input[name=stone_nm_arr]").each(function(){
 					formData.append("stone_nm_arr[]", checkNullVal($(this).val()));

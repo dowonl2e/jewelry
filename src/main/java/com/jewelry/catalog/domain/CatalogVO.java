@@ -3,17 +3,19 @@ package com.jewelry.catalog.domain;
 import java.util.List;
 
 import com.jewelry.common.domain.CommonVO;
+import com.jewelry.file.domain.FileVO;
 
 public class CatalogVO extends CommonVO {
 
 	private List<CatalogVO> list;
 	
 	private Long catalogno;
-	private Long venderid;
+	private Long venderno;
 	private String modelid;
 	private String modelnm;
 	private String stddmaterialcd;
 	private String stddweight;
+	private String stddcolorcd;
 	private String stddsize;
 	private String odrnotice;
 	private String regdt;
@@ -28,6 +30,9 @@ public class CatalogVO extends CommonVO {
 	private String originnm;
 	private String filenm;
 	
+	private List<FileVO> filelist;
+	private List<StoneVO> stonelist;
+	
 	public List<CatalogVO> getList() {
 		return list;
 	}
@@ -40,11 +45,11 @@ public class CatalogVO extends CommonVO {
 	public void setCatalogno(Long catalogno) {
 		this.catalogno = catalogno;
 	}
-	public Long getVenderid() {
-		return venderid;
+	public Long getVenderno() {
+		return venderno;
 	}
-	public void setVenderid(Long venderid) {
-		this.venderid = venderid;
+	public void setVenderno(Long venderno) {
+		this.venderno = venderno;
 	}
 	public String getModelid() {
 		return modelid;
@@ -69,6 +74,12 @@ public class CatalogVO extends CommonVO {
 	}
 	public void setStddweight(String stddweight) {
 		this.stddweight = stddweight;
+	}
+	public String getStddcolorcd() {
+		return stddcolorcd;
+	}
+	public void setStddcolorcd(String stddcolorcd) {
+		this.stddcolorcd = stddcolorcd;
 	}
 	public String getStddsize() {
 		return stddsize;
@@ -136,6 +147,17 @@ public class CatalogVO extends CommonVO {
 	public void setFilenm(String filenm) {
 		this.filenm = filenm;
 	}
-	
+	public List<StoneVO> getStonelist() {
+		return stonelist;
+	}
+	public void setStonelist(List<StoneVO> stonelist) {
+		this.stonelist = stonelist;
+	}
+	public List<FileVO> getFilelist() {
+		return filelist;
+	}
+	public void setFilelist(List<FileVO> filelist) {
+		this.filelist = filelist;
+	}
 	
 }

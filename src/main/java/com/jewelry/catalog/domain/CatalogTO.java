@@ -26,7 +26,7 @@ public class CatalogTO extends CommonTO {
 	
 	private Integer searchvender;
 	
-	private String[] stone_type_arr;
+	private String[] stone_type_cd_arr;
 	private String[] stone_nm_arr;
 	private Integer[] bead_cnt_arr;
 	private String[] purchase_price_arr;
@@ -128,11 +128,11 @@ public class CatalogTO extends CommonTO {
 	public void setRecordcount(int recordcount) {
 		this.recordcount = recordcount;
 	}
-	public String[] getStone_type_arr() {
-		return stone_type_arr;
+	public String[] getStone_type_cd_arr() {
+		return stone_type_cd_arr;
 	}
-	public void setStone_type_arr(String[] stone_type_arr) {
-		this.stone_type_arr = stone_type_arr;
+	public void setStone_type_cd_arr(String[] stone_type_cd_arr) {
+		this.stone_type_cd_arr = stone_type_cd_arr;
 	}
 	public String[] getStone_nm_arr() {
 		return stone_nm_arr;

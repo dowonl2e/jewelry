@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jewelry.common.mapper.FileMapper">
+<mapper namespace="com.jewelry.file.mapper.FileMapper">
 	
 	<insert id="insertFile" parameterType="FileTO">
 		INSERT INTO tb_file
@@ -31,5 +31,21 @@
 		)
 	</insert>
 	
+	<select id="selectFileListByRefInfo" parameterType="FileTO" resultType="FileVO">
+		SELECT file_no, file_path, origin_nm, file_nm, file_ord, file_ext
+		FROM tb_file
+		WHERE ref_no = #{ref_no}
+		AND ref_info = #{ref_info}
+		AND del_yn = 'N'
+		ORDER BY file_ord ASC
+	</select>
 	
+	<update id="updateFileToDeleteWithRef" parameterType="FileTO">
+		UPDATE tb_file
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, del_yn = 'Y'
+		WHERE ref_no = #{ref_no}
+		AND ref_info = #{ref_info}
+	</update>
 </mapper>

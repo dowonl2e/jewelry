@@ -36,7 +36,8 @@
 				</div>
 				<div class="row row-cols-3 border-bottom text-center">
 					<div class="col border-right">
-						<input type="text" name="vender_no" id="vender_no" class="form-control form-data mtb5" readonly="readonly"/>
+						<input type="hidden" name="vender_no" id="vender_no" class="form-data"/>
+						<input type="text" name="vender_nm" id="vender_nm" class="form-control mtb5" readonly="readonly"/>
 					</div>
 					<div class="col border-right">
 						<input type="text" name="model_id" id="model_id" class="form-control form-data mtb5"/>
@@ -103,13 +104,13 @@
 						<input type="text" name="basic_idst" id="basic_idst" class="form-control form-data mtb5" maxlength="50"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="main_price" id="main_price" class="form-control form-data mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="main_price" id="main_price" class="form-control form-data mtb5" maxlength="10"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="sub_price" id="sub_price" class="form-control form-data mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="sub_price" id="sub_price" class="form-control form-data mtb5" maxlength="10"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" readonly="readonly" maxlength="10"/>
+						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" maxlength="10"/>
 					</div>
 				</div>
 				<div class="table-responsive clearfix mt-3">
@@ -137,48 +138,13 @@
 								<th class="text-center">스톤설명</th>
 							</tr>
 						</thead>
-						<tbody>
-							<c:forEach var="idx" begin="1" end="5">
-								<tr>
-									<td class="text-center border-right">${idx}</td>
-									<td class="text-center border-right">
-										<select name="stone_type_arr" id="stone_type_${idx}" class="form-control mtb5">
-											<option value="">선택</option>
-											<c:forEach var="ttlist" items="${ttlist}">
-												<option value="${ttlist.cdid}">${ttlist.cdnm}</option>
-											</c:forEach>
-										</select>
-									</td>
-									<td class="text-center border-right">
-										<input type="text" name="stone_nm_arr" id="stone_nm_${idx}" class="form-control mtb5" maxlength="50"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="number" name="bead_cnt_arr" id="bead_cnt_${idx}" class="form-control mtb5 beadcnt" min="0"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="number" name="purchase_price_arr" id="purchase_price_${idx}" class="form-control mtb5 purchaseprice" min="0"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="text" class="form-control mtb5 totalpurchaseprice" readonly="readonly"/>
-									</td>
-									<td class="text-center">
-										<input type="text" name="stone_desc_arr" id="ston_desc_${idx}" class="form-control mtb5" maxlength="500"/>
-									</td>
-								</tr>
-							</c:forEach>
-							<tr>
-								<td colspan="3" class="text-right border-right border-bottom">소계</td>
-								<td id="total_bead_cnt_txt" class="bg-yellow text-center border-right border-bottom"></td>
-								<td class="border-right border-bottom"></td>
-								<td id="total_price_txt" class="bg-yellow text-center border-right border-bottom"></td>
-								<td class="border-bottom"></td>
-							</tr>
+						<tbody id="stonelist">
 						</tbody>
 					</table>
 				</div>
 
 				<div class="btn_wrap text-center">
-	        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
+	        <a href="javascript: void(0);" onclick="fncModify(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
 	        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 	    	</div>
 				<nav aria-label="Page navigation" class="text-center">
@@ -191,6 +157,251 @@
 	<script>
 		/*<![CDATA[*/
 			$(document).ready(function(){
+				find();
+			});
+		
+			function find() {
+				
+				const catalogno = '${catalogno}';
+				if ( !catalogno ) {
+		    	return false;
+		    }
+				
+				fetch(`/api/catalog/${catalogno}`).then(response => {
+		    	if (!response.ok) {
+						throw new Error('Request failed...');
+			    }
+		    	return response.json();
+		
+		   	}).then(json => {
+		   		const form = document.getElementById('form');
+		   		var filelist = json.filelist;
+		   		var filepath = '';
+		   		var filenm = '';
+		   		
+		   		if(filelist != null && filelist.length > 0){
+			   		for(var i = 0 ; i < filelist.length ; i++){
+			   			if(filelist[i].fileord == 1){
+			   				filepath = checkNullVal(filelist[i].filepath);
+			   				filenm = checkNullVal(filelist[i].filenm);
+			   			}
+			   		}
+		   		}
+		   		form.preview.src = 'https://yourjewelrybucket.s3.ap-northeast-2.amazonaws.com/'+filepath+'/'+filenm;
+		   		form.vender_no.value = checkNullVal(json.venderno);
+		   		form.vender_nm.value = checkNullVal(json.vendernm);
+		   		form.model_id.value = checkNullVal(json.modelid);
+		   		form.model_nm.value = checkNullVal(json.modelnm);
+		   		form.stdd_material_cd.value = checkNullVal(json.stddmaterialcd);
+		   		form.stdd_weight.value = checkNullVal(json.stddweight);
+		   		form.stdd_color_cd.value = checkNullVal(json.stddcolorcd);
+		   		form.stdd_size.value = checkNullVal(json.stddsize);
+		   		form.odr_notice.value = checkNullVal(json.odrnotice);
+		   		form.reg_dt.value = checkSubstringNullVal(json.regdt,0,10);
+		   		form.basic_idst.value = checkNullVal(json.basicidst);
+		   		form.main_price.value = checkNullVal(json.mainprice);
+		   		form.sub_price.value = checkNullVal(json.subprice);
+		   		form.total_price.value = checkNullVal(json.totalprice);
+		   		
+		   		var stonelist = json.stonelist;
+		   		var html = ``;
+		   		if(stonelist == null || stonelist.length == 0){
+		   			for(var i = 1 ; i <= 5 ; i++){
+			   			html += `
+								<tr>
+									<td class="text-center border-right">`+i+`</td>
+									<td class="text-center border-right">
+										<select name="stone_type_cd_arr" id="stone_type_cd_`+i+`" class="form-control mtb5">
+											<option value="">선택</option>
+											<c:forEach var="ttlist" items="${ttlist}">
+												<option value="${ttlist.cdid}">${ttlist.cdnm}</option>
+											</c:forEach>
+										</select>
+									</td>
+									<td class="text-center border-right">
+										<input type="text" name="stone_nm_arr" id="stone_nm_`+i+`" class="form-control mtb5" maxlength="50"/>
+									</td>
+									<td class="text-center border-right">
+										<input type="number" name="bead_cnt_arr" id="bead_cnt_`+i+`" class="form-control mtb5 beadcnt" min="0"/>
+									</td>
+									<td class="text-center border-right">
+										<input type="number" name="purchase_price_arr" id="purchase_price_`+i+`" class="form-control mtb5 purchaseprice" min="0"/>
+									</td>
+									<td class="text-center border-right">
+										<input type="text" class="form-control mtb5 totalpurchaseprice" readonly="readonly"/>
+									</td>
+									<td class="text-center">
+										<input type="text" name="stone_desc_arr" id="ston_desc_`+i+`" class="form-control mtb5" maxlength="500"/>
+									</td>
+								</tr>
+							`;
+		   			}
+		   			html += `
+							<tr>
+								<td colspan="3" class="text-right border-right border-bottom">소계</td>
+								<td id="total_bead_cnt_txt" class="bg-yellow text-center border-right border-bottom"></td>
+								<td class="border-right border-bottom"></td>
+								<td id="total_price_txt" class="bg-yellow text-center border-right border-bottom"></td>
+								<td class="border-bottom"></td>
+							</tr>
+		   			`;
+		   		}
+		   		else {
+						
+		   			var total_bead_cnt = 0;
+		   			var total_purchase_price = 0;
+			   		for(var i = 0 ; i < 10 ; i++){
+			   			if(i <= stonelist.length-1){
+				   			bead_cnt = Number(stonelist[i].beadcnt);
+				   			purchase_price_sum = (Number(stonelist[i].beadcnt)*Number(stonelist[i].purchaseprice));
+				   			html += `
+				   				<tr>
+										<td class="text-center border-right">`+(i+1)+`</td>
+										<td class="text-center border-right">
+											<select name="stone_type_cd_arr" class="form-control mtb5">
+												<option value="">선택</option>
+													<c:forEach var="ttlist" items="${ttlist}">
+								`;
+								stone_type_cd_check = '';
+								if(checkNullVal(stonelist[i].stonetypecd) != '' && '${ttlist.cdid}' == checkNullVal(stonelist[i].stonetypecd)){
+									stone_type_cd_check = 'selected';
+								}
+								html += `
+													<option value="${ttlist.cdid}" `+stone_type_cd_check+`>${ttlist.cdnm}</option>
+												</c:forEach>
+											</select>
+										</td>
+										<td class="text-center border-right">
+											<input type="text" name="stone_nm_arr" class="form-control mtb5" value="`+checkNullVal(stonelist[i].stonenm)+`" maxlength="50"/>
+										</td>
+										<td class="text-center border-right">
+											<input type="number" name="bead_cnt_arr" class="form-control mtb5 beadcnt" value="`+checkNullVal(bead_cnt)+`" min="0"/>
+										</td>
+										<td class="text-center border-right">
+											<input type="number" name="purchase_price_arr" class="form-control mtb5 purchaseprice" value="`+checkNullVal(stonelist[i].purchaseprice)+`" min="0"/>
+										</td>
+										<td class="text-center border-right">
+											<input type="text" class="form-control mtb5 totalpurchaseprice" value="`+purchase_price_sum+`" readonly="readonly"/>
+										</td>
+										<td class="text-center">
+											<input type="text" name="stone_desc_arr" class="form-control mtb5" value="`+checkNullVal(stonelist[i].stonedesc)+`" maxlength="500"/>
+										</td>
+									</tr>
+				   			`;
+				   			total_bead_cnt += bead_cnt;
+				   			total_purchase_price += purchase_price_sum;
+			   			}
+			   			else {
+			   				html += `
+				   				<tr>
+										<td class="text-center border-right">`+(i+1)+`</td>
+										<td class="text-center border-right">
+											<select name="stone_type_cd_arr" id="stone_type_cd_`+i+`" class="form-control mtb5">
+												<option value="">선택</option>
+												<c:forEach var="ttlist" items="${ttlist}">
+													<option value="${ttlist.cdid}">${ttlist.cdnm}</option>
+												</c:forEach>
+											</select>
+										</td>
+										<td class="text-center border-right">
+											<input type="text" name="stone_nm_arr" id="stone_nm_`+i+`" class="form-control mtb5" maxlength="50"/>
+										</td>
+										<td class="text-center border-right">
+											<input type="number" name="bead_cnt_arr" id="bead_cnt_`+i+`" class="form-control mtb5 beadcnt" min="0"/>
+										</td>
+										<td class="text-center border-right">
+											<input type="number" name="purchase_price_arr" id="purchase_price_`+i+`" class="form-control mtb5 purchaseprice" min="0"/>
+										</td>
+										<td class="text-center border-right">
+											<input type="text" class="form-control mtb5 totalpurchaseprice" readonly="readonly"/>
+										</td>
+										<td class="text-center">
+											<input type="text" name="stone_desc_arr" id="ston_desc_`+i+`" class="form-control mtb5" maxlength="500"/>
+										</td>
+									</tr>
+								`;
+			   			}
+			   		}
+			   		html += `
+							<tr>
+								<td colspan="3" class="text-right border-right border-bottom">소계</td>
+								<td id="total_bead_cnt_txt" class="bg-yellow text-center border-right border-bottom">`+(total_bead_cnt == 0 ? '' : total_bead_cnt)+`</td>
+								<td class="border-right border-bottom"></td>
+								<td id="total_price_txt" class="bg-yellow text-center border-right border-bottom">`+(total_purchase_price == 0 ? '' : total_purchase_price)+`</td>
+								<td class="border-bottom"></td>
+							</tr>
+			   		`;
+		   		}
+		   		document.getElementById('stonelist').innerHTML = html;
+		   		addStoneListener();
+		   		
+		   	}).catch(error => {
+		    	alert('카다로그 정보를 찾을 수 없습니다.');
+		    	/* fncParentRefresh();
+		    	fncClose(); */
+		   	});
+			}
+				
+			function readURL(obj) {
+			  if (obj.files && obj.files[0]) {
+			    var reader = new FileReader();
+			    reader.onload = function(e) {
+			      document.getElementById('preview').src = e.target.result;
+			    };
+			    reader.readAsDataURL(obj.files[0]);
+			    document.getElementById('file-label').innerHTML = obj.files[0].name;
+			  } else {
+			    document.getElementById('preview').src = "";
+			    document.getElementById('file-label').innerHTML = '파일 첨부하기';
+			  }
+			}
+
+			function fncModify(){
+				/* if( !isValid() ){
+					return false;
+				} */
+				const fileField = document.querySelector('input[type="file"]');
+				const form = document.getElementById('form');
+				const writeForm = new FormData(form);
+
+				const formData = new FormData();
+				$(".form-data").each(function(){
+					formData.append($(this).attr("name"), checkNullVal($(this).val()));
+				});
+				$("select[name=stone_type_cd_arr]").each(function(){
+					formData.append("stone_type_cd_arr[]", checkNullVal($(this).val()));
+				});
+				$("input[name=stone_nm_arr]").each(function(){
+					formData.append("stone_nm_arr[]", checkNullVal($(this).val()));
+				});
+				$("input[name=bead_cnt_arr]").each(function(){
+					formData.append("bead_cnt_arr[]", checkNullVal($(this).val()));
+				});
+				$("input[name=purchase_price_arr]").each(function(){
+					formData.append("purchase_price_arr[]", checkNullVal($(this).val()));
+				});
+				$("input[name=stone_desc_arr]").each(function(){
+					formData.append("stone_desc_arr[]", checkNullVal($(this).val()));
+				});
+				//배열 데이터 넣기
+				formData.append("file", fileField.files[0]);
+								
+				fetch('/api/catalog/modify/${catalogno}', {
+					method: 'PATCH',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('수정되었습니다.');
+					window.opener.findAll();
+					fncClose();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
+			
+			function addStoneListener(){
 				$('.beadcnt').on('change keyup', function() {
 					
 					$("#total_bead_cnt").text('');
@@ -234,66 +445,10 @@
 					});
 					$("#total_price_txt").text(totalprice == 0 ? '' : (totalprice+''));
 		    });
-				
-			});
-				
-			function readURL(obj) {
-			  if (obj.files && obj.files[0]) {
-			    var reader = new FileReader();
-			    reader.onload = function(e) {
-			      document.getElementById('preview').src = e.target.result;
-			    };
-			    reader.readAsDataURL(obj.files[0]);
-			    document.getElementById('file-label').innerHTML = obj.files[0].name;
-			  } else {
-			    document.getElementById('preview').src = "";
-			    document.getElementById('file-label').innerHTML = '파일 첨부하기';
-			  }
 			}
-
-			function fncSave(){
-				/* if( !isValid() ){
-					return false;
-				} */
-				const fileField = document.querySelector('input[type="file"]');
-				const form = document.getElementById('form');
-				const writeForm = new FormData(form);
-
-				const formData = new FormData();
-				$(".form-data").each(function(){
-					formData.append($(this).attr("name"), checkNullVal($(this).val()));
-				});
-				$("select[name=stone_type_arr]").each(function(){
-					formData.append("stone_type_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=stone_nm_arr]").each(function(){
-					formData.append("stone_nm_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=bead_cnt_arr]").each(function(){
-					formData.append("bead_cnt_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=purchase_price_arr]").each(function(){
-					formData.append("purchase_price_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=stone_desc_arr]").each(function(){
-					formData.append("stone_desc_arr[]", checkNullVal($(this).val()));
-				});
-				//배열 데이터 넣기
-				formData.append("file", fileField.files[0]);
-								
-				fetch('/api/catalog/write', {
-					method: 'POST',
-					body: formData
-				}).then(response => {
-					if(!response.ok){
-						throw new Error('Request Failed...');
-					}
-					alert('저장되었습니다.');
-					window.opener.findAll();
-					fncClose();
-				}).catch(error => {
-					alert('오류가 발생하였습니다.');
-				});
+			
+			function fncParentRefresh(){
+				window.opener.findAll();
 			}
 			
 			function fncClose(){

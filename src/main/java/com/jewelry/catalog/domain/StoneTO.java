@@ -4,7 +4,7 @@ public class StoneTO {
 	
 	private Long stone_no;
 	private Long catalog_no;
-	private String stone_type;
+	private String stone_type_cd;
 	private String stone_nm;
 	private Integer bead_cnt;
 	private String purchase_price;
@@ -24,11 +24,11 @@ public class StoneTO {
 	public void setCatalog_no(Long catalog_no) {
 		this.catalog_no = catalog_no;
 	}
-	public String getStone_type() {
-		return stone_type;
+	public String getStone_type_cd() {
+		return stone_type_cd;
 	}
-	public void setStone_type(String stone_type) {
-		this.stone_type = stone_type;
+	public void setStone_type_cd(String stone_type_cd) {
+		this.stone_type_cd = stone_type_cd;
 	}
 	public String getStone_nm() {
 		return stone_nm;

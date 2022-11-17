@@ -1,6 +1,6 @@
 create table tb_catalog (
 	catalog_no BIGINT NOT NULL AUTO_INCREMENT comment 'PK',
-    vender_id BIGINT comment '제조사FK',
+    vender_no BIGINT comment '제조사FK',
     model_id varchar(100) not null comment '모델번호',
     model_nm varchar(200) comment '품명',
     stdd_material_cd varchar(20) comment '표준재질',

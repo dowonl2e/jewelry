@@ -33,7 +33,17 @@ public class CatalogPageController {
 	@GetMapping("/popup/{catalogno}")
 	public String popupWrite(@PathVariable final Long catalogno, ModelMap model) {
 		model.addAttribute("catalogno", catalogno);
-		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"SM","CD","TT"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"SM","SC","TT"}, 2));
 		return "catalog/popup/catalogView";
+	}
+	
+
+	@GetMapping("/popup/modify/{catalogno}")
+	public String popupModify(@PathVariable final Long catalogno, ModelMap model) {
+		model.addAttribute("catalogno", catalogno);
+		model.addAttribute("ttlist", codeService.findAllByUpCdId("TT", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
+		return "catalog/popup/catalogModify";
 	}
 }

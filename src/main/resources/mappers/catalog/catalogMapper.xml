@@ -4,7 +4,7 @@
 
 	<sql id="catalog-search">
 		<if test='searchvender != null and searchvender > 0'>
-			AND a.vender_id = #{searchvender}
+			AND a.vender_no = #{searchvender}
 		</if>
 		<!-- 검색 키워드가 있을 때 -->
 		<if test='searchword != null and !searchword.equals("")'>
@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id="selectCatalogList" parameterType="CatalogTO" resultType="CatalogVO">
-		SELECT a.catalog_no, a.vender_id, a.model_id, a.model_nm, a.stdd_size, a.stdd_weight, a.stdd_material_cd, a.stdd_size
+		SELECT a.catalog_no, a.vender_no, a.model_id, a.model_nm, a.stdd_size, a.stdd_weight, a.stdd_material_cd
 						, b.file_path, b.origin_nm, b.file_nm
 		FROM tb_catalog a
 			LEFT OUTER JOIN tb_file b
@@ -55,7 +55,7 @@
 		INSERT INTO tb_catalog 
 		(
 			inpt_id, inpt_dt
-			<if test='vender_no != null and vender_no > 0'>, ref_id</if>
+			<if test='vender_no != null and vender_no > 0'>, vender_no</if>
 			<if test='model_id != null and !model_id.equals("")'>, model_id</if>
 			<if test='model_nm != null and !model_nm.equals("")'>, model_nm</if>
 			<if test='stdd_material_cd != null and !stdd_material_cd.equals("")'>, stdd_material_cd</if>
@@ -90,10 +90,60 @@
 	
 	<insert id="insertStone" parameterType="List">
 		INSERT INTO tb_catalog_stone
-		(inpt_id, inpt_dt, catalog_no, stone_type, stone_nm, bead_cnt, purchase_price, stone_desc)
-		values 
+		(inpt_id, inpt_dt, catalog_no, stone_type_cd, stone_nm, bead_cnt, purchase_price, stone_desc)
+		VALUES 
 		<foreach collection="list" item="item" separator=" , ">
-			(#{item.inpt_id}, NOW(), #{item.catalog_no}, #{item.stone_type}, #{item.stone_nm}, #{item.bead_cnt}, #{item.purchase_price}, #{item.stone_desc})
+			(#{item.inpt_id}, NOW(), #{item.catalog_no}, #{item.stone_type_cd}, #{item.stone_nm}, #{item.bead_cnt}, #{item.purchase_price}, #{item.stone_desc})
 		</foreach>
 	</insert>
+	
+	<select id="selectCatalog" parameterType="Long" resultType="CatalogVO">
+		SELECT a.catalog_no, a.vender_no, a.model_id, a.model_nm
+						, a.stdd_material_cd, a.stdd_weight, a.stdd_color_cd, a.stdd_size
+						, a.odr_notice, a.reg_dt, a.basic_idst, a.main_price, a.sub_price
+						, a.total_price
+						, b.vender_nm
+		FROM tb_catalog a
+			LEFT OUTER JOIN tb_vender b
+				ON a.vender_no = b.vender_no
+		WHERE a.catalog_no = #{catalog_no}
+	</select>
+	
+	<select id="selectStoneListByCatalogNo" parameterType="Long" resultType="StoneVO">
+		SELECT stone_no, catalog_no, stone_type_cd, stone_nm, bead_cnt, purchase_price, stone_desc
+		FROM tb_catalog_stone
+		WHERE catalog_no = #{catalog_no}
+		ORDER BY stone_no ASC
+	</select>
+	
+	<update id="updateCatalog" parameterType="CatalogTO">
+		UPDATE tb_catalog
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='vender_no != null and vender_no > 0'>
+			, vender_no = #{vender_no}
+		</if>
+		<if test='model_id != null and !model_id.equals("")'>
+			, model_id = #{model_id}
+		</if>
+		, model_nm = #{model_nm}
+		, stdd_material_cd = #{stdd_material_cd}
+		, stdd_weight = #{stdd_weight}
+		, stdd_color_cd = #{stdd_color_cd}
+		, stdd_size = #{stdd_size}
+		, odr_notice = #{odr_notice}
+		, reg_dt = #{reg_dt}
+		, basic_idst = #{basic_idst}
+		, main_price = #{main_price}
+		, sub_price = #{sub_price}
+		, total_price = #{total_price}
+		WHERE catalog_no = #{catalog_no}
+	</update>
+	
+	<delete id="deleteStone" parameterType="Long">
+		DELETE FROM tb_catalog_stone
+		WHERE catalog_no = #{catalog_no}
+	</delete>
+	
+	
 </mapper>

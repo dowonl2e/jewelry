@@ -47,10 +47,10 @@
 	<script>
 		/*<![CDATA[*/
 			window.onload = () => {
-				findCode();
+				find();
 	  	}
 			
-			function findCode() {
+			function find() {
 				
 				const cdid = '${cdid}';
 				if ( !cdid ) {

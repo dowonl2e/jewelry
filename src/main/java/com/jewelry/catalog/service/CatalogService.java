@@ -9,7 +9,7 @@ public interface CatalogService {
 	
 	Map<String, Object> findAllCatalog(CatalogTO to);
 		
-	CatalogVO findCatalogById(Long catalogid);
+	CatalogVO findCatalogByNo(Long catalogno);
 	
 	String insertCatalog(CatalogTO to);
 	
