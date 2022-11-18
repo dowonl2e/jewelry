@@ -52,18 +52,8 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 		            }
 		        });
 				
-		        System.out.println("Path: " + path);
-		        System.out.println("OriginalName:" + originalname);
-		        System.out.println("FileName:" + filename);
 		        // Uploading file to s3
 		        PutObjectResult putObjectResult = amazonS3Client.putObject(bucketpath, filename, file.getInputStream(), objectMetadata);
-		        
-
-				// S3에 업로드
-//		        PutObjectResult putObjectResult = amazonS3Client.putObject(
-//					new PutObjectRequest(bucketpath, filename, file.getInputStream(), objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead)
-//				);
-				
 				
 		        fileto.setFile_path(path);
 		        fileto.setOrigin_nm(originalname);

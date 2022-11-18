@@ -11,7 +11,7 @@ CREATE TABLE tb_vender (
   manager_nm varchar(120) comment '담당자 이름',
   manager_cel varchar(50) comment '담당자 전화번호',
   manager_email varchar(80) comment '이메일',
-  del_yn varchar(4) comment '삭제여부',
+  del_yn varchar(4) default 'N' comment '삭제여부',
   inpt_id varchar(30) not null comment '등록자',
   inpt_dt datetime not null default current_timestamp() comment '등록자',
   updt_id varchar(30) comment '수정자',
