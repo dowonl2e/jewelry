@@ -2,6 +2,7 @@ package com.jewelry.vender.service;
 
 import java.util.Map;
 
+import com.jewelry.customer.domain.CustomerTO;
 import com.jewelry.vender.domain.VenderTO;
 import com.jewelry.vender.domain.VenderVO;
 
