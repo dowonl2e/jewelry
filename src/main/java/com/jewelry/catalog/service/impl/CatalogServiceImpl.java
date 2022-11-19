@@ -178,12 +178,13 @@ public class CatalogServiceImpl implements CatalogService {
 						}
 					}
 					
-					FileTO delfileto = new FileTO();
-					delfileto.setRef_no(catalogno);
-					delfileto.setRef_info("CAT");
-					delfileto.setUpdt_id(to.getUpdt_id());
-					fileMapper.updateFileToDeleteWithRef(delfileto);
 					if(!ObjectUtils.isEmpty(fileto.getOrigin_nm())) {
+						FileTO delfileto = new FileTO();
+						delfileto.setRef_no(catalogno);
+						delfileto.setRef_info("CAT");
+						delfileto.setUpdt_id(to.getUpdt_id());
+						fileMapper.updateFileToDeleteWithRef(delfileto);
+
 						fileto.setInpt_id(to.getInpt_id());
 						fileto.setRef_no(catalogno);
 						fileMapper.insertFile(fileto);

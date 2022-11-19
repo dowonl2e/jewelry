@@ -16,6 +16,8 @@ public interface OrderMapper {
 	
 	int insertOrder(OrderTO to);
 	
+	OrderVO selectOrder(Long orderno);
+	
 	int updateOrder(OrderTO to);
 	
 	int updateOrderToDelete(OrderTO to);

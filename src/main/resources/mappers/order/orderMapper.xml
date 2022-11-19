@@ -8,7 +8,7 @@
 			AND a.store_cd = #{searchstore}
 		</if>
 		<if test='searchmaterial != null and !searchmaterial.equals("")'>
-			AND b.material_cd = #{searchmaterial}
+			AND a.material_cd = #{searchmaterial}
 		</if>
 		<!-- 검색 키워드가 있을 때 -->
 		<if test='searchword != null and !searchword.equals("")'>
@@ -19,19 +19,92 @@
 	<select id="selectOrderListCount" parameterType="OrderTO" resultType="Integer">
 		SELECT COUNT(a.order_no)
 		FROM tb_order a
-			INNER JOIN tb_order_catalog b
-				ON a.order_no = b.order_no
 		WHERE a.del_yn = 'N'
 		<include refid="order-search" />
 	</select>
 	
 	<select id="selectOrderList" parameterType="OrderTO" resultType="OrderVO">
-		SELECT a.order_no, a.order_type, a.store_cd, a.receipt_dt, a.expected_ord_dt, a.customer_no, a.customer_nm
+		SELECT a.order_no, a.order_type, a.store_cd, a.receipt_dt, a.expected_ord_dt, a.customer_no
+						, b.contractor_nm as customer_nm, b.contractor_cel as customer_cel, a.order_step
+						, a.catalog_no, a.model_id, a.vender_no, a.vender_nm, a.serial_id, a.material_cd, a.color_cd, a.quantity
+						, a.main_stone_type, a.sub_stone_type, a.size, a.order_desc
+						, c.file_path, c.file_nm, c.origin_nm
 		FROM tb_order a
+			LEFT OUTER JOIN tb_customer b
+				ON a.customer_no = b.customer_no
+			LEFT OUTER JOIN tb_file c
+				ON a.order_no = c.ref_no
+				AND c.ref_info = 'ORD'
+				AND c.file_ord = 1
+				AND c.del_yn = 'N'
 		WHERE a.del_yn = 'N'
 		<include refid="order-search" />
 		ORDER BY a.order_no DESC
 		<include refid="commonMapper.paging" />
+	</select>
+	
+	
+	<insert id="insertOrder" parameterType="OrderTO" useGeneratedKeys="true" keyProperty="order_no" keyColumn="order_no">
+		INSERT INTO tb_order 
+		(
+			inpt_id, inpt_dt
+			<if test='order_type != null and !order_type.equals("")'>, order_type</if>
+			<if test='store_cd != null and !store_cd.equals("")'>, store_cd</if>
+			<if test='receipt_dt != null and !receipt_dt.equals("")'>, receipt_dt</if>
+			<if test='expected_ord_dt != null and !expected_ord_dt.equals("")'>, expected_ord_dt</if>
+			<if test='customer_no != null and customer_no > 0'>, customer_no</if>
+			<if test='customer_nm != null and !customer_nm.equals("")'>, customer_nm</if>
+			<if test='customer_cel != null and !customer_cel.equals("")'>, customer_cel</if>
+			<if test='order_step != null and !order_step.equals("")'>, order_step</if>
+			<if test='serial_id != null and !serial_id.equals("")'>, serial_id</if>
+			<if test='catalog_no != null and catalog_no > 0'>, catalog_no</if>
+			<if test='model_id != null and !model_id.equals("")'>, model_id</if>
+			<if test='vender_no != null and vender_no > 0'>, vender_no</if>
+			<if test='vender_nm != null and !vender_nm.equals("")'>, vender_nm</if>
+			<if test='material_cd != null and !material_cd.equals("")'>, material_cd</if>
+			<if test='color_cd != null and !color_cd.equals("")'>, color_cd</if>
+			<if test='quantity != null and quantity > 0'>, quantity</if>
+			<if test='main_stone_type != null and !main_stone_type.equals("")'>, main_stone_type</if>
+			<if test='sub_stone_type != null and !sub_stone_type.equals("")'>, sub_stone_type</if>
+			<if test='size != null and !size.equals("")'>, size</if>
+			<if test='order_desc != null and !order_desc.equals("")'>, order_desc</if>
+			
+		)
+		VALUES
+		(
+			#{inpt_id}, NOW()
+			<if test='order_type != null and !order_type.equals("")'>, #{order_type}</if>
+			<if test='store_cd != null and !store_cd.equals("")'>, #{store_cd}</if>
+			<if test='receipt_dt != null and !receipt_dt.equals("")'>, #{receipt_dt}</if>
+			<if test='expected_ord_dt != null and !expected_ord_dt.equals("")'>, #{expected_ord_dt}</if>
+			<if test='customer_no != null and customer_no > 0'>, #{customer_no}</if>
+			<if test='customer_nm != null and !customer_nm.equals("")'>, #{customer_nm}</if>
+			<if test='customer_cel != null and !customer_cel.equals("")'>, #{customer_cel}</if>
+			<if test='order_step != null and !order_step.equals("")'>, #{order_step}</if>
+			<if test='serial_id != null and !serial_id.equals("")'>, #{serial_id}</if>
+			<if test='catalog_no != null and catalog_no > 0'>, #{catalog_no}</if>
+			<if test='model_id != null and !model_id.equals("")'>, #{model_id}</if>
+			<if test='vender_no != null and vender_no > 0'>, #{vender_no}</if>
+			<if test='vender_nm != null and !vender_nm.equals("")'>, #{vender_nm}</if>
+			<if test='material_cd != null and !material_cd.equals("")'>, #{material_cd}</if>
+			<if test='color_cd != null and !color_cd.equals("")'>, #{color_cd}</if>
+			<if test='quantity != null and quantity > 0'>, #{quantity}</if>
+			<if test='main_stone_type != null and !main_stone_type.equals("")'>, #{main_stone_type}</if>
+			<if test='sub_stone_type != null and !sub_stone_type.equals("")'>, #{sub_stone_type}</if>
+			<if test='size != null and !size.equals("")'>, #{size}</if>
+			<if test='order_desc != null and !order_desc.equals("")'>, #{order_desc}</if>
+		)
+	</insert>
+	
+	<select id="selectOrder" parameterType="Long" resultType="OrderVO">
+		SELECT a.order_no, a.order_type, a.store_cd, a.receipt_dt, a.expected_ord_dt, a.customer_no
+						, b.contractor_nm as customer_nm, b.contractor_cel as customer_cel, a.order_step
+						, a.catalog_no, a.model_id, a.vender_no, a.vender_nm, a.serial_id, a.material_cd, a.color_cd, a.quantity
+						, a.main_stone_type, a.sub_stone_type, a.size, a.order_desc
+		FROM tb_order a
+			LEFT OUTER JOIN tb_customer b
+				ON a.customer_no = b.customer_no
+		WHERE a.order_no = #{order_no}
 	</select>
 	
 </mapper>

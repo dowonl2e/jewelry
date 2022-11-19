@@ -49,8 +49,8 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-				    <a href="javascript: void(0);" onclick="fncPopupCustomerOrderWrite();" class="btn btn-primary waves-effect waves-light ml5">고객</a>
-				    <a href="javascript: void(0);" onclick="fncPopupReadMadeOrderWrite();" class="btn btn-danger waves-effect waves-light ml5">기성</a>
+				    <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light ml5">고객</a>
+				    <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-danger waves-effect waves-light ml5">기성</a>
 			    </div>
 				</div>
 	    </form>
@@ -200,19 +200,19 @@
 								<div>접:` + checkSubstringNullVal(obj.receiptdt,0,10) + `</div>
 								<div>주:` + checkSubstringNullVal(obj.expectedorddt,0,10) + `</div>
 							</td>
-							<td class="text-center">`+ (checkNullVal(obj.ordertype) == 'CUSTOMER' ? '고객<br/>주문' : '기성<br/>주문') + `</td>
+							<td class="text-center"></td>
 							<td class="text-center bold">
-								`+checkNullVal(codemap[obj.storecd])+`<br/>`+checkNullVal(obj.customernm)+`
+								`+checkNullVal(obj.vendernm)+`
 							</td>
-							<td class="text-center"><img src="https://yourjewelrybucket.s3.ap-northeast-2.amazonaws.com/`+checkNullVal(obj.filepath)+`/`+checkNullVal(obj.filenm)+`" width="60px;" height="60px"/></td>
-							<td class="text-center">` + checkNullVal(obj.modelid)+`<br/>`+checkNullVal(obj.orderno)+`</td>
-							<td class="text-center"><span class="important">` + checkNullVal(codemap[obj.materialcd])+`</span><br/>`+checkNullVal(codemap[obj.colorcd])+`</td>
-							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
-							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `<br/>` + checkNullVal(obj.substonetype) + `</td>
-							<td class="text-center">` + checkNullVal(obj.size) + `</td>
-							<td class="text-center">` + checkNullVal(obj.orderdesc) + `</td>
-							<td class="text-center">` + checkNullVal(obj.vendernm) + `<br/>` + checkNullVal(obj.venderno) + `</td>
-							<td class="text-center">` + checkNullVal(obj.orderstep) + `</td>
+							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
 	   				</tr>
      			`;
      		});
@@ -259,22 +259,12 @@
 		}
 
 		/**
-		 * 작성하기(고객)
+		 * 작성하기
 		 */
-		function fncPopupCustomerOrderWrite() {
-		  var url = "/order/popup/customer/write";
-      var name = "orderCustomerWritePopup";
-      var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		/**
-		 * 작성하기(기성)
-		 */
-		function fncPopupReadMadeOrderWrite() {
-		  var url = "/order/popup/read-made/write";
-      var name = "orderReadMadeWritePopup";
-      var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+		function fncPopupWrite() {
+		  var url = "./popup/write";
+      var name = "customerWritePopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
 

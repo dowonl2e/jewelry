@@ -14,12 +14,28 @@ public class OrderTO extends CommonTO {
 	private String customer_nm;
 	private String customer_cel;
 	private String del_yn;
-
-	private MultipartFile catalogfile;
+	private Long catalog_no;
+	private String model_id;
+	private Long vender_no;
+	private String vender_nm;
+	private String serial_id;
+	private String material_cd;
+	private String color_cd;
+	private Integer quantity;
+	private String main_stone_type;
+	private String sub_stone_type;
+	private String size;
+	private String order_desc;
+	private String order_type;
+	private String order_step;
+	
+	private MultipartFile orderfile;
 	
 	private String[] serial_id_arr;
 	private Long[] catalog_no_arr;
+	private String[] model_id_arr;
 	private Long[] vender_no_arr;
+	private String[] vender_nm_arr;
 	private String[] material_cd_arr;
 	private String[] color_cd_arr;
 	private Integer[] quantity_arr;
@@ -34,12 +50,6 @@ public class OrderTO extends CommonTO {
 	private String searchendfate;
 	private String searchstep;
 	
-	public MultipartFile getCatalogfile() {
-		return catalogfile;
-	}
-	public void setCatalogfile(MultipartFile catalogfile) {
-		this.catalogfile = catalogfile;
-	}
 	public Long getOrder_no() {
 		return order_no;
 	}
@@ -178,4 +188,107 @@ public class OrderTO extends CommonTO {
 	public void setSearchstep(String searchstep) {
 		this.searchstep = searchstep;
 	}
+	public MultipartFile getOrderfile() {
+		return orderfile;
+	}
+	public void setOrderfile(MultipartFile orderfile) {
+		this.orderfile = orderfile;
+	}
+	public Long getCatalog_no() {
+		return catalog_no;
+	}
+	public void setCatalog_no(Long catalog_no) {
+		this.catalog_no = catalog_no;
+	}
+	public Long getVender_no() {
+		return vender_no;
+	}
+	public void setVender_no(Long vender_no) {
+		this.vender_no = vender_no;
+	}
+	public String getSerial_id() {
+		return serial_id;
+	}
+	public void setSerial_id(String serial_id) {
+		this.serial_id = serial_id;
+	}
+	public String getMaterial_cd() {
+		return material_cd;
+	}
+	public void setMaterial_cd(String material_cd) {
+		this.material_cd = material_cd;
+	}
+	public String getColor_cd() {
+		return color_cd;
+	}
+	public void setColor_cd(String color_cd) {
+		this.color_cd = color_cd;
+	}
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	public String getMain_stone_type() {
+		return main_stone_type;
+	}
+	public void setMain_stone_type(String main_stone_type) {
+		this.main_stone_type = main_stone_type;
+	}
+	public String getSub_stone_type() {
+		return sub_stone_type;
+	}
+	public void setSub_stone_type(String sub_stone_type) {
+		this.sub_stone_type = sub_stone_type;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
+	public String getOrder_desc() {
+		return order_desc;
+	}
+	public void setOrder_desc(String order_desc) {
+		this.order_desc = order_desc;
+	}
+	public String[] getModel_id_arr() {
+		return model_id_arr;
+	}
+	public void setModel_id_arr(String[] model_id_arr) {
+		this.model_id_arr = model_id_arr;
+	}
+	public String[] getVender_nm_arr() {
+		return vender_nm_arr;
+	}
+	public void setVender_nm_arr(String[] vender_nm_arr) {
+		this.vender_nm_arr = vender_nm_arr;
+	}
+	public String getModel_id() {
+		return model_id;
+	}
+	public void setModel_id(String model_id) {
+		this.model_id = model_id;
+	}
+	public String getVender_nm() {
+		return vender_nm;
+	}
+	public void setVender_nm(String vender_nm) {
+		this.vender_nm = vender_nm;
+	}
+	public String getOrder_type() {
+		return order_type;
+	}
+	public void setOrder_type(String order_type) {
+		this.order_type = order_type;
+	}
+	public String getOrder_step() {
+		return order_step;
+	}
+	public void setOrder_step(String order_step) {
+		this.order_step = order_step;
+	}
+	
 }

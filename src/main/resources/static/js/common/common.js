@@ -7,6 +7,15 @@ function checkNullVal(val){
 	}
 }
 
+function checkNullValR(val, replaceStr){
+	if(typeof val == "undefined" || val == null){
+		return replaceStr;
+	}
+	else {
+		return val+'';
+	}
+}
+
 function checkSubstringNullVal(val, startidx, endidx){
 	if(typeof val == "undefined" || val == null){
 		return '';

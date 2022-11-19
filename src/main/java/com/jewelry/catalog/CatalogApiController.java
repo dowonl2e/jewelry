@@ -53,7 +53,6 @@ public class CatalogApiController {
 		return catalogService.findCatalogByNo(catalogno);
 	}
 	
-
 	@PatchMapping("/modify/{catalogno}")
 	public ResponseEntity<Object> modify(@PathVariable final Long catalogno, CatalogTO to,
 			@RequestPart(value = "file", required = false) MultipartFile file){

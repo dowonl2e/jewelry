@@ -17,7 +17,8 @@ public class CatalogPageController {
 	private CodeService codeService;
 	
 	@GetMapping("list")
-	public String list() {
+	public String list(ModelMap model) {
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"SM","SC"}, 2));
 		return "catalog/catalogList";
 	}
 	
@@ -46,4 +47,11 @@ public class CatalogPageController {
 		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
 		return "catalog/popup/catalogModify";
 	}
+
+	@GetMapping("/popup/list")
+	public String listPopup(ModelMap model) {
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"SM","SC"}, 2));
+		return "catalog/popup/catalogList";
+	}
+	
 }

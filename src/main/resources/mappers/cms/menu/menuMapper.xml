@@ -4,8 +4,9 @@
 
 	<select id="selectMenuList" parameterType="MenuTO" resultType="MenuVO">
 		SELECT menu_id, menu_nm, menu_link, menu_ord, up_menu_id, use_yn
-		FROM tb_menu
-		WHERE 1 = 1
+						, (SELECT COUNT(*) FROM tb_menu where up_menu_id = a.menu_id and menu_depth = (a.menu_depth+1)) as child_cnt
+		FROM tb_menu a
+		WHERE menu_depth = #{menu_depth}
 		<if test='use_yn != null and !use_yn.equals("")'>
 			AND use_yn = #{use_yn}
 		</if>

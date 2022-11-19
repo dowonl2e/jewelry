@@ -43,5 +43,10 @@ public class CustomerPageController {
 		model.addAttribute("ctlist", codeService.findAllByUpCdId("CT", 2));
 		return "customer/popup/customerModify";
 	}
-	
+
+	@GetMapping("/popup/list")
+	public String listPopup(Model model) {
+		model.addAttribute("codelist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
+		return "customer/popup/customerList";
+	}
 }

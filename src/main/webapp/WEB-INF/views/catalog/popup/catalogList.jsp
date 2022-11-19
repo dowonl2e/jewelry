@@ -25,25 +25,15 @@
 	            <option value="1">제조사1</option>
 	            <option value="2">제조사2</option>
 		        </select>
-		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="모델명 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">단독등록</a>
 					</div>
 				</div>
 	    </form>
 	    <div class="table-responsive clearfix text-center border-bottom" id="list">
-	    
 			</div>
-			
-			<div class="btn_wrap text-left mt-3">
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">가성주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
-    	</div>
-    	
 			<nav aria-label="Page navigation" class="text-center">
 		    <ul class="pagination"></ul>
 			</nav>
@@ -128,8 +118,8 @@
 			
 			var params = {
 			  page: page
+			  , openeridx: '${param.openeridx}'
 				, searchvender: form.searchvender.value
-				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
 			checkListNullParams(params);
@@ -167,8 +157,8 @@
      		    				<div class="col text-center">
      		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
      		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
- 		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
- 		    								` + checkNullVal(obj.modelid) + `(`+checkNullVal(obj.modelnm)+`)
+ 		    								<a href="javascript: void(0);" onclick="fncSelect('`+obj.catalogno+`','`+checkNullVal(obj.modelid)+`'); return false;">
+ 		    									` + checkNullVal(obj.modelid) + `(`+checkNullVal(obj.modelnm)+`)
  		    								</a>
      		    					</label>
      		    				</div>
@@ -228,47 +218,13 @@
 				}
 			});
 		}
-
-		/**
-		 * 작성하기
-		 */
-		function fncPopupWrite() {
-		  var url = "./popup/write";
-      var name = "catalogWritePopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-	
-		/**
-		 * 수정하기
-		 */
-		function fncPopupView(catalogno) {
-		  var url = "./popup/"+catalogno;
-      var name = "catalogViewPopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
+		
+		function fncSelect(catalogno, modelid){
+			opener.document.getElementById("catalog_no_${param.openeridx}").value = catalogno;
+			opener.document.getElementById("model_id_${param.openeridx}").value = modelid;
+			self.close();
 		}
 		
-		/**
-		 * 수정하기
-		 */
-		function fncPopupModify(catalogno) {
-		  var url = "./popup/modify/"+catalogno;
-      var name = "catalogModifyPopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-		
-		function fncCheckZero(obj){
-			if($(obj).val() != ''){
-				if(Number($(obj).val()) < minNumberLen){
-					$(obj).val('1');
-				}
-				if(Number($(obj).val()) > maxNumberLen){
-					$(obj).val('100');
-				}
-			}
-		}
 	</script>
 </body>
 </html>

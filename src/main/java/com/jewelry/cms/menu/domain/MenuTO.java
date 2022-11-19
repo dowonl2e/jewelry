@@ -10,6 +10,7 @@ public class MenuTO extends CommonTO {
 	private String menu_ord;
 	private String up_menu_id;
 	private String use_yn;
+	private Integer menu_depth;
 	
 	public String getMenu_id() {
 		return menu_id;
@@ -46,6 +47,12 @@ public class MenuTO extends CommonTO {
 	}
 	public void setUse_yn(String use_yn) {
 		this.use_yn = use_yn;
+	}
+	public Integer getMenu_depth() {
+		return menu_depth;
+	}
+	public void setMenu_depth(Integer menu_depth) {
+		this.menu_depth = menu_depth;
 	}
 	
 	

@@ -41,6 +41,9 @@ public class AuthAspect {
 		
 		MenuTO menuto = new MenuTO();
 		menuto.setUse_yn("Y");
+		menuto.setMenu_depth(1);
 		request.setAttribute("menus", menuService.getMenuList(menuto));
+		menuto.setMenu_depth(2);
+		request.setAttribute("submenus", menuService.getMenuList(menuto));
 	}
 }

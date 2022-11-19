@@ -14,6 +14,7 @@ public class MenuVO extends CommonVO {
 	private String menuord;
 	private String upmenuid;
 	private String useyn;
+	private Integer childcnt;
 	
 	public List<MenuVO> getList() {
 		return list;
@@ -56,6 +57,12 @@ public class MenuVO extends CommonVO {
 	}
 	public void setUseyn(String useyn) {
 		this.useyn = useyn;
+	}
+	public Integer getChildcnt() {
+		return childcnt;
+	}
+	public void setChildcnt(Integer childcnt) {
+		this.childcnt = childcnt;
 	}
 	
 }

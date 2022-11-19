@@ -14,39 +14,43 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">카다로그 관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">고객관리</h6>
 		</div>
 		<div class="card-body">
-    	<form id="searchForm" onsubmit="return false;" class="border-bottom">
+    	<form id="searchForm" onsubmit="return false;">
 				<div class="mb20" id="adv-search">
 					<div class="form-inline">
-						<select id="searchvender" class="form-control">
-	            <option value="">제조사구분</option>
-	            <option value="1">제조사1</option>
-	            <option value="2">제조사2</option>
-		        </select>
-		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
 		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">단독등록</a>
 					</div>
 				</div>
 	    </form>
-	    <div class="table-responsive clearfix text-center border-bottom" id="list">
-	    
+			<div class="table-responsive clearfix">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th rowspan="2" class="">No.</th>
+							<th rowspan="2" class="border-left">등록일</th>
+							<th rowspan="2" class="border-left">계약구분</th>
+							<th rowspan="2" class="border-left">고객코드</th>
+							<th colspan="2" class="border-left">계약고객</th>
+							<th rowspan="2" class="border-left">비고</th>
+						</tr>
+						<tr>
+							<th class="border-left">이름</th>
+							<th class="border-left">H.P</th>
+						</tr>
+					</thead>
+					<tbody id="list"></tbody>
+				</table>
+				<div class="btn_wrap text-right">
+	    	</div>
+				<nav aria-label="Page navigation" class="text-center">
+			    <ul class="pagination"></ul>
+				</nav>
 			</div>
-			
-			<div class="btn_wrap text-left mt-3">
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">가성주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
-    	</div>
-    	
-			<nav aria-label="Page navigation" class="text-center">
-		    <ul class="pagination"></ul>
-			</nav>
 		</div>
 	</div>
 	
@@ -55,7 +59,7 @@
 		 * 페이지 HTML 렌더링
 		 */
 		var codemap = {
-				<c:forEach var="code" items="${cdmapper}" varStatus="loop">
+				<c:forEach var="code" items="${codelist}" varStatus="loop">
 				  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
 				</c:forEach>
 		};
@@ -128,8 +132,6 @@
 			
 			var params = {
 			  page: page
-				, searchvender: form.searchvender.value
-				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
 			checkListNullParams(params);
@@ -138,9 +140,9 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/catalog/list', params).then(response => {
+			getJson('/api/customer/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<div class="row row-cols-1" style="line-height:80px;"><div class="col">등록된 카다로그가 없습니다.</div></div>';
+					document.getElementById('list').innerHTML = '<td colspan="15" class="text-center">등록된 고객이 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -150,45 +152,22 @@
 				
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
-     			if(idx%4 == 0){
-     				html += `<div class="row row-cols-4">`;
-     			}
      			html += `
-     		    	<div class="col text-center text-black">
-     		    		<div class="card bg-light shadow rounded m10">
-     		    			<div class="row row-cols-1">
-     		    				<div class="col">
-     		    					<div class="m5 rounded">
-  		    							<img src="https://yourjewelrybucket.s3.ap-northeast-2.amazonaws.com/`+obj.filepath+`/`+obj.filenm+`" width="100%" style="height:200px;"/>
-     		    					</div>
-     		    				</div>
-     		    			</div>
-     		    			<div class="row row-cols-1 mlr5 mt5">
-     		    				<div class="col text-center">
-     		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
-     		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
- 		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
- 		    								` + checkNullVal(obj.modelid) + `(`+checkNullVal(obj.modelnm)+`)
- 		    								</a>
-     		    					</label>
-     		    				</div>
-     		    			</div>
-     		    			<div class="row mlr1 mtb5">
-     		    				<div class="col text-left small">거래처</div>
-     		    				<div class="col text-right small">`+ checkNullValR(codemap[obj.stddmaterialcd], '&nbsp;') +`(`+checkNullValR(obj.stddweight, '&nbsp;')+`)</div>
-     		    			</div>
-     		    			<div class="row mlr1 mtb5">
-     		    				<div class="col text-left small">`+ checkNullValR(obj.stddsize, '&nbsp;')+`</div>
-     		    				<div class="col text-right small">`+ checkNullValR(obj.basicidst, '&nbsp;')+`</div>
-     		    			</div>
-     		    		</div>
-     		    	</div>
+     				<tr>
+							<td class="text-center">` + (num--) + `</td>
+							<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.contractcd)]) +`</td>
+							<td class="text-center bold">
+								<a href="javascript: void(0);" onclick="fncSelect('` + obj.customerno + `', '`+checkNullVal(obj.contractornm)+`', '`+checkNullVal(obj.contractorcel)+`'); return false;">`+checkNullVal(obj.customerno)+`</a>
+							</td>
+							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
+							<td class="text-center">`+checkNullVal(obj.etc)+`</td>
+	   				</tr>
      			`;
-     			if(idx > 0 && (idx+1)%4 == 0){
-     				html += `</div>`;
-     			}
      		});
      		
+	
 				document.getElementById('list').innerHTML = html;
 				drawPages(response.params);
 			});
@@ -228,46 +207,12 @@
 				}
 			});
 		}
-
-		/**
-		 * 작성하기
-		 */
-		function fncPopupWrite() {
-		  var url = "./popup/write";
-      var name = "catalogWritePopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-	
-		/**
-		 * 수정하기
-		 */
-		function fncPopupView(catalogno) {
-		  var url = "./popup/"+catalogno;
-      var name = "catalogViewPopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
 		
-		/**
-		 * 수정하기
-		 */
-		function fncPopupModify(catalogno) {
-		  var url = "./popup/modify/"+catalogno;
-      var name = "catalogModifyPopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-		
-		function fncCheckZero(obj){
-			if($(obj).val() != ''){
-				if(Number($(obj).val()) < minNumberLen){
-					$(obj).val('1');
-				}
-				if(Number($(obj).val()) > maxNumberLen){
-					$(obj).val('100');
-				}
-			}
+		function fncSelect(customerno, customernm, customercel){
+			opener.document.getElementById("customer_no").value = customerno;
+			opener.document.getElementById("customer_nm").value = customernm;
+			opener.document.getElementById("customer_cel").value = customercel;
+			self.close();
 		}
 	</script>
 </body>

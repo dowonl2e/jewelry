@@ -16,7 +16,25 @@ public class OrderVO extends CommonVO {
 	private Long customerno;
 	private String customernm;
 	private String customercel;
+	private Long catalogno;
+	private String modelid;
+	private Long venderno;
+	private String vendernm;
+	private String serialid;
+	private String materialcd;
+	private String colorcd;
+	private Integer quantity;
+	private String mainstonetype;
+	private String substonetype;
+	private String size;
+	private String orderdesc;
+	private String ordertype;
+	private String orderstep;
 	private String delyn;
+	
+	private String filepath;
+	private String filenm;
+	private String originnm;
 	
 	private List<OrderCatalogVO> ordercataloglist;
 	
@@ -86,6 +104,118 @@ public class OrderVO extends CommonVO {
 		this.customercel = customercel;
 	}
 
+	public Long getCatalogno() {
+		return catalogno;
+	}
+
+	public void setCatalogno(Long catalogno) {
+		this.catalogno = catalogno;
+	}
+
+	public String getModelid() {
+		return modelid;
+	}
+
+	public void setModelid(String modelid) {
+		this.modelid = modelid;
+	}
+
+	public Long getVenderno() {
+		return venderno;
+	}
+
+	public void setVenderno(Long venderno) {
+		this.venderno = venderno;
+	}
+
+	public String getVendernm() {
+		return vendernm;
+	}
+
+	public void setVendernm(String vendernm) {
+		this.vendernm = vendernm;
+	}
+
+	public String getSerialid() {
+		return serialid;
+	}
+
+	public void setSerialid(String serialid) {
+		this.serialid = serialid;
+	}
+
+	public String getMaterialcd() {
+		return materialcd;
+	}
+
+	public void setMaterialcd(String materialcd) {
+		this.materialcd = materialcd;
+	}
+
+	public String getColorcd() {
+		return colorcd;
+	}
+
+	public void setColorcd(String colorcd) {
+		this.colorcd = colorcd;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getMainstonetype() {
+		return mainstonetype;
+	}
+
+	public void setMainstonetype(String mainstonetype) {
+		this.mainstonetype = mainstonetype;
+	}
+
+	public String getSubstonetype() {
+		return substonetype;
+	}
+
+	public void setSubstonetype(String substonetype) {
+		this.substonetype = substonetype;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getOrderdesc() {
+		return orderdesc;
+	}
+
+	public void setOrderdesc(String orderdesc) {
+		this.orderdesc = orderdesc;
+	}
+
+	public String getOrdertype() {
+		return ordertype;
+	}
+
+	public void setOrdertype(String ordertype) {
+		this.ordertype = ordertype;
+	}
+
+	public String getOrderstep() {
+		return orderstep;
+	}
+
+	public void setOrderstep(String orderstep) {
+		this.orderstep = orderstep;
+	}
+
 	public String getDelyn() {
 		return delyn;
 	}
@@ -108,6 +238,30 @@ public class OrderVO extends CommonVO {
 
 	public void setFilelist(List<FileVO> filelist) {
 		this.filelist = filelist;
+	}
+
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
+	}
+
+	public String getFilenm() {
+		return filenm;
+	}
+
+	public void setFilenm(String filenm) {
+		this.filenm = filenm;
+	}
+
+	public String getOriginnm() {
+		return originnm;
+	}
+
+	public void setOriginnm(String originnm) {
+		this.originnm = originnm;
 	}
 	
 }
