@@ -51,14 +51,29 @@
 
             <!-- Nav Item - Dashboard -->
             <c:set var="uri" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
+            <c:set var="uri" value="${fn:substring(uri,1,fn:length(uri))}"/>
             <c:forEach var="menu" items="${menus}">
-            	<li class="nav-item ${fn:contains(uri,menu.menuid) ? 'active' : ''}">
-                <a class="nav-link" href="${empty menu.menulink ? '#none' : menu.menulink}">
+            	<li class="nav-item ${fn:startsWith(uri, menu.menuid) ? 'active' : ''}">
+                <a class="nav-link collapsed" href="${empty menu.menulink ? '#none' : menu.menulink}"
+	                <c:if test="${menu.childcnt gt 0}">
+	                	aria-expanded="true"
+	                </c:if>
+                	>
                   <i class="fas fa-fw fa-tachometer-alt"></i>
                   <span> ${menu.menunm}</span>
                 </a>
+                <c:if test="${menu.childcnt gt 0}">
+	                <div class="collapse show" aria-labelledby="heading${menu.menuid}" data-parent="#accordionSidebar">
+	                  <div class="bg-white py-2 collapse-inner rounded">
+              				<c:forEach var="submenu" items="${submenus}">
+              					<c:if test ="${submenu.upmenuid eq menu.menuid}">
+	                    		<a class="collapse-item ${fn:startsWith(uri, submenu.menuid) ? 'active' : ''}" href="${submenu.menulink}">${submenu.menunm}</a>
+	                    	</c:if>
+             					</c:forEach>
+	                  </div>
+	                </div>
+                </c:if>
 	            </li>
-	
 	            <!-- Divider -->
 	            <hr class="sidebar-divider">
             </c:forEach>
