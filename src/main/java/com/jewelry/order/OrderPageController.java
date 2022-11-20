@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jewelry.cms.code.service.CodeService;
 
@@ -73,12 +74,26 @@ public class OrderPageController {
 		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
 		return "order/popup/read-made/orderModify";
 	}
-	
+
+	@GetMapping("/popup/step/modify")
+	public String stopPopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
+		model.addAttribute("ordersno", ordersno);
+		return "order/popup/orderStepModify";
+	}
+
 	@GetMapping("/schedule/list")
 	public String scheduleList(ModelMap model) {
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
 		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
-		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"SM", "SC"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST", "SM", "SC"}, 2));
 		return "order/orderScheduleList";
+	}
+	
+	@GetMapping("/stocked/list")
+	public String stockedList(ModelMap model) {
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST", "SM", "SC"}, 2));
+		return "order/orderStockedList";
 	}
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주문관리</title>
+<title>주문예정</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,7 +14,7 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">코드현황</h6>
+			<h6 class="m-0 font-weight-bold text-primary">주문예정</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
@@ -32,25 +32,16 @@
 	            	<option value="${smlist.cdid}">${smlist.cdnm}</option>
 	            </c:forEach>
 		        </select>
-		        <select id="searchstep" class="form-control ml5">
-	            <option value="">단계 전체</option>
-	            <option value="A">주문등록</option>
-	            <option value="B">주문접수</option>
-	            <option value="C">주문 재고등록 완료</option>
-	            <option value="F">판매처리완료</option>
-		        </select>
 			    </div>
 			    <div class="form-inline mt5">
 			    	<span class="mlr5">접수일</span>
 						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
 						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="고객명/모델번호 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-				    <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light ml5">고객</a>
-				    <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-danger waves-effect waves-light ml5">기성</a>
 			    </div>
 				</div>
 	    </form>
@@ -78,11 +69,11 @@
 				</table>
 				
 				<div class="text-left mt-3"><a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">단계변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
-	        <a href="javascript: void(0);" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupStepModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">단계변경</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
+	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
 	    					
 				<nav aria-label="Page navigation" class="text-center">
@@ -143,8 +134,8 @@
 			
 	 		// 페이지 번호
 	 		for (let i = startpage ; i < endpage ; i++) {
-	 			const active = ((i) === (pagination.currentpage)) ? 'class="active"' : '';
-	            html += '<li><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
+	 			const active = ((i) === (pagination.currentpage-1)) ? 'class="active"' : '';
+        html += '<li '+active+'><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
 	 		}
 	
 	 		// 다음 페이지, 마지막 페이지
@@ -169,7 +160,7 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  page: page
+				currentpage: page
 				, searchstore: form.searchstore.value
 				, searchmaterial: form.searchmaterial.value
 				, searchrecordcnt: form.searchrecordcnt.value
@@ -181,7 +172,7 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/order/list', params).then(response => {
+			getJson('/api/order/schedule/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="14" class="text-center">주문내역이 없습니다.</td>';
 					drawPages();
@@ -194,25 +185,29 @@
      		response.list.forEach((obj, idx) => {
      			html += `
      				<tr>
-							<td class="text-center">` + (num--) + `</td>
-							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+checkNullVal(obj.customerno)+`"/></td>
+							<td class="text-center">
+								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.orderno)+`','`+checkNullVal(obj.ordertype)+`'); return false;">` + (num--) + `</a>
+							</td>
+							<td class="text-center"><input type="checkbox" name="order_no_arr" class="form-check" value="`+checkNullVal(obj.orderno)+`"/></td>
 							<td class="text-center">
 								<div>접:` + checkSubstringNullVal(obj.receiptdt,0,10) + `</div>
 								<div>주:` + checkSubstringNullVal(obj.expectedorddt,0,10) + `</div>
 							</td>
-							<td class="text-center"></td>
+							<td class="text-center">`+ (checkNullVal(obj.ordertype) == 'CUSTOMER' ? '고객<br/>주문' : '기성<br/>주문') + `</td>
 							<td class="text-center bold">
-								`+checkNullVal(obj.vendernm)+`
+								`+checkNullVal(codemap[obj.storecd])+`<br/>`+checkNullVal(obj.customernm)+`
 							</td>
-							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
-							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
+					`;
+					html += `
+							<td class="text-center"><img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="60px;" height="60px"/></td>
+							<td class="text-center">` + checkNullVal(obj.modelid)+`<br/>`+checkNullVal(obj.orderno)+`</td>
+							<td class="text-center"><span class="important">` + checkNullVal(codemap[obj.materialcd])+`</span><br/>`+checkNullVal(codemap[obj.colorcd])+`</td>
+							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
+							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `<br/>` + checkNullVal(obj.substonetype) + `</td>
+							<td class="text-center">` + checkNullVal(obj.size) + `</td>
+							<td class="text-center">` + checkNullVal(obj.orderdesc) + `</td>
+							<td class="text-center">` + checkNullVal(obj.vendernm) + `<br/>` + checkNullVal(obj.venderno) + `</td>
+							<td class="text-center">` + checkNullVal(obj.orderstep) + `</td>
 	   				</tr>
      			`;
      		});
@@ -259,23 +254,80 @@
 		}
 
 		/**
-		 * 작성하기
+		 * 수정하기
 		 */
-		function fncPopupWrite() {
-		  var url = "./popup/write";
-      var name = "customerWritePopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+		function fncPopupView(orderno, ordertype) {
+		  var url = ordertype == 'CUSTOMER' ? "/order/popup/customer/"+orderno : "/order/popup/read-made/"+orderno;
+      var name = "orderViewPopup";
+      var option = "width = 1150, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
-
 		/**
 		 * 수정하기
 		 */
 		function fncPopupModify(customerno) {
-		  var url = "./popup/modify/"+customerno;
-      var name = "customeModifyPopup";
+		  var url = "/order/popup/modify/"+customerno;
+      var name = "orderModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
+		}
+		
+		function fncPopupStepModify(){
+			var ordersno = '';
+			$("input[name=order_no_arr]").each(function(){
+				if($(this).is(":checked")){
+					if(ordersno != '')
+						ordersno += ',';
+					ordersno += $(this).val();
+				}
+			});
+			
+			if(ordersno == ''){
+				alert('주문내역을 선택해주세요.');
+				return false;
+			}
+
+		  var url = "/order/popup/step/modify?ordersno="+ordersno;
+      var name = "orderStepModifyPopup";
+      var option = "width = 500, height = 300, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+		
+		function fncRemove(){
+
+			var orderscheckcnt = 0;
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					orderscheckcnt++;
+				}
+			});
+			if(orderscheckcnt == 0){
+				alert('삭제할 주문이력을 선택해주세요.');
+				return false;
+			}
+			if(confirm('삭제하시겠습니까?')){
+				const form = document.getElementById('searchForm');
+				const writeForm = new FormData(form);
+	
+				const formData = new FormData();
+				$(".form-check").each(function(){
+					if($(this).is(":checked"))
+						formData.append("order_no_arr[]", checkNullVal($(this).val()));
+				});
+								
+				fetch('/api/order/orders/remove', {
+					method: 'PATCH',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('삭제되었습니다.');
+					findAll();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
 		}
 		
 		function fncCheckZero(obj){

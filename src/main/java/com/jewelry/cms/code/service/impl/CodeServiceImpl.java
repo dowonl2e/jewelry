@@ -22,13 +22,9 @@ public class CodeServiceImpl implements CodeService {
 	public Map<String, Object> findAllCode(CodeTO to) {
 		Map<String, Object> response = new HashMap<>();
 
-		int totalcount = codeMapper.selectCodeListCount(to);
-		List<CodeVO> list = codeMapper.selectCodeList(to);
-
-		to.setTotalcount(totalcount);
-		
+		to.setTotalcount(codeMapper.selectCodeListCount(to));
+		response.put("list", codeMapper.selectCodeList(to));
 		response.put("params", to);
-		response.put("list", list);
 		
 		return response;
 	}

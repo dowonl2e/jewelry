@@ -4,13 +4,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>주문 등록</title>
+	<title>주문 정보</title>
 </head>
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mt-4 mb-4">
 		<div class="card-header py-3 text-center">
-			<h6 class="m-0 font-weight-bold text-primary">주문 등록</h6>
+			<h6 class="m-0 font-weight-bold text-primary">주문 정보</h6>
 		</div>
 		<div class="card-body">
 			<form id="form" class="form-horizontal">
@@ -25,46 +25,26 @@
 						<tbody>
 							<tr>
 								<td rowspan="4" class="text-center border-right">
-									<label for="file" id="file-label"><img id="preview" width="250px" height="150px"/></label>
-									<input type="file" name="file" id="file" class="custom-file-input" onchange="readURL(this);" style="display:none;"/>
+									<label for="file" id="file-label"><img id="order_img" width="250px" height="150px"/></label>
 								</td>
-								<td class="bg-light border-right text-center">매장<span class="important"> *</span></td>
-								<td class="bg-light border-right text-center">접수일<span class="important"> *</span></td>
-								<td class="bg-light text-center">주문예정일<span class="important"> *</span></td>
+								<td class="bg-light border-right text-center">매장</td>
+								<td class="bg-light border-right text-center">접수일</td>
+								<td class="bg-light text-center">주문예정일</td>
 							</tr>
 							<tr>
-								<td class="text-center border-right mtb5">
-									<select name="store_cd" id="store_cd" class="form-control form-data">
-										<c:forEach var="stlist" items="${stlist}">
-											<option value="${stlist.cdid}">${stlist.cdnm}</option>
-										</c:forEach>
-									</select>
-								</td>
-								<td class="text-center border-right">
-									<input type="date" name="receipt_dt" id="receipt_dt" class="form-control form-data mtb5" maxlength="10"/>
-								</td>
-								<td class="text-center">
-									<input type="date" name="expected_ord_dt" id="expected_ord_dt" class="form-control form-data mtb5" maxlength="10"/>
-								</td>
+								<td class="text-center border-right mtb5" id="store_cd_td"></td>
+								<td class="text-center border-right" id="receipt_dt_td"></td>
+								<td class="text-center" id="expected_ord_dt_td"></td>
 							</tr>
 							<tr>
-								<td class="bg-light border-right text-center">고객코드<span class="important"> *</span></td>
+								<td class="bg-light border-right text-center">고객코드</td>
 								<td class="bg-light border-right text-center">고객명</td>
 								<td class="bg-light text-center">연락처</td>
 							</tr>
 							<tr class="border-bottom">
-								<td class="text-center border-right">
-									<div class="input-group-append">
-										<input type="text" name="customer_no" id="customer_no" class="form-control form-data mtb5" readonly="readonly"/>
-										<i class="fas fa-search fa-sm ml5 mt15" onclick="fncCustomerListPop(); return false;"></i>
-									</div>
-								</td>
-								<td class="text-center border-right">
-									<input type="text" id="customer_nm" class="form-control mtb5" readonly="readonly"/>
-								</td>
-								<td class="text-center">
-									<input type="text" id="customer_cel" class="form-control mtb5" readonly="readonly"/>
-								</td>
+								<td class="text-center border-right" id="customer_no_td"></td>
+								<td class="text-center border-right" id="customer_nm_td"></td>
+								<td class="text-center" id="customer_cel_td"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -74,7 +54,6 @@
 					<table class="table">
 						<colgroup>
 							<col width="3%"/>
-							<col width="4%"/>
 							<col width="9%"/>
 							<col width="9%"/>
 							<col width="10%"/>
@@ -89,7 +68,6 @@
 						<thead>
 							<tr>
 								<th rowspan="2" class="text-center border-right">No</th> 
-								<th rowspan="2" class="text-center border-right">취소</th>
 								<th rowspan="2" class="text-center border-right">시리얼</th>
 								<th rowspan="2" class="text-center border-right">모델<br/>번호</th>
 								<th rowspan="2" class="text-center border-right">제조사</th>
@@ -105,69 +83,26 @@
 								<th class="text-center border-right">보조</th>
 							</tr>
 						</thead>
-						<tbody>
-							<c:forEach var="idx" begin="0" end="4">
-								<tr>
-									<td class="text-center border-right">${idx+1}</td>
-									<td class="text-center border-right">
-										<a href="#" onclick="fncValueInit('${idx}'); return false;" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>
-									</td>
-									<td class="text-center border-right">
-										<input type="text" name="serial_id_arr" id="serial_id_${idx}" class="form-control mtb5" maxlength="50"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="hidden" name="catalog_no_arr" id="catalog_no_${idx}" class="form-data"/>
-										<div class="input-group-append">
-											<input type="text" name="model_id_arr" id="model_id_${idx}" class="form-control mtb5 beadcnt" readonly="readonly"/>
-											<i class="fas fa-search fa-sm ml5 mt15" onclick="fncCatalogListPop('${idx}'); return false;"></i>
-										</div>
-									</td>
-									<td class="text-center border-right">
-										<input type="hidden" name="vender_no_arr" id="vender_no_${idx}" class="form-data"/>
-										<div class="input-group-append">
-											<input type="number" name="vender_nm_arr" id="vender_nm_${idx}" class="form-control mtb5 beadcnt" readonly="readonly"/>
-											<i class="fas fa-search fa-sm ml5 mt15"></i>
-										</div>
-									</td>
-									<td class="text-center border-right">
-										<select name="material_cd_arr" id="material_cd_${idx}" class="form-control mtb5">
-											<option value="">선택</option>
-											<c:forEach var="smlist" items="${smlist}">
-												<option value="${smlist.cdid}">${smlist.cdnm}</option>
-											</c:forEach>
-										</select>
-									</td>
-									<td class="text-center border-right">
-										<select name="color_cd_arr" id="color_cd_${idx}" class="form-control mtb5">
-											<option value="">선택</option>
-											<c:forEach var="sclist" items="${sclist}">
-												<option value="${sclist.cdid}">${sclist.cdnm}</option>
-											</c:forEach>
-										</select>
-									</td>
-									<td class="text-center border-right">
-										<input type="number" name="quantity_arr" id="quantity_${idx}" class="form-control mtb5" value="1" min="1"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="text" name="main_stone_type_arr" id="main_stone_type_${idx}" class="form-control mtb5" maxlength="50"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="text" name="sub_stone_type_arr" id="sub_stone_type_${idx}" class="form-control mtb5" maxlength="50"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="text" name="size_arr" id="size_${idx}" class="form-control mtb5" maxlength="50"/>
-									</td>
-									<td class="text-center border-right">
-										<input type="text" name="order_desc_arr" id="order_desc_${idx}" class="form-control mtb5" maxlength="50"/>
-									</td>
-								</tr>
-							</c:forEach>
+						<tbody id="orderlist">
+							<tr class="border-bottom">
+								<td class="text-center">1</td>
+								<td class="text-center" id="serial_id_td"></td>
+								<td class="text-center" id="model_id_td"></td>
+								<td class="text-center" id="vender_nm_td"></td>
+								<td class="text-center" id="material_cd_td"></td>
+								<td class="text-center" id="color_cd_td"></td>
+								<td class="text-center" id="quantity_td"></td>
+								<td class="text-center" id="main_stone_type_td"></td>
+								<td class="text-center" id="sub_stone_type_td"></td>
+								<td class="text-center" id="size_td"></td>
+								<td class="text-center" id="order_desc_td"></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 
 				<div class="btn_wrap text-center">
-	        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
+	        <a href="javascript: void(0);" onclick="goModify(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
 	        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 	    	</div>
 				<nav aria-label="Page navigation" class="text-center">
@@ -179,159 +114,78 @@
 	
 	<script>
 		/*<![CDATA[*/
-			$(document).ready(function(){
-				
-			});
-				
-			function readURL(obj) {
-			  if (obj.files && obj.files[0]) {
-			    var reader = new FileReader();
-			    reader.onload = function(e) {
-			      document.getElementById('preview').src = e.target.result;
-			    };
-			    reader.readAsDataURL(obj.files[0]);
-			  } else {
-			    document.getElementById('preview').src = "";
-			  }
-			}
+			
+			var cdmapper = {
+				<c:forEach var="code" items="${cdmapper}" varStatus="loop">
+				  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
+				</c:forEach>
+			};
 
-			function fncSave(){
-				/* if( !isValid() ){
-					return false;
-				} */
+			window.onload = () => {
+				find();
+	  	}
+			
+			function find() {
 				
-				if($("#store_cd").val() == ''){
-					alert('매장을 선택해주세요.');
-					$("#store_cd").focus();
-					return false;
-				}
-				if($("#receipt_dt").val() == ''){
-					alert('접수일을 입력해주세요.');
-					$("#receipt_dt").focus();
-					return false;
-				}
-				if($("#expected_ord_dt").val() == ''){
-					alert('주문예정일을 입력해주세요.');
-					$("#expected_ord_dt").focus();
-					return false;
-				}
-				if($("#customer_no").val() == ''){
-					alert('고객을 선택해주세요.');
-					$("#customer_no").focus();
-					return false;
-				}
+				const orderno = '${orderno}';
+				if ( !orderno ) {
+		    	return false;
+		    }
 				
-				var catalogflag = false;
-				$("input[name=catalog_no_arr]").each(function(){
-					if($(this).val() != '' && Number($(this).val()) > 0) {
-						catalogflag = true;
-					}
-				});
-				
-				if(catalogflag == false){
-					alert('1개 이상의 모델을 선택해주세요.');
-					$("input[name=catalog_no_arr]").eq(0).focus();
-					return false;
-				}
-				
-				const fileField = document.querySelector('input[type="file"]');
-				const form = document.getElementById('form');
-				const writeForm = new FormData(form);
+				fetch(`/api/order/${orderno}`).then(response => {
+		    	if (!response.ok) {
+						throw new Error('Request failed...');
+			    }
+		    	return response.json();
+		
+		   	}).then(json => {
+		   		var filelist = json.filelist;
+		   		var filepath = '';
+		   		var filenm = '';
+		   		
+		   		if(filelist != null && filelist.length > 0){
+			   		for(var i = 0 ; i < filelist.length ; i++){
+			   			if(filelist[i].fileord == 1){
+			   				filepath = checkNullVal(filelist[i].filepath);
+			   				filenm = checkNullVal(filelist[i].filenm);
+			   			}
+			   		}
+		   		}
+		   		document.getElementById('order_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		document.getElementById('store_cd_td').innerHTML = checkNullVal(cdmapper[json.storecd]);
+		   		document.getElementById('receipt_dt_td').innerHTML = checkSubstringNullVal(json.receiptdt,0,10);
+		   		document.getElementById('expected_ord_dt_td').innerHTML = checkSubstringNullVal(json.expectedorddt,0,10);
+		   		document.getElementById('customer_no_td').innerHTML = checkNullVal(json.customerno);
+		   		document.getElementById('customer_nm_td').innerHTML = checkNullVal(json.customernm);
+		   		document.getElementById('customer_cel_td').innerHTML = checkNullVal(json.customercel);
+		   		
+		   		document.getElementById('serial_id_td').innerHTML = checkNullVal(json.serialid);
+		   		document.getElementById('model_id_td').innerHTML = checkNullVal(json.modelid);
+		   		document.getElementById('vender_nm_td').innerHTML = checkNullVal(json.vendernm);
+		   		document.getElementById('material_cd_td').innerHTML = checkNullVal(cdmapper[json.materialcd]);
+		   		document.getElementById('color_cd_td').innerHTML = checkNullVal(cdmapper[json.colorcd]);
+		   		document.getElementById('quantity_td').innerHTML = checkNullVal(json.quantity);
+		   		document.getElementById('main_stone_type_td').innerHTML = checkNullVal(json.mainstonetype);
+		   		document.getElementById('sub_stone_type_td').innerHTML = checkNullVal(json.substonetype);
+		   		document.getElementById('size_td').innerHTML = checkNullVal(json.size);
+		   		document.getElementById('order_desc_td').innerHTML = checkNullVal(json.orderdesc);
 
-				const formData = new FormData();
-				formData.append("order_type", "CUSTOMER");
-				formData.append("order_step", "A");
-				$(".form-data").each(function(){
-					formData.append($(this).attr("name"), checkNullVal($(this).val()));
-				});
-				$("input[name=serial_id_arr]").each(function(){
-					formData.append("serial_id_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=catalog_no_arr]").each(function(){
-					formData.append("catalog_no_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=model_id_arr]").each(function(){
-					formData.append("model_id_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=vender_no_arr]").each(function(){
-					formData.append("vender_no_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=vender_nm_arr]").each(function(){
-					formData.append("vender_nm_arr[]", checkNullVal($(this).val()));
-				});
-				$("select[name=material_cd_arr]").each(function(){
-					formData.append("material_cd_arr[]", checkNullVal($(this).val()));
-				});
-				$("select[name=color_cd_arr]").each(function(){
-					formData.append("color_cd_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=quantity_arr]").each(function(){
-					formData.append("quantity_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=main_stone_type_arr]").each(function(){
-					formData.append("main_stone_type_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=sub_stone_type_arr]").each(function(){
-					formData.append("sub_stone_type_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=size_arr]").each(function(){
-					formData.append("size_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=order_desc_arr]").each(function(){
-					formData.append("order_desc_arr[]", checkNullVal($(this).val()));
-				});
-				//배열 데이터 넣기
-				formData.append("file", fileField.files[0]);
-								
-				fetch('/api/order/write', {
-					method: 'POST',
-					body: formData
-				}).then(response => {
-					if(!response.ok){
-						throw new Error('Request Failed...');
-					}
-					alert('저장되었습니다.');
-					window.opener.findAll();
-					fncClose();
-				}).catch(error => {
-					alert('오류가 발생하였습니다.');
-				});
+		   	}).catch(error => {
+		    	alert('주문 정보를 찾을 수 없습니다.');
+		    	fncParentRefresh();
+		    	fncClose();
+		   	});
 			}
 			
-			function fncValueInit(idx){
-				$("#catalog_no_"+idx).val('');
-				$("#model_id_"+idx).val('');
-				$("#vender_no_"+idx).val('');
-				$("#vender_nm_"+idx).val('');
-				$("#serial_id_"+idx).val('');
-				$("#mateial_cd_"+idx).val('');
-				$("#color_cd_"+idx).val('');
-				$("#quantity_"+idx).val('1');
-				$("#main_stone_type_"+idx).val('');
-				$("#sub_stone_type_"+idx).val('');
-				$("#size_"+idx).val('');
-				$("#order_desc_"+idx).val('');
+			/**
+			 * 수정하기
+			 */
+			function goModify() {
+		    location.href = '/order/popup/customer/modify/${orderno}';
 			}
 			
-			function fncCustomerListPop(){
-				var url = "/customer/popup/list";
-	      var name = "customerListPopup";
-	      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-	      window.open(url, name, option);
-			}
-			
-			function fncCatalogListPop(idx){
-				var url = "/catalog/popup/list?openeridx="+idx;
-	      var name = "catalogListPopup";
-	      var option = "width = 1150, height = 800, top = 100, left = 200, location = no";
-	      window.open(url, name, option);
-			}
-
-			function fncVenderListPop(idx){
-				var url = "/vender/popup/list?openeridx="+idx;
-	      var name = "venderListPopup";
-	      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-	      window.open(url, name, option);
+			function fncParentRefresh(){
+				window.opener.findAll();
 			}
 			
 			function fncClose(){

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,4 +51,49 @@ public class OrderApiController {
 	public OrderVO order(@PathVariable final Long orderno){
 		return orderService.findOrderByNo(orderno);
 	}
+	
+	@PatchMapping("/modify/{orderno}")
+	public ResponseEntity<Object> modify(@PathVariable final Long orderno, final OrderTO to,
+			@RequestPart(value = "file", required = false) MultipartFile file){
+		String userid = ((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername();
+		to.setOrder_no(orderno);
+		to.setOrderfile(file);
+		to.setInpt_id(userid);
+		to.setUpdt_id(userid);
+		String result = orderService.updateOrder(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+	
+	@PatchMapping("/step/modify")
+	public ResponseEntity<Object> stepModify(final OrderTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = orderService.updateOrdersStep(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+
+	@PatchMapping("/orders/remove")
+	public ResponseEntity<Object> ordersRemove(final OrderTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = orderService.updateOrdersDelete(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+	
+	@GetMapping("/schedule/list")
+	public Map<String, Object> scheduleList(final OrderTO to){
+		to.setOrder_step("A");
+		return orderService.findAllOrder(to);
+	}
+
+	@GetMapping("/stocked/list")
+	public Map<String, Object> stockedList(final OrderTO to){
+		to.setOrder_step("B");
+		return orderService.findAllOrder(to);
+	}
+	
 }

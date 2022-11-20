@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객관리</title>
+<title>고객 현황</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,7 +14,7 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">고객관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">고객 현황</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
@@ -120,8 +120,8 @@
 			
 	 		// 페이지 번호
 	 		for (let i = startpage ; i < endpage ; i++) {
-	 			const active = ((i) === (pagination.currentpage)) ? 'class="active"' : '';
-	            html += '<li><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
+	 			const active = ((i) === (pagination.currentpage-1)) ? 'class="active"' : '';
+        html += '<li '+active+'><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
 	 		}
 	
 	 		// 다음 페이지, 마지막 페이지
@@ -146,7 +146,7 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  page: page
+			  currentpage: page
 				, searchstdt: form.searchstdt.value
 				, searcheddt: form.searcheddt.value
 				, searchrecordcnt: form.searchrecordcnt.value

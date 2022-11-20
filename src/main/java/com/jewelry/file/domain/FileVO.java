@@ -3,6 +3,8 @@ package com.jewelry.file.domain;
 public class FileVO {
 	
 	private Long fileno;
+	private Long refno;
+	private String refinfo;
 	private String filepath;
 	private String originnm;
 	private String filenm;
@@ -10,6 +12,7 @@ public class FileVO {
 	private String fileext;
 	private Long filesize;
 	private String versionid;
+	private String delyn;
 	
 	public Long getFileno() {
 		return fileno;
@@ -59,7 +62,23 @@ public class FileVO {
 	public void setVersionid(String versionid) {
 		this.versionid = versionid;
 	}
-	
-	
+	public Long getRefno() {
+		return refno;
+	}
+	public void setRefno(Long refno) {
+		this.refno = refno;
+	}
+	public String getRefinfo() {
+		return refinfo;
+	}
+	public void setRefinfo(String refinfo) {
+		this.refinfo = refinfo;
+	}
+	public String getDelyn() {
+		return delyn;
+	}
+	public void setDelyn(String delyn) {
+		this.delyn = delyn;
+	}
 	
 }

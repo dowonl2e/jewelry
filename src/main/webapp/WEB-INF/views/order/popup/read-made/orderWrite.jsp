@@ -106,8 +106,8 @@
 									<td class="text-center border-right">
 										<input type="hidden" name="vender_no_arr" id="vender_no_${idx}" class="form-data"/>
 										<div class="input-group-append">
-											<input type="number" name="vender_nm_arr" id="vender_nm_${idx}" class="form-control mtb5 beadcnt" readonly="readonly"/>
-											<i class="fas fa-search fa-sm ml5 mt15"></i>
+											<input type="text" name="vender_nm_arr" id="vender_nm_${idx}" class="form-control mtb5 beadcnt" readonly="readonly"/>
+											<i class="fas fa-search fa-sm ml5 mt15" onclick="fncVenderListPop('${idx}'); return false;"></i>
 										</div>
 									</td>
 									<td class="text-center border-right">

@@ -10,16 +10,33 @@
 		<if test='searchmaterial != null and !searchmaterial.equals("")'>
 			AND a.material_cd = #{searchmaterial}
 		</if>
+		<if test='searchstep != null and !searchstep.equals("")'>
+			AND a.order_step = #{searchstep}
+		</if>
+		<if test='searchstdt != null and !searchstdt.equals("")'>
+			AND DATE_FORMAT(a.receipt_dt, '%Y-%m-%d') <![CDATA[ >= ]]> STR_TO_DATE(#{searchstdt}, '%Y-%m-%d')
+		</if>
+		<if test='searcheddt != null and !searcheddt.equals("")'>
+			AND DATE_FORMAT(a.receipt_dt, '%Y-%m-%d') <![CDATA[ <= ]]> STR_TO_DATE(#{searcheddt}, '%Y-%m-%d')
+		</if>
 		<!-- 검색 키워드가 있을 때 -->
 		<if test='searchword != null and !searchword.equals("")'>
-			AND a.customer_nm LIKE CONCAT('%', #{searchword}, '%')
+			AND (
+				a.model_id LIKE CONCAT('%', #{searchword}, '%')
+				OR b.contractor_nm LIKE CONCAT('%', #{searchword}, '%')
+			)
 		</if>
 	</sql>
 
 	<select id="selectOrderListCount" parameterType="OrderTO" resultType="Integer">
 		SELECT COUNT(a.order_no)
 		FROM tb_order a
+			LEFT OUTER JOIN tb_customer b
+				ON a.customer_no = b.customer_no
 		WHERE a.del_yn = 'N'
+		<if test='order_step != null and !order_step.equals("")'>
+			AND a.order_step = #{order_step}
+		</if>
 		<include refid="order-search" />
 	</select>
 	
@@ -38,6 +55,9 @@
 				AND c.file_ord = 1
 				AND c.del_yn = 'N'
 		WHERE a.del_yn = 'N'
+		<if test='order_step != null and !order_step.equals("")'>
+			AND a.order_step = #{order_step}
+		</if>
 		<include refid="order-search" />
 		ORDER BY a.order_no DESC
 		<include refid="commonMapper.paging" />
@@ -106,5 +126,54 @@
 				ON a.customer_no = b.customer_no
 		WHERE a.order_no = #{order_no}
 	</select>
+	
+	<update id="updateOrder" parameterType="OrderTO">
+		UPDATE tb_order
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='store_cd != null and !store_cd.equals("")'>, store_cd = #{store_cd}</if>
+		<if test='receipt_dt != null and !receipt_dt.equals("")'>, receipt_dt = #{receipt_dt}</if>
+		<if test='expected_ord_dt != null and !expected_ord_dt.equals("")'>, expected_ord_dt = #{expected_ord_dt}</if>
+		<if test='customer_no != null and customer_no > 0'>, customer_no = #{customer_no}</if>
+		<if test='customer_nm != null and !customer_nm.equals("")'>, customer_nm = #{customer_nm}</if>
+		<if test='customer_cel != null and !customer_cel.equals("")'>, customer_cel = #{customer_cel}</if>
+		<if test='serial_id != null and !serial_id.equals("")'>, serial_id = #{serial_id}</if>
+		<if test='catalog_no != null and catalog_no > 0'>, catalog_no = #{catalog_no}</if>
+		<if test='model_id != null and !model_id.equals("")'>, model_id = #{model_id}</if>
+		<if test='vender_no != null and vender_no > 0'>, vender_no = #{vender_no}</if>
+		<if test='vender_nm != null and !vender_nm.equals("")'>, vender_nm = #{vender_nm}</if>
+		<if test='material_cd != null and !material_cd.equals("")'>, material_cd = #{material_cd}</if>
+		<if test='color_cd != null and !color_cd.equals("")'>, color_cd = #{color_cd}</if>
+		<if test='quantity != null and quantity > 0'>, quantity = #{quantity}</if>
+		<if test='main_stone_type != null and !main_stone_type.equals("")'>, main_stone_type = #{main_stone_type}</if>
+		<if test='sub_stone_type != null and !sub_stone_type.equals("")'>, sub_stone_type = #{sub_stone_type}</if>
+		<if test='size != null and !size.equals("")'>, size = #{size}</if>
+		<if test='order_desc != null and !order_desc.equals("")'>, order_desc = #{order_desc}</if>
+		WHERE order_no = #{order_no}
+	</update>
+	
+	<update id="updateOrdersStatus" parameterType="OrderTO">
+		UPDATE tb_order
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, order_step = #{order_step}
+		WHERE order_no IN (
+			<foreach collection="order_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
+	<update id="updateOrdersDelete" parameterType="OrderTO">
+		UPDATE tb_order
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, del_yn = 'Y'
+		WHERE order_no IN (
+			<foreach collection="order_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
 	
 </mapper>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객관리</title>
+<title>거래처 현황</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,13 +14,14 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">고객관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">거래처 현황</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
 				<div class="mb20" id="adv-search">
 					<div class="form-inline">
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="거래처명/사업자명 을 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
@@ -28,20 +29,23 @@
 				</div>
 	    </form>
 			<div class="table-responsive clearfix">
-				<table class="table table-hover">
+				<table class="table">
 					<thead>
 						<tr>
 							<th rowspan="2" class="">No.</th>
+							<th rowspan="2" class="border-left">구분</th>
 							<th rowspan="2" class="border-left">등록일</th>
-							<th rowspan="2" class="border-left">계약구분</th>
-							<th rowspan="2" class="border-left">고객코드</th>
-							<th colspan="2" class="border-left">계약고객</th>
+							<th rowspan="2" class="border-left">거래처명</th>
+							<th rowspan="2" class="border-left">사업자명</th>							
+							<th colspan="2" class="border-left">대표자연락처</th>
+							<th colspan="5" class="border-left">전화번호</th>
+							<th colspan="2" class="border-left">팩스번호</th>
+							<th rowspan="2" class="border-left">담당자</th>
+							<th rowspan="2" class="border-left">담당자연락처</th>
 							<th rowspan="2" class="border-left">비고</th>
-						</tr>
-						<tr>
-							<th class="border-left">이름</th>
-							<th class="border-left">H.P</th>
-						</tr>
+							<th rowspan="2" class="border-left">VAT</th>
+							<th rowspan="2" class="border-left">해리</th>
+  					</tr>
 					</thead>
 					<tbody id="list"></tbody>
 				</table>
@@ -64,7 +68,7 @@
 				</c:forEach>
 		};
 		
-		window.onload = () => {
+		window.onload = () => {       //들어왔을때 가장먼저 호출하지 않아도 실행되는 자바스크립트 함수
 			setQueryStringParams();
 	    findAll();
 			addEnterSearchEvent();
@@ -102,7 +106,7 @@
 	 				<li><a href="javascript:void(0)" onclick="findAll("+(params.startpage - 1)+");" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a></li>
 	 			`;
 	 		}
-
+			
 	 		// 페이지 번호
 	 		for (let i = startpage ; i < endpage ; i++) {
 	 			const active = ((i) === (pagination.currentpage-1)) ? 'class="active"' : '';
@@ -131,7 +135,9 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  startpage: page
+			  currentpage: page
+				, openeridx: '${param.openeridx}'
+				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
 			checkListNullParams(params);
@@ -140,7 +146,7 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/customer/list', params).then(response => {
+			getJson('/api/vender/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="15" class="text-center">등록된 고객이 없습니다.</td>';
 					drawPages();
@@ -151,18 +157,23 @@
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
 				
      		response.list.forEach((obj, idx) => {
-     			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
      				<tr>
 							<td class="text-center">` + (num--) + `</td>
-							<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
-							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.contractcd)]) +`</td>
+							<td class="text-center"><input type="checkbox" id="arr_vender_no" value="`+checkNullVal(obj.venderno)+`"/></td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.vendernm)]) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncSelect('` + checkNullVal(obj.customerno) + `', '`+checkNullVal(obj.contractornm)+`', '`+checkNullVal(obj.contractorcel)+`'); return false;">`+checkNullVal(obj.customerno)+`</a>
+								<a href="javascript: void(0);" onclick="fncSelect('`+checkNullVal(obj.venderno)+`','`+checkNullVal(obj.vendernm)+`'); return false;">`+checkNullVal(obj.venderno)+`</a>
 							</td>
-							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
-							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
-							<td class="text-center">`+checkNullVal(obj.etc)+`</td>
+							<td class="text-center">` + checkNullVal(obj.vendernm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.businessnm)+`</td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
 	   				</tr>
      			`;
      		});
@@ -208,11 +219,21 @@
 			});
 		}
 		
-		function fncSelect(customerno, customernm, customercel){
-			opener.document.getElementById("customer_no").value = customerno;
-			opener.document.getElementById("customer_nm").value = customernm;
-			opener.document.getElementById("customer_cel").value = customercel;
+		function fncSelect(venderno, vendernm){
+			opener.document.getElementById("vender_no_${param.openeridx}").value = venderno;
+			opener.document.getElementById("vender_nm_${param.openeridx}").value = vendernm;
 			self.close();
+		}
+		
+		function fncCheckZero(obj){
+			if($(obj).val() != ''){
+				if(Number($(obj).val()) < minNumberLen){
+					$(obj).val('1');
+				}
+				if(Number($(obj).val()) > maxNumberLen){
+					$(obj).val('100');
+				}
+			}
 		}
 	</script>
 </body>

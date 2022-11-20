@@ -1,16 +1,11 @@
 package com.jewelry.customer.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jewelry.cms.code.domain.CodeTO;
-import com.jewelry.cms.code.domain.CodeVO;
-import com.jewelry.cms.code.mapper.CodeMapper;
 import com.jewelry.customer.domain.CustomerTO;
 import com.jewelry.customer.domain.CustomerVO;
 import com.jewelry.customer.mapper.CustomerMapper;
@@ -26,13 +21,9 @@ public class CustomerServiceImpl implements CustomerService {
 	public Map<String, Object> findAllCustomer(CustomerTO to) {
 		Map<String, Object> response = new HashMap<>();
 
-		int totalcount = customerMapper.selectCustomerListCount(to);
-		List<CustomerVO> list = customerMapper.selectCustomerList(to);
-		
-		to.setTotalcount(totalcount);
-
+		to.setTotalcount(customerMapper.selectCustomerListCount(to));
+		response.put("list", customerMapper.selectCustomerList(to));
 		response.put("params", to);
-		response.put("list", list);
 		
 		return response;
 	}

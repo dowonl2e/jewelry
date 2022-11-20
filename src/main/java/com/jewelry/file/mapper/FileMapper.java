@@ -19,4 +19,6 @@ public interface FileMapper {
 	int updateFileToDeleteWithRef(FileTO to);
 	
 	List<FileVO> selectFileListByRefInfo(FileTO to);
+	
+	FileVO selectFileByRefInfo(FileTO to);
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주문관리</title>
+<title>입고예정</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,7 +14,7 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">주문관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">입고예정</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
@@ -32,13 +32,6 @@
 	            	<option value="${smlist.cdid}">${smlist.cdnm}</option>
 	            </c:forEach>
 		        </select>
-		        <select id="searchstep" class="form-control ml5">
-	            <option value="">단계 전체</option>
-	            <option value="A">주문등록</option>
-	            <option value="B">주문접수</option>
-	            <option value="C">주문 재고등록 완료</option>
-	            <option value="F">판매처리완료</option>
-		        </select>
 			    </div>
 			    <div class="form-inline mt5">
 			    	<span class="mlr5">접수일</span>
@@ -49,8 +42,6 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-				    <a href="javascript: void(0);" onclick="fncPopupCustomerOrderWrite();" class="btn btn-primary waves-effect waves-light ml5">고객</a>
-				    <a href="javascript: void(0);" onclick="fncPopupReadMadeOrderWrite();" class="btn btn-danger waves-effect waves-light ml5">기성</a>
 			    </div>
 				</div>
 	    </form>
@@ -172,7 +163,6 @@
 				currentpage: page
 				, searchstore: form.searchstore.value
 				, searchmaterial: form.searchmaterial.value
-				, searchstep: form.searchstep.value
 				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
@@ -182,7 +172,7 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/order/list', params).then(response => {
+			getJson('/api/order/stocked/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="14" class="text-center">주문내역이 없습니다.</td>';
 					drawPages();
@@ -264,26 +254,6 @@
 		}
 
 		/**
-		 * 작성하기(고객)
-		 */
-		function fncPopupCustomerOrderWrite() {
-		  var url = "/order/popup/customer/write";
-      var name = "orderCustomerWritePopup";
-      var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		/**
-		 * 작성하기(기성)
-		 */
-		function fncPopupReadMadeOrderWrite() {
-		  var url = "/order/popup/read-made/write";
-      var name = "orderReadMadeWritePopup";
-      var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		/**
 		 * 수정하기
 		 */
 		function fncPopupView(orderno, ordertype) {
@@ -358,27 +328,6 @@
 					alert('오류가 발생하였습니다.');
 				});
 			}
-		}
-
-		function fncPopupStepModify(){
-			var ordersno = '';
-			$("input[name=order_no_arr]").each(function(){
-				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
-				}
-			});
-			
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-
-		  var url = "/order/popup/step/modify?ordersno="+ordersno;
-      var name = "orderStepModifyPopup";
-      var option = "width = 500, height = 300, top = 100, left = 200, location = no";
-      window.open(url, name, option);
 		}
 		
 		function fncCheckZero(obj){

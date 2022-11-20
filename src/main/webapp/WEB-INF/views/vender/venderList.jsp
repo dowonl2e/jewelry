@@ -111,8 +111,8 @@
 			
 	 		// 페이지 번호
 	 		for (let i = startpage ; i < endpage ; i++) {
-	 			const active = ((i) === (pagination.currentpage)) ? 'class="active"' : '';
-	            html += '<li><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
+	 			const active = ((i) === (pagination.currentpage-1)) ? 'class="active"' : '';
+        html += '<li '+active+'><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
 	 		}
 	
 	 		// 다음 페이지, 마지막 페이지
@@ -137,7 +137,7 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  page: page
+			  currentpage: page
 				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}

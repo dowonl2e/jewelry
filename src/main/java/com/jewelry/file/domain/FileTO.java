@@ -22,6 +22,11 @@ public class FileTO {
 		this.ref_no = ref_no;
 		this.ref_info = ref_info;
 	}
+	public FileTO(Long ref_no, String ref_info, Integer file_ord) {
+		this.ref_no = ref_no;
+		this.ref_info = ref_info;
+		this.file_ord = file_ord;
+	}
 	
 	public Long getFile_no() {
 		return file_no;

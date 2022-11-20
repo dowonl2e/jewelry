@@ -55,12 +55,12 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 		        // Uploading file to s3
 		        PutObjectResult putObjectResult = amazonS3Client.putObject(bucketpath, filename, file.getInputStream(), objectMetadata);
 				
+		        fileto.setRef_info(refinfo);
 		        fileto.setFile_path(path);
 		        fileto.setOrigin_nm(originalname);
 		        fileto.setFile_nm(filename);
 		        fileto.setFile_ext(fileext);
 		        fileto.setFile_ord(1);
-		        fileto.setRef_info(refinfo);
 		        fileto.setFile_size(file.getSize());
 		        if(putObjectResult != null && putObjectResult.getMetadata() != null)
 		        	fileto.setVersion_id(putObjectResult.getMetadata().getVersionId());
@@ -71,9 +71,8 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 
 	@Override
 	public S3Object download(String path, String fileName) {
-//		FileMeta fileMeta = fileMetaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
-//        return amazonS3Service.download(fileMeta.getFilePath(),fileMeta.getFileName());
-        return amazonS3Client.getObject(path, fileName);
+		String bucketpath = String.format("%s/%s", bucketname, path);
+        return amazonS3Client.getObject(bucketpath, fileName);
 	}
 	
 

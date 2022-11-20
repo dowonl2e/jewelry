@@ -53,5 +53,4 @@ public class CatalogPageController {
 		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"SM","SC"}, 2));
 		return "catalog/popup/catalogList";
 	}
-	
 }

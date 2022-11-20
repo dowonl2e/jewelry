@@ -38,13 +38,9 @@ public class CatalogServiceImpl implements CatalogService {
 	public Map<String, Object> findAllCatalog(CatalogTO to) {
 		Map<String, Object> response = new HashMap<>();
 
-		int totalcount = catalogMapper.selectCatalogListCount(to);
-		List<CatalogVO> list = catalogMapper.selectCatalogList(to);
-
-		to.setTotalcount(totalcount);
-		
+		to.setTotalcount(catalogMapper.selectCatalogListCount(to));
+		response.put("list", catalogMapper.selectCatalogList(to));
 		response.put("params", to);
-		response.put("list", list);
 		
 		return response;
 	}

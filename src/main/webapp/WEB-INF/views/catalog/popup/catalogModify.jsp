@@ -187,7 +187,7 @@
 			   			}
 			   		}
 		   		}
-		   		form.preview.src = 'https://yourjewelrybucket.s3.ap-northeast-2.amazonaws.com/'+filepath+'/'+filenm;
+		   		form.preview.src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
 		   		form.vender_no.value = checkNullVal(json.venderno);
 		   		form.vender_nm.value = checkNullVal(json.vendernm);
 		   		form.model_id.value = checkNullVal(json.modelid);

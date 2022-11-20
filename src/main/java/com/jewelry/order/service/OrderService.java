@@ -15,6 +15,10 @@ public interface OrderService {
 	
 	String updateOrder(OrderTO to);
 	
+	String updateOrdersStep(OrderTO to);
+	
+	String updateOrdersDelete(OrderTO to);
+	
 	String updateOrderToDelete(OrderTO to);
 	
 }

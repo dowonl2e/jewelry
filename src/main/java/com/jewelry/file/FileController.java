@@ -1,42 +1,59 @@
 package com.jewelry.file;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
+import com.jewelry.file.service.AmazonS3Service;
 
 @RestController
 @RequestMapping("/file")
 public class FileController {
 	
-	@GetMapping("/image/display")
-	public ResponseEntity<byte[]> getFile(String fileName){
+	@Autowired
+	private AmazonS3Service amazonS3Service;
 
-	    ResponseEntity<byte[]> result = null;
-	    
-	    /*
-	    try{
-	        String srcFileName = URLDecoder.decode(fileName,"UTF-8");
-	        log.info("filename : "+srcFileName);
-	        File file = new File(uploadPath + File.separator + srcFileName);
-	        log.info("file : "+file);
-	        HttpHeaders header = new HttpHeaders();
-	
-	        //MIME 타입 처리
-	        header.add("Content-Type", Files.probeContentType(file.toPath()));
-	        //File객체를 Path로 변환하여 MIME 타입을 판단하여 HTTPHeaders의 Content-Type에  값으로 들어갑니다.
-	
-	        //파일 데이터 처리 *FileCopyUtils.copy 아래에 정리
-	        //new ResponseEntity(body,header,status)
-	        result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),header,HttpStatus.OK);
-	        
-	    }catch (Exception e){
-	        log.error(e.getMessage());
-	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	    */
-	    
-	    return result;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    @Value("${cloud.aws.s3.path}")
+    private String s3Path;
+
+	@GetMapping("/image/display")
+	public ResponseEntity<byte[]> displayImage(
+			@RequestParam(value = "filePath", required = false) String filePath,
+			@RequestParam(value = "fileName", required = false) String fileName) throws IOException {
+		
+		if(filePath == null || filePath.equals("") || fileName == null || fileName.equals("")) {
+			filePath = "common";
+			fileName = "no-image.png";
+		    System.out.println("파일1 : " + filePath + ", " + fileName);
+		}
+	    System.out.println("파일2 : " + filePath + ", " + fileName);
+    	S3Object object = amazonS3Service.download(filePath, fileName);
+
+    	S3ObjectInputStream inputStream = object.getObjectContent();
+    	
+    	byte[] bytes = IOUtils.toByteArray(inputStream);
+    	
+    	HttpHeaders httpHeaders = new HttpHeaders();
+    	httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    	
+    	httpHeaders.setContentDispositionFormData("attachment", fileName);
+    	
+    	return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
     }
-	    
+	
 }

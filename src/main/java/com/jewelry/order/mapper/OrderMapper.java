@@ -20,6 +20,10 @@ public interface OrderMapper {
 	
 	int updateOrder(OrderTO to);
 	
+	int updateOrdersStatus(OrderTO to);
+	
+	int updateOrdersDelete(OrderTO to);
+	
 	int updateOrderToDelete(OrderTO to);
 	
 }

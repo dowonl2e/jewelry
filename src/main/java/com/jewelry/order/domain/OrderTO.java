@@ -46,9 +46,9 @@ public class OrderTO extends CommonTO {
 	
 	private String searchstore;
 	private String searchmaterial;
-	private String searchstartdate;
-	private String searchendfate;
 	private String searchstep;
+	
+	private Long[] order_no_arr;
 	
 	public Long getOrder_no() {
 		return order_no;
@@ -170,18 +170,6 @@ public class OrderTO extends CommonTO {
 	public void setSearchmaterial(String searchmaterial) {
 		this.searchmaterial = searchmaterial;
 	}
-	public String getSearchstartdate() {
-		return searchstartdate;
-	}
-	public void setSearchstartdate(String searchstartdate) {
-		this.searchstartdate = searchstartdate;
-	}
-	public String getSearchendfate() {
-		return searchendfate;
-	}
-	public void setSearchendfate(String searchendfate) {
-		this.searchendfate = searchendfate;
-	}
 	public String getSearchstep() {
 		return searchstep;
 	}
@@ -289,6 +277,12 @@ public class OrderTO extends CommonTO {
 	}
 	public void setOrder_step(String order_step) {
 		this.order_step = order_step;
+	}
+	public Long[] getOrder_no_arr() {
+		return order_no_arr;
+	}
+	public void setOrder_no_arr(Long[] order_no_arr) {
+		this.order_no_arr = order_no_arr;
 	}
 	
 }

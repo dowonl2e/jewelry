@@ -28,6 +28,7 @@ public class AuthAspect {
 		"execution(* com.jewelry.cms.*.*Controller.*(..))" + 
 		") && " + 
 		"!execution(* com.jewelry.*.UserController.*(..)) && " +
+		"!execution(* com.jewelry.*.FileController.*(..)) && " +
 		"!execution(* com.jewelry.*.*Controller.*Popup(..)) && " +
 		"!execution(* com.jewelry.*.*ApiController.*(..)) && " +
 		"!execution(* com.jewelry.cms.*.*ApiController.*(..)) && " +
