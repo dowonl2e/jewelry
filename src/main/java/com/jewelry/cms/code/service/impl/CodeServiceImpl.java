@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jewelry.cms.code.domain.CodeTO;
 import com.jewelry.cms.code.domain.CodeVO;
@@ -18,6 +19,7 @@ public class CodeServiceImpl implements CodeService {
 	@Autowired
 	private CodeMapper codeMapper;
 
+	@Transactional(readOnly = true)
 	@Override
 	public Map<String, Object> findAllCode(CodeTO to) {
 		Map<String, Object> response = new HashMap<>();
@@ -29,26 +31,52 @@ public class CodeServiceImpl implements CodeService {
 		return response;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public CodeVO findCodeByCdId(String cdid) {
 		return codeMapper.selectCode(cdid);
 	}
 
+	@Transactional
 	@Override
 	public String insertCode(CodeTO to) {
-		return codeMapper.insertCode(to) > 0 ? "success" : "fail";
+		int res = 0;
+		try {
+			res = codeMapper.insertCode(to);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res > 0 ? "success" : "fail";
 	}
 
+	@Transactional
 	@Override
 	public String updateCode(CodeTO to) {
-		return codeMapper.updateCode(to) > 0 ? "success" : "fail";
+		int res = 0;
+		try {
+			res = codeMapper.updateCode(to);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res > 0 ? "success" : "fail";
 	}
 
+	@Transactional
 	@Override
 	public String deleteCode(String cdid) {
-		return codeMapper.deleteCode(cdid) > 0 ? "success" : "fail";
+		int res = 0;
+		try {
+			res = codeMapper.deleteCode(cdid);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res > 0 ? "success" : "fail";
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<CodeVO> findAllByUpCdId(String upcdid, Integer cddepth) {
 		CodeTO to = new CodeTO();
@@ -57,6 +85,7 @@ public class CodeServiceImpl implements CodeService {
 		return codeMapper.selectCodeListByUpCdId(to);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<CodeVO> findAllByUpCdId(String[] upcdid, Integer cddepth) {
 		CodeTO to = new CodeTO();
@@ -65,6 +94,7 @@ public class CodeServiceImpl implements CodeService {
 		return codeMapper.selectCodeListByUpCdIdArr(to);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public Map<String, Object> findAllSubCode(String upcdid, Integer cddepth) {
 		CodeTO to = new CodeTO();

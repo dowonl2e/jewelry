@@ -176,4 +176,35 @@
 		)
 	</update>
 	
+	<update id="updateOrdersCustomer" parameterType="OrderTO">
+		UPDATE tb_order
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='customer_no != null and customer_no > 0'>
+			, customer_no = #{customer_no}
+			, customer_nm = #{customer_nm}
+			, customer_cel = #{customer_cel}
+		</if>
+		WHERE order_no IN (
+			<foreach collection="order_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
+	<update id="updateOrdersVender" parameterType="OrderTO">
+		UPDATE tb_order
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='vender_no != null and vender_no > 0'>
+			, vender_no = #{vender_no}
+			, vender_nm = #{vender_nm}
+		</if>
+		WHERE order_no IN (
+			<foreach collection="order_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
 </mapper>

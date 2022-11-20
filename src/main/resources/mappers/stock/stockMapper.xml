@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewelry.stock.mapper.StockMapper">
+	
+	<select id="selectStockListCount" parameterType="StockTO" resultType="Integer">
+	
+	</select>
+	
+	<select id="selectStockList" parameterType="StockTO" resultType="StockVO">
+	
+	</select>
+	
+	<insert id="insertStock" parameterType="StockTO" useGeneratedKeys="true" keyProperty="stock_no" keyColumn="stock_no">
+	
+	</insert>
+	
+	<select id="selectStock" parameterType="Long" resultType="StockVO">
+	
+	</select>
+	
+	<update id="updateStock" parameterType="StockTO">
+	
+	</update>
+	
+	<update id="updateStockToDelete" parameterType="StockTO">
+	
+	</update>
+
+</mapper>

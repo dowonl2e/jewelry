@@ -10,17 +10,17 @@ import com.jewelry.cms.code.domain.CodeVO;
 @Mapper
 public interface CodeMapper {
 	
-	Integer selectCodeListCount(CodeTO to);
+	int selectCodeListCount(CodeTO to);
 	
 	List<CodeVO> selectCodeList(CodeTO to);
 
 	CodeVO selectCode(String cdid);
 	
-	int insertCode(CodeTO to);
+	int insertCode(CodeTO to) throws Exception;
 	
-	int updateCode(CodeTO to);
+	int updateCode(CodeTO to) throws Exception;
 	
-	int deleteCode(String cdid);
+	int deleteCode(String cdid) throws Exception;
 	
 	List<CodeVO> selectCodeListByUpCdId(CodeTO to);
 	

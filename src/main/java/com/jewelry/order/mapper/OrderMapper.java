@@ -14,16 +14,20 @@ public interface OrderMapper {
 	
 	List<OrderVO> selectOrderList(OrderTO to);
 	
-	int insertOrder(OrderTO to);
+	int insertOrder(OrderTO to) throws Exception;
 	
 	OrderVO selectOrder(Long orderno);
 	
-	int updateOrder(OrderTO to);
+	int updateOrder(OrderTO to) throws Exception;
 	
-	int updateOrdersStatus(OrderTO to);
+	int updateOrdersStatus(OrderTO to) throws Exception;
 	
-	int updateOrdersDelete(OrderTO to);
+	int updateOrdersDelete(OrderTO to) throws Exception;
 	
-	int updateOrderToDelete(OrderTO to);
+	int updateOrdersCustomer(OrderTO to) throws Exception;
+
+	int updateOrdersVender(OrderTO to) throws Exception;
+
+	int updateOrderToDelete(OrderTO to) throws Exception;
 	
 }

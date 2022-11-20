@@ -95,5 +95,23 @@ public class OrderApiController {
 		to.setOrder_step("B");
 		return orderService.findAllOrder(to);
 	}
-	
+
+	@PatchMapping("/customer/modify")
+	public ResponseEntity<Object> customerModify(final OrderTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = orderService.updateOrdersCustomer(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}	
+
+	@PatchMapping("/vender/modify")
+	public ResponseEntity<Object> venderModify(final OrderTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = orderService.updateOrdersVender(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+
 }

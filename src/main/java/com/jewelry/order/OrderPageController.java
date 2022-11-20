@@ -76,7 +76,7 @@ public class OrderPageController {
 	}
 
 	@GetMapping("/popup/step/modify")
-	public String stopPopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
+	public String stepPopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
 		model.addAttribute("ordersno", ordersno);
 		return "order/popup/orderStepModify";
 	}
@@ -96,4 +96,17 @@ public class OrderPageController {
 		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST", "SM", "SC"}, 2));
 		return "order/orderStockedList";
 	}
+
+	@GetMapping("/popup/customer/modify")
+	public String customerModifyPopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
+		model.addAttribute("ordersno", ordersno);
+		return "order/popup/orderCustomerModify";
+	}
+	
+	@GetMapping("/popup/vender/modify")
+	public String venderModifyPopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
+		model.addAttribute("ordersno", ordersno);
+		return "order/popup/orderVenderModify";
+	}
+
 }

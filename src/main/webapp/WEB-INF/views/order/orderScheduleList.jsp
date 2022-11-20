@@ -70,8 +70,8 @@
 				
 				<div class="text-left mt-3"><a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
 	        <a href="javascript: void(0);" onclick="fncPopupStepModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">단계변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
 	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
 	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
@@ -290,6 +290,48 @@
 		  var url = "/order/popup/step/modify?ordersno="+ordersno;
       var name = "orderStepModifyPopup";
       var option = "width = 500, height = 300, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+
+		function fncPopupCustomerModify(){
+			var ordersno = '';
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					if(ordersno != '')
+						ordersno += ',';
+					ordersno += $(this).val();
+				}
+			});
+			
+			if(ordersno == ''){
+				alert('주문내역을 선택해주세요.');
+				return false;
+			}
+
+		  var url = "/order/popup/customer/modify?ordersno="+ordersno;
+      var name = "orderCustomerModifyPopup";
+      var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+		
+		function fncPopupVenderModify(){
+			var ordersno = '';
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					if(ordersno != '')
+						ordersno += ',';
+					ordersno += $(this).val();
+				}
+			});
+			
+			if(ordersno == ''){
+				alert('주문내역을 선택해주세요.');
+				return false;
+			}
+
+		  var url = "/order/popup/vender/modify?ordersno="+ordersno;
+      var name = "orderVenderModifyPopup";
+      var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
 		

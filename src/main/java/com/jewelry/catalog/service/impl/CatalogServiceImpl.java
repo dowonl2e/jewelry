@@ -205,7 +205,6 @@ public class CatalogServiceImpl implements CatalogService {
 	@Transactional
 	@Override
 	public String updateCatalogToDelete(String cdid) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

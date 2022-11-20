@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.ObjectUtils;
 
+import com.jewelry.customer.domain.CustomerVO;
+import com.jewelry.customer.mapper.CustomerMapper;
 import com.jewelry.file.domain.FileTO;
 import com.jewelry.file.domain.FileVO;
 import com.jewelry.file.mapper.FileMapper;
@@ -17,6 +19,8 @@ import com.jewelry.order.domain.OrderTO;
 import com.jewelry.order.domain.OrderVO;
 import com.jewelry.order.mapper.OrderMapper;
 import com.jewelry.order.service.OrderService;
+import com.jewelry.vender.domain.VenderVO;
+import com.jewelry.vender.mapper.VenderMapper;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,6 +33,12 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private AmazonS3Service amazonS3Service;
+	
+	@Autowired
+	private CustomerMapper customerMapper;
+	
+	@Autowired
+	private VenderMapper venderMapper;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -239,7 +249,8 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			Long[] order_no_arr = to.getOrder_no_arr();
 			if(order_no_arr != null && order_no_arr.length > 0) {
-				orderMapper.updateOrdersStatus(to);
+				int res = orderMapper.updateOrdersStatus(to);
+				result = res > 0 ? "success" : "fail";
 			}
 		}
 		catch (Exception e) {
@@ -258,7 +269,8 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			Long[] order_no_arr = to.getOrder_no_arr();
 			if(order_no_arr != null && order_no_arr.length > 0) {
-				orderMapper.updateOrdersDelete(to);
+				int res = orderMapper.updateOrdersDelete(to);
+				result = res > 0 ? "success" : "fail";
 			}
 		}
 		catch (Exception e) {
@@ -270,6 +282,53 @@ public class OrderServiceImpl implements OrderService {
 		return result;
 	}
 
+	@Override
+	public String updateOrdersCustomer(OrderTO to) {
+		String result = "success";
+		try {
+			Long[] order_no_arr = to.getOrder_no_arr();
+			if(order_no_arr != null && order_no_arr.length > 0) {
+				CustomerVO customervo = customerMapper.selectCustomer(to.getCustomer_no());
+				if(customervo != null) {
+					to.setCustomer_nm(customervo.getContractornm());
+					to.setCustomer_cel(customervo.getContractorcel());
+				}
+				int res = orderMapper.updateOrdersCustomer(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
+
+	@Override
+	public String updateOrdersVender(OrderTO to) {
+		String result = "success";
+		try {
+			Long[] order_no_arr = to.getOrder_no_arr();
+			if(order_no_arr != null && order_no_arr.length > 0) {
+				VenderVO vendervo = venderMapper.selectVender(to.getVender_no());
+				if(vendervo != null) {
+					to.setVender_nm(vendervo.getVendernm());
+				}
+				int res = orderMapper.updateOrdersVender(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
+	
 	@Override
 	public String updateOrderToDelete(OrderTO to) {
 		// TODO Auto-generated method stub

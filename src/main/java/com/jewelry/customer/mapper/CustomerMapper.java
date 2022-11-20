@@ -16,10 +16,10 @@ public interface CustomerMapper {
 	
 	CustomerVO selectCustomer(Long customerno);
 	
-	int insertCustomer(CustomerTO to);
+	int insertCustomer(CustomerTO to) throws Exception;
 
-	int updateCustomer(CustomerTO to);
+	int updateCustomer(CustomerTO to) throws Exception;
 
-	int updateCustomerToDelete(CustomerTO to);
+	int updateCustomerToDelete(CustomerTO to) throws Exception;
 
 }

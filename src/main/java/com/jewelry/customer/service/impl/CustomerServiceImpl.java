@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jewelry.customer.domain.CustomerTO;
 import com.jewelry.customer.domain.CustomerVO;
@@ -17,6 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
+	@Transactional(readOnly = true)
 	@Override
 	public Map<String, Object> findAllCustomer(CustomerTO to) {
 		Map<String, Object> response = new HashMap<>();
@@ -28,24 +30,49 @@ public class CustomerServiceImpl implements CustomerService {
 		return response;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public CustomerVO findCustomerByNo(Long customerno) {
 		return customerMapper.selectCustomer(customerno);
 	}
 
+	@Transactional
 	@Override
 	public String insertCustomer(CustomerTO to) {
-		return customerMapper.insertCustomer(to) > 0 ? "success" : "fail";
+		int res = 0;
+		try {
+			res = customerMapper.insertCustomer(to);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res > 0 ? "success" : "fail";
 	}
 
+	@Transactional
 	@Override
 	public String updateCustomer(CustomerTO to) {
-		return customerMapper.updateCustomer(to) > 0 ? "success" : "fail";
+		int res = 0;
+		try {
+			res = customerMapper.updateCustomer(to);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res > 0 ? "success" : "fail";
 	}
 
+	@Transactional
 	@Override
 	public String updateCustomerToDelete(CustomerTO to) {
-		return customerMapper.updateCustomerToDelete(to) > 0 ? "success" : "fail";
+		int res = 0;
+		try {
+			res = customerMapper.updateCustomerToDelete(to);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res > 0 ? "success" : "fail";
 	}
 
 }
