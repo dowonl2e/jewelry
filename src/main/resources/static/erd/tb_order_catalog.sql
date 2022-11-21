@@ -12,7 +12,7 @@ create table tb_order_catalog (
     size varchar(60) comment '사이즈',
     order_desc varchar(2000) comment '주문설명',
 	inpt_id varchar(30) not null comment '등록자',
-	inpt_dt datetime not null default current_timestamp() comment '등록일',
+	inpt_dt datetime default current_timestamp() comment '등록일',
 	updt_id varchar(30) comment '수정자',
 	updt_dt datetime comment '수정일',
     primary key (order_cat_no)

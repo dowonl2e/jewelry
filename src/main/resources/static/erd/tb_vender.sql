@@ -13,7 +13,7 @@ CREATE TABLE tb_vender (
   manager_email varchar(80) comment '이메일',
   del_yn varchar(4) default 'N' comment '삭제여부',
   inpt_id varchar(30) not null comment '등록자',
-  inpt_dt datetime not null default current_timestamp() comment '등록자',
+  inpt_dt datetime default current_timestamp() comment '등록자',
   updt_id varchar(30) comment '수정자',
   updt_dt datetime comment '등록자'
   

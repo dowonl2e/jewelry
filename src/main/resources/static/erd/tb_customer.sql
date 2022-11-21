@@ -15,7 +15,7 @@ CREATE TABLE tb_customer (
   del_yn varchar(4) NOT NULL DEFAULT 'N' COMMENT '삭제 여부',
   reg_dt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '등록일(수동)',
   inpt_id varchar(30) NOT NULL COMMENT '등록자',
-  inpt_dt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '등록일',
+  inpt_dt datetime DEFAULT CURRENT_TIMESTAMP() COMMENT '등록일',
   updt_id varchar(30) COMMENT '수정자',
   updt_dt datetime COMMENT '수정일',
   PRIMARY KEY (customer_no)

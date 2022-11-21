@@ -6,7 +6,7 @@ create table tb_repair (
     repair_desc varchar(3000) not null comment '비고',
     del_yn varchar(4) default 'N' comment '삭제 여부',
 	inpt_id varchar(30) not null comment '등록자',
-	inpt_dt datetime not null default current_timestamp() comment '등록일',
+	inpt_dt datetime default current_timestamp() comment '등록일',
 	updt_id varchar(30) comment '수정자',
 	updt_dt datetime comment '수정일',
     primary key (repair_no)

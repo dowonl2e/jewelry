@@ -7,7 +7,7 @@ CREATE TABLE tb_user (
   celnum varchar(13) comment '핸드폰번호',
   use_yn varchar(1) not null default 'Y' comment '사용여부',
   inpt_id varchar(30) not null comment '등록자',
-  inpt_dt datetime default CURRENT_TIMESTAMP comment '등록일',
+  inpt_dt datetime default CURRENT_TIMESTAMP() comment '등록일',
   updt_id varchar(30) comment '수정자',
   updt_dt datetime comment '수정일',
   primary key (user_id)

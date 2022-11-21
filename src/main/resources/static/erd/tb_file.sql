@@ -11,7 +11,7 @@ CREATE TABLE tb_file (
   version_id varchar(100) COMMENT '버전',
   del_yn varchar(4) NOT NULL DEFAULT 'N' COMMENT '삭제 여부',
   inpt_id varchar(30) NOT NULL COMMENT '등록자',
-  inpt_dt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '등록일',
+  inpt_dt datetime DEFAULT CURRENT_TIMESTAMP() COMMENT '등록일',
   updt_id varchar(30) COMMENT '수정자',
   updt_dt datetime COMMENT '수정일',
   PRIMARY KEY (file_no)

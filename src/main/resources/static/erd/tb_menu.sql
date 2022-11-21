@@ -6,7 +6,7 @@ CREATE TABLE tb_menu (
   up_menu_id varchar(20) not null default '00' comment '상위메뉴ID',
   use_yn varchar(4) not null default 'N' comment '사용여부(Y,N)',
   inpt_id varchar(30) not null comment '등록자',
-  inpt_dt datetime not null default current_timestamp() comment '등록일',
+  inpt_dt datetime default current_timestamp() comment '등록일',
   updt_id varchar(30) comment '수정자',
   updt_dt datetime comment '수정일',
   primary key (menu_id)
