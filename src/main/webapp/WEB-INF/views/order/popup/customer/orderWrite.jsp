@@ -113,7 +113,7 @@
 										<a href="#" onclick="fncValueInit('${idx}'); return false;" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="serial_id_arr" id="serial_id_${idx}" class="form-control mtb5" maxlength="50"/>
+										<input type="text" name="serial_id_arr" id="serial_id_${idx}" class="form-control mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
 										<input type="hidden" name="catalog_no_arr" id="catalog_no_${idx}" class="form-data"/>
@@ -149,16 +149,16 @@
 										<input type="number" name="quantity_arr" id="quantity_${idx}" class="form-control mtb5" value="1" min="1"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="main_stone_type_arr" id="main_stone_type_${idx}" class="form-control mtb5" maxlength="50"/>
+										<input type="text" name="main_stone_type_arr" id="main_stone_type_${idx}" class="form-control mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="sub_stone_type_arr" id="sub_stone_type_${idx}" class="form-control mtb5" maxlength="50"/>
+										<input type="text" name="sub_stone_type_arr" id="sub_stone_type_${idx}" class="form-control mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="size_arr" id="size_${idx}" class="form-control mtb5" maxlength="50"/>
+										<input type="text" name="size_arr" id="size_${idx}" class="form-control mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="order_desc_arr" id="order_desc_${idx}" class="form-control mtb5" maxlength="50"/>
+										<input type="text" name="order_desc_arr" id="order_desc_${idx}" class="form-control mtb5" maxlength="500"/>
 									</td>
 								</tr>
 							</c:forEach>
