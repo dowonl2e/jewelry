@@ -182,9 +182,6 @@
 	        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
 	        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 	    	</div>
-				<nav aria-label="Page navigation" class="text-center">
-			    <ul class="pagination"></ul>
-				</nav>
 			</form>
 		</div>
 	</div>

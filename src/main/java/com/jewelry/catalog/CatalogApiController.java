@@ -61,7 +61,7 @@ public class CatalogApiController {
 		to.setCatalogfile(file);
 		to.setCatalog_no(catalogno);
 		to.setInpt_id(userid);
-		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		to.setUpdt_id(userid);
 		String result = catalogService.updateCatalog(to);
 
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;

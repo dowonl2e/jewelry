@@ -17,7 +17,7 @@ public interface OrderService {
 	
 	String updateOrdersStep(OrderTO to);
 	
-	String updateOrdersDelete(OrderTO to);
+	String updateOrdersToDelete(OrderTO to);
 
 	String updateOrdersCustomer(OrderTO to);
 

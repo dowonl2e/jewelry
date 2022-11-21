@@ -22,7 +22,7 @@ public interface OrderMapper {
 	
 	int updateOrdersStatus(OrderTO to) throws Exception;
 	
-	int updateOrdersDelete(OrderTO to) throws Exception;
+	int updateOrdersToDelete(OrderTO to) throws Exception;
 	
 	int updateOrdersCustomer(OrderTO to) throws Exception;
 

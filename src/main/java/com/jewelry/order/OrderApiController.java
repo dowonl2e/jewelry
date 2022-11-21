@@ -78,7 +78,7 @@ public class OrderApiController {
 	@PatchMapping("/orders/remove")
 	public ResponseEntity<Object> ordersRemove(final OrderTO to){
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
-		String result = orderService.updateOrdersDelete(to);
+		String result = orderService.updateOrdersToDelete(to);
 
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());

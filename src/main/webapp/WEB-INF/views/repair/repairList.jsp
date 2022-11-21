@@ -14,23 +14,21 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">카다로그 관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">수리관리</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;" class="border-bottom">
 				<div class="mb20" id="adv-search">
 					<div class="form-inline">
-						<select id="searchvender" class="form-control">
-	            <option value="">제조사구분</option>
-	            <option value="1">제조사1</option>
-	            <option value="2">제조사2</option>
-		        </select>
+						<span class="mlr5">요청일</span>
+						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
+						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="모델명 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="수리품명 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">단독등록</a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">수리등록</a>
 					</div>
 				</div>
 	    </form>
@@ -39,9 +37,8 @@
 			</div>
 			
 			<div class="btn_wrap text-left mt-3">
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">가성주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
+				<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
+        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
     	</div>
     	
 			<nav aria-label="Page navigation" class="text-center">
@@ -51,14 +48,6 @@
 	</div>
 	
 	<script>
-		/**
-		 * 페이지 HTML 렌더링
-		 */
-		var codemap = {
-				<c:forEach var="code" items="${cdmapper}" varStatus="loop">
-				  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
-				</c:forEach>
-		};
 		
 		window.onload = () => {
 			setQueryStringParams();
@@ -128,7 +117,8 @@
 			
 			var params = {
 			  currentpage: page
-				, searchvender: form.searchvender.value
+				, searchstdt: form.searchstdt.value
+				, searcheddt: form.searcheddt.value
 				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
@@ -138,9 +128,9 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/catalog/list', params).then(response => {
+			getJson('/api/repair/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<div class="row row-cols-1" style="line-height:80px;"><div class="col">등록된 카다로그가 없습니다.</div></div>';
+					document.getElementById('list').innerHTML = '<div class="row row-cols-1" style="line-height:80px;"><div class="col">수리이력이 없습니다.</div></div>';
 					drawPages();
 					return false;
 				}
@@ -165,22 +155,20 @@
      		    			</div>
      		    			<div class="row row-cols-1 mlr5 mt5">
      		    				<div class="col text-center">
-     		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
+     		    					<input type="checkbox" id="repair_no_`+obj.repairno+`" class="form-check-inline form-check" value="`+obj.repairno+`"/>
      		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
- 		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
- 		    								` + checkNullVal(obj.modelid) + `(`+checkNullVal(obj.modelnm)+`)
+ 		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.repairno+`\'); return false;">
+ 		    								` + checkSubstringNullVal(obj.repairnm,0,14) + `
  		    								</a>
      		    					</label>
      		    				</div>
      		    			</div>
      		    			<div class="row mlr1 mtb5">
-     		    				<div class="col text-left small">거래처</div>
-     		    				<div class="col text-right small">`+ checkNullValR(codemap[obj.stddmaterialcd], '&nbsp;') +`(`+checkNullValR(obj.stddweight, '&nbsp;')+`)</div>
+     		    				<div class="col text-center">요청일 : `+checkSubstringNullVal(obj.repairreqdt,0,10)+`</div>
      		    			</div>
      		    			<div class="row mlr1 mtb5">
-     		    				<div class="col text-left small">`+ checkNullValR(obj.stddsize, '&nbsp;')+`</div>
-     		    				<div class="col text-right small">`+ checkNullValR(obj.basicidst, '&nbsp;')+`</div>
-     		    			</div>
+		 		    				<div class="col text-center">완료일 : `+checkSubstringNullVal(obj.repairresdt,0,10)+`</div>
+		 		    			</div>
      		    		</div>
      		    	</div>
      			`;
@@ -242,9 +230,9 @@
 		/**
 		 * 수정하기
 		 */
-		function fncPopupView(catalogno) {
-		  var url = "./popup/"+catalogno;
-      var name = "catalogViewPopup";
+		function fncPopupView(repairno) {
+		  var url = "./popup/"+repairno;
+      var name = "repairViewPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
@@ -257,6 +245,45 @@
       var name = "catalogModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
+		}
+		
+
+		function fncRemove(){
+
+			var checkcnt = 0;
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					checkcnt++;
+				}
+			});
+			if(checkcnt == 0){
+				alert('삭제할 수리이력을 선택해주세요.');
+				return false;
+			}
+			
+			if(confirm('삭제하시겠습니까?')){
+				const form = document.getElementById('searchForm');
+				const writeForm = new FormData(form);
+	
+				const formData = new FormData();
+				$(".form-check").each(function(){
+					if($(this).is(":checked"))
+						formData.append("repair_no_arr[]", checkNullVal($(this).val()));
+				});
+								
+				fetch('/api/repair/repairs/remove', {
+					method: 'PATCH',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('삭제되었습니다.');
+					findAll();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
 		}
 		
 		function fncCheckZero(obj){

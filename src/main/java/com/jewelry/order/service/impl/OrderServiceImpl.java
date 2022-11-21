@@ -264,12 +264,12 @@ public class OrderServiceImpl implements OrderService {
 
 	@Transactional
 	@Override
-	public String updateOrdersDelete(OrderTO to) {
+	public String updateOrdersToDelete(OrderTO to) {
 		String result = "success";
 		try {
 			Long[] order_no_arr = to.getOrder_no_arr();
 			if(order_no_arr != null && order_no_arr.length > 0) {
-				int res = orderMapper.updateOrdersDelete(to);
+				int res = orderMapper.updateOrdersToDelete(to);
 				result = res > 0 ? "success" : "fail";
 			}
 		}

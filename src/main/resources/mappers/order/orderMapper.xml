@@ -164,7 +164,7 @@
 		)
 	</update>
 	
-	<update id="updateOrdersDelete" parameterType="OrderTO">
+	<update id="updateOrdersToDelete" parameterType="OrderTO">
 		UPDATE tb_order
 		SET updt_dt = NOW()
 		, updt_id = #{updt_id}
