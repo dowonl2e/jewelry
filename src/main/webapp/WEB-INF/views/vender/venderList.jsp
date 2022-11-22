@@ -35,13 +35,12 @@
 						<tr>
 							<th rowspan="2" class="">No.</th>
 							<th rowspan="2" class="border-left"><input type="checkbox" id="arr_customer_no"/></th>
-							<th rowspan="2" class="border-left">구분</th>
 							<th rowspan="2" class="border-left">등록일</th>
 							<th rowspan="2" class="border-left">거래처명</th>
 							<th rowspan="2" class="border-left">사업자명</th>							
-							<th colspan="2" class="border-left">대표자연락처</th>
-							<th colspan="5" class="border-left">전화번호</th>
-							<th colspan="2" class="border-left">팩스번호</th>
+							<th rowspan="2" class="border-left">대표자연락처</th>
+							<th rowspan="2" class="border-left">전화번호</th>
+							<th rowspan="2" class="border-left">팩스번호</th>
 							<th rowspan="2" class="border-left">담당자</th>
 							<th rowspan="2" class="border-left">담당자연락처</th>
 							<th rowspan="2" class="border-left">비고</th>
@@ -163,20 +162,19 @@
      				<tr>
 							<td class="text-center">` + (num--) + `</td>
 							<td class="text-center"><input type="checkbox" id="arr_vender_no" value="`+checkNullVal(obj.venderno)+`"/></td>
-						/* 	<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td> */
-							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.vendernm)]) +`</td>
+							<td class="text-center">` + checkSubstringNullVal(obj.inptdt,0,10) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncPopupModify('` + obj.venderno + `'); return false;">`+checkNullVal(obj.venderno)+`</a>
+								<a href="javascript: void(0);" onclick="fncPopupModify('` + obj.vendernm + `'); return false;">`+checkNullVal(obj.vendernm)+`</a>
 							</td>
-							<td class="text-center">` + checkNullVal(obj.vendernm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.businessnm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.agentcel)+`</td>
+							<td class="text-center">` + checkNullVal(obj.vendercel1)+`</td>
+							<td class="text-center">` + checkNullVal(obj.venderfax)+`</td>
+							<td class="text-center">` + checkNullVal(obj.managernm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.managercel)+`</td>
 							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
+							<td class="text-center">` + checkNullVal(obj.meltcd)+`</td>
+							<td class="text-center">` + checkNullVal(obj.vatcd)+`</td>
 	   				</tr>
      			`;
      		});

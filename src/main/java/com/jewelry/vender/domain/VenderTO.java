@@ -16,7 +16,14 @@ public class VenderTO extends CommonTO {
 	private String manager_cel;
 	private String manager_email;
 	private String del_yn;
+	private String inpt_dt;
 
+	public String getInpt_dt() {
+		return inpt_dt;
+	}
+	public void setInpt_dt(String inpt_dt) {
+		this.inpt_dt = inpt_dt;
+	}
 	public String getDel_yn() {
 		return del_yn;
 	}

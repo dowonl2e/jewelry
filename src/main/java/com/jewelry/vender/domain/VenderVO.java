@@ -22,6 +22,15 @@ public class VenderVO extends CommonVO {
 	private String manageremail;
 	private String delyn;
 	
+	
+	public String getInptdt() {
+		return inptdt;
+	}
+	public void setInptdt(String inptdt) {
+		this.inptdt = inptdt;
+	}
+	private String inptdt;
+	
 	public List<VenderVO> getList() {
 		return list;
 	}

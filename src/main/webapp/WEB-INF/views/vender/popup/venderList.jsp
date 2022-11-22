@@ -33,7 +33,6 @@
 					<thead>
 						<tr>
 							<th rowspan="2" class="">No.</th>
-							<th rowspan="2" class="border-left">구분</th>
 							<th rowspan="2" class="border-left">등록일</th>
 							<th rowspan="2" class="border-left">거래처명</th>
 							<th rowspan="2" class="border-left">사업자명</th>							
@@ -163,7 +162,7 @@
 							<td class="text-center"><input type="checkbox" id="arr_vender_no" value="`+checkNullVal(obj.venderno)+`"/></td>
 							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.vendernm)]) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncSelect('`+checkNullVal(obj.venderno)+`','`+checkNullVal(obj.vendernm)+`'); return false;">`+checkNullVal(obj.venderno)+`</a>
+								<a href="javascript: void(0);" onclick="fncSelect('`+checkNullVal(obj.venderno)+`','`+checkNullVal(obj.vendernm)+`'); return false;">`+checkNullVal(obj.vendernm)+`</a>
 							</td>
 							<td class="text-center">` + checkNullVal(obj.vendernm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.businessnm)+`</td>
@@ -173,8 +172,7 @@
 							<td class="text-center"></td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>
-							<td class="text-center"></td>
-	   				</tr>
+						</tr>
      			`;
      		});
      		

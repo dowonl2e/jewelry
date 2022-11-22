@@ -14,7 +14,7 @@ public interface VenderMapper {
 	
 	List<VenderVO> selectVenderList(VenderTO to); // LIST 가져오는 것
 	
-	VenderVO selectVender(Long venderno); // KEY를 통해서 paramater는 1개 정도 long 이나 string이 파라미터
+	VenderVO selectVender(Long venderno); // KEY를 통해서 parameter는 1개 정도 long 이나 string이 파라미터
 	
 	int insertVender(VenderTO to); 	// insert to용 담아야할 용도
 	
