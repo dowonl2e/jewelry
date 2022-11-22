@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jewelry.cms.code.service.CodeService;
+import com.jewelry.stock.service.StockService;
 
 @Controller
 @RequestMapping("/stock")
@@ -16,25 +17,42 @@ public class StockPageController {
 	@Autowired
 	private CodeService codeService;
 	
+	@Autowired
+	private StockService stockService;
+
 	@GetMapping("/list")
 	public String list(ModelMap model) {
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","OC"}, 2));
 		return "stock/stockList";
 	}
 
 	@GetMapping("/popup/write")
 	public String stockWritePopup(ModelMap model) {
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
+		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		model.addAttribute("prevstocklist", stockService.findAllPrevStock());
 		return "stock/popup/stockWrite";
 	}
 
 	@GetMapping("/popup/{stockno}")
 	public String stockViewPopup(@PathVariable final Long stockno, ModelMap model) {
 		model.addAttribute("stockno", stockno);
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","OC"}, 2));
 		return "stock/popup/stockView";
 	}
 
 	@GetMapping("/popup/modify/{stockno}")
 	public String stockModifyPopup(@PathVariable final Long stockno, ModelMap model) {
 		model.addAttribute("stockno", stockno);
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
+		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
 		return "stock/popup/stockModify";
 	}
 }

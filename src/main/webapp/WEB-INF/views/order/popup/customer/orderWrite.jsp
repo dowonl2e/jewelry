@@ -25,7 +25,7 @@
 						<tbody>
 							<tr>
 								<td rowspan="4" class="text-center border-right">
-									<label for="file" id="file-label"><img id="preview" width="250px" height="150px"/></label>
+									<label for="file" id="file-label"><img src="/img/no-image.png" id="preview" width="300px" height="250px"/></label>
 									<input type="file" name="file" id="file" class="custom-file-input" onchange="readURL(this);" style="display:none;"/>
 								</td>
 								<td class="bg-light border-right text-center">매장<span class="important"> *</span></td>

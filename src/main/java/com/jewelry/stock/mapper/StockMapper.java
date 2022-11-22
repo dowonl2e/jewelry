@@ -13,6 +13,8 @@ public interface StockMapper {
 	int selectStockListCount(StockTO to);
 	
 	List<StockVO> selectStockList(StockTO to);
+	
+	List<StockVO> selectPrevStockList();
 
 	int insertStock(StockTO to) throws Exception;
 	
@@ -21,5 +23,7 @@ public interface StockMapper {
 	int updateStock(StockTO to) throws Exception;
 
 	int updateStockToDelete(StockTO to) throws Exception;
+	
+	int updateStocksToDelete(StockTO to) throws Exception;
 
 }

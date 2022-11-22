@@ -2,28 +2,184 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jewelry.stock.mapper.StockMapper">
 	
-	<select id="selectStockListCount" parameterType="StockTO" resultType="Integer">
 	
+	<sql id="stock-search">
+		<if test='searchstore != null and !searchstore.equals("")'>
+			AND a.store_cd = #{searchstore}
+		</if>
+		<if test='searchstocktype != null and !searchstocktype.equals("")'>
+			AND a.stock_type_cd = #{searchstocktype}
+		</if>
+		<if test='searchmaterial != null and !searchmaterial.equals("")'>
+			AND a.material_cd = #{searchmaterial}
+		</if>
+		<if test='searchstdt != null and !searchstdt.equals("")'>
+			AND DATE_FORMAT(a.receipt_dt, '%Y-%m-%d') <![CDATA[ >= ]]> STR_TO_DATE(#{searchstdt}, '%Y-%m-%d')
+		</if>
+		<if test='searcheddt != null and !searcheddt.equals("")'>
+			AND DATE_FORMAT(a.receipt_dt, '%Y-%m-%d') <![CDATA[ <= ]]> STR_TO_DATE(#{searcheddt}, '%Y-%m-%d')
+		</if>
+		<!-- 검색 키워드가 있을 때 -->
+		<if test='searchword != null and !searchword.equals("")'>
+			AND (
+				a.model_id LIKE CONCAT('%', #{searchword}, '%')
+				OR b.contractor_nm LIKE CONCAT('%', #{searchword}, '%')
+			)
+		</if>
+	</sql>
+	
+	<select id="selectStockListCount" parameterType="StockTO" resultType="Integer">
+		SELECT COUNT(a.stock_no)
+		FROM tb_stock a
+		WHERE a.del_yn = 'N'
+		<include refid="stock-search" />
 	</select>
 	
 	<select id="selectStockList" parameterType="StockTO" resultType="StockVO">
+		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.model_id
+						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
+						, a.per_weight_gram, a.real_pch_gold_price, a.per_price_main, a.per_price_basic
+						, a.multiple_cnt, a.consumer_price
+		FROM tb_stock a
+		WHERE a.del_yn = 'N'
+		<include refid="stock-search" />
+		ORDER BY a.reg_dt DESC
+		<include refid="commonMapper.paging" />
+	</select>
 	
+	<select id="selectPrevStockList" resultType="StockVO">
+		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.model_id
+						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
+						, a.per_weight_gram, a.real_pch_gold_price, a.per_price_main, a.per_price_basic
+						, a.multiple_cnt, a.consumer_price
+		FROM tb_stock a
+		WHERE a.del_yn = 'N'
+		ORDER BY a.stock_no DESC
+		LIMIT 0, 3
 	</select>
 	
 	<insert id="insertStock" parameterType="StockTO" useGeneratedKeys="true" keyProperty="stock_no" keyColumn="stock_no">
-	
+		INSERT INTO tb_stock
+		(
+			inpt_id, inpt_dt
+			<if test='reg_dt != null and !reg_dt.equals("")'>, reg_dt</if>
+			<if test='stock_type_cd != null and !stock_type_cd.equals("")'>, stock_type_cd</if>
+			<if test='store_cd != null and !store_cd.equals("")'>, store_cd</if>
+			<if test='real_pch_gold_price != null and real_pch_gold_price > 0'>, real_pch_gold_price</if>
+			<if test='catalog_no != null and catalog_no > 0'>, catalog_no</if>
+			<if test='model_id != null and !model_id.equals("")'>, model_id</if>
+			<if test='vender_no != null and vender_no > 0'>, vender_no</if>
+			<if test='vender_nm != null and !vender_nm.equals("")'>, vender_nm</if>
+			<if test='material_cd != null and !material_cd.equals("")'>, material_cd</if>
+			<if test='color_cd != null and !color_cd.equals("")'>, color_cd</if>
+			<if test='main_stone_type != null and !main_stone_type.equals("")'>, main_stone_type</if>
+			<if test='sub_stone_type != null and !sub_stone_type.equals("")'>, sub_stone_type</if>
+			<if test='size != null and !size.equals("")'>, size</if>
+			<if test='stock_desc != null and !stock_desc.equals("")'>, stock_desc</if>
+			<if test='quantity != null and quantity > 0'>, quantity</if>
+			<if test='per_weight_gram != null and per_weight_gram > 0'>, per_weight_gram</if>
+			<if test='per_weight_gold != null and per_weight_gold > 0'>, per_weight_gold</if>
+			<if test='per_price_basic != null and per_price_basic > 0'>, per_price_basic</if>
+			<if test='per_price_add != null and per_price_add > 0'>, per_price_add</if>
+			<if test='per_price_main != null and per_price_main > 0'>, per_price_main</if>
+			<if test='per_price_sub != null and per_price_sub > 0'>, per_price_sub</if>
+			<if test='per_price_gold_real != null and per_price_gold_real > 0'>, per_price_gold_real</if>
+			<if test='per_price_gold_stdd != null and per_price_gold_stdd > 0'>, per_price_gold_stdd</if>
+			<if test='multiple_cnt != null and multiple_cnt > 0'>, multiple_cnt</if>
+			<if test='consumer_price != null and consumer_price > 0'>, consumer_price</if>
+		)
+		VALUES
+		(
+			#{inpt_id}, NOW()
+			<if test='reg_dt != null and !reg_dt.equals("")'>, #{reg_dt}</if>
+			<if test='stock_type_cd != null and !stock_type_cd.equals("")'>, #{stock_type_cd}</if>
+			<if test='store_cd != null and !store_cd.equals("")'>, #{store_cd}</if>
+			<if test='real_pch_gold_price != null and real_pch_gold_price > 0'>, #{real_pch_gold_price}</if>
+			<if test='catalog_no != null and catalog_no > 0'>, #{catalog_no}</if>
+			<if test='model_id != null and !model_id.equals("")'>, #{model_id}</if>
+			<if test='vender_no != null and vender_no > 0'>, #{vender_no}</if>
+			<if test='vender_nm != null and !vender_nm.equals("")'>, #{vender_nm}</if>
+			<if test='material_cd != null and !material_cd.equals("")'>, #{material_cd}</if>
+			<if test='color_cd != null and !color_cd.equals("")'>, #{color_cd}</if>
+			<if test='main_stone_type != null and !main_stone_type.equals("")'>, #{main_stone_type}</if>
+			<if test='sub_stone_type != null and !sub_stone_type.equals("")'>, #{sub_stone_type}</if>
+			<if test='size != null and !size.equals("")'>, #{size}</if>
+			<if test='stock_desc != null and !stock_desc.equals("")'>, #{stock_desc}</if>
+			<if test='quantity != null and quantity > 0'>, #{quantity}</if>
+			<if test='per_weight_gram != null and per_weight_gram > 0'>, #{per_weight_gram}</if>
+			<if test='per_weight_gold != null and per_weight_gold > 0'>, #{per_weight_gold}</if>
+			<if test='per_price_basic != null and per_price_basic > 0'>, #{per_price_basic}</if>
+			<if test='per_price_add != null and per_price_add > 0'>, #{per_price_add}</if>
+			<if test='per_price_main != null and per_price_main > 0'>, #{per_price_main}</if>
+			<if test='per_price_sub != null and per_price_sub > 0'>, #{per_price_sub}</if>
+			<if test='per_price_gold_real != null and per_price_gold_real > 0'>, #{per_price_gold_real}</if>
+			<if test='per_price_gold_stdd != null and per_price_gold_stdd > 0'>, #{per_price_gold_stdd}</if>
+			<if test='multiple_cnt != null and multiple_cnt > 0'>, #{multiple_cnt}</if>
+			<if test='consumer_price != null and consumer_price > 0'>, #{consumer_price}</if>
+		)
 	</insert>
 	
 	<select id="selectStock" parameterType="Long" resultType="StockVO">
-	
+		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.catalog_no, a.model_id, a.vender_no, a.vender_nm
+						, a.size, a.stock_desc, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
+						, a.per_weight_gram, a.per_weight_gold
+						, a.real_pch_gold_price, a.per_price_main, a.per_price_sub, a.per_price_basic, a.per_price_add
+						, a.per_price_gold_real, a.per_price_gold_stdd
+						, a.multiple_cnt, a.consumer_price
+		FROM tb_stock a
+		WHERE a.stock_no = #{stock_no}
 	</select>
 	
 	<update id="updateStock" parameterType="StockTO">
-	
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='reg_dt != null and !reg_dt.equals("")'>, reg_dt = #{reg_dt}</if>
+		<if test='stock_type_cd != null and !stock_type_cd.equals("")'>, stock_type_cd = #{stock_type_cd}</if>
+		<if test='store_cd != null and !store_cd.equals("")'>, store_cd = #{store_cd}</if>
+		, real_pch_gold_price = #{real_pch_gold_price}
+		<if test='catalog_no != null and catalog_no > 0'>, catalog_no = #{catalog_no}</if>
+		<if test='model_id != null and !model_id.equals("")'>, model_id = #{model_id}</if>
+		, vender_no = #{vender_no}
+		  vender_nm = #{vender_nm}
+		, material_cd = #{material_cd}
+		, color_cd = #{color_cd}
+		, main_stone_type = #{main_stone_type}
+		, sub_stone_type = #{sub_stone_type}
+		, size = #{size}
+		, stock_desc = #{stock_desc}
+		<if test='quantity != null and quantity > 0'>, quantity = #{quantity}</if>
+		, per_weight_gram = #{per_weight_gram}
+		, per_weight_gold = #{per_weight_gold}
+		, per_price_basic = #{per_price_basic}
+		, per_price_add = #{per_price_add}
+		, per_price_main = #{per_price_main}
+		, per_price_sub = #{per_price_sub}
+		, per_price_gold_real = #{per_price_gold_real}
+		, per_price_gold_stdd = #{per_price_gold_stdd}
+		, multiple_cnt = #{multiple_cnt}
+		, consumer_price = #{consumer_price}
+		WHERE stock_no = #{stock_no}
 	</update>
 	
 	<update id="updateStockToDelete" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, del_yn = 'Y'
+		WHERE stock_no = #{stock_no}
+	</update>
 	
+	<update id="updateStocksToDelete" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, del_yn = 'Y'
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
 	</update>
 
 </mapper>

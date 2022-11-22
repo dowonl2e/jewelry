@@ -1,6 +1,7 @@
 package com.jewelry.stock.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class StockServiceImpl implements StockService {
 		response.put("params", to);
 		
 		return response;
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<StockVO> findAllPrevStock() {
+		return stockMapper.selectPrevStockList();
 	}
 
 	@Transactional(readOnly = true)
@@ -85,6 +92,5 @@ public class StockServiceImpl implements StockService {
 		}
 		return res > 0 ? "success" : "fail";
 	}
-	
 	
 }
