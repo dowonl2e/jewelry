@@ -10,98 +10,87 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mt-4 mb-4">
 		<div class="card-header py-3 text-center">
-			<h6 class="m-0 font-weight-bold text-primary">고객 등록</h6>
+			<h6 class="m-0 font-weight-bold text-primary">거래처 등록</h6>
 		</div>
 		<div class="card-body">
 			<form id="form" class="form-horizontal m10">
 				<div class="table-responsive clearfix">
 					<table class="table">
 						<colgroup>
+							<col width="5%;"/>
 							<col width="10%;"/>
 							<col width="10%;"/>
-							<col />
 							<col width="10%;"/>
-							<col />
-							<col />
-							<col width="10%;"/>
-							<col />
 						</colgroup>
 						<tbody>
-							<tr>
-								<th rowspan="2" class="text-center border-right">관리매장</th>
-								<th colspan="4" class="text-center border-right">등록일<span class="important"> *</span></th>
-								<th colspan="3" class="text-center">매장<span class="important"> *</span></th>
+						   <tr>
+								<th rowspan="2" class="text-center border-right">거래처</th>
+								<th colspan="3" class="text-center border-right">거래처 별명<span class="important"> *</span></th>
 							</tr>
 							<tr>
-								<td colspan="4" class="border-right"><input type="date" id="reg_dt" class="form-control"/></td>
-								<td colspan="3" class="text-center">
-									<select id="store_cd" class="form-control">
-				            <c:forEach var="stlist" items="${stlist}">
-				            	<option value="${stlist.cdid}">${stlist.cdnm}</option>
-				            </c:forEach>
-					        </select>
-								</td>
-							</tr>
-							<tr>
-								<th rowspan="2" class="text-center border-right">구분</th>
-								<th colspan="7" class="text-center border-right">계약구분<span class="important"> *</span></th>
-							</tr>
-							<tr>
-								<td colspan="7" class="text-center">
-									<select id="contract_cd" class="form-control">
+								<td colspan="3" class="text-center"> 거래처 갖고와야함</td>
+<%-- 									<select id="contract_cd" class="form-control">
 				            <c:forEach var="ctlist" items="${ctlist}">
 				            	<option value="${ctlist.cdid}">${ctlist.cdnm}</option>
 				            </c:forEach>
-					        </select>
-								</td>
+					        </select> --%>
 							</tr>
 							<tr>
-								<th rowspan="2" class="border-right">고객</th>
-								<th></th>
-								<th>이름</th>
-								<th>성별</th>
-								<th>연락처</th>
-								<th>생일</th>
-								<th>음력</th>
-								<th>이메일</th>
+								<th rowspan="4" class="text-center border-right">사업자</th>
+								<th colspan="3" class="text-center border-right">사업자명</th>
 							</tr>
 							<tr>
-								<th class="border-right">계약고객</th>
-								<td class="border-right"><input type="text" id="contractor_nm" class="form-control"/></td>
-								<td class="border-right">
-									<select id="contractor_gen" class="form-control">
-										<option value=""></option>
-										<option value="남">남</option>
-										<option value="여">여</option>
-									</select>
-								</td>
-								<td class="border-right"><input type="text" id="contractor_cel" class="form-control"/></td>
-								<td class="border-right"><input type="date" id="contractor_birth" class="form-control"/></td>
-								<td class="border-right">
-									<select id="contractor_lunar" class="form-control">
-										<option value=""></option>
-										<option value="Y">Y</option>
-										<option value="N">N</option>
-									</select>
-								</td>
-								<td><input type="text" id="contractor_email" class="form-control"/></td>
+								<td colspan="3" class="text-center ">a</td>
 							</tr>
 							<tr>
-								<th rowspan="3" class="border-right">주소</th>
-								<th class="border-right">우편번호</th>
-								<td colspan="6"><input type="text" id="zipcode" class="form-control" style="width: 100px;"/></td>
+								<th colspan="3" class="text-center">대표자 연락처</th>
 							</tr>
 							<tr>
-								<th class="border-right">기본주소</th>
-								<td colspan="6"><input type="text" id="address1" class="form-control"/></td>
+								<td colspan="3" class="text-center">b</td>
 							</tr>
 							<tr>
-								<th class="border-right">나머지</th>
-								<td colspan="6"><input type="text" id="address2" class="form-control"/></td>
+								<th rowspan="4" class="text-center border-right">옵션</th>
+								<th colspan="3" class="text-center border-right">매입해리</th>
 							</tr>
+							<tr>
+								<td colspan="3" class="text-center">a</td>
+							</tr>
+							<tr>
+							<th colspan="3" class="text-center">부가세 적용률</th>
+							</tr>
+							<tr>
+								<td colspan="3" class="text-center">b</td>
+							</tr>
+							<tr>
+								<th rowspan="2" class="text-center border-right">연락처</th>
+								<th colspan="1" class="text-center border-right">전화번호1</th>
+								<th colspan="1" class="text-center border-right">전화번호2</th>
+								<th colspan="1" class="text-center">팩스번호</th>
+							</tr>
+							<tr>
+								<td colspan="1" class="text-center">a</td>
+								<td colspan="1" class="text-center">b</td>
+							  <td colspan="1" class="text-center">c</td>
+							</tr>
+							<tr>
+								<th rowspan="2" class="text-center border-right">담당자</th>
+								<th colspan="1" class="text-center border-right">이름</th>
+								<th colspan="1" class="text-center border-right">핸드폰</th>
+								<th colspan="1" class="text-center">이메일</th>
+							</tr>
+							<tr>
+								<td colspan="1" class="text-center">a</td>
+								<td colspan="1" class="text-center">b</td>
+							  <td colspan="1" class="text-center">c</td>
+							</tr>
+							<tr>
+							  <th rowspan="1" class="text-center border-right">통상처</th>
+							  <td colspan="3" class="text-center">d</td>
+							</tr>
+							
 							<tr>
 								<th class="border-right border-bottom">비고</th>
-								<td colspan="7" class="border-bottom">
+								<td colspan="3" class="border-bottom">
 									<textarea id="etc" class="form-control"></textarea>
 								</td>
 							</tr>
