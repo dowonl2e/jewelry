@@ -17,7 +17,7 @@ public interface StockMapper {
 	List<StockVO> selectPrevStockList();
 
 	int insertStock(StockTO to) throws Exception;
-	
+		
 	StockVO selectStock(Long stockno);
 	
 	int updateStock(StockTO to) throws Exception;

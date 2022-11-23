@@ -26,15 +26,12 @@ public class StockVO extends CommonVO {
 	private String stockdesc;
 	private Integer quantity;
 	private Double perweightgram;
-	private Double perweightgold;
 	private Integer perpricebasic;
 	private Integer perpriceadd;
 	private Integer perpricemain;
 	private Integer perpricesub;
 	private Integer perpricegoldreal;
-	private Integer perpricegoldstdd;
 	private Integer buyingcnt;
-	private Integer consumerprice;
 	private String origintype;
 	private String delyn;
 	
@@ -184,14 +181,6 @@ public class StockVO extends CommonVO {
 		this.perweightgram = perweightgram;
 	}
 
-	public Double getPerweightgold() {
-		return perweightgold;
-	}
-
-	public void setPerweightgold(Double perweightgold) {
-		this.perweightgold = perweightgold;
-	}
-
 	public Integer getPerpricebasic() {
 		return perpricebasic;
 	}
@@ -232,14 +221,6 @@ public class StockVO extends CommonVO {
 		this.perpricegoldreal = perpricegoldreal;
 	}
 
-	public Integer getPerpricegoldstdd() {
-		return perpricegoldstdd;
-	}
-
-	public void setPerpricegoldstdd(Integer perpricegoldstdd) {
-		this.perpricegoldstdd = perpricegoldstdd;
-	}
-
 	public Integer getBuyingcnt() {
 		return buyingcnt;
 	}
@@ -247,15 +228,7 @@ public class StockVO extends CommonVO {
 	public void setBuyingcnt(Integer buyingcnt) {
 		this.buyingcnt = buyingcnt;
 	}
-
-	public Integer getConsumerprice() {
-		return consumerprice;
-	}
-
-	public void setConsumerprice(Integer consumerprice) {
-		this.consumerprice = consumerprice;
-	}
-
+	
 	public String getOrigintype() {
 		return origintype;
 	}

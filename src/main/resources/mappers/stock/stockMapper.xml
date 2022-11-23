@@ -39,11 +39,11 @@
 		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.model_id
 						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
 						, a.per_weight_gram, a.real_pch_gold_price, a.per_price_main, a.per_price_basic
-						, a.multiple_cnt, a.consumer_price
+						, a.multiple_cnt
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
 		<include refid="stock-search" />
-		ORDER BY a.reg_dt DESC
+		ORDER BY a.reg_dt DESC, a.stock_no DESC
 		<include refid="commonMapper.paging" />
 	</select>
 	
@@ -51,7 +51,7 @@
 		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.model_id
 						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
 						, a.per_weight_gram, a.real_pch_gold_price, a.per_price_main, a.per_price_basic
-						, a.multiple_cnt, a.consumer_price
+						, a.multiple_cnt
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
 		ORDER BY a.stock_no DESC
@@ -78,15 +78,12 @@
 			<if test='stock_desc != null and !stock_desc.equals("")'>, stock_desc</if>
 			<if test='quantity != null and quantity > 0'>, quantity</if>
 			<if test='per_weight_gram != null and per_weight_gram > 0'>, per_weight_gram</if>
-			<if test='per_weight_gold != null and per_weight_gold > 0'>, per_weight_gold</if>
 			<if test='per_price_basic != null and per_price_basic > 0'>, per_price_basic</if>
 			<if test='per_price_add != null and per_price_add > 0'>, per_price_add</if>
 			<if test='per_price_main != null and per_price_main > 0'>, per_price_main</if>
 			<if test='per_price_sub != null and per_price_sub > 0'>, per_price_sub</if>
 			<if test='per_price_gold_real != null and per_price_gold_real > 0'>, per_price_gold_real</if>
-			<if test='per_price_gold_stdd != null and per_price_gold_stdd > 0'>, per_price_gold_stdd</if>
 			<if test='multiple_cnt != null and multiple_cnt > 0'>, multiple_cnt</if>
-			<if test='consumer_price != null and consumer_price > 0'>, consumer_price</if>
 		)
 		VALUES
 		(
@@ -107,25 +104,22 @@
 			<if test='stock_desc != null and !stock_desc.equals("")'>, #{stock_desc}</if>
 			<if test='quantity != null and quantity > 0'>, #{quantity}</if>
 			<if test='per_weight_gram != null and per_weight_gram > 0'>, #{per_weight_gram}</if>
-			<if test='per_weight_gold != null and per_weight_gold > 0'>, #{per_weight_gold}</if>
 			<if test='per_price_basic != null and per_price_basic > 0'>, #{per_price_basic}</if>
 			<if test='per_price_add != null and per_price_add > 0'>, #{per_price_add}</if>
 			<if test='per_price_main != null and per_price_main > 0'>, #{per_price_main}</if>
 			<if test='per_price_sub != null and per_price_sub > 0'>, #{per_price_sub}</if>
 			<if test='per_price_gold_real != null and per_price_gold_real > 0'>, #{per_price_gold_real}</if>
-			<if test='per_price_gold_stdd != null and per_price_gold_stdd > 0'>, #{per_price_gold_stdd}</if>
 			<if test='multiple_cnt != null and multiple_cnt > 0'>, #{multiple_cnt}</if>
-			<if test='consumer_price != null and consumer_price > 0'>, #{consumer_price}</if>
 		)
 	</insert>
 	
 	<select id="selectStock" parameterType="Long" resultType="StockVO">
 		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.catalog_no, a.model_id, a.vender_no, a.vender_nm
 						, a.size, a.stock_desc, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
-						, a.per_weight_gram, a.per_weight_gold
+						, a.per_weight_gram
 						, a.real_pch_gold_price, a.per_price_main, a.per_price_sub, a.per_price_basic, a.per_price_add
-						, a.per_price_gold_real, a.per_price_gold_stdd
-						, a.multiple_cnt, a.consumer_price
+						, a.per_price_gold_real
+						, a.multiple_cnt
 		FROM tb_stock a
 		WHERE a.stock_no = #{stock_no}
 	</select>
@@ -150,15 +144,12 @@
 		, stock_desc = #{stock_desc}
 		<if test='quantity != null and quantity > 0'>, quantity = #{quantity}</if>
 		, per_weight_gram = #{per_weight_gram}
-		, per_weight_gold = #{per_weight_gold}
 		, per_price_basic = #{per_price_basic}
 		, per_price_add = #{per_price_add}
 		, per_price_main = #{per_price_main}
 		, per_price_sub = #{per_price_sub}
 		, per_price_gold_real = #{per_price_gold_real}
-		, per_price_gold_stdd = #{per_price_gold_stdd}
 		, multiple_cnt = #{multiple_cnt}
-		, consumer_price = #{consumer_price}
 		WHERE stock_no = #{stock_no}
 	</update>
 	

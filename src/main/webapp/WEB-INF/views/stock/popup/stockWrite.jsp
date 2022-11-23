@@ -68,7 +68,7 @@
 									</select>
 								</td>
 								<td colspan="8" class="text-center">
-									<input type="text" name="customer_cel" id="customer_cel" class="form-control form-data mtb5"/>
+									<input type="number" name="real_pch_gold_price" id="real_pch_gold_price" class="form-control form-data mtb5"/>
 								</td>
 							</tr>
 							<tr>
@@ -175,21 +175,21 @@
 										<a href="#" onclick="fncValueInit('${idx}'); return false;" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>
 									</td>
 									<td class="text-center border-right">
-										<input type="hidden" name="catalog_no_arr" id="catalog_no_${idx}" class="form-data"/>
+										<input type="hidden" name="catalog_no_arr" id="catalog_no_${idx}" class="form-data form-multi"/>
 										<div class="input-group-append">
-											<input type="text" name="model_id_arr" id="model_id_${idx}" class="form-control mtb5 beadcnt" readonly="readonly"/>
+											<input type="text" name="model_id_arr" id="model_id_${idx}" class="form-control form-multi mtb5 beadcnt" readonly="readonly"/>
 											<i class="fas fa-search fa-sm ml5 mt15" onclick="fncCatalogListPop('${idx}'); return false;"></i>
 										</div>
 									</td>
 									<td class="text-center border-right">
-										<input type="hidden" name="vender_no_arr" id="vender_no_${idx}" class="form-data"/>
+										<input type="hidden" name="vender_no_arr" id="vender_no_${idx}" class="form-data form-multi"/>
 										<div class="input-group-append">
-											<input type="text" name="vender_nm_arr" id="vender_nm_${idx}" class="form-control mtb5 beadcnt" readonly="readonly"/>
+											<input type="text" name="vender_nm_arr" id="vender_nm_${idx}" class="form-control form-multi mtb5 beadcnt" readonly="readonly"/>
 											<i class="fas fa-search fa-sm ml5 mt15" onclick="fncVenderListPop('${idx}'); return false;"></i>
 										</div>
 									</td>
 									<td class="text-center border-right">
-										<select name="material_cd_arr" id="material_cd_${idx}" class="form-control mtb5">
+										<select name="material_cd_arr" id="material_cd_${idx}" class="form-control materialcd form-multi mtb5">
 											<option value="">선택</option>
 											<c:forEach var="smlist" items="${smlist}">
 												<option value="${smlist.cdid}">${smlist.cdnm}</option>
@@ -197,7 +197,7 @@
 										</select>
 									</td>
 									<td class="text-center border-right">
-										<select name="color_cd_arr" id="color_cd_${idx}" class="form-control mtb5">
+										<select name="color_cd_arr" id="color_cd_${idx}" class="form-control form-multi mtb5">
 											<option value="">선택</option>
 											<c:forEach var="sclist" items="${sclist}">
 												<option value="${sclist.cdid}">${sclist.cdnm}</option>
@@ -205,49 +205,49 @@
 										</select>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="main_stone_type_arr" id="main_stone_type_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="text" name="main_stone_type_arr" id="main_stone_type_${idx}" class="form-control form-multi mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="sub_stone_type_arr" id="sub_stone_type_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="text" name="sub_stone_type_arr" id="sub_stone_type_${idx}" class="form-control form-multi mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="size_arr" id="size_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="text" name="size_arr" id="size_${idx}" class="form-control form-multi mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="stock_desc_arr" id="stock_desc_${idx}" class="form-control multi-data mtb5" maxlength="500"/>
+										<input type="text" name="stock_desc_arr" id="stock_desc_${idx}" class="form-control form-multi mtb5" maxlength="500"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="quantity_arr" id="quantity_${idx}" class="form-control multi-data mtb5" value="1" min="1"/>
+										<input type="number" name="quantity_arr" id="quantity_${idx}" class="form-control form-multi mtb5" value="1" min="1"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_weight_gram_arr" id="per_weight_gram_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="number" name="per_weight_gram_arr" id="per_weight_gram_${idx}" class="form-control form-multi perweightgramm tb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_weight_gold_arr" id="per_weight_gold_${idx}" class="form-control multi-data mtb5" maxlength="20" readonly="readonly"/>
+										<input type="text" id="per_weight_gold_${idx}" class="form-control perweightgold mtb5" disabled="disabled"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_price_basic_arr" id="per_price_basic_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="number" name="per_price_basic_arr" id="per_price_basic_${idx}" class="form-control form-multi perpricebasic mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_price_add_arr" id="per_price_add_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="number" name="per_price_add_arr" id="per_price_add_${idx}" class="form-control form-multi perpriceadd mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_price_main_arr" id="per_price_main_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="number" name="per_price_main_arr" id="per_price_main_${idx}" class="form-control form-multi perpricemain mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_price_sub_arr" id="per_price_sub_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="number" name="per_price_sub_arr" id="per_price_sub_${idx}" class="form-control form-multi perpricesub mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_price_gold_real_arr" id="per_price_gold_real_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="text" id="per_price_gold_real_${idx}" class="form-control form-multi perpricegoldreal mtb5" disabled="disabled"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_price_gold_stdd_arr" id="per_price_gold_stdd_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="text" id="per_price_gold_stdd_${idx}" class="form-control perpricegoldstdd mtb5" disabled="disabled"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="multiple_cnt_arr" id="multiple_cnt_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="number" name="multiple_cnt_arr" id="multiple_cnt_${idx}" class="form-control form-multi mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="consumer_price_arr" id="consumer_price_${idx}" class="form-control multi-data mtb5" maxlength="20"/>
+										<input type="number" id="consumer_price_${idx}" class="form-control mtb5" disabled="disabled"/>
 									</td>
 								</tr>
 							</c:forEach>
@@ -270,8 +270,70 @@
 		/*<![CDATA[*/
 			$(document).ready(function(){
 				
-			});
+				$("#real_pch_gold_price, .perpricebasic, .perpriceadd, .perpricemain, .perpricesub, .perweightgramm, .materialcd").on('change keyup', function() {
+					$(".perweightgramm").each(function(idx){
+						//실질 구매 순금시세----------------------------------------------------------------------------------------------------------------
+						realPchGoldPriceSum = $("#real_pch_gold_price").val() == '' ? 0 : Number($("#real_pch_gold_price").val());
+						//실질 구매 순금시세 끝--------------------------------------------------------------------------------------------------------------
+						
+						console.log(idx + ' = 0 : ' + realPchGoldPriceSum);
+
+						//개당 구매가 순금계산---------------------------------------------------------------------------------------------------------------
+						weight = 0;
+						goldWeight = 0;
+						perWeightGram = $(".perweightgramm").eq(idx).val() == '' ? 0 : Number($(".perweightgramm").eq(idx).val());
+						
+						//재질별 중량 체크
+						if($(".materialcd").eq(idx).val() == 'SM01') weight = 0.6435;
+						else if($(".materialcd").eq(idx).val() == 'SM02') weight = 0.825;
+						else if($(".materialcd").eq(idx).val() == 'SM03') weight = 1;
+						else weight = 0;
+						
+						goldWeight = perWeightGram * weight;
+
+						if(goldWeight == 0 || goldWeight == 0.0) $(".perweightgold").eq(idx).val('');
+						else $(".perweightgold").eq(idx).val(goldWeight+'');
+						//개당 구매가 순금계산 끝-------------------------------------------------------------------------------------------------------------
+
+						realPchGoldPriceSum *= goldWeight;
+						
+						//개당 구매가(공임)-----------------------------------------------------------------------------------------------------------------
+						perPriceGoldDtddSum = 0;
+						perPriceGoldDtddSum += $(".perpricebasic").eq(idx).val() == '' ? 0 : Number($(".perpricebasic").eq(idx).val());
+						perPriceGoldDtddSum += $(".perpriceadd").eq(idx).val() == '' ? 0 : Number($(".perpriceadd").eq(idx).val());
+						perPriceGoldDtddSum += $(".perpricemain").eq(idx).val() == '' ? 0 : Number($(".perpricemain").eq(idx).val());
+						perPriceGoldDtddSum += $(".perpricesub").eq(idx).val() == '' ? 0 : Number($(".perpricesub").eq(idx).val());
+						
+						if(perPriceGoldDtddSum == 0 || perPriceGoldDtddSum == 0.0) $(".perpricegoldstdd").eq(idx).val('');
+						else $(".perpricegoldstdd").eq(idx).val(perPriceGoldDtddSum+'');
+						//개당 구매가(공임) 끝---------------------------------------------------------------------------------------------------------------
+						
+						realPchGoldPriceSum += perPriceGoldDtddSum;
+						
+						console.log(idx + ' = 2 : ' + realPchGoldPriceSum + ', ' + perPriceGoldDtddSum);
+						if(realPchGoldPriceSum == 0 || realPchGoldPriceSum == 0.0) $(".perpricegoldreal").eq(idx).val('');
+						else $(".perpricegoldreal").eq(idx).val(realPchGoldPriceSum+'');
+					});
+				});
 				
+			});
+			
+			function weightCalculation(){
+				var weight = 0.0;
+				$(".perweightgramm").each(function(idx){
+					
+					//재질별 중량 체크
+					if($(".materialcd").eq(idx).val() == 'SM01') weight = 0.6435;
+					else if($(".materialcd").eq(idx).val() == 'SM02') weight = 0.825;
+					else if($(".materialcd").eq(idx).val() == 'SM03') weight = 1;
+					else weight = 0;
+
+					if($(this).val() == '') $(".perweightgold").eq(idx).val('');
+					else $(".perweightgold").eq(idx).val((Number($(this).val()) * weight)+'');
+					
+				});
+			}
+			
 			function readURL(obj) {
 			  if (obj.files && obj.files[0]) {
 			    var reader = new FileReader();
@@ -323,7 +385,7 @@
 				$(".form-data").each(function(){
 					formData.append($(this).attr("name"), checkNullVal($(this).val()));
 				});
-				$(".multi-data").each(function(){
+				$(".form-multi").each(function(){
 					formData.append($(this).attr("name")+'[]', checkNullVal($(this).val()));
 				});
 				

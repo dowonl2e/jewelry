@@ -10,7 +10,7 @@ public class StockTO extends CommonTO {
 	private String reg_dt;
 	private String stock_type_cd;
 	private String store_cd;
-	private Double real_pch_gold_price;
+	private Integer real_pch_gold_price;
 	private Long catalog_no;
 	private String model_id;
 	private Long vender_no;
@@ -23,15 +23,12 @@ public class StockTO extends CommonTO {
 	private String stock_desc;
 	private Integer quantity;
 	private Double per_weight_gram;
-	private Double per_weight_gold;
 	private Integer per_price_basic;
 	private Integer per_price_add;
 	private Integer per_price_main;
 	private Integer per_price_sub;
 	private Integer per_price_gold_real;
-	private Integer per_price_gold_stdd;
-	private Integer buying_cnt;
-	private Integer consumer_price;
+	private Integer multiple_cnt;
 	private String origin_type;
 	private String del_yn;
 	
@@ -51,15 +48,12 @@ public class StockTO extends CommonTO {
 	private String[] stock_desc_arr;
 	private Integer[] quantity_arr;
 	private Double[] per_weight_gram_arr;
-	private Double[] per_weight_gold_arr;
 	private Integer[] per_price_basic_arr;
 	private Integer[] per_price_add_arr;
 	private Integer[] per_price_main_arr;
 	private Integer[] per_price_sub_arr;
 	private Integer[] per_price_gold_real_arr;
-	private Integer[] per_price_gold_stdd_arr;
-	private Integer[] buying_cnt_arr;
-	private Integer[] consumer_price_arr;
+	private Integer[] multiple_cnt_arr;
 	
 	private String searchstore;
 	private String searchmaterial;
@@ -97,11 +91,11 @@ public class StockTO extends CommonTO {
 		this.store_cd = store_cd;
 	}
 
-	public Double getReal_pch_gold_price() {
+	public Integer getReal_pch_gold_price() {
 		return real_pch_gold_price;
 	}
 
-	public void setReal_pch_gold_price(Double real_pch_gold_price) {
+	public void setReal_pch_gold_price(Integer real_pch_gold_price) {
 		this.real_pch_gold_price = real_pch_gold_price;
 	}
 
@@ -201,14 +195,6 @@ public class StockTO extends CommonTO {
 		this.per_weight_gram = per_weight_gram;
 	}
 
-	public Double getPer_weight_gold() {
-		return per_weight_gold;
-	}
-
-	public void setPer_weight_gold(Double per_weight_gold) {
-		this.per_weight_gold = per_weight_gold;
-	}
-
 	public Integer getPer_price_basic() {
 		return per_price_basic;
 	}
@@ -248,29 +234,21 @@ public class StockTO extends CommonTO {
 	public void setPer_price_gold_real(Integer per_price_gold_real) {
 		this.per_price_gold_real = per_price_gold_real;
 	}
-
-	public Integer getPer_price_gold_stdd() {
-		return per_price_gold_stdd;
+	
+	public Integer getMultiple_cnt() {
+		return multiple_cnt;
 	}
 
-	public void setPer_price_gold_stdd(Integer per_price_gold_stdd) {
-		this.per_price_gold_stdd = per_price_gold_stdd;
+	public void setMultiple_cnt(Integer multiple_cnt) {
+		this.multiple_cnt = multiple_cnt;
 	}
 
-	public Integer getBuying_cnt() {
-		return buying_cnt;
+	public Integer[] getMultiple_cnt_arr() {
+		return multiple_cnt_arr;
 	}
 
-	public void setBuying_cnt(Integer buying_cnt) {
-		this.buying_cnt = buying_cnt;
-	}
-
-	public Integer getConsumer_price() {
-		return consumer_price;
-	}
-
-	public void setConsumer_price(Integer consumer_price) {
-		this.consumer_price = consumer_price;
+	public void setMultiple_cnt_arr(Integer[] multiple_cnt_arr) {
+		this.multiple_cnt_arr = multiple_cnt_arr;
 	}
 
 	public String getOrigin_type() {
@@ -425,14 +403,6 @@ public class StockTO extends CommonTO {
 		this.per_weight_gram_arr = per_weight_gram_arr;
 	}
 
-	public Double[] getPer_weight_gold_arr() {
-		return per_weight_gold_arr;
-	}
-
-	public void setPer_weight_gold_arr(Double[] per_weight_gold_arr) {
-		this.per_weight_gold_arr = per_weight_gold_arr;
-	}
-
 	public Integer[] getPer_price_basic_arr() {
 		return per_price_basic_arr;
 	}
@@ -472,30 +442,5 @@ public class StockTO extends CommonTO {
 	public void setPer_price_gold_real_arr(Integer[] per_price_gold_real_arr) {
 		this.per_price_gold_real_arr = per_price_gold_real_arr;
 	}
-
-	public Integer[] getPer_price_gold_stdd_arr() {
-		return per_price_gold_stdd_arr;
-	}
-
-	public void setPer_price_gold_stdd_arr(Integer[] per_price_gold_stdd_arr) {
-		this.per_price_gold_stdd_arr = per_price_gold_stdd_arr;
-	}
-
-	public Integer[] getBuying_cnt_arr() {
-		return buying_cnt_arr;
-	}
-
-	public void setBuying_cnt_arr(Integer[] buying_cnt_arr) {
-		this.buying_cnt_arr = buying_cnt_arr;
-	}
-
-	public Integer[] getConsumer_price_arr() {
-		return consumer_price_arr;
-	}
-
-	public void setConsumer_price_arr(Integer[] consumer_price_arr) {
-		this.consumer_price_arr = consumer_price_arr;
-	}
-
 	
 }

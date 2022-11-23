@@ -74,10 +74,9 @@ public class Pagination {
 	}
 
 	public void setTotalcount(int totalcount) {
-		this.totalcount = totalcount;
-		if (totalcount > 0) {
+		this.totalcount = totalcount > recordcount ? recordcount : totalcount;
+		if (totalcount > 0)
 			calculation();
-		}
 	}
 
 	public int getTotalpage() {

@@ -42,7 +42,7 @@
 		FROM tb_catalog a
 			LEFT OUTER JOIN tb_file b
 				ON a.catalog_no = b.ref_no
-				AND b.ref_info = 'CAT'
+				AND b.ref_info = 'CATALOG'
 				AND b.file_ord = 1
 				AND b.del_yn = 'N'
 		WHERE a.del_yn = 'N'

@@ -51,7 +51,7 @@
 				ON a.customer_no = b.customer_no
 			LEFT OUTER JOIN tb_file c
 				ON a.order_no = c.ref_no
-				AND c.ref_info = 'ORD'
+				AND c.ref_info = 'ORDER'
 				AND c.file_ord = 1
 				AND c.del_yn = 'N'
 		WHERE a.del_yn = 'N'

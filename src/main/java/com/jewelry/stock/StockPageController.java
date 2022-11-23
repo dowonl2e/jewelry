@@ -25,7 +25,7 @@ public class StockPageController {
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
 		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
 		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
-		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","OC"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","SC","OC"}, 2));
 		return "stock/stockList";
 	}
 
@@ -42,7 +42,7 @@ public class StockPageController {
 	@GetMapping("/popup/{stockno}")
 	public String stockViewPopup(@PathVariable final Long stockno, ModelMap model) {
 		model.addAttribute("stockno", stockno);
-		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","OC"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","SC","OC"}, 2));
 		return "stock/popup/stockView";
 	}
 

@@ -51,7 +51,7 @@ public class CatalogServiceImpl implements CatalogService {
 		CatalogVO vo = catalogMapper.selectCatalog(catalogno);
 		
 		if(vo != null) {
-			vo.setFilelist(fileMapper.selectFileListByRefInfo(new FileTO(catalogno, "CAT")));
+			vo.setFilelist(fileMapper.selectFileListByRefInfo(new FileTO(catalogno, "CATALOG")));
 			vo.setStonelist(catalogMapper.selectStoneListByCatalogNo(catalogno));
 		}
 		
@@ -64,7 +64,7 @@ public class CatalogServiceImpl implements CatalogService {
 		String result = "success";
 
 		try {
-			FileTO fileto = amazonS3Service.upload(to.getCatalogfile(), "catalog", "CAT");
+			FileTO fileto = amazonS3Service.upload(to.getCatalogfile(), "catalog", "CATALOG");
 			
 			int res = catalogMapper.insertCatalog(to);
 			if(res > 0) {
@@ -131,7 +131,7 @@ public class CatalogServiceImpl implements CatalogService {
 		String result = "success";
 
 		try {
-			FileTO fileto = amazonS3Service.upload(to.getCatalogfile(), "catalog", "CAT");
+			FileTO fileto = amazonS3Service.upload(to.getCatalogfile(), "catalog", "CATALOG");
 			
 			int res = catalogMapper.updateCatalog(to);
 			if(res > 0) {
@@ -177,7 +177,7 @@ public class CatalogServiceImpl implements CatalogService {
 					if(!ObjectUtils.isEmpty(fileto.getOrigin_nm())) {
 						FileTO delfileto = new FileTO();
 						delfileto.setRef_no(catalogno);
-						delfileto.setRef_info("CAT");
+						delfileto.setRef_info("ORDER");
 						delfileto.setUpdt_id(to.getUpdt_id());
 						fileMapper.updateFileToDeleteWithRef(delfileto);
 
