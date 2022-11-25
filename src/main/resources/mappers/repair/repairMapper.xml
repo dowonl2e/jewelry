@@ -30,7 +30,7 @@
 		FROM tb_repair a
 			LEFT OUTER JOIN tb_file b
 				ON a.repair_no = b.ref_no
-				AND b.ref_info = 'RPIR'
+				AND b.ref_info = 'REPAIR'
 				AND b.file_ord = 1
 				AND b.del_yn = 'N'
 		WHERE a.del_yn = 'N'

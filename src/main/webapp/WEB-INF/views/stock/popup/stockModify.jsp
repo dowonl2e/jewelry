@@ -88,23 +88,60 @@
 								<th class="bg-light text-center border-right small">배수</th>
 								<th class="bg-light text-center border-right small">TAG가</th>
 							</tr>
-							<c:forEach var="idx" begin="1" end="3">
+							<c:forEach var="idx" begin="0" end="2">
 								<tr>
-									<td class="text-center border-right" id="prev_reg_dt_${idx}"></td>
-									<td class="text-center border-right" id="prev_model_id_${idx}"></td>
-									<td class="text-center border-right" id="prev_stone_type_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_material_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_size_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_main_stone_type_${idx}"></td>
-									<td class="text-center border-right" id="prev_sub_stone_type_${idx}"></td>
-									<td class="text-center border-right" id="prev_size_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_stone_desc_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_weight_gram_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_price_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_price_gold_real_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_price_gold_stdd_${idx}"></td>
-									<td class="text-center border-right" id="prev_multiple_cnt_${idx}"></td>
-									<td class="text-center" id="prev_consumer_price_${idx}"></td>
+									<td class="text-center border-right small" id="prev_reg_dt_${idx}">${fn:substring(prevstocklist[idx].regdt,0,10)}</td>
+									<td class="text-center border-right small" id="prev_model_id_${idx}">${prevstocklist[idx].modelid}</td>
+									<td class="text-center border-right small" id="prev_stock_type_cd_${idx}">
+										<c:forEach var="oc" items="${oclist}">
+											<c:if test="${prevstocklist[idx].stocktypecd eq oc.cdid}">${oc.cdnm}</c:if>
+										</c:forEach>
+									</td>
+									<td class="text-center border-right small" id="prev_material_cd_${idx}">
+										<c:forEach var="sm" items="${smlist}">
+											<c:if test="${prevstocklist[idx].materialcd eq sm.cdid}">${sm.cdnm}</c:if>
+										</c:forEach>
+									</td>
+									<td class="text-center border-right small" id="prev_color_cd_${idx}">
+										<c:forEach var="sc" items="${sclist}">
+											<c:if test="${prevstocklist[idx].colorcd eq sc.cdid}">${sc.cdnm}</c:if>
+										</c:forEach>
+									</td>
+									<td class="text-center border-right small" id="prev_main_stone_type_${idx}">${prevstocklist[idx].mainstonetype}</td>
+									<td class="text-center border-right small" id="prev_sub_stone_type_${idx}">${prevstocklist[idx].substonetype}</td>
+									<td class="text-center border-right small" id="prev_size_${idx}">${prevstocklist[idx].size}</td>
+									<td class="text-center border-right small" id="prev_stock_desc_${idx}">${prevstocklist[idx].stockdesc}</td>
+									<td class="text-center border-right small" id="prev_per_weight_gram_${idx}">${prevstocklist[idx].perweightgram}</td>
+									<td class="text-center border-right small" id="prev_per_price_${idx}">
+										<c:set var="prevPerPrice" value="${prevstocklist[idx].perpricemain}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice+prevstocklist[idx].perpricesub}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice+prevstocklist[idx].perpricebasic}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice+prevstocklist[idx].perpriceadd}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice eq 0 ? '' : (prevPerPrice+'')}"/>
+										${prevPerPrice}
+									</td>
+									<td class="text-center border-right small" id="prev_per_price_gold_real_${idx}">
+										<c:set var="weight" value="0"/>
+										<c:if test="${prevstocklist[idx].materialcd eq 'SM01'}">
+											<c:set var="weight" value="0.6435"/>
+										</c:if>
+										<c:if test="${prevstocklist[idx].materialcd eq 'SM02'}">
+											<c:set var="weight" value="0.825"/>
+										</c:if>
+										<c:if test="${prevstocklist[idx].materialcd eq 'SM03'}">
+											<c:set var="weight" value="1"/>
+										</c:if>
+										<c:set var="realPchGoldPrice" value="${prevstocklist[idx].realpchgoldprice*weight+prevPerPrice}"/>
+										<c:set var="realPchGoldPrice" value="${realPchGoldPrice eq 0 ? '' : (realPchGoldPrice+'')}"/>
+										${realPchGoldPrice}
+									</td>
+									<td class="text-center border-right small" id="prev_per_price_gold_stdd_${idx}">${prevPerPrice}</td>
+									<td class="text-center border-right small" id="prev_multiple_cnt_${idx}">${prevstocklist[idx].multiplecnt}</td>
+									<td class="text-center small" id="prev_consumer_price_${idx}">
+										<c:set var="prevConsumerPrice" value="${prevPerPrice*prevstocklist[idx].multiplecnt}"/>
+										<c:set var="prevConsumerPrice" value="${prevConsumerPrice eq 0 ? '' : (prevConsumerPrice+'')}"/>
+										${prevConsumerPrice}
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -244,7 +281,7 @@
 										<input type="text" id="per_price_gold_stdd_${idx}" class="form-control perpricegoldstdd mtb5" disabled="disabled"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="multiple_cnt_arr" id="multiple_cnt_${idx}" class="form-control multiplecnt form-multi mtb5" maxlength="20"/>
+										<input type="number" name="multiple_cnt_arr" id="multiple_cnt_${idx}" class="form-control form-multi multiplecnt mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
 										<input type="number" id="consumer_price_${idx}" class="form-control consumerprice mtb5" disabled="disabled"/>
@@ -256,7 +293,7 @@
 				</div>
 
 				<div class="btn_wrap text-center">
-	        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
+	        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
 	        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 	    	</div>
 			</form>
@@ -266,6 +303,7 @@
 	<script>
 		/*<![CDATA[*/
 			$(document).ready(function(){
+				find();
 				
 				$("#real_pch_gold_price, .perpricebasic, .perpriceadd, .perpricemain, .perpricesub, .perweightgramm, .materialcd, .multiplecnt").on('change keyup', function() {
 					$(".perweightgramm").each(function(idx){
@@ -308,15 +346,114 @@
 						if(realPchGoldPriceSum == 0 || realPchGoldPriceSum == 0.0) $(".perpricegoldreal").eq(idx).val('');
 						else $(".perpricegoldreal").eq(idx).val(realPchGoldPriceSum+'');
 						
+
 						multipleCnt = $(".multiplecnt").eq(idx).val() == '' ? 0 : Number($(".multiplecnt").eq(idx).val());
 						consumerPrice = perPriceGoldStddSum * multipleCnt;
 						
 						if(consumerPrice == 0 || consumerPrice == 0.0) $(".consumerprice").eq(idx).val('');
 						else $(".consumerprice").eq(idx).val(consumerPrice+'');
 						
+						
 					});
 				});
 			});
+			
+			function find() {
+				
+				const stockno = '${stockno}';
+				if ( !stockno ) {
+		    	return false;
+		    }
+				
+				fetch(`/api/stock/${stockno}`).then(response => {
+		    	if (!response.ok) {
+						throw new Error('Request failed...');
+			    }
+		    	return response.json();
+		
+		   	}).then(json => {
+		   		var filelist = json.filelist;
+		   		var filepath = '';
+		   		var filenm = '';
+		   		
+		   		if(filelist != null && filelist.length > 0){
+			   		for(var i = 0 ; i < filelist.length ; i++){
+			   			if(filelist[i].fileord == 1){
+			   				filepath = checkNullVal(filelist[i].filepath);
+			   				filenm = checkNullVal(filelist[i].filenm);
+			   			}
+			   		}
+		   		}
+		   		form.preview.src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		form.reg_dt.value = checkSubstringNullVal(json.regdt,0,10);
+		   		form.store_cd.value = checkNullVal(json.storecd);
+		   		form.stock_type_cd.value = checkNullVal(json.stocktypecd);
+
+		   		form.real_pch_gold_price.value = checkNullVal(json.realpchgoldprice);
+		   		
+		   		form.catalog_no_0.value = checkNullVal(json.catalogno);
+		   		form.model_id_0.value = checkNullVal(json.modelid);
+		   		form.vender_no_0.value = checkNullVal(json.venderno);
+		   		form.vender_nm_0.value = checkNullVal(json.vendernm);
+		   		
+		   		form.material_cd_0.value = checkNullVal(json.materialcd);
+		   		form.color_cd_0.value = checkNullVal(json.colorcd);
+		   		form.quantity_0.value = checkNullVal(json.quantity);
+		   		form.main_stone_type_0.value = checkNullVal(json.mainstonetype);
+		   		form.sub_stone_type_0.value = checkNullVal(json.substonetype);
+		   		form.size_0.value = checkNullVal(json.size);
+		   		form.stock_desc_0.value = checkNullVal(json.stockdesc);
+		   		form.quantity_0.value = checkNullVal(json.quantity);
+		   		form.per_weight_gram_0.value = checkNullVal(json.perweightgram);
+		   		
+		   		materialCd = checkNullVal(json.materialcd);
+		   		weight = 0;
+		   		if(materialCd == 'SM01') weight = 0.6435;
+					else if(materialCd == 'SM02') weight = 0.825;
+					else if(materialCd == 'SM03') weight = 1;
+
+		   		perWeightGram = Number(checkNullValR(json.perweightgram,'0'));
+	
+		   		//재질중량(g) 순금 계산
+		   		perGoldWeight = perWeightGram * weight;
+		   		
+		   		form.per_weight_gold_0.value = (perGoldWeight == 0 || perGoldWeight == 0.0 ? '' : (perGoldWeight+''));
+		   		
+		   		form.per_price_basic_0.value = checkNullVal(json.perpricebasic);
+		   		form.per_price_add_0.value = checkNullVal(json.perpriceadd);
+		   		form.per_price_main_0.value = checkNullVal(json.perpricemain);
+		   		form.per_price_sub_0.value = checkNullVal(json.perpricesub);
+
+		   		perPriceBasic = Number(checkNullValR(json.perpricebasic,'0'));
+		   		perPriceAdd = Number(checkNullValR(json.perpriceadd,'0'));
+		   		perPriceMain = Number(checkNullValR(json.perpricemain,'0'));
+		   		perPriceSub = Number(checkNullValR(json.perpricesub,'0'));
+		   		
+		   		//개당구매가(공임) 합산
+		   		perPriceGoldStdd = (perPriceBasic + perPriceAdd + perPriceMain + perPriceSub);
+
+		   		perPriceGoldReal = 0;
+		   		realPchGoldPrice = Number(checkNullValR(json.realpchgoldprice,'0'));
+					
+		   		perPriceGoldReal = realPchGoldPrice*perGoldWeight;
+		   		perPriceGoldReal += perPriceGoldStdd;
+					
+		   		form.per_price_gold_real_0.value = perPriceGoldReal;
+		   		
+		   		form.per_price_gold_stdd_0.value = (perPriceGoldStdd == 0 || perPriceGoldStdd == 0.0 ? '' : (perPriceGoldStdd+''));
+		   		
+		   		form.multiple_cnt_0.value = checkNullVal(json.multiplecnt);
+
+		   		multipleCnt = Number(checkNullValR(json.multiplecnt,'1'));
+					comsumerPrice = perPriceGoldStdd * multipleCnt;
+		   		form.consumer_price_0.value = (comsumerPrice == 0 || comsumerPrice == 0.0 ? '' : (comsumerPrice+''));
+ 
+		   	}).catch(error => {
+		    	alert('재고 정보를 찾을 수 없습니다.');
+		    	/* fncParentRefresh();
+		    	fncClose(); */
+		   	});
+			}
 			
 			function readURL(obj) {
 			  if (obj.files && obj.files[0]) {
@@ -371,47 +508,10 @@
 					formData.append($(this).attr("name")+'[]', checkNullVal($(this).val()));
 				});
 				
-				/* $("input[name=serial_id_arr]").each(function(){
-					formData.append("serial_id_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=catalog_no_arr]").each(function(){
-					formData.append("catalog_no_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=model_id_arr]").each(function(){
-					formData.append("model_id_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=vender_no_arr]").each(function(){
-					formData.append("vender_no_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=vender_nm_arr]").each(function(){
-					formData.append("vender_nm_arr[]", checkNullVal($(this).val()));
-				});
-				$("select[name=material_cd_arr]").each(function(){
-					formData.append("material_cd_arr[]", checkNullVal($(this).val()));
-				});
-				$("select[name=color_cd_arr]").each(function(){
-					formData.append("color_cd_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=quantity_arr]").each(function(){
-					formData.append("quantity_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=main_stone_type_arr]").each(function(){
-					formData.append("main_stone_type_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=sub_stone_type_arr]").each(function(){
-					formData.append("sub_stone_type_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=size_arr]").each(function(){
-					formData.append("size_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=order_desc_arr]").each(function(){
-					formData.append("order_desc_arr[]", checkNullVal($(this).val()));
-				}); */
-				//배열 데이터 넣기
 				formData.append("file", fileField.files[0]);
 								
-				fetch('/api/stock/write', {
-					method: 'POST',
+				fetch('/api/stock/modify/${stockno}', {
+					method: 'PATCH',
 					body: formData
 				}).then(response => {
 					if(!response.ok){
@@ -468,6 +568,10 @@
 	      var name = "venderListPopup";
 	      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
 	      window.open(url, name, option);
+			}
+
+			function fncParentRefresh(){
+				window.opener.findAll();
 			}
 			
 			function fncClose(){

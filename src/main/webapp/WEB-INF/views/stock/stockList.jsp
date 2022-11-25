@@ -70,9 +70,8 @@
 							<th rowspan="2" class="text-center border-left">보조</th>
 							<th rowspan="2" class="text-center border-left">수량</th>
 							<th rowspan="2" class="text-center border-left">중량</th>
-							<th rowspan="2" class="text-center border-left">매입<br/>구분</th>
 							<th colspan="3" class="text-center border-left">개당 구매가</th>
-							<th rowspan="2" class="text-center border-left">매수</th>
+							<th rowspan="2" class="text-center border-left">배수</th>
 							<th rowspan="2" class="text-center border-left">개당<br/>TAG가</th>
 						</tr>
 						<tr>
@@ -211,26 +210,55 @@
 								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.stockno)+`'); return false;">` + (num--) + `</a>
 							</td>
 							<td class="text-center"><input type="checkbox" name="stock_no_arr" class="form-check" value="`+checkNullVal(obj.stockno)+`"/></td>
-							<td class="text-center">` + checkSubstringNullVal(obj.receiptdt,2,10) + `</td>
-							<td class="text-center">`+ checkNullVal(codemap[obj.storecd]) + `</td>
+							<td class="text-center">` + checkSubstringNullVal(obj.regdt,2,10) + `</td>
 							<td class="text-center bold">`+checkNullVal(obj.stockno)+`</td>
 							<td class="text-center">`+ checkNullVal(codemap[obj.stocktypecd]) + `</td>
-							<td class="text-center"><div class="border-bottom">` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.orderno)+`</div></td>
+							<td class="text-center"><div class="border-bottom">` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
 							<td class="text-center">` + checkNullVal(obj.modelid)+`</td>
 							<td class="text-center">` + checkNullVal(codemap[obj.materialcd])+`</td>
 							<td class="text-center">` + checkNullVal(codemap[obj.colorcd]) + `</td>
 							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `</td>
 							<td class="text-center">` + checkNullVal(obj.substonetype) + `</td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
-							<td class="text-center">` + checkNullVal(obj.perweightgram) + `<br/>` + checkNullVal(obj.substonetype) + `</td>
-							<td class="text-center">??</td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
+							<td class="text-center">` + checkNullVal(obj.perweightgram) + `</td>
+					`;
+					//개당구매가 공임
+					perPrice = Number(checkNullValR(obj.perpricebasic,'0'));
+					perPrice += Number(checkNullValR(obj.perpriceadd,'0'));
+					perPrice += Number(checkNullValR(obj.perpricemain,'0'));
+					perPrice += Number(checkNullValR(obj.perpricesub,'0'));
+					perPriceTxt = (perPrice == 0 || perPrice == 0.0 ? '' : priceWithComma(perPrice));
+					html += `
+							<td class="text-center">`+perPriceTxt+`</td>
+					`;
+
+					//재질별 중량 체크
+					weight = 0;
+					materialCd = checkNullVal(obj.materialcd);
+					if(materialCd == 'SM01') weight = 0.6435;
+					else if(materialCd == 'SM02') weight = 0.825;
+					else if(materialCd == 'SM03') weight = 1;
+					
+					//개당구매가 실질
+					realPchGoldPrice = Number(checkNullValR(obj.realpchgoldprice,'0'));
+					realPchGoldPrice = realPchGoldPrice*weight+perPrice;
+					realPchGoldPriceTxt = (realPchGoldPrice == 0 || realPchGoldPrice == 0.0 ? '' : priceWithComma(realPchGoldPrice));
+					html += `
+							<td class="text-center">`+realPchGoldPriceTxt+`</td>
+					`;
+					//개당구매가 기준
+					html += `
+							<td class="text-center">`+perPriceTxt+`</td>
+							<td class="text-center">`+checkNullVal(obj.multiplecnt)+`</td>
+					`;
+					//소비자 TAG가
+					consumerPrice = Number(checkNullValR(obj.multiplecnt,'0'))*perPrice;
+					consumerPriceTxt = (consumerPrice == 0 || consumerPrice == 0.0 ? '' : priceWithComma(consumerPrice));
+					html += `
+							<td class="text-center">`+consumerPriceTxt+`</td>
 	   				</tr>
      			`;
      		});
-     		
 	
 				document.getElementById('list').innerHTML = html;
 				drawPages(response.params);
@@ -288,7 +316,7 @@
 		function fncPopupView(stockno) {
 		  var url = "/stock/popup/"+stockno;
       var name = "stockViewPopup";
-      var option = "width = 1150, height = 800, top = 100, left = 200, location = no";
+      var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
 		

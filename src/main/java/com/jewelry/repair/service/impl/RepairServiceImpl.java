@@ -48,7 +48,7 @@ public class RepairServiceImpl implements RepairService {
 	@Override
 	public RepairVO findRepair(Long repairno) {
 		RepairVO vo = repairMapper.selectRepair(repairno);
-		if(vo != null) vo.setFilelist(fileMapper.selectFileListByRefInfo(new FileTO(repairno, "RPIR")));
+		if(vo != null) vo.setFilelist(fileMapper.selectFileListByRefInfo(new FileTO(repairno, "REPAIR")));
 		return vo;
 	}
 
@@ -63,7 +63,7 @@ public class RepairServiceImpl implements RepairService {
 			int res = repairMapper.insertRepair(to);
 			if(res > 0) {
 
-				FileTO fileto = amazonS3Service.upload(to.getRepairfile(), "repair", "RPIR");
+				FileTO fileto = amazonS3Service.upload(to.getRepairfile(), "repair", "REPAIR");
 				
 				Long repair_no = to.getRepair_no();
 				
@@ -99,7 +99,7 @@ public class RepairServiceImpl implements RepairService {
 			int res = repairMapper.updateRepair(to);
 			if(res > 0) {
 
-				FileTO fileto = amazonS3Service.upload(to.getRepairfile(), "repair", "RPIR");
+				FileTO fileto = amazonS3Service.upload(to.getRepairfile(), "repair", "REPAIR");
 				
 				Long repair_no = to.getRepair_no();
 				
@@ -107,7 +107,7 @@ public class RepairServiceImpl implements RepairService {
 					if(!ObjectUtils.isEmpty(fileto.getOrigin_nm())) {
 						FileTO delfileto = new FileTO();
 						delfileto.setRef_no(repair_no);
-						delfileto.setRef_info("RPIR");
+						delfileto.setRef_info("REPAIR");
 						delfileto.setUpdt_id(to.getUpdt_id());
 						fileMapper.updateFileToDeleteWithRef(delfileto);
 						

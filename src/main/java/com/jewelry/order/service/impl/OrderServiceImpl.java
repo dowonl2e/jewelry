@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
 			Long[] catalog_no_arr = to.getCatalog_no_arr();
 			Integer[] quantity_arr = to.getQuantity_arr();
 			if(catalog_no_arr != null && catalog_no_arr.length > 0 && quantity_arr != null && quantity_arr.length > 0) {
-				FileTO fileto = amazonS3Service.upload(to.getOrderfile(), "order", "ORD");
+				FileTO fileto = amazonS3Service.upload(to.getOrderfile(), "order", "ORDER");
 
 				String[] serial_id_arr = to.getSerial_id_arr();
 				String[] model_id_arr = to.getModel_id_arr();
@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
 		OrderVO vo = orderMapper.selectOrder(orderno);
 		
 		if(vo != null) {
-			vo.setFilelist(fileMapper.selectFileListByRefInfo(new FileTO(orderno, "ORD")));
+			vo.setFilelist(fileMapper.selectFileListByRefInfo(new FileTO(orderno, "ORDER")));
 		}
 		
 		return vo;
@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
 			Long[] catalog_no_arr = to.getCatalog_no_arr();
 			Integer[] quantity_arr = to.getQuantity_arr();
 			if(catalog_no_arr != null && catalog_no_arr.length > 0 && quantity_arr != null && quantity_arr.length > 0) {
-				FileTO fileto = amazonS3Service.upload(to.getOrderfile(), "order", "ORD");
+				FileTO fileto = amazonS3Service.upload(to.getOrderfile(), "order", "ORDER");
 				
 				String[] serial_id_arr = to.getSerial_id_arr();
 				String[] model_id_arr = to.getModel_id_arr();
@@ -168,6 +168,14 @@ public class OrderServiceImpl implements OrderService {
 				to.setOrder_desc(order_desc_arr[0]);
 				orderMapper.updateOrder(to);
 				
+				if(!ObjectUtils.isEmpty(fileto.getOrigin_nm())) {
+					fileto.setUpdt_id(to.getUpdt_id());
+					fileto.setRef_no(to.getOrder_no());
+					fileMapper.updateFileToDeleteWithRef(fileto);
+					fileto.setInpt_id(to.getInpt_id());
+					fileMapper.insertFile(fileto);
+				}
+				
 				boolean multiInsertCheck = false;
 				for(int idx = 1 ; idx < catalog_no_arr.length ; idx++) {
 					if(catalog_no_arr[idx] != null && catalog_no_arr[idx] > 0) {
@@ -178,7 +186,7 @@ public class OrderServiceImpl implements OrderService {
 				
 				if(multiInsertCheck == true || quantity_arr[0] > 1) {
 					if(ObjectUtils.isEmpty(fileto.getOrigin_nm())) {
-						FileVO filevo = fileMapper.selectFileByRefInfo(new FileTO(to.getOrder_no(), "ORD", 1));
+						FileVO filevo = fileMapper.selectFileByRefInfo(new FileTO(to.getOrder_no(), "ORDER", 1));
 						if(filevo != null) {
 							fileto.setRef_info(filevo.getRefinfo());
 							fileto.setFile_path(filevo.getFilepath());
@@ -207,9 +215,8 @@ public class OrderServiceImpl implements OrderService {
 							to.setOrder_desc(order_desc_arr[i]);
 							
 							int quantity = quantity_arr[i];
-							if(i == 0) {
+							if(i == 0)
 								quantity = quantity <= 1 ? 0 : (quantity-1);
-							}
 							
 							for(int j = 0 ; j < quantity ; j++){
 								to.setQuantity(1);

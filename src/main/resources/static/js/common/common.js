@@ -50,3 +50,16 @@ function checkListNullParams(jsonObj){
 			delete jsonObj[key];
 	}
 }
+
+function priceWithComma(val){
+	try {
+		if(typeof val == "undefined" || val == null){
+			return '0';
+		}
+		return (Math.round(val).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+	}
+	catch(e){
+		console.log(e);
+		return '0';
+	}
+}
