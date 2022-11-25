@@ -221,15 +221,44 @@
 							<td class="text-center">` + checkNullVal(obj.substonetype) + `</td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
 							<td class="text-center">` + checkNullVal(obj.perweightgram) + `</td>
-							<td class="text-center">??</td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
+					`;
+					//개당구매가 공임
+					perPrice = Number(checkNullValR(obj.perpricebasic,'0'));
+					perPrice += Number(checkNullValR(obj.perpriceadd,'0'));
+					perPrice += Number(checkNullValR(obj.perpricemain,'0'));
+					perPrice += Number(checkNullValR(obj.perpricesub,'0'));
+					perPriceTxt = (perPrice == 0 || perPrice == 0.0 ? '' : priceWithComma(perPrice));
+					html += `
+							<td class="text-center">`+perPriceTxt+`</td>
+					`;
+
+					//재질별 중량 체크
+					weight = 0;
+					materialCd = checkNullVal(obj.materialcd);
+					if(materialCd == 'SM01') weight = 0.6435;
+					else if(materialCd == 'SM02') weight = 0.825;
+					else if(materialCd == 'SM03') weight = 1;
+					
+					//개당구매가 실질
+					realPchGoldPrice = Number(checkNullValR(obj.realpchgoldprice,'0'));
+					realPchGoldPrice = realPchGoldPrice*weight+perPrice;
+					realPchGoldPriceTxt = (realPchGoldPrice == 0 || realPchGoldPrice == 0.0 ? '' : priceWithComma(realPchGoldPrice));
+					html += `
+							<td class="text-center">`+realPchGoldPriceTxt+`</td>
+					`;
+					//개당구매가 기준
+					html += `
+							<td class="text-center">`+perPriceTxt+`</td>
+							<td class="text-center">`+checkNullVal(obj.multiplecnt)+`</td>
+					`;
+					//소비자 TAG가
+					consumerPrice = Number(checkNullValR(obj.multiplecnt,'0'))*perPrice;
+					consumerPriceTxt = (consumerPrice == 0 || consumerPrice == 0.0 ? '' : priceWithComma(consumerPrice));
+					html += `
+							<td class="text-center">`+consumerPriceTxt+`</td>
 	   				</tr>
      			`;
      		});
-     		
 	
 				document.getElementById('list').innerHTML = html;
 				drawPages(response.params);
@@ -287,7 +316,7 @@
 		function fncPopupView(stockno) {
 		  var url = "/stock/popup/"+stockno;
       var name = "stockViewPopup";
-      var option = "width = 1150, height = 800, top = 100, left = 200, location = no";
+      var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
 		

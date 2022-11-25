@@ -168,6 +168,14 @@ public class OrderServiceImpl implements OrderService {
 				to.setOrder_desc(order_desc_arr[0]);
 				orderMapper.updateOrder(to);
 				
+				if(!ObjectUtils.isEmpty(fileto.getOrigin_nm())) {
+					fileto.setUpdt_id(to.getUpdt_id());
+					fileto.setRef_no(to.getOrder_no());
+					fileMapper.updateFileToDeleteWithRef(fileto);
+					fileto.setInpt_id(to.getInpt_id());
+					fileMapper.insertFile(fileto);
+				}
+				
 				boolean multiInsertCheck = false;
 				for(int idx = 1 ; idx < catalog_no_arr.length ; idx++) {
 					if(catalog_no_arr[idx] != null && catalog_no_arr[idx] > 0) {
@@ -207,9 +215,8 @@ public class OrderServiceImpl implements OrderService {
 							to.setOrder_desc(order_desc_arr[i]);
 							
 							int quantity = quantity_arr[i];
-							if(i == 0) {
+							if(i == 0)
 								quantity = quantity <= 1 ? 0 : (quantity-1);
-							}
 							
 							for(int j = 0 ; j < quantity ; j++){
 								to.setQuantity(1);

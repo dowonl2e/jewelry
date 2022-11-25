@@ -53,6 +53,7 @@ public class StockPageController {
 		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
 		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
 		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		model.addAttribute("prevstocklist", stockService.findAllPrevStock());
 		return "stock/popup/stockModify";
 	}
 }

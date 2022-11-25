@@ -31,7 +31,7 @@ public class StockVO extends CommonVO {
 	private Integer perpricemain;
 	private Integer perpricesub;
 	private Integer perpricegoldreal;
-	private Integer buyingcnt;
+	private Integer multiplecnt;
 	private String origintype;
 	private String delyn;
 	
@@ -220,15 +220,15 @@ public class StockVO extends CommonVO {
 	public void setPerpricegoldreal(Integer perpricegoldreal) {
 		this.perpricegoldreal = perpricegoldreal;
 	}
-
-	public Integer getBuyingcnt() {
-		return buyingcnt;
-	}
-
-	public void setBuyingcnt(Integer buyingcnt) {
-		this.buyingcnt = buyingcnt;
-	}
 	
+	public Integer getMultiplecnt() {
+		return multiplecnt;
+	}
+
+	public void setMultiplecnt(Integer multiplecnt) {
+		this.multiplecnt = multiplecnt;
+	}
+
 	public String getOrigintype() {
 		return origintype;
 	}

@@ -38,7 +38,8 @@
 	<select id="selectStockList" parameterType="StockTO" resultType="StockVO">
 		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.model_id
 						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
-						, a.per_weight_gram, a.real_pch_gold_price, a.per_price_main, a.per_price_basic
+						, a.per_weight_gram, a.real_pch_gold_price
+						, a.per_price_basic, a.per_price_add, a.per_price_main, a.per_price_sub
 						, a.multiple_cnt
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
@@ -54,7 +55,7 @@
 						, a.multiple_cnt
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
-		ORDER BY a.stock_no DESC
+		ORDER BY a.reg_dt DESC
 		LIMIT 0, 3
 	</select>
 	
@@ -82,7 +83,6 @@
 			<if test='per_price_add != null and per_price_add > 0'>, per_price_add</if>
 			<if test='per_price_main != null and per_price_main > 0'>, per_price_main</if>
 			<if test='per_price_sub != null and per_price_sub > 0'>, per_price_sub</if>
-			<if test='per_price_gold_real != null and per_price_gold_real > 0'>, per_price_gold_real</if>
 			<if test='multiple_cnt != null and multiple_cnt > 0'>, multiple_cnt</if>
 		)
 		VALUES
@@ -108,17 +108,14 @@
 			<if test='per_price_add != null and per_price_add > 0'>, #{per_price_add}</if>
 			<if test='per_price_main != null and per_price_main > 0'>, #{per_price_main}</if>
 			<if test='per_price_sub != null and per_price_sub > 0'>, #{per_price_sub}</if>
-			<if test='per_price_gold_real != null and per_price_gold_real > 0'>, #{per_price_gold_real}</if>
 			<if test='multiple_cnt != null and multiple_cnt > 0'>, #{multiple_cnt}</if>
 		)
 	</insert>
 	
 	<select id="selectStock" parameterType="Long" resultType="StockVO">
 		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.catalog_no, a.model_id, a.vender_no, a.vender_nm
-						, a.size, a.stock_desc, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
-						, a.per_weight_gram
+						, a.size, a.stock_desc, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity, a.per_weight_gram
 						, a.real_pch_gold_price, a.per_price_main, a.per_price_sub, a.per_price_basic, a.per_price_add
-						, a.per_price_gold_real
 						, a.multiple_cnt
 		FROM tb_stock a
 		WHERE a.stock_no = #{stock_no}
@@ -135,7 +132,7 @@
 		<if test='catalog_no != null and catalog_no > 0'>, catalog_no = #{catalog_no}</if>
 		<if test='model_id != null and !model_id.equals("")'>, model_id = #{model_id}</if>
 		, vender_no = #{vender_no}
-		  vender_nm = #{vender_nm}
+		, vender_nm = #{vender_nm}
 		, material_cd = #{material_cd}
 		, color_cd = #{color_cd}
 		, main_stone_type = #{main_stone_type}
@@ -148,7 +145,6 @@
 		, per_price_add = #{per_price_add}
 		, per_price_main = #{per_price_main}
 		, per_price_sub = #{per_price_sub}
-		, per_price_gold_real = #{per_price_gold_real}
 		, multiple_cnt = #{multiple_cnt}
 		WHERE stock_no = #{stock_no}
 	</update>
