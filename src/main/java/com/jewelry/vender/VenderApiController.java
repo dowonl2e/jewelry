@@ -37,27 +37,27 @@ public class VenderApiController {
 	}
 	
 	@PostMapping("/write")
-	public ResponseEntity<Object> write(@RequestBody final VenderTO to) {
+	public ResponseEntity<Object> write(@RequestBody final VenderTO to) { //이쪽으로온 json 데이터 형식을 to에 넣어줌 requestbody
 		to.setInpt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
 		String result = venderService.insertVender(to);
 		
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
-		return  new ResponseEntity<>(response.getStatus());
+		return new ResponseEntity<>(response.getStatus());
 	}
 
 	@GetMapping("/{venderno}")
-	public VenderVO findCodeByCdId(@PathVariable final Long venderno) {
+	public VenderVO findVenderByNo(@PathVariable final Long venderno) { 
 		return venderService.findVenderByNo(venderno);
 	}
 	
 	@PatchMapping("/{venderno}")
-	public ResponseEntity<Object> modify(@PathVariable final Long venderno, @RequestBody final VenderTO to) {
+	public ResponseEntity<Object> modify(@PathVariable final Long venderno, @RequestBody final VenderTO to) { 
 		to.setVender_no(venderno);
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
 		String result = venderService.updateVender(to);
 		
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
-		return  new ResponseEntity<>(response.getStatus());
+		return new ResponseEntity<>(response.getStatus());
 	}
 	
 	@DeleteMapping("/{customerno}")

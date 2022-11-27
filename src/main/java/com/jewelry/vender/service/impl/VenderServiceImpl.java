@@ -24,13 +24,9 @@ public class VenderServiceImpl implements VenderService{
 	public Map<String, Object> findAllVender(VenderTO to) {
 		Map<String, Object> response = new HashMap<>();
 		
-		int totalcount = venderMapper.selectVenderListCount(to);
-		List<VenderVO> list = venderMapper.selectVenderList(to);
-		
-		to.setTotalcount(totalcount);
-		
+		to.setTotalcount(venderMapper.selectVenderListCount(to));
+		response.put("list", venderMapper.selectVenderList(to)); 
 		response.put("params", to);
-		response.put("list", list);
 		
 		return response;
 	}
@@ -44,19 +40,43 @@ public class VenderServiceImpl implements VenderService{
 	@Transactional
 	@Override
 	public String insertVender(VenderTO to) {
-		return venderMapper.insertVender(to) > 0 ? "success" : "fail";
+		String result = "fail";
+		try {
+			result = venderMapper.insertVender(to) > 0 ? "success" : "fail";
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			result = "fail";
+		}
+		return result;
 	}
 
 	@Transactional
 	@Override
 	public String updateVender(VenderTO to) {
-		return venderMapper.updateVender(to) > 0 ? "success" : "fail";
+		String result = "fail";
+		try {
+			result = venderMapper.updateVender(to) > 0 ? "success" : "fail";
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			result = "fail";
+		}
+		return result;
 	}
 	
 	@Transactional
 	@Override
 	public String updateVenderToDelete(VenderTO to) {
-		return venderMapper.updateVenderToDelete(to) > 0 ? "success" : "fail";
+		String result = "fail";
+		try {
+			result = venderMapper.updateVenderToDelete(to) > 0 ? "success" : "fail";
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			result = "fail";
+		}
+		return result;
 	}
 
 }

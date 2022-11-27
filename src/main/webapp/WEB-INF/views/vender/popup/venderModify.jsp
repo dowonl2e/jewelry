@@ -4,135 +4,129 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코드 추가</title>
+<title>거래처 등록</title>
 </head>
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mt-4 mb-4">
 		<div class="card-header py-3 text-center">
-			<h6 class="m-0 font-weight-bold text-primary">고객 등록</h6>
+			<h6 class="m-0 font-weight-bold text-primary">거래처 등록</h6>
 		</div>
 		<div class="card-body">
 			<form id="form" class="form-horizontal m10">
 				<div class="table-responsive clearfix">
 					<table class="table">
 						<colgroup>
+							<col width="5%;"/>
 							<col width="10%;"/>
 							<col width="10%;"/>
-							<col />
 							<col width="10%;"/>
-							<col />
-							<col />
-							<col width="10%;"/>
-							<col />
 						</colgroup>
 						<tbody>
-							<tr>
-								<th rowspan="2" class="text-center border-right">관리매장</th>
-								<th colspan="4" class="text-center border-right">등록일<span class="important"> *</span></th>
-								<th colspan="3" class="text-center">매장<span class="important"> *</span></th>
+						   <tr>
+								<th rowspan="2" class="text-center border-right">거래처</th>
+								<th colspan="3" class="text-center border-right">거래처 별명<span class="important"> *</span></th>
 							</tr>
 							<tr>
-								<td colspan="4" class="border-right"><input type="date" id="reg_dt" class="form-control"/></td>
+								<td colspan="3" class="text-center"><input type ="text" id="vender_nm" class="form-control" value="" maxlength='40'/></td>
+							</tr>
+							<tr>
+								<th rowspan="4" class="text-center border-right">사업자</th>
+								<th colspan="3" class="text-center border-right">사업자명</th>
+							</tr>
+							<tr>
+								<td colspan="3" class="text-center "><input type ="text" id="business_nm" class="form-control" maxlength='40'/></td>
+							</tr>
+							<tr>
+								<th colspan="3" class="text-center">대표자 연락처</th>
+							</tr>
+							<tr>
+								<td colspan="3" class="text-center"><input type ="text" id="agent_cel" class="form-control" maxlength='40'/></td>
+							</tr>
+							<tr>
+								<th rowspan="4" class="text-center border-right">옵션</th>
+								<th colspan="3" class="text-center border-right">매입해리</th>
+							</tr>
+							<tr>
 								<td colspan="3" class="text-center">
-									<select id="store_cd" class="form-control">
-				            <c:forEach var="stlist" items="${stlist}">
-				            	<option value="${stlist.cdid}">${stlist.cdnm}</option>
+									<select id="melt_cd" class="form-control">
+				            <c:forEach var="mtlist" items="${mtlist}">
+				            	<option value="${mtlist.cdid}">${mtlist.cdnm}</option>
 				            </c:forEach>
 					        </select>
 								</td>
 							</tr>
 							<tr>
-								<th rowspan="2" class="text-center border-right">구분</th>
-								<th colspan="7" class="text-center border-right">계약구분<span class="important"> *</span></th>
+							<th colspan="3" class="text-center">부가세 적용률</th>
 							</tr>
 							<tr>
-								<td colspan="7" class="text-center">
-									<select id="contract_cd" class="form-control">
-				            <c:forEach var="ctlist" items="${ctlist}">
-				            	<option value="${ctlist.cdid}">${ctlist.cdnm}</option>
+								<td colspan="3" class="text-center">
+									<select id="vat_cd" class="form-control">
+				            <c:forEach var="vtlist" items="${vtlist}">
+				            	<option value="${vtlist.cdid}">${vtlist.cdnm}</option>
 				            </c:forEach>
-					        </select>
+					        </select>	
 								</td>
 							</tr>
 							<tr>
-								<th rowspan="2" class="border-right">고객</th>
-								<th></th>
-								<th>이름</th>
-								<th>성별</th>
-								<th>연락처</th>
-								<th>생일</th>
-								<th>음력</th>
-								<th>이메일</th>
+								<th rowspan="2" class="text-center border-right">연락처</th>
+								<th colspan="1" class="text-center border-right">전화번호1</th>
+								<th colspan="1" class="text-center border-right">전화번호2</th>
+								<th colspan="1" class="text-center">팩스번호</th>
 							</tr>
 							<tr>
-								<th class="border-right">계약고객</th>
-								<td class="border-right"><input type="text" id="contractor_nm" class="form-control"/></td>
-								<td class="border-right">
-									<select id="contractor_gen" class="form-control">
-										<option value=""></option>
-										<option value="남">남</option>
-										<option value="여">여</option>
-									</select>
-								</td>
-								<td class="border-right"><input type="text" id="contractor_cel" class="form-control"/></td>
-								<td class="border-right"><input type="date" id="contractor_birth" class="form-control"/></td>
-								<td class="border-right">
-									<select id="contractor_lunar" class="form-control">
-										<option value=""></option>
-										<option value="Y">Y</option>
-										<option value="N">N</option>
-									</select>
-								</td>
-								<td><input type="text" id="contractor_email" class="form-control"/></td>
+								<td colspan="1" class="text-center border-right"><input type ="text" id="vender_cel1" class="form-control" maxlength="13"/></td>
+								<td colspan="1" class="text-center border-right"><input type ="text" id="vender_cel2" class="form-control" maxlength="13"/></td>
+							  <td colspan="1" class="text-center"><input type ="text" id="vender_fax" class="form-control" maxlength="13"/></td>
 							</tr>
 							<tr>
-								<th rowspan="3" class="border-right">주소</th>
-								<th class="border-right">우편번호</th>
-								<td colspan="6"><input type="text" id="zipcode" class="form-control" style="width: 100px;"/></td>
+								<th rowspan="2" class="text-center border-right">담당자</th>
+								<th colspan="1" class="text-center border-right">이름</th>
+								<th colspan="1" class="text-center border-right">핸드폰</th>
+								<th colspan="1" class="text-center">이메일</th>
 							</tr>
 							<tr>
-								<th class="border-right">기본주소</th>
-								<td colspan="6"><input type="text" id="address1" class="form-control"/></td>
+								<td colspan="1" class="text-center"><input type ="text" id="manager_nm" class="form-control" maxlength="40"/></td>
+								<td colspan="1" class="text-center"><input type ="text" id="manager_cel" class="form-control" maxlength="13"/></td>
+							  <td colspan="1" class="text-center"><input type ="text" id="manager_email" class="form-control" maxlength="40"/></td>
 							</tr>
 							<tr>
-								<th class="border-right">나머지</th>
-								<td colspan="6"><input type="text" id="address2" class="form-control"/></td>
+							  <th rowspan="1" class="text-center border-right">통상처</th>
+							  <td colspan="3" class="text-center"><input type ="text" id="commerce" class="form-control" maxlength="100"/></td>
 							</tr>
+							
 							<tr>
-								<th class="border-right border-bottom">비고</th>
-								<td colspan="7" class="border-bottom">
-									<textarea id="etc" class="form-control"></textarea>
+								<th class="border-right border-bottom">비고</td>
+								<td colspan="3" class="border-bottom">
+									<textarea id="etc" class="form-control" maxlength="650"></textarea>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 					<div class="btn_wrap text-center">
-		        <a href="javascript: void(0);" onclick="modify(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
+		        <a href="javascript: void(0);" onclick="fncModify(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
 		        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 		    	</div>
-					<nav aria-label="Page navigation" class="text-center">
-				    <ul class="pagination"></ul>
-					</nav>
 				</div>
 			</form>
 		</div>
 	</div>
 	
 	<script>
-		/*<![CDATA[*/
+	
+		/*<![CDATA[*/ 
 			window.onload = () => {
 				find();
-	  	}
+	  	} 
 			
-			function find() {
+			function find() {			
 				
-				const customerno = '${customerno}';
-				if ( !customerno ) {
+				const venderno = '${venderno}';
+				if ( !venderno ) {
 		    	return false;
 		    }
 				
-				fetch(`/api/customer/${customerno}`).then(response => {
+				fetch(`/api/vender/${venderno}`).then(response => {  //response에 VenderVO가 있다? fetch는 기본적으로 get mapping.
 		    	if (!response.ok) {
 						throw new Error('Request failed...');
 			    }
@@ -140,107 +134,70 @@
 		
 		   	}).then(json => {
 		   		const form = document.getElementById('form');
-		   		form.reg_dt.value = checkSubstringNullVal(json.regdt,0,10);
-		   		form.store_cd.value = checkNullVal(json.storecd);
-		   		form.contract_cd.value = checkNullVal(json.contractcd);
-		   		form.contractor_nm.value = checkNullVal(json.contractornm);
-		   		form.contractor_gen.value = checkNullVal(json.contractorgen);
-		   		form.contractor_cel.value = checkNullVal(json.contractorcel);
-		   		form.contractor_birth.value = checkSubstringNullVal(json.contractorbirth,0,10);
-		   		form.contractor_lunar.value = checkNullVal(json.contractorlunar);
-		   		form.contractor_email.value = checkNullVal(json.contractoremail);
-		   		form.zipcode.value = checkNullVal(json.zipcode);
-		   		form.address1.value = checkNullVal(json.address1);
-		   		form.address2.value = checkNullVal(json.address2);
-		   		form.etc.value = checkNullVal(json.etc);
 		   		
+		   		form.vender_nm.value = checkNullVal(json.vendernm);
+		   		form.business_nm.value = checkNullVal(json.businessnm);
+		   		form.agent_cel.value = checkNullVal(json.agentcel);
+		   		form.melt_cd.value = checkNullVal(json.meltcd);
+		   		form.vat_cd.value = checkNullVal(json.vatcd);
+		   		form.vender_cel1.value = checkNullVal(json.vendercel1);
+		   		form.vender_cel2.value = checkNullVal(json.vendercel2);
+		   		form.vender_fax.value = checkNullVal(json.venderfax);
+		   		form.manager_nm.value = checkNullVal(json.managernm);
+		   		form.manager_cel.value = checkNullVal(json.managercel);
+		   		form.manager_email.value = checkNullVal(json.manageremail);
+		   		form.commerce.value = checkNullVal(json.commerce);
+		   		form.etc.value = checkNullVal(json.etc);
+		   
 		   	}).catch(error => {
-		    	alert('고객정보를 찾을 수 없습니다.');
+		    	alert('거래처 정보를 찾을 수 없습니다.');
 		    	window.opener.findAll();
 		   	});
 			}
 			
-			function modify(){
-
-				if($("#reg_dt").val() == ''){
-					alert('등록일을 입력해주세요.');
-					$("#reg_dt").focus();
-					return false;
-				}
-				if($("#store_cd").val() == ''){
-					alert('매장을 선택해주세요.');
-					$("#store_cd").focus();
-					return false;
-				}
-				if($("#contract_cd").val() == ''){
-					alert('계약구분을 선택해주세요.');
-					$("#contract_cd").focus();
-					return false;
-				}
+			function fncModify(){ //update 실제로 치는 곳 (write와 같이 사용>form의 id로..)
 				
-				const form = document.getElementById('form');
-				const params = {
-					reg_dt : form.reg_dt.value,
-					store_cd : form.store_cd.value,
-					contract_cd : form.contract_cd.value,
-					contractor_nm : form.contractor_nm.value,
-					contractor_gen : form.contractor_gen.value,
-					contractor_cel : form.contractor_cel.value,
-					contractor_birth : form.contractor_birth.value,
-					contractor_lunar : form.contractor_lunar.value,
-					contractor_email : form.contractor_email.value,
-					zipcode : form.zipcode.value,
-					address1 : form.address1.value,
-					address2 : form.address2.value,
-					etc : form.etc.value
-				};
+					if($("#vendernm").val() == ''){
+						alert('거래처 별명을 입력해주세요.');
+						$("#vendernm").focus();
+						return false;
+					}					
+					const form = document.getElementById('form');
+					const params = {
+						vender_nm : form.vender_nm.value,
+						business_nm : form.business_nm.value,
+						agent_cel : form.agent_cel.value,
+						melt_cd : form.melt_cd.value,
+						vat_cd : form.vat_cd.value,
+						vender_cel1 : form.vender_cel1.value,
+						vender_cel2 : form.vender_cel2.value,
+						vender_fax : form.vender_fax.value,
+						manager_nm : form.manager_nm.value,
+						manager_cel : form.manager_cel.value,
+						manager_email : form.manager_email.value,
+						commerce : form.commerce.value,
+						etc : form.etc.value
+					};
 
-				const customerno = '${customerno}';
-				
-				fetch(`/api/customer/${customerno}`, {
-					method: 'PATCH',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(params)
-				}).then(response => {
-					if(!response.ok){
-						throw new Error('Request Failed...');
-					}
-					alert('수정되었습니다.');
-					window.opener.findAll();
-					fncClose();
-				}).catch(error => {
-					alert('오류가 발생하였습니다.');
-				});
-			}
-			
-			//고객 삭제
-			function remove() {
-				
-  	  	const customerno = '${customerno}';
-
-      	if ( !confirm(`고객을 삭제하시겠습니까?`) ) {
-      		return false;
-      	}
-
-      	fetch(`/api/customer/${customerno}`, {
-					method: 'DELETE',
-        	headers: { 'Content-Type': 'application/json' },
-
-      	}).then(response => {
-      		if (!response.ok) {
-         		throw new Error('Request failed...');
-        	}
-
-        	alert('삭제되었습니다.');
-					window.opener.findAll();
-					fncClose();
-
-      	}).catch(error => {
-      		alert('오류가 발생하였습니다.');
-      	});
-	  	}
+					const customerno = '${venderno}';
+					
+					fetch(`/api/vender/${venderno}`, { //실행하는건데 url이 fetch 다음에.. PATCH 란 Mapping을 찾아서. stringfy해서 json으로 넘긴다.
+						method: 'PATCH',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(params)
+					}).then(response => {
+						if(!response.ok){
+							throw new Error('Request Failed...');
+						}
+						alert('수정되었습니다.');
+						window.opener.findAll();
+						fncClose();
+					}).catch(error => {
+						alert('오류가 발생하였습니다.');
+					});
+				}
 			
 			function fncClose(){
 				self.close();

@@ -16,10 +16,10 @@ public interface VenderMapper {
 	
 	VenderVO selectVender(Long venderno); // KEY를 통해서 parameter는 1개 정도 long 이나 string이 파라미터
 	
-	int insertVender(VenderTO to); 	// insert to용 담아야할 용도
+	int insertVender(VenderTO to) throws Exception; 	// insert to용 담아야할 용도
 	
-	int updateVender(VenderTO to);  // update to용 담아야할 용도
+	int updateVender(VenderTO to) throws Exception;  // update to용 담아야할 용도
 	
-	int updateVenderToDelete(VenderTO to); 	// delete 사용할지 안할지 key로 결정하기 위한 것
+	int updateVenderToDelete(VenderTO to) throws Exception; 	// delete 사용할지 안할지 key로 결정하기 위한 것
 	
 }

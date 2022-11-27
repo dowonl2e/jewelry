@@ -14,6 +14,8 @@ public class VenderVO extends CommonVO {
 	private String agentcel;
 	private String vatcd;
 	private String meltcd;
+	private String etc;
+	private String commerce;
 	private String venderfax;
 	private String vendercel1;
 	private String vendercel2;
@@ -23,6 +25,18 @@ public class VenderVO extends CommonVO {
 	private String delyn;
 	
 	
+	public String getCommerce() {
+		return commerce;
+	}
+	public void setCommerce(String commerce) {
+		this.commerce = commerce;
+	}
+	public String getEtc() {
+		return etc;
+	}
+	public void setEtc(String etc) {
+		this.etc = etc;
+	}
 	public String getInptdt() {
 		return inptdt;
 	}

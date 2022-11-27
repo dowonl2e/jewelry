@@ -18,30 +18,30 @@ public class VenderPageController {
 	
 	@GetMapping("/list")
 	public String list(Model model) {
-		model.addAttribute("codelist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"MT","VT"}, 2));
 		return "vender/venderList";
 	}
 	
-	@GetMapping("/popup/write")
+	@GetMapping("/popup/write") 															//등록
 	public String writePopup(Model model) {
-		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
-		model.addAttribute("ctlist", codeService.findAllByUpCdId("CT", 2));
+		model.addAttribute("mtlist", codeService.findAllByUpCdId("MT", 2));
+		model.addAttribute("vtlist", codeService.findAllByUpCdId("VT", 2));
 		return "vender/popup/venderWrite";
 	}
 
-	@GetMapping("/popup/view/{venderno}")
+	@GetMapping("/popup/{venderno}") 													//뷰
 	public String viewPopup(@PathVariable final Long venderno, Model model) {
 		model.addAttribute("venderno", venderno);
-		model.addAttribute("cdlist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"MT","VT"}, 2));
 		return "vender/popup/venderView";
 	}
 	
-	@GetMapping("/popup/modify/{venderno}")
+	@GetMapping("/popup/modify/{venderno}") 									//수정
 	public String modifyPopup(@PathVariable final Long venderno, Model model) {
 		model.addAttribute("venderno", venderno);
-		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
-		model.addAttribute("ctlist", codeService.findAllByUpCdId("CT", 2));
-		return "vender/popup/venderModfiy";
+		model.addAttribute("mtlist", codeService.findAllByUpCdId("MT", 2));
+		model.addAttribute("vtlist", codeService.findAllByUpCdId("VT", 2));
+		return "vender/popup/venderModify";
 	}
 	
 	

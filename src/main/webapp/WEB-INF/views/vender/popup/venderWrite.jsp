@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객 등록</title>
+<title>거래처 등록</title>
 </head>
 <body>
 	<!-- DataTales Example -->
@@ -28,38 +28,45 @@
 								<th colspan="3" class="text-center border-right">거래처 별명<span class="important"> *</span></th>
 							</tr>
 							<tr>
-								<td colspan="3" class="text-center"> 거래처 갖고와야함</td>
-<%-- 									<select id="contract_cd" class="form-control">
-				            <c:forEach var="ctlist" items="${ctlist}">
-				            	<option value="${ctlist.cdid}">${ctlist.cdnm}</option>
-				            </c:forEach>
-					        </select> --%>
+								<td colspan="3" class="text-center"><input type ="text" id="vender_nm" class="form-control" maxlength='40'/></td>
 							</tr>
 							<tr>
 								<th rowspan="4" class="text-center border-right">사업자</th>
 								<th colspan="3" class="text-center border-right">사업자명</th>
 							</tr>
 							<tr>
-								<td colspan="3" class="text-center ">a</td>
+								<td colspan="3" class="text-center "><input type ="text" id="business_nm" class="form-control" maxlength='40'/></td>
 							</tr>
 							<tr>
 								<th colspan="3" class="text-center">대표자 연락처</th>
 							</tr>
 							<tr>
-								<td colspan="3" class="text-center">b</td>
+								<td colspan="3" class="text-center"><input type ="text" id="agent_cel" class="form-control" maxlength='40'/></td>
 							</tr>
 							<tr>
 								<th rowspan="4" class="text-center border-right">옵션</th>
 								<th colspan="3" class="text-center border-right">매입해리</th>
 							</tr>
 							<tr>
-								<td colspan="3" class="text-center">a</td>
+								<td colspan="3" class="text-center">
+									<select id="melt_cd" class="form-control">
+				            <c:forEach var="mtlist" items="${mtlist}">
+				            	<option value="${mtlist.cdid}">${mtlist.cdnm}</option>
+				            </c:forEach>
+					        </select>
+								</td>
 							</tr>
 							<tr>
 							<th colspan="3" class="text-center">부가세 적용률</th>
 							</tr>
 							<tr>
-								<td colspan="3" class="text-center">b</td>
+								<td colspan="3" class="text-center">
+									<select id="vat_cd" class="form-control">
+				            <c:forEach var="vtlist" items="${vtlist}">
+				            	<option value="${vtlist.cdid}">${vtlist.cdnm}</option>
+				            </c:forEach>
+					        </select>	
+								</td>
 							</tr>
 							<tr>
 								<th rowspan="2" class="text-center border-right">연락처</th>
@@ -68,9 +75,9 @@
 								<th colspan="1" class="text-center">팩스번호</th>
 							</tr>
 							<tr>
-								<td colspan="1" class="text-center">a</td>
-								<td colspan="1" class="text-center">b</td>
-							  <td colspan="1" class="text-center">c</td>
+								<td colspan="1" class="text-center border-right"><input type ="text" id="vender_cel1" class="form-control" maxlength="13"/></td>
+								<td colspan="1" class="text-center border-right"><input type ="text" id="vender_cel2" class="form-control" maxlength="13"/></td>
+							  <td colspan="1" class="text-center"><input type ="text" id="vender_fax" class="form-control" maxlength="13"/></td>
 							</tr>
 							<tr>
 								<th rowspan="2" class="text-center border-right">담당자</th>
@@ -79,19 +86,19 @@
 								<th colspan="1" class="text-center">이메일</th>
 							</tr>
 							<tr>
-								<td colspan="1" class="text-center">a</td>
-								<td colspan="1" class="text-center">b</td>
-							  <td colspan="1" class="text-center">c</td>
+								<td colspan="1" class="text-center"><input type ="text" id="manager_nm" class="form-control" maxlength="40"/></td>
+								<td colspan="1" class="text-center"><input type ="text" id="manager_cel" class="form-control" maxlength="13"/></td>
+							  <td colspan="1" class="text-center"><input type ="text" id="manager_email" class="form-control" maxlength="40"/></td>
 							</tr>
 							<tr>
 							  <th rowspan="1" class="text-center border-right">통상처</th>
-							  <td colspan="3" class="text-center">d</td>
+							  <td colspan="3" class="text-center"><input type ="text" id="commerce" class="form-control" maxlength="100"/></td>
 							</tr>
 							
 							<tr>
-								<th class="border-right border-bottom">비고</th>
+								<th class="border-right border-bottom">비고</td>
 								<td colspan="3" class="border-bottom">
-									<textarea id="etc" class="form-control"></textarea>
+									<textarea id="etc" class="form-control" maxlength="650"></textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -100,9 +107,6 @@
 		        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
 		        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 		    	</div>
-					<nav aria-label="Page navigation" class="text-center">
-				    <ul class="pagination"></ul>
-					</nav>
 				</div>
 			</form>
 		</div>
@@ -111,44 +115,31 @@
 	<script>
 		/*<![CDATA[*/
 			function fncSave(){
-				/* if( !isValid() ){
-					return false;
-				} */
 				
-				if($("#reg_dt").val() == ''){
-					alert('등록일을 입력해주세요.');
-					$("#reg_dt").focus();
-					return false;
-				}
-				if($("#store_cd").val() == ''){
-					alert('매장을 선택해주세요.');
-					$("#store_cd").focus();
-					return false;
-				}
-				if($("#contract_cd").val() == ''){
-					alert('계약구분을 선택해주세요.');
-					$("#contract_cd").focus();
+				if($("#vender_nm").val() == ''){
+					alert('거래처별명을 입력해주세요.');
+					$("#vender_nm").focus(); 
 					return false;
 				}
 
 				const form = document.getElementById('form');
 				const params = {
-						reg_dt : form.reg_dt.value,
-						store_cd : form.store_cd.value,
-						contract_cd : form.contract_cd.value,
-						contractor_nm : form.contractor_nm.value,
-						contractor_gen : form.contractor_gen.value,
-						contractor_cel : form.contractor_cel.value,
-						contractor_birth : form.contractor_birth.value,
-						contractor_lunar : form.contractor_lunar.value,
-						contractor_email : form.contractor_email.value,
-						zipcode : form.zipcode.value,
-						address1 : form.address1.value,
-						address2 : form.address2.value,
+						vender_nm : form.vender_nm.value,
+						business_nm : form.business_nm.value,
+						agent_cel : form.agent_cel.value,
+						melt_cd : form.melt_cd.value,
+						vat_cd : form.vat_cd.value,
+						vender_cel1 : form.vender_cel1.value,
+						vender_cel2 : form.vender_cel2.value,
+						vender_fax : form.vender_fax.value,
+						manager_nm : form.manager_nm.value,
+						manager_cel : form.manager_cel.value,
+						manager_email : form.ma	nager_email.value,
+						commerce : form.commerce.value,
 						etc : form.etc.value
 				};
 				
-				fetch('/api/customer/write', {
+				fetch('/api/vender/write', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -164,10 +155,6 @@
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
 				});
-			}
-			
-			function goList(){
-				location.href = '/code/list' + location.search;
 			}
 			
 			function fncClose(){

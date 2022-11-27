@@ -64,7 +64,7 @@
 		 * 페이지 HTML 렌더링
 		 */
 		var codemap = {
-				<c:forEach var="code" items="${codelist}" varStatus="loop">
+				<c:forEach var="code" items="${cdmapper}" varStatus="loop">
 				  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
 				</c:forEach>
 		};
@@ -164,7 +164,7 @@
 							<td class="text-center"><input type="checkbox" id="arr_vender_no" value="`+checkNullVal(obj.venderno)+`"/></td>
 							<td class="text-center">` + checkSubstringNullVal(obj.inptdt,0,10) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncPopupModify('` + obj.vendernm + `'); return false;">`+checkNullVal(obj.vendernm)+`</a>
+								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.venderno + `'); return false;">`+checkNullVal(obj.vendernm)+`</a>
 							</td>
 							<td class="text-center">` + checkNullVal(obj.businessnm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.agentcel)+`</td>
@@ -172,9 +172,9 @@
 							<td class="text-center">` + checkNullVal(obj.venderfax)+`</td>
 							<td class="text-center">` + checkNullVal(obj.managernm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.managercel)+`</td>
-							<td class="text-center"></td>
-							<td class="text-center">` + checkNullVal(obj.meltcd)+`</td>
-							<td class="text-center">` + checkNullVal(obj.vatcd)+`</td>
+							<td class="text-center">` + checkNullVal(obj.etc)+`</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.vatcd)])+`</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.meltcd)])+`</td>
 	   				</tr>
      			`;
      		});
@@ -225,7 +225,7 @@
 		 */
 		function fncPopupWrite() {
 		  var url = "./popup/write";
-      var name = "customerWritePopup";
+      var name = "venderWritePopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
@@ -233,9 +233,9 @@
 		/**
 		 * 수정하기
 		 */
-		function fncPopupModify(customerno) {
-		  var url = "./popup/modify/"+customerno;
-      var name = "customeModifyPopup";
+		function fncPopupView(venderno) {
+		  var url = "./popup/"+venderno;
+      var name = "venderModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
