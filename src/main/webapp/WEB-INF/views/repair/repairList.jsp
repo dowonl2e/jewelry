@@ -28,6 +28,7 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
+		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
 		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">수리등록</a>
 					</div>
 				</div>
@@ -164,6 +165,9 @@
      		    				</div>
      		    			</div>
      		    			<div class="row mlr1 mtb5">
+		 		    				<div class="col text-center">고객명 : `+checkSubstringNullVal(obj.customernm,0,18)+`</div>
+		 		    			</div>
+     		    			<div class="row mlr1 mtb5">
      		    				<div class="col text-center">요청일 : `+checkSubstringNullVal(obj.repairreqdt,0,10)+`</div>
      		    			</div>
      		    			<div class="row mlr1 mtb5">
@@ -284,6 +288,13 @@
 					alert('오류가 발생하였습니다.');
 				});
 			}
+		}
+
+		//새로고침
+		function fncRefresh(){
+			$("#adv-search").find("input").val('');
+			$("#adv-search").find("select").val('');
+			findAll(0);
 		}
 		
 		function fncCheckZero(obj){

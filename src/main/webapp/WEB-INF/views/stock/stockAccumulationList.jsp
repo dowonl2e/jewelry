@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>재고관리</title>
+<title>누적재고</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,7 +14,7 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">재고관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">누적재고</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
@@ -44,7 +44,7 @@
 						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
 						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="모델번호 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="고객명/모델번호 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
@@ -59,7 +59,8 @@
 						<tr>
 							<th rowspan="2" class="text-center">No</th>
 							<th rowspan="2" class="text-center border-left"><a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a></th>
-							<th rowspan="2" class="text-center border-left">등록일</th>
+							<th rowspan="2" class="text-center border-left">매장</th>
+							<th rowspan="2" class="text-center border-left">등록일<br/>변경일</th>
 							<th rowspan="2" class="text-center border-left">시리얼</th>
 							<th rowspan="2" class="text-center border-left">재고<br/>구분</th>
 							<th rowspan="2" class="text-center border-left">사이즈<br/>비&nbsp;&nbsp;&nbsp;고</th>
@@ -85,12 +86,6 @@
 				
 				<div class="text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0);" onclick="fncPopupSale(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">판매</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupRegDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">등록일 변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupTypeModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고구분변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">매입처변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고이동</span></a>
 	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
 	    					
@@ -193,7 +188,7 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/stock/list', params).then(response => {
+			getJson('/api/stock/accumulation/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="19" class="text-center">재고내역이 없습니다.</td>';
 					drawPages();
@@ -204,26 +199,43 @@
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
 				
      		response.list.forEach((obj, idx) => {
+     			
      			delyn = checkNullVal(obj.delyn);
      			saleyn = checkNullVal(obj.saleyn);
      			storetypecd = checkNullVal(obj.stocktypecd);
      			backgroundTr = '';
-     			if(storetypecd == 'OC03'){
-         			backgroundTr = 'bg-springgreen';
+     			if(delyn == 'Y') {
+     				backgroundTr = 'bg-orange';
+     			}
+     			else if(storetypecd == 'OC03'){
+         			if(saleyn == 'Y') backgroundTr = 'bg-green';
+         			else backgroundTr = 'bg-springgreen';
      			}
      			
      			html += `
      				<tr class="`+backgroundTr+` small">
-     					<td class="text-center">
+							<td class="text-center">
 								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.stockno)+`'); return false;">` + (num--) + `</a>
 							</td>
 							<td class="text-center"><input type="checkbox" name="stock_no_arr" class="form-check" value="`+checkNullVal(obj.stockno)+`"/></td>
-							<td class="text-center">` + checkSubstringNullVal(obj.regdt,2,10) + `</td>
+							<td class="text-center">`+ checkNullVal(codemap[obj.storecd]) + `</td>
+							<td class="text-center"><div class="">` + checkSubstringNullVal(obj.regdt,2,10) + `</div><div>`+checkSubstringNullVal(obj.updtdt,2,10)+`</div></td>
 							<td class="text-center bold">`+checkNullVal(obj.stockno)+`</td>
-							<td class="text-center">`+ checkNullVal(codemap[obj.stocktypecd]) + `</td>
-							<td class="text-center"><div class="border-bottom">` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
-							<td class="text-center"><a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a></td>
-							<td class="text-center">` + checkNullVal(codemap[obj.materialcd])+`</td>
+					`;
+					stocktype = '';
+					if(delyn == 'Y')
+						stocktype = '<div>삭제</div>';
+					else if(saleyn == 'Y')
+						stocktype = '<div>판매</div>';
+						
+					if(checkNullVal(codemap[obj.stocktypecd]) != '')
+						stocktype += '<div>'+checkNullVal(codemap[obj.stocktypecd])+'</div>';
+						
+					html += `
+							<td class="text-center">`+ stocktype + `</td>
+							<td class="text-center"><div class="">` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
+							<td class="text-center">` + checkNullVal(obj.modelid)+`</td>
+							<td class="text-center important">` + checkNullVal(codemap[obj.materialcd])+`</td>
 							<td class="text-center">` + checkNullVal(codemap[obj.colorcd]) + `</td>
 							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `</td>
 							<td class="text-center">` + checkNullVal(obj.substonetype) + `</td>
@@ -319,59 +331,13 @@
 		}
 
 		/**
-		 * 조회하기
+		 * 수정하기
 		 */
 		function fncPopupView(stockno) {
 		  var url = "/stock/popup/"+stockno;
       var name = "stockViewPopup";
       var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
-		}
-		
-		/**
-		 * 카다로그 조회 팝업
-		 */
-		function fncPopupCatalogView(catalogno){
-		  var url = "/catalog/popup/"+catalogno;
-      var name = "catalogViewPopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-		
-		function fncPopupSale(){
-			var orderscheckcnt = 0;
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					orderscheckcnt++;
-				}
-			});
-			if(orderscheckcnt == 0){
-				alert('판매할 주문이력을 선택해주세요.');
-				return false;
-			}
-			if(confirm('판매하시겠습니까?')){
-				const form = document.getElementById('searchForm');
-				const writeForm = new FormData(form);
-	
-				const formData = new FormData();
-				$(".form-check").each(function(){
-					if($(this).is(":checked"))
-						formData.append("stock_no_arr[]", checkNullVal($(this).val()));
-				});
-								
-				fetch('/api/stock/stocks/sale', {
-					method: 'PATCH',
-					body: formData
-				}).then(response => {
-					if(!response.ok){
-						throw new Error('Request Failed...');
-					}
-					alert('판매 되었습니다.');
-					findAll();
-				}).catch(error => {
-					alert('오류가 발생하였습니다.');
-				});
-			}
 		}
 		
 		function fncRemove(){
@@ -409,90 +375,6 @@
 					alert('오류가 발생하였습니다.');
 				});
 			}
-		}
-
-		function fncPopupCustomerModify(){
-			var ordersno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
-				}
-			});
-			
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-
-		  var url = "/order/popup/customer/modify?ordersno="+ordersno;
-      var name = "orderCustomerModifyPopup";
-      var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-		
-		function fncPopupVenderModify(){
-			var stocksno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(stocksno != '')
-						stocksno += ',';
-					stocksno += $(this).val();
-				}
-			});
-			
-			if(stocksno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-
-		  var url = "/stock/popup/vender/modify?stocksno="+stocksno;
-      var name = "stockVenderModifyPopup";
-      var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-		
-		function fncPopupRegDateModify(){
-			var stocksno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(stocksno != '')
-						stocksno += ',';
-					stocksno += $(this).val();
-				}
-			});
-			
-			if(stocksno == ''){
-				alert('재고내역을 선택해주세요.');
-				return false;
-			}
-			
-		  var url = "/stock/popup/reg-date/modify?stocksno="+stocksno;
-      var name = "stockRegisterDateModifyPopup";
-      var option = "width = 500, height = 300, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		function fncPopupTypeModify(){
-			var stocksno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(stocksno != '')
-						stocksno += ',';
-					stocksno += $(this).val();
-				}
-			});
-			
-			if(stocksno == ''){
-				alert('재고내역을 선택해주세요.');
-				return false;
-			}
-			
-		  var url = "/stock/popup/type/modify?stocksno="+stocksno;
-      var name = "stockTypeModifyPopup";
-      var option = "width = 500, height = 300, top = 100, left = 200, location = no";
-      window.open(url, name, option);
 		}
 		
 		//새로고침

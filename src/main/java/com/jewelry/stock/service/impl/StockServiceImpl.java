@@ -18,6 +18,8 @@ import com.jewelry.stock.domain.StockTO;
 import com.jewelry.stock.domain.StockVO;
 import com.jewelry.stock.mapper.StockMapper;
 import com.jewelry.stock.service.StockService;
+import com.jewelry.vender.domain.VenderVO;
+import com.jewelry.vender.mapper.VenderMapper;
 
 @Service
 public class StockServiceImpl implements StockService {
@@ -31,6 +33,8 @@ public class StockServiceImpl implements StockService {
 	@Autowired
 	private FileMapper fileMapper;
 
+	@Autowired
+	private VenderMapper venderMapper;
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -272,5 +276,115 @@ public class StockServiceImpl implements StockService {
 		}
 		return res > 0 ? "success" : "fail";
 	}
+
+	@Override
+	public String updateStocksToDelete(StockTO to) {
+		String result = "success";
+		try {
+			Long[] stock_no_arr = to.getStock_no_arr();
+			if(stock_no_arr != null && stock_no_arr.length > 0) {
+				int res = stockMapper.updateStocksToDelete(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
+
+	@Override
+	public String updateStocksToSale(StockTO to) {
+		String result = "success";
+		try {
+			Long[] stock_no_arr = to.getStock_no_arr();
+			if(stock_no_arr != null && stock_no_arr.length > 0) {
+				int res = stockMapper.updateStocksToSale(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
+
+	@Override
+	public String updateStocksRegDate(StockTO to) {
+		String result = "success";
+		try {
+			Long[] stock_no_arr = to.getStock_no_arr();
+			if(stock_no_arr != null && stock_no_arr.length > 0) {
+				int res = stockMapper.updateStocksRegDate(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
 	
+	@Override
+	public String updateStocksType(StockTO to) {
+		String result = "success";
+		try {
+			Long[] stock_no_arr = to.getStock_no_arr();
+			if(stock_no_arr != null && stock_no_arr.length > 0) {
+				int res = stockMapper.updateStocksType(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
+	
+	@Override
+	public String updateStocksVender(StockTO to) {
+		String result = "success";
+		try {
+			Long[] stock_no_arr = to.getStock_no_arr();
+			if(stock_no_arr != null && stock_no_arr.length > 0) {
+				VenderVO vendervo = venderMapper.selectVender(to.getVender_no());
+				if(vendervo != null)
+					to.setVender_nm(vendervo.getVendernm());
+				
+				int res = stockMapper.updateStocksVender(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public Map<String, Object> findAllAccumulationStock(StockTO to) {
+		Map<String, Object> response = new HashMap<>();
+
+		to.setTotalcount(stockMapper.selectAccumulationStockCount(to));
+		response.put("list", stockMapper.selectAccumulationStock(to));
+		response.put("params", to);
+		
+		return response;
+	}
 }

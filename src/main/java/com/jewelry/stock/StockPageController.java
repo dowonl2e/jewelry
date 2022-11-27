@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jewelry.cms.code.service.CodeService;
 import com.jewelry.stock.service.StockService;
@@ -56,4 +57,33 @@ public class StockPageController {
 		model.addAttribute("prevstocklist", stockService.findAllPrevStock());
 		return "stock/popup/stockModify";
 	}
+	
+	@GetMapping("/accumulation/list")
+	public String listAll(ModelMap model) {
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","SC","OC"}, 2));
+		return "stock/stockAccumulationList";
+	}
+
+	@GetMapping("/popup/reg-date/modify")
+	public String stockRegDateModifyPopup(@RequestParam(value = "stocksno") String stocksno, ModelMap model) {
+		model.addAttribute("stocksno", stocksno);
+		return "stock/popup/stockRegDateModify";
+	}
+
+	@GetMapping("/popup/type/modify")
+	public String stockTypeModifyPopup(@RequestParam(value = "stocksno") String stocksno, ModelMap model) {
+		model.addAttribute("stocksno", stocksno);
+		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		return "stock/popup/stockTypeModify";
+	}
+	
+	@GetMapping("/popup/vender/modify")
+	public String venderModifyPopup(@RequestParam(value = "stocksno") String stocksno, ModelMap model) {
+		model.addAttribute("stocksno", stocksno);
+		return "stock/popup/stockVenderModify";
+	}
+
 }

@@ -32,9 +32,14 @@ public class OrderVO extends CommonVO {
 	private String orderstep;
 	private String delyn;
 	
+	private Long fileno;
 	private String filepath;
 	private String filenm;
 	private String originnm;
+	private Integer fileord;
+	private String fileext;
+	private Long filesize;
+	private String versionid;
 	
 	private List<OrderCatalogVO> ordercataloglist;
 	
@@ -262,6 +267,46 @@ public class OrderVO extends CommonVO {
 
 	public void setOriginnm(String originnm) {
 		this.originnm = originnm;
+	}
+
+	public Long getFileno() {
+		return fileno;
+	}
+
+	public void setFileno(Long fileno) {
+		this.fileno = fileno;
+	}
+
+	public Integer getFileord() {
+		return fileord;
+	}
+
+	public void setFileord(Integer fileord) {
+		this.fileord = fileord;
+	}
+
+	public String getFileext() {
+		return fileext;
+	}
+
+	public void setFileext(String fileext) {
+		this.fileext = fileext;
+	}
+
+	public Long getFilesize() {
+		return filesize;
+	}
+
+	public void setFilesize(Long filesize) {
+		this.filesize = filesize;
+	}
+
+	public String getVersionid() {
+		return versionid;
+	}
+
+	public void setVersionid(String versionid) {
+		this.versionid = versionid;
 	}
 	
 }

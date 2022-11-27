@@ -219,7 +219,7 @@
 			});
 		}
 		
-		function fncModify(customerno){
+		function fncModify(venderno){
 			if(confirm('변경하시겠습니까?')){
 				var orderno = '${ordersno}';
 				var order_no_arr = orderno.split(',');
@@ -227,7 +227,7 @@
 				const writeForm = new FormData(form);
 
 				const formData = new FormData();
-				formData.append('customer_no', customerno);
+				formData.append('vender_no', venderno);
 				for(var i = 0 ; i < order_no_arr.length ; i++){
 					formData.append('order_no_arr[]',order_no_arr[i]);
 				}

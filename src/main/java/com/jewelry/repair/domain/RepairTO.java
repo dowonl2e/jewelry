@@ -11,6 +11,11 @@ public class RepairTO extends CommonTO {
 	private String repair_req_dt;
 	private String repair_res_dt;
 	private String repair_desc;
+	
+	private Long customer_no;
+	private String customer_nm;
+	private String customer_cel;
+
 	private String del_yn;
 	
 	private MultipartFile repairfile;
@@ -79,6 +84,30 @@ public class RepairTO extends CommonTO {
 
 	public void setRepair_no_arr(Long[] repair_no_arr) {
 		this.repair_no_arr = repair_no_arr;
+	}
+
+	public Long getCustomer_no() {
+		return customer_no;
+	}
+
+	public void setCustomer_no(Long customer_no) {
+		this.customer_no = customer_no;
+	}
+
+	public String getCustomer_nm() {
+		return customer_nm;
+	}
+
+	public void setCustomer_nm(String customer_nm) {
+		this.customer_nm = customer_nm;
+	}
+
+	public String getCustomer_cel() {
+		return customer_cel;
+	}
+
+	public void setCustomer_cel(String customer_cel) {
+		this.customer_cel = customer_cel;
 	}
 	
 	

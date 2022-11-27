@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객 현황</title>
+<title>재고 제조사 변경</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,22 +14,17 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">고객 현황</h6>
+			<h6 class="m-0 font-weight-bold text-primary">재고 제조사 변경</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
 				<div class="mb20" id="adv-search">
 					<div class="form-inline">
-						<span class="mlr5">등록일</span>
-						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
-						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="거래처명/사업자명 을 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
 					</div>
 				</div>
 	    </form>
@@ -38,26 +33,19 @@
 					<thead>
 						<tr>
 							<th rowspan="2" class="">No.</th>
-							<th rowspan="2" class="border-left"><input type="checkbox" id="arr_customer_no"/></th>
+							<th rowspan="2" class="border-left">구분</th>
 							<th rowspan="2" class="border-left">등록일</th>
-							<th rowspan="2" class="border-left">계약구분</th>
-							<th rowspan="2" class="border-left">고객코드</th>
-							<th colspan="2" class="border-left">계약고객</th>
-							<th colspan="5" class="border-left">건수</th>
-							<th colspan="2" class="border-left">(단위:천원)</th>
+							<th rowspan="2" class="border-left">거래처명</th>
+							<th rowspan="2" class="border-left">사업자명</th>							
+							<th colspan="2" class="border-left">대표자연락처</th>
+							<th colspan="5" class="border-left">전화번호</th>
+							<th colspan="2" class="border-left">팩스번호</th>
+							<th rowspan="2" class="border-left">담당자</th>
+							<th rowspan="2" class="border-left">담당자연락처</th>
 							<th rowspan="2" class="border-left">비고</th>
-						</tr>
-						<tr>
-							<th class="border-left">이름</th>
-							<th class="border-left">H.P</th>
-							<th class="border-left">주문</th>
-							<th class="border-left">수리</th>
-							<th class="border-left">예약</th>
-							<th class="border-left">상담</th>
-							<th class="border-left">견적</th>
-							<th class="border-left">매츨</th>
-							<th class="border-left">매수</th>
-						</tr>
+							<th rowspan="2" class="border-left">VAT</th>
+							<th rowspan="2" class="border-left">해리</th>
+  					</tr>
 					</thead>
 					<tbody id="list"></tbody>
 				</table>
@@ -80,7 +68,7 @@
 				</c:forEach>
 		};
 		
-		window.onload = () => {
+		window.onload = () => {       //들어왔을때 가장먼저 호출하지 않아도 실행되는 자바스크립트 함수
 			setQueryStringParams();
 	    findAll();
 			addEnterSearchEvent();
@@ -148,10 +136,9 @@
 			
 			var params = {
 			  currentpage: page
-				, searchstdt: form.searchstdt.value
-				, searcheddt: form.searcheddt.value
 				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
+				, ordersno: '${ordersno}'
 			}
 			checkListNullParams(params);
 	
@@ -159,7 +146,7 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/customer/list', params).then(response => {
+			getJson('/api/vender/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="15" class="text-center">등록된 고객이 없습니다.</td>';
 					drawPages();
@@ -170,26 +157,23 @@
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
 				
      		response.list.forEach((obj, idx) => {
-     			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
-     				<tr class="small">
+     				<tr>
 							<td class="text-center">` + (num--) + `</td>
-							<td class="text-center"><input type="checkbox" id="arr_customer_no" value="`+checkNullVal(obj.customerno)+`"/></td>
-							<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
-							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.contractcd)]) +`</td>
+							<td class="text-center"><input type="checkbox" id="arr_vender_no" value="`+checkNullVal(obj.venderno)+`"/></td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.vendernm)]) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.customerno + `'); return false;">`+checkNullVal(obj.customerno)+`</a>
+								<a href="javascript: void(0);" onclick="fncModify('`+checkNullVal(obj.venderno)+`'); return false;">`+checkNullVal(obj.venderno)+`</a>
 							</td>
-							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
-							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
-							<td class="text-center">` + checkNullVal(obj.ordercnt)+`</td>
-							<td class="text-center">` + checkNullVal(obj.repaircnt)+`</td>
-							<td class="text-center">` + checkNullVal(obj.reservecnt)+`</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">` + (checkNullVal(obj.salesprice) == '' ? '' : priceWithComma(obj.salesprice)) +`</td>
-							<td class="text-center">???</td>
-							<td class="text-center">`+checkNullVal(obj.etc)+`</td>
+							<td class="text-center">` + checkNullVal(obj.vendernm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.businessnm)+`</td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
 	   				</tr>
      			`;
      		});
@@ -234,32 +218,34 @@
 				}
 			});
 		}
+		
+		function fncModify(venderno){
+			if(confirm('변경하시겠습니까?')){
+				var orderno = '${stocksno}';
+				var order_no_arr = orderno.split(',');
+				const form = document.getElementById('searchForm');
+				const writeForm = new FormData(form);
 
-		/**
-		 * 작성하기
-		 */
-		function fncPopupWrite() {
-		  var url = "./popup/write";
-      var name = "customerWritePopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		/**
-		 * 수정하기
-		 */
-		function fncPopupView(customerno) {
-		  var url = "/customer/popup/"+customerno;
-      var name = "customeViewPopup";
-      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		//새로고침
-		function fncRefresh(){
-			$("#adv-search").find("input").val('');
-			$("#adv-search").find("select").val('');
-			findAll(0);
+				const formData = new FormData();
+				formData.append('vender_no', venderno);
+				for(var i = 0 ; i < order_no_arr.length ; i++){
+					formData.append('stock_no_arr[]',order_no_arr[i]);
+				}
+				
+				fetch('/api/stock/vender/modify', {
+					method: 'PATCH',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('저장되었습니다.');
+					window.opener.findAll();
+					fncClose();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
 		}
 		
 		function fncCheckZero(obj){
@@ -272,6 +258,11 @@
 				}
 			}
 		}
+
+		function fncClose(){
+			self.close();
+		}
+
 	</script>
 </body>
 </html>

@@ -23,7 +23,6 @@
 		<if test='searchword != null and !searchword.equals("")'>
 			AND (
 				a.model_id LIKE CONCAT('%', #{searchword}, '%')
-				OR b.contractor_nm LIKE CONCAT('%', #{searchword}, '%')
 			)
 		</if>
 	</sql>
@@ -32,17 +31,19 @@
 		SELECT COUNT(a.stock_no)
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
+		AND a.sale_yn = 'N'
 		<include refid="stock-search" />
 	</select>
 	
 	<select id="selectStockList" parameterType="StockTO" resultType="StockVO">
-		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.model_id
+		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.catalog_no, a.model_id
 						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
 						, a.per_weight_gram, a.real_pch_gold_price
 						, a.per_price_basic, a.per_price_add, a.per_price_main, a.per_price_sub
 						, a.multiple_cnt
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
+		AND a.sale_yn = 'N'
 		<include refid="stock-search" />
 		ORDER BY a.reg_dt DESC, a.stock_no DESC
 		<include refid="commonMapper.paging" />
@@ -169,4 +170,75 @@
 		)
 	</update>
 
+	<update id="updateStocksToSale" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, sale_yn = 'Y'
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+
+	<update id="updateStocksRegDate" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, reg_dt = #{reg_dt}
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+
+	<update id="updateStocksType" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, stock_type_cd = #{stock_type_cd}
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
+	<update id="updateStocksVender" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='vender_no != null and vender_no > 0'>
+			, vender_no = #{vender_no}
+			, vender_nm = #{vender_nm}
+		</if>
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
+	<select id="selectAccumulationStockCount" parameterType="StockTO" resultType="Integer">
+		SELECT COUNT(a.stock_no)
+		FROM tb_stock a
+		WHERE 1 = 1
+		<include refid="stock-search" />
+	</select>
+	
+	<select id="selectAccumulationStock" parameterType="StockTO" resultType="StockVO">
+		SELECT a.stock_no, a.store_cd, a.reg_dt, a.stock_type_cd, a.size, a.stock_desc, a.catalog_no, a.model_id
+						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.quantity
+						, a.per_weight_gram, a.real_pch_gold_price
+						, a.per_price_basic, a.per_price_add, a.per_price_main, a.per_price_sub
+						, a.multiple_cnt, a.del_yn, a.sale_yn, IFNULL(a.updt_dt, a.inpt_dt) as updt_dt
+		FROM tb_stock a
+		WHERE 1 = 1
+		<include refid="stock-search" />
+		ORDER BY a.reg_dt DESC, a.stock_no DESC
+		<include refid="commonMapper.paging" />
+	</select>
+	
 </mapper>

@@ -34,6 +34,7 @@ public class StockVO extends CommonVO {
 	private Integer multiplecnt;
 	private String origintype;
 	private String delyn;
+	private String saleyn;
 	
 	private List<FileVO> filelist;
 
@@ -251,6 +252,14 @@ public class StockVO extends CommonVO {
 
 	public void setFilelist(List<FileVO> filelist) {
 		this.filelist = filelist;
+	}
+
+	public String getSaleyn() {
+		return saleyn;
+	}
+
+	public void setSaleyn(String saleyn) {
+		this.saleyn = saleyn;
 	}
 	
 	

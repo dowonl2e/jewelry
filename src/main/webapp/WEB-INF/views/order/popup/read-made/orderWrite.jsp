@@ -41,10 +41,10 @@
 									</select>
 								</td>
 								<td class="text-center border-right">
-									<input type="date" name="receipt_dt" id="receipt_dt" class="form-control form-data mtb5" maxlength="10"/>
+									<input type="date" name="receipt_dt" id="receipt_dt" class="form-control form-data mtb5" maxlength="10" value="${today}"/>
 								</td>
 								<td class="text-center">
-									<input type="date" name="expected_ord_dt" id="expected_ord_dt" class="form-control form-data mtb5" maxlength="10"/>
+									<input type="date" name="expected_ord_dt" id="expected_ord_dt" class="form-control form-data mtb5" maxlength="10" value="${today}"/>
 								</td>
 							</tr>
 						</tbody>

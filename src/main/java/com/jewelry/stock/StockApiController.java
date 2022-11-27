@@ -65,4 +65,54 @@ public class StockApiController {
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());
 	}
+	
+	@PatchMapping("/stocks/remove")
+	public ResponseEntity<Object> ordersRemove(final StockTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = stockService.updateStocksToDelete(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+
+	@PatchMapping("/stocks/sale")
+	public ResponseEntity<Object> ordersSale(final StockTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = stockService.updateStocksToSale(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+	
+	@GetMapping("/accumulation/list")
+	public Map<String, Object> listAll(final StockTO to){
+		return stockService.findAllAccumulationStock(to);
+	}
+
+	@PatchMapping("/reg-date/modify")
+	public ResponseEntity<Object> regDateModify(final StockTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = stockService.updateStocksRegDate(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+
+	@PatchMapping("/type/modify")
+	public ResponseEntity<Object> typeModify(final StockTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = stockService.updateStocksType(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+
+	@PatchMapping("/vender/modify")
+	public ResponseEntity<Object> venderModify(final StockTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = stockService.updateStocksVender(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
 }

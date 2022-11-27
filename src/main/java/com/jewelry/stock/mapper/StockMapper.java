@@ -25,5 +25,18 @@ public interface StockMapper {
 	int updateStockToDelete(StockTO to) throws Exception;
 	
 	int updateStocksToDelete(StockTO to) throws Exception;
+	
+	int updateStocksToSale(StockTO to) throws Exception;
+	
+	int updateStocksRegDate(StockTO to) throws Exception;
+	
+	int updateStocksType(StockTO to) throws Exception;
+	
+	int updateStocksVender(StockTO to) throws Exception;
+
+	int selectAccumulationStockCount(StockTO to);
+	
+	List<StockVO> selectAccumulationStock(StockTO to);
+	
 
 }

@@ -42,6 +42,7 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
+		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
 			    </div>
 				</div>
 	    </form>
@@ -72,7 +73,7 @@
 	        <a href="javascript: void(0);" onclick="fncPopupStepModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">단계변경</span></a>
 	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
 	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
+	        <a href="javascript: void(0);" onclick="fncOrderToStock(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
 	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
 	    					
@@ -174,7 +175,7 @@
 			
 			getJson('/api/order/schedule/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="14" class="text-center">주문내역이 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="14" class="text-center">주문예정 내역이 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -184,7 +185,7 @@
 				
      		response.list.forEach((obj, idx) => {
      			html += `
-     				<tr>
+     				<tr class="small">
 							<td class="text-center">
 								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.orderno)+`','`+checkNullVal(obj.ordertype)+`'); return false;">` + (num--) + `</a>
 							</td>
@@ -314,6 +315,43 @@
       window.open(url, name, option);
 		}
 		
+		function fncOrderToStock(){
+
+			var orderscheckcnt = 0;
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					orderscheckcnt++;
+				}
+			});
+			if(orderscheckcnt == 0){
+				alert('재고등록할 이력을 선택해주세요.');
+				return false;
+			}
+			if(confirm('재고등록하시겠습니까?')){
+				const form = document.getElementById('searchForm');
+				const writeForm = new FormData(form);
+	
+				const formData = new FormData();
+				$(".form-check").each(function(){
+					if($(this).is(":checked"))
+						formData.append("order_no_arr[]", checkNullVal($(this).val()));
+				});
+								
+				fetch('/api/order/stock/write', {
+					method: 'PATCH',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('재고등록되었습니다.');
+					findAll();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
+		}
+		
 		function fncPopupVenderModify(){
 			var ordersno = '';
 			$(".form-check").each(function(){
@@ -370,6 +408,13 @@
 					alert('오류가 발생하였습니다.');
 				});
 			}
+		}
+
+		//새로고침
+		function fncRefresh(){
+			$("#adv-search").find("input").val('');
+			$("#adv-search").find("select").val('');
+			findAll(0);
 		}
 		
 		function fncCheckZero(obj){
