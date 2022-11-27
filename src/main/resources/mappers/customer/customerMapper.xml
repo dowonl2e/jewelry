@@ -31,7 +31,33 @@
 		SELECT a.customer_no, a.store_cd, a.contract_cd, a.zipcode, a.address1, a.address2, a.etc
 						, a.contractor_nm, a.contractor_gen, a.contractor_cel, a.contractor_birth, a.contractor_lunar, a.contractor_email
 		        , a.del_yn, a.reg_dt, a.inpt_dt
+		        
+		        , IFNULL(b.order_cnt, 0) AS order_cnt, IFNULL(b.reserve_cnt, 0) AS reserve_cnt, IFNULL(c.repair_cnt, 0) AS repair_cnt
+		        , IFNULL(b.order_cnt, 0) AS sales_cnt
 		FROM tb_customer a
+			LEFT OUTER JOIN (
+				SELECT customer_no
+								, SUM(IF(order_step = 'A', 1, 0)) AS order_cnt
+								, SUM(IF(order_step = 'B', 1, 0)) AS reserve_cnt
+				FROM tb_order
+				WHERE del_yn = 'N'
+				GROUP BY customer_no
+			) b
+				ON a.customer_no = b.customer_no
+			LEFT OUTER JOIN (
+				SELECT customer_no, COUNT(*) AS repair_cnt
+				FROM tb_repair
+				WHERE del_yn = 'N'
+				GROUP BY customer_no
+			) c
+				ON a.customer_no = c.customer_no
+			LEFT OUTER JOIN (
+				SELECT customer_no, COUNT(*) AS repair_cnt
+				FROM tb_repair
+				WHERE del_yn = 'N'
+				GROUP BY customer_no
+			) d
+				ON a.customer_no = d.customer_no
 		WHERE a.del_yn = 'N'
 		<include refid="customer-search" />
 		ORDER BY a.reg_dt DESC

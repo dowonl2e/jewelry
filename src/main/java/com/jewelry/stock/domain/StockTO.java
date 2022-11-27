@@ -31,6 +31,7 @@ public class StockTO extends CommonTO {
 	private Integer multiple_cnt;
 	private String origin_type;
 	private String del_yn;
+	private String sale_yn;
 	
 	private MultipartFile stockfile;
 	
@@ -265,6 +266,14 @@ public class StockTO extends CommonTO {
 
 	public void setDel_yn(String del_yn) {
 		this.del_yn = del_yn;
+	}
+
+	public String getSale_yn() {
+		return sale_yn;
+	}
+
+	public void setSale_yn(String sale_yn) {
+		this.sale_yn = sale_yn;
 	}
 
 	public MultipartFile getStockfile() {

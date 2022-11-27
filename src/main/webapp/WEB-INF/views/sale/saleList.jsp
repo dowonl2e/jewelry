@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>재고관리</title>
+<title>판매관리</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,7 +14,7 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">재고관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">판매관리</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
@@ -26,11 +26,10 @@
 	            	<option value="${stlist.cdid}">${stlist.cdnm}</option>
 	            </c:forEach>
 		        </select>
-		        <select id="searchstocktype" class="form-control ml5">
-	            <option value="">현재고구분</option>
-	            <c:forEach var="oclist" items="${oclist}">
-	            	<option value="${oclist.cdid}">${oclist.cdnm}</option>
-	            </c:forEach>
+		        <select id="searchsaletype" class="form-control ml5">
+	            <option value="">거래구분</option>
+	            <option value="ORDER">주문</option>
+	            <option value="STOCK">판매</option>
 		        </select>
 		        <select id="searchmaterial" class="form-control ml5">
 	            <option value="">재질구분</option>
@@ -44,12 +43,11 @@
 						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
 						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="모델번호 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="고객명/모델번호 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 				    <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light ml5">새로고침</a>
-				    <a href="javascript: void(0);" onclick="fncPopupStockWrite();" class="btn btn-primary waves-effect waves-light ml5">재고등록</a>
 			    </div>
 				</div>
 	    </form>
@@ -59,25 +57,29 @@
 						<tr>
 							<th rowspan="2" class="text-center">No</th>
 							<th rowspan="2" class="text-center border-left"><a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a></th>
-							<th rowspan="2" class="text-center border-left">등록일</th>
-							<th rowspan="2" class="text-center border-left">시리얼</th>
-							<th rowspan="2" class="text-center border-left">재고<br/>구분</th>
-							<th rowspan="2" class="text-center border-left">사이즈<br/>비&nbsp;&nbsp;&nbsp;고</th>
+							<th rowspan="2" class="text-center border-left">매장</th>
+							<th rowspan="2" class="text-center border-left">일자</th>
+							<th rowspan="2" class="text-center border-left">구분</th>
+							<th rowspan="2" class="text-center border-left">고객</th>
+							<th rowspan="2" class="text-center border-left">시리얼<br/>접수번호</th>
 							<th rowspan="2" class="text-center border-left">모델<br/>번호</th>
 							<th rowspan="2" class="text-center border-left">재질</th>
-							<th rowspan="2" class="text-center border-left">색상</th>
-							<th rowspan="2" class="text-center border-left">메인</th>
-							<th rowspan="2" class="text-center border-left">보조</th>
+							<th rowspan="2" class="text-center border-left">비고사항<br/>스톤종류</th>
 							<th rowspan="2" class="text-center border-left">수량</th>
-							<th rowspan="2" class="text-center border-left">중량</th>
-							<th colspan="3" class="text-center border-left">개당 구매가</th>
-							<th rowspan="2" class="text-center border-left">배수</th>
-							<th rowspan="2" class="text-center border-left">개당<br/>TAG가</th>
+							<th rowspan="2" class="text-center border-left">구매가</th>
+							<th rowspan="2" class="text-center border-left">TAG가</th>
+							<th rowspan="2" class="text-center border-left">매출<br/>금액</th>
+							<th colspan="7" class="text-center border-left">결제(받은) 금액</th>
+							<th rowspan="2" class="text-center border-left">적립<br/>포인트</th>
 						</tr>
 						<tr>
-							<th class="text-center border-left">공임</th>
-							<th class="text-center border-left">실질</th>
-							<th class="text-center border-left">기준</th>
+							<th class="text-center border-left">구분</th>
+							<th class="text-center border-left">카드</th>
+							<th class="text-center border-left">현금</th>
+							<th class="text-center border-left">고금</th>
+							<th class="text-center border-left">기타</th>
+							<th class="text-center border-left">포인</th>
+							<th class="text-center border-left">합계</th>
 						</tr>
 					</thead>
 					<tbody id="list"></tbody>
@@ -85,12 +87,8 @@
 				
 				<div class="text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0);" onclick="fncPopupSale(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">판매</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupRegDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">등록일 변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupTypeModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고구분변경</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
 	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">매입처변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고이동</span></a>
 	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
 	    					
@@ -180,7 +178,7 @@
 			var params = {
 				currentpage: page
 				, searchstore: form.searchstore.value
-				, searchstocktype: form.searchstocktype.value
+				, searchsaletype: form.searchsaletype.value
 				, searchmaterial: form.searchmaterial.value
 				, searchstdt: form.searchstdt.value
 				, searcheddt: form.searcheddt.value
@@ -193,9 +191,9 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/stock/list', params).then(response => {
+			getJson('/api/sale/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="19" class="text-center">재고내역이 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="22" class="text-center">판매내역이 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -203,71 +201,62 @@
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
 				
+				quantityTotal = 0;
+				purchaseTotal = 0;
+				consumerPriceTotal = 0;
+				
      		response.list.forEach((obj, idx) => {
-     			delyn = checkNullVal(obj.delyn);
-     			saleyn = checkNullVal(obj.saleyn);
-     			storetypecd = checkNullVal(obj.stocktypecd);
      			backgroundTr = '';
-     			if(storetypecd == 'OC03'){
-         			backgroundTr = 'bg-springgreen';
-     			}
-     			
+     			if(checkNullVal(obj.saletype) == 'ORDER')
+     				backgroundTr = 'bg-springgreen';
      			html += `
      				<tr class="`+backgroundTr+` small">
      					<td class="text-center">
-								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.stockno)+`'); return false;">` + (num--) + `</a>
+								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.saleno)+`','`+checkNullVal(obj.saletype)+`','`+checkNullVal(obj.saletype2)+`'); return false;">` + (num--) + `</a>
 							</td>
-							<td class="text-center"><input type="checkbox" name="stock_no_arr" class="form-check" value="`+checkNullVal(obj.stockno)+`"/></td>
-							<td class="text-center">` + checkSubstringNullVal(obj.regdt,2,10) + `</td>
-							<td class="text-center bold">`+checkNullVal(obj.stockno)+`</td>
-							<td class="text-center">`+ checkNullVal(codemap[obj.stocktypecd]) + `</td>
-							<td class="text-center"><div class="border-bottom">` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
-							<td class="text-center"><a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a></td>
-							<td class="text-center">` + checkNullVal(codemap[obj.materialcd])+`</td>
-							<td class="text-center">` + checkNullVal(codemap[obj.colorcd]) + `</td>
-							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `</td>
-							<td class="text-center">` + checkNullVal(obj.substonetype) + `</td>
+     					<td class="text-center">
+     						<input type="checkbox" name="saleno_no_arr" class="form-check" value="`+checkNullVal(obj.saleno)+`"/>
+							</td>
+							<td class="text-center blue">` + checkNullVal(codemap[checkNullVal(obj.storecd)]) + `</td>
+							<td class="text-center">` + checkNullVal(obj.saleday) + `<span class="blue">` + checkSubstringNullVal(obj.saledt,2,10) + `</span></td>
+					`;
+					saletypenm = (checkNullVal(obj.saletype) == 'ORDER' ? '주문' : '판매');
+     			html += `
+							<td class="text-center">` + saletypenm + `</td>
+							<td class="text-center"><a href="javascript: void(0)" onclick="fncPopupCustomerView('`+obj.customerno+`'); return false;">` + checkNullVal(obj.customernm) + `</a></td>
+							<td class="text-center blue">` + checkNullVal(obj.saleno) + `</td>
+							<td class="text-center"><a href="javascript: void(0)" onclick="fncPopupCatalogView('`+obj.catalogno+`'); return false;">` + checkNullVal(obj.modelid) + `</a></td>
+							<td class="text-center important">` + checkNullVal(codemap[checkNullVal(obj.materialcd)]) + `</td>
+							<td class="text-center">` + checkNullVal(obj.saledesc) + `<div class="blue">` + checkNullVal(obj.mainstonetype) + `</div></td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
-							<td class="text-center">` + checkNullVal(obj.perweightgram) + `</td>
+							<td class="text-right">` + (checkNullVal(obj.purchaseprice) == '' ? '' : priceWithComma(obj.purchaseprice)) + `</td>
+							<td class="text-right">` + (checkNullVal(obj.consumerprice) == '' ? '' : priceWithComma(obj.consumerprice)) + `</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+							<td class="text-center">???</td>
+						</tr>
 					`;
-					//개당구매가 공임
-					perPrice = Number(checkNullValR(obj.perpricebasic,'0'));
-					perPrice += Number(checkNullValR(obj.perpriceadd,'0'));
-					perPrice += Number(checkNullValR(obj.perpricemain,'0'));
-					perPrice += Number(checkNullValR(obj.perpricesub,'0'));
-					perPriceTxt = (perPrice == 0 || perPrice == 0.0 ? '' : priceWithComma(perPrice));
-					html += `
-							<td class="text-center">`+perPriceTxt+`</td>
-					`;
-
-					//재질별 중량 체크
-					weight = 0;
-					materialCd = checkNullVal(obj.materialcd);
-					if(materialCd == 'SM01') weight = 0.6435;
-					else if(materialCd == 'SM02') weight = 0.825;
-					else if(materialCd == 'SM03') weight = 1;
-					
-					//개당구매가 실질
-					realPchGoldPrice = Number(checkNullValR(obj.realpchgoldprice,'0'));
-					realPchGoldPrice = realPchGoldPrice*(Number(checkNullValR(obj.perweightgram,'0'))*weight)+perPrice;
-					realPchGoldPriceTxt = (realPchGoldPrice == 0 || realPchGoldPrice == 0.0 ? '' : priceWithComma(realPchGoldPrice));
-					html += `
-							<td class="text-center">`+realPchGoldPriceTxt+`</td>
-					`;
-					//개당구매가 기준
-					html += `
-							<td class="text-center">`+perPriceTxt+`</td>
-							<td class="text-center">`+checkNullVal(obj.multiplecnt)+`</td>
-					`;
-					//소비자 TAG가
-					consumerPrice = Number(checkNullValR(obj.multiplecnt,'0'))*perPrice;
-					consumerPriceTxt = (consumerPrice == 0 || consumerPrice == 0.0 ? '' : priceWithComma(consumerPrice));
-					html += `
-							<td class="text-center">`+consumerPriceTxt+`</td>
-	   				</tr>
-     			`;
+					quantityTotal += Number(checkNullValR(obj.quantity,'0'));
+					purchaseTotal += Number(checkNullValR(obj.purchaseprice,'0'));
+					consumerPriceTotal += Number(checkNullValR(obj.consumerprice,'0'));
      		});
-	
+     		html += `
+     			<tr class="bg-lightyellow border-bottom small">
+	     			<td colspan="10" class="text-right">판매/주문/수리 소계</td>
+	     			<td class="text-center">`+(quantityTotal == 0 ? '' : quantityTotal)+`</td>
+	     			<td class="text-right">`+(purchaseTotal == 0 ? '' : priceWithComma(purchaseTotal))+`</td>
+	     			<td class="text-right">`+(consumerPriceTotal == 0 ? '' : priceWithComma(consumerPriceTotal))+`</td>
+	     			<td class="text-right"></td>
+	     			<td colspan="7" class="text-right"></td>
+	     			<td class="text-right"></td>
+	     		</tr>
+     		`;
 				document.getElementById('list').innerHTML = html;
 				drawPages(response.params);
 			});
@@ -309,22 +298,36 @@
 		}
 
 		/**
-		 * 작성하기
+		 * 조회하기
 		 */
-		function fncPopupStockWrite() {
-		  var url = "/stock/popup/write";
-      var name = "stockWritePopup";
+		function fncPopupView(saleno, saletype, saletype2) {
+		  var url = '';
+      var name = '';
+			if(saletype == 'ORDER'){
+				if(saletype2 == 'CUSTOMER'){
+					url = "/order/popup/customer/"+saleno;
+					name = "orderViewPopup";
+				}
+				else {
+					url = "/order/popup/read-made/"+saleno;
+					name = "orderViewPopup";
+				}
+			}
+			else {
+				url = "/stock/popup/"+saleno;
+				name = "stockViewPopup";
+			}
       var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
 
 		/**
-		 * 조회하기
+		 * 고객 조회 팝업
 		 */
-		function fncPopupView(stockno) {
-		  var url = "/stock/popup/"+stockno;
-      var name = "stockViewPopup";
-      var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
+		function fncPopupCustomerView(catalogno){
+		  var url = "/customer/popup/"+catalogno;
+      var name = "customerViewPopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
 		
@@ -336,42 +339,6 @@
       var name = "catalogViewPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
-		}
-		
-		function fncPopupSale(){
-			var orderscheckcnt = 0;
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					orderscheckcnt++;
-				}
-			});
-			if(orderscheckcnt == 0){
-				alert('판매할 주문이력을 선택해주세요.');
-				return false;
-			}
-			if(confirm('판매하시겠습니까?')){
-				const form = document.getElementById('searchForm');
-				const writeForm = new FormData(form);
-	
-				const formData = new FormData();
-				$(".form-check").each(function(){
-					if($(this).is(":checked"))
-						formData.append("stock_no_arr[]", checkNullVal($(this).val()));
-				});
-								
-				fetch('/api/stock/stocks/sale', {
-					method: 'PATCH',
-					body: formData
-				}).then(response => {
-					if(!response.ok){
-						throw new Error('Request Failed...');
-					}
-					alert('판매 되었습니다.');
-					findAll();
-				}).catch(error => {
-					alert('오류가 발생하였습니다.');
-				});
-			}
 		}
 		
 		function fncRemove(){
@@ -432,27 +399,6 @@
       window.open(url, name, option);
 		}
 		
-		function fncPopupVenderModify(){
-			var stocksno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(stocksno != '')
-						stocksno += ',';
-					stocksno += $(this).val();
-				}
-			});
-			
-			if(stocksno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-
-		  var url = "/stock/popup/vender/modify?stocksno="+stocksno;
-      var name = "stockVenderModifyPopup";
-      var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-		
 		function fncPopupRegDateModify(){
 			var stocksno = '';
 			$(".form-check").each(function(){
@@ -473,29 +419,7 @@
       var option = "width = 500, height = 300, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
-
-		function fncPopupTypeModify(){
-			var stocksno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(stocksno != '')
-						stocksno += ',';
-					stocksno += $(this).val();
-				}
-			});
-			
-			if(stocksno == ''){
-				alert('재고내역을 선택해주세요.');
-				return false;
-			}
-			
-		  var url = "/stock/popup/type/modify?stocksno="+stocksno;
-      var name = "stockTypeModifyPopup";
-      var option = "width = 500, height = 300, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
 		
-		//새로고침
 		function fncRefresh(){
 			$("#adv-search").find("input").val('');
 			$("#adv-search").find("select").val('');

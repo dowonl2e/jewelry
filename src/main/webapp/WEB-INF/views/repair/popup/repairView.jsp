@@ -30,6 +30,19 @@
 							<col width="30%"/>
 						</colgroup>
 						<tr>
+							<th colspan="4">고객 정보</th>
+						</tr>
+						<tr>
+							<th>고객번호</th>
+							<td id="customer_no_td"></td>
+							<th>고객명</th>
+							<td id="customer_nm_td"></td>
+						</tr>
+						<tr>
+							<th>연락처</th>
+							<td colspan="3" id="customer_cel_td"></td>
+						</tr>
+						<tr>
 							<th colspan="4">수리 정보</th>
 						</tr>
 						<tr>
@@ -90,6 +103,9 @@
 			   		}
 		   		}
 		   		document.getElementById('repair_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		document.getElementById('customer_no_td').innerHTML = checkNullVal(json.customerno);
+		   		document.getElementById('customer_nm_td').innerHTML = checkNullVal(json.customernm);
+		   		document.getElementById('customer_cel_td').innerHTML = checkNullVal(json.customercel);
 		   		document.getElementById('repair_nm_td').innerHTML = checkNullVal(json.repairnm);
 		   		document.getElementById('repair_req_dt_td').innerHTML = checkSubstringNullVal(json.repairreqdt,0,10);
 		   		document.getElementById('repair_res_dt_td').innerHTML = checkSubstringNullVal(json.repairresdt,0,10);

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewelry.sale.mapper.SaleMapper">
+
+	<sql id="sale-search">
+		<if test='searchstore != null and !searchstore.equals("")'>
+			AND a.store_cd = #{searchstore}
+		</if>
+		<if test='searchsaletype != null and !searchsaletype.equals("")'>
+			AND a.sale_type = #{searchsaletype}
+		</if>
+		<if test='searchmaterial != null and !searchmaterial.equals("")'>
+			AND a.material_cd = #{searchmaterial}
+		</if>
+		<if test='searchstdt != null and !searchstdt.equals("")'>
+			AND DATE_FORMAT(a.sale_dt, '%Y-%m-%d') <![CDATA[ >= ]]> STR_TO_DATE(#{searchstdt}, '%Y-%m-%d')
+		</if>
+		<if test='searcheddt != null and !searcheddt.equals("")'>
+			AND DATE_FORMAT(a.sale_dt, '%Y-%m-%d') <![CDATA[ <= ]]> STR_TO_DATE(#{searcheddt}, '%Y-%m-%d')
+		</if>
+		<!-- 검색 키워드가 있을 때 -->
+		<if test='searchword != null and !searchword.equals("")'>
+			AND (
+				a.model_id LIKE CONCAT('%', #{searchword}, '%')
+				OR a.customer_nm LIKE CONCAT('%', #{searchword}, '%')
+			)
+		</if>
+	</sql>
+	
+	<select id="selectSaleListCount" parameterType="SaleTO" resultType="Integer">
+		SELECT COUNT(a.sale_no)
+		FROM (
+			SELECT a.order_no as sale_no, a.store_cd, a.receipt_dt as sale_dt, 'ORDER' AS sale_type
+					    , b.contractor_nm AS customer_nm, a.model_id, a.material_cd
+			FROM tb_order a
+				LEFT OUTER JOIN tb_customer b
+					ON a.customer_no = b.customer_no
+			WHERE a.del_yn = 'N'
+			AND a.order_step = 'A'
+				
+			UNION ALL
+			
+			SELECT stock_no AS sale_no, store_cd, reg_dt as sale_dt, 'STOCK' AS sale_type
+					   	, NULL AS customer_nm, model_id, material_cd
+			FROM tb_stock
+			WHERE del_yn = 'N'
+			AND sale_yn = 'Y'
+		) a
+		WHERE 1 = 1
+		<include refid="sale-search" />
+	</select>
+	
+	<select id="selectSaleList" parameterType="SaleTO" resultType="SaleVO">
+		SELECT a.*
+		FROM (
+			SELECT a.store_cd, a.receipt_dt AS sale_dt, a.order_type AS sale_type2
+							, CASE DAYOFWEEK(DATE_FORMAT(a.receipt_dt, '%Y%m%d'))
+					       	WHEN '1' THEN '일'
+					       	WHEN '2' THEN '월'
+					       	WHEN '3' THEN '화'
+					       	WHEN '4' THEN '수'
+					       	WHEN '5' THEN '목'
+					       	WHEN '6' THEN '금'
+					       	WHEN '7' THEN '토'
+				       	END AS sale_day
+					    , 'ORDER' AS sale_type
+					    , a.customer_no, b.contractor_nm AS customer_nm
+					    , a.order_no as sale_no, a.catalog_no, a.model_id
+					    , a.material_cd, a.order_desc AS sale_desc
+					    , a.main_stone_type, a.sub_stone_type, a.quantity
+					    , NULL AS purchase_price, NULL AS consumer_price
+			FROM tb_order a
+				LEFT OUTER JOIN tb_customer b
+					ON a.customer_no = b.customer_no
+			WHERE a.del_yn = 'N'
+			AND a.order_step = 'A'
+				
+			UNION ALL
+			
+			SELECT store_cd, reg_dt AS sale_dt, NULL AS sale_type2
+							, CASE DAYOFWEEK(DATE_FORMAT(reg_dt, '%Y%m%d'))
+				       		WHEN '1' THEN '일'
+					       	WHEN '2' THEN '월'
+					       	WHEN '3' THEN '화'
+					       	WHEN '4' THEN '수'
+					       	WHEN '5' THEN '목'
+					       	WHEN '6' THEN '금'
+				       		WHEN '7' THEN '토'
+				       	END AS sale_day
+					    , 'STOCK' AS sale_type
+					   	, NULL AS customer_no, NULL AS customer_nm
+					   	, stock_no AS sale_no, catalog_no, model_id
+					   	, material_cd, stock_desc AS sale_desc
+					    , main_stone_type, sub_stone_type, quantity
+					    , (per_price_basic+per_price_add+per_price_main+per_price_sub) AS purchase_price
+					    , (per_price_basic+per_price_add+per_price_main+per_price_sub)*multiple_cnt AS consumer_price
+			FROM tb_stock
+			WHERE del_yn = 'N'
+			AND sale_yn = 'Y'
+		) a
+		WHERE 1 = 1
+		<include refid="sale-search" />
+		ORDER BY a.sale_dt DESC
+		<include refid="commonMapper.paging" />
+	</select>
+
+</mapper>

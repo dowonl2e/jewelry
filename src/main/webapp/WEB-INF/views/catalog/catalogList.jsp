@@ -30,7 +30,8 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">단독등록</a>
+		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light mlr5">단독등록</a>
 					</div>
 				</div>
 	    </form>
@@ -257,6 +258,13 @@
       var name = "catalogModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
+		}
+
+		//새로고침
+		function fncRefresh(){
+			$("#adv-search").find("input").val('');
+			$("#adv-search").find("select").val('');
+			findAll(0);
 		}
 		
 		function fncCheckZero(obj){

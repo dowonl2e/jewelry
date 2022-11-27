@@ -33,7 +33,7 @@
 								<th colspan="3" class="text-center">매장<span class="important"> *</span></th>
 							</tr>
 							<tr>
-								<td colspan="4" class="border-right"><input type="date" id="reg_dt" class="form-control"/></td>
+								<td colspan="4" class="border-right"><input type="date" id="reg_dt" class="form-control" maxlength="10"/></td>
 								<td colspan="3" class="text-center">
 									<select id="store_cd" class="form-control">
 				            <c:forEach var="stlist" items="${stlist}">
@@ -67,7 +67,7 @@
 							</tr>
 							<tr>
 								<th class="border-right">계약고객</th>
-								<td class="border-right"><input type="text" id="contractor_nm" class="form-control"/></td>
+								<td class="border-right"><input type="text" id="contractor_nm" class="form-control" maxlength="20"/></td>
 								<td class="border-right">
 									<select id="contractor_gen" class="form-control">
 										<option value=""></option>
@@ -75,8 +75,8 @@
 										<option value="여">여</option>
 									</select>
 								</td>
-								<td class="border-right"><input type="text" id="contractor_cel" class="form-control"/></td>
-								<td class="border-right"><input type="date" id="contractor_birth" class="form-control"/></td>
+								<td class="border-right"><input type="text" id="contractor_cel" class="form-control" maxlength="30"/></td>
+								<td class="border-right"><input type="date" id="contractor_birth" class="form-control" maxlength="20"/></td>
 								<td class="border-right">
 									<select id="contractor_lunar" class="form-control">
 										<option value=""></option>
@@ -111,9 +111,6 @@
 		        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
 		        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 		    	</div>
-					<nav aria-label="Page navigation" class="text-center">
-				    <ul class="pagination"></ul>
-					</nav>
 				</div>
 			</form>
 		</div>

@@ -1,6 +1,7 @@
 package com.jewelry.order.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import com.jewelry.order.domain.OrderTO;
 import com.jewelry.order.domain.OrderVO;
 import com.jewelry.order.mapper.OrderMapper;
 import com.jewelry.order.service.OrderService;
+import com.jewelry.stock.domain.StockTO;
+import com.jewelry.stock.mapper.StockMapper;
+import com.jewelry.util.Utils;
 import com.jewelry.vender.domain.VenderVO;
 import com.jewelry.vender.mapper.VenderMapper;
 
@@ -39,6 +43,10 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private VenderMapper venderMapper;
+
+	@Autowired
+	private StockMapper stockMapper;
+	
 
 	@Transactional(readOnly = true)
 	@Override
@@ -338,7 +346,66 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public String updateOrderToDelete(OrderTO to) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String insertOrdersToStock(OrderTO to) {
+		String result = "success";
+		try {
+			Long[] order_no_arr = to.getOrder_no_arr();
+			if(order_no_arr != null && order_no_arr.length > 0) {
+				List<OrderVO> orderList = orderMapper.selectOrderListWithNo(to);
+				if(orderList != null && orderList.size() > 0) {
+					FileTO fileto = null;
+					StockTO stockto = new StockTO();
+					stockto.setInpt_id(to.getInpt_id());
+					stockto.setStock_type_cd("OC03");
+					for(OrderVO vo : orderList) {
+						stockto.setReg_dt(Utils.getTodayDateFormat("yyyy-MM-dd"));
+						stockto.setStore_cd(vo.getStorecd());
+						stockto.setCatalog_no(vo.getCatalogno());
+						stockto.setModel_id(vo.getModelid());
+						stockto.setVender_no(vo.getVenderno());
+						stockto.setVender_nm(vo.getVendernm());
+						stockto.setMaterial_cd(vo.getMaterialcd());
+						stockto.setColor_cd(vo.getColorcd());
+						stockto.setMain_stone_type(vo.getMainstonetype());
+						stockto.setSub_stone_type(vo.getSubstonetype());
+						stockto.setSize(vo.getSize());
+						stockto.setStock_desc(vo.getOrderdesc());
+						stockto.setQuantity(vo.getQuantity());
+						int res = stockMapper.insertStock(stockto);
+						if(res > 0) {
+							Long stockno = stockto.getStock_no();
+							if(stockno != null && stockno > 0) {
+								fileto = new FileTO();
+								fileto.setInpt_id(to.getInpt_id());
+								fileto.setRef_no(stockno);
+								fileto.setRef_info("STOCK");
+								fileto.setFile_path(vo.getFilepath());
+								fileto.setFile_nm(vo.getFilenm());
+								fileto.setOrigin_nm(vo.getOriginnm());
+								fileto.setFile_ord(1);
+								fileto.setFile_ext(vo.getFileext());
+								fileto.setFile_size(vo.getFilesize());
+								fileto.setVersion_id(vo.getVersionid());
+								fileMapper.insertFile(fileto);
+							}
+						}
+					}
+					to.setOrder_step("C");
+					orderMapper.updateOrdersStatus(to);
+				}
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
 	}
 }

@@ -25,4 +25,5 @@ public interface OrderService {
 
 	String updateOrderToDelete(OrderTO to);
 	
+	String insertOrdersToStock(OrderTO to);
 }

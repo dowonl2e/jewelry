@@ -13,6 +13,10 @@ public class RepairVO extends CommonVO {
 	private String repairresdt;
 	private String repairdesc;
 	private String delyn;
+
+	private Long customerno;
+	private String customernm;
+	private String customercel;
 	
 	private String filepath;
 	private String originnm;
@@ -107,6 +111,30 @@ public class RepairVO extends CommonVO {
 
 	public void setFilenm(String filenm) {
 		this.filenm = filenm;
+	}
+
+	public Long getCustomerno() {
+		return customerno;
+	}
+
+	public void setCustomerno(Long customerno) {
+		this.customerno = customerno;
+	}
+
+	public String getCustomernm() {
+		return customernm;
+	}
+
+	public void setCustomernm(String customernm) {
+		this.customernm = customernm;
+	}
+
+	public String getCustomercel() {
+		return customercel;
+	}
+
+	public void setCustomercel(String customercel) {
+		this.customercel = customercel;
 	}
 	
 }

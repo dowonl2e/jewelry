@@ -220,7 +220,7 @@
 										<input type="number" name="quantity_arr" id="quantity_${idx}" class="form-control form-multi mtb5" value="1" min="1"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="number" name="per_weight_gram_arr" id="per_weight_gram_${idx}" class="form-control form-multi perweightgramm tb5" maxlength="20"/>
+										<input type="number" name="per_weight_gram_arr" id="per_weight_gram_${idx}" class="form-control form-multi perweightgram tb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
 										<input type="text" id="per_weight_gold_${idx}" class="form-control perweightgold mtb5" disabled="disabled"/>
@@ -267,8 +267,8 @@
 		/*<![CDATA[*/
 			$(document).ready(function(){
 				
-				$("#real_pch_gold_price, .perpricebasic, .perpriceadd, .perpricemain, .perpricesub, .perweightgramm, .materialcd, .multiplecnt").on('change keyup', function() {
-					$(".perweightgramm").each(function(idx){
+				$("#real_pch_gold_price, .perpricebasic, .perpriceadd, .perpricemain, .perpricesub, .perweightgram, .materialcd, .multiplecnt").on('change keyup', function() {
+					$(".perweightgram").each(function(idx){
 						//실질 구매 순금시세----------------------------------------------------------------------------------------------------------------
 						realPchGoldPriceSum = $("#real_pch_gold_price").val() == '' ? 0 : Number($("#real_pch_gold_price").val());
 						//실질 구매 순금시세 끝--------------------------------------------------------------------------------------------------------------
@@ -276,7 +276,7 @@
 						//개당 구매가 순금계산---------------------------------------------------------------------------------------------------------------
 						weight = 0;
 						goldWeight = 0;
-						perWeightGram = $(".perweightgramm").eq(idx).val() == '' ? 0 : Number($(".perweightgramm").eq(idx).val());
+						perWeightGram = $(".perweightgram").eq(idx).val() == '' ? 0 : Number($(".perweightgram").eq(idx).val());
 						
 						//재질별 중량 체크
 						if($(".materialcd").eq(idx).val() == 'SM01') weight = 0.6435;

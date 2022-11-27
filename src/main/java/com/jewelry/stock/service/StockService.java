@@ -19,4 +19,17 @@ public interface StockService {
 	String updateStock(StockTO to);
 	
 	String updateStockToDelete(StockTO to);
+	
+	String updateStocksToDelete(StockTO to);
+	
+	String updateStocksToSale(StockTO to);
+	
+	String updateStocksRegDate(StockTO to);
+	
+	String updateStocksType(StockTO to);
+	
+	String updateStocksVender(StockTO to);
+	
+	Map<String, Object> findAllAccumulationStock(StockTO to);
+
 }

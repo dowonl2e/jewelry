@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코드 추가</title>
+<title>고객 수정</title>
 </head>
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mt-4 mb-4">
 		<div class="card-header py-3 text-center">
-			<h6 class="m-0 font-weight-bold text-primary">고객 등록</h6>
+			<h6 class="m-0 font-weight-bold text-primary">고객 수정</h6>
 		</div>
 		<div class="card-body">
 			<form id="form" class="form-horizontal m10">
@@ -111,9 +111,6 @@
 		        <a href="javascript: void(0);" onclick="modify(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
 		        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 		    	</div>
-					<nav aria-label="Page navigation" class="text-center">
-				    <ul class="pagination"></ul>
-					</nav>
 				</div>
 			</form>
 		</div>
@@ -157,6 +154,7 @@
 		   	}).catch(error => {
 		    	alert('고객정보를 찾을 수 없습니다.');
 		    	window.opener.findAll();
+		    	fncClose();
 		   	});
 			}
 			

@@ -30,4 +30,6 @@ public interface OrderMapper {
 
 	int updateOrderToDelete(OrderTO to) throws Exception;
 	
+	List<OrderVO> selectOrderListWithNo(OrderTO to);
+
 }

@@ -207,4 +207,22 @@
 		)
 	</update>
 	
+	<select id="selectOrderListWithNo" parameterType="OrderTO" resultType="OrderVO">
+		SELECT a.order_no, a.order_type, a.store_cd, a.receipt_dt, a.expected_ord_dt, a.customer_no, a.customer_nm, a.customer_cel
+						, a.order_step, a.catalog_no, a.model_id, a.vender_no, a.vender_nm, a.serial_id, a.material_cd, a.color_cd, a.quantity
+						, a.main_stone_type, a.sub_stone_type, a.size, a.order_desc
+						, c.file_no, c.file_path, c.file_nm, c.origin_nm, c.file_ord, c.file_ext, c.file_size, c.version_id
+		FROM tb_order a
+			LEFT OUTER JOIN tb_file c
+				ON a.order_no = c.ref_no
+				AND c.ref_info = 'ORDER'
+				AND c.file_ord = 1
+				AND c.del_yn = 'N'
+		WHERE a.order_no IN (
+			<foreach collection="order_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</select>
+	
 </mapper>

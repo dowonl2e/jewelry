@@ -29,10 +29,10 @@ public class CustomerPageController {
 		return "customer/popup/customerWrite";
 	}
 
-	@GetMapping("/popup/view/{customerno}")
+	@GetMapping("/popup/{customerno}")
 	public String viewPopup(@PathVariable final Long customerno, Model model) {
 		model.addAttribute("customerno", customerno);
-		model.addAttribute("cdlist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
 		return "customer/popup/customerView";
 	}
 	

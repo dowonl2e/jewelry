@@ -31,7 +31,7 @@
 								<td class="bg-light border-right text-center">접수일</td>
 								<td class="bg-light text-center">주문예정일</td>
 							</tr>
-							<tr>
+							<tr class="border-bottom">
 								<td class="text-center border-right mtb5" id="store_cd_td"></td>
 								<td class="text-center border-right" id="receipt_dt_td"></td>
 								<td class="text-center" id="expected_ord_dt_td"></td>
