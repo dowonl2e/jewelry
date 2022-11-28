@@ -134,7 +134,7 @@
 						vender_fax : form.vender_fax.value,
 						manager_nm : form.manager_nm.value,
 						manager_cel : form.manager_cel.value,
-						manager_email : form.ma	nager_email.value,
+						manager_email : form.manager_email.value,
 						commerce : form.commerce.value,
 						etc : form.etc.value
 				};

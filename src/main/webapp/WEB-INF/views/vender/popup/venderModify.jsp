@@ -158,6 +158,7 @@
 			function fncModify(){ //update 실제로 치는 곳 (write와 같이 사용>form의 id로..)
 				
 					if($("#vendernm").val() == ''){
+						
 						alert('거래처 별명을 입력해주세요.');
 						$("#vendernm").focus();
 						return false;
