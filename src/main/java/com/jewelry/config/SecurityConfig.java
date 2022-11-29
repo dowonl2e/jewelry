@@ -51,7 +51,7 @@ public class SecurityConfig {
             	.passwordParameter("user_pwd")
                 .loginPage("/signin")
                 .loginProcessingUrl("/signin-proc")
-                .defaultSuccessUrl("/main")
+                .defaultSuccessUrl("/main", true)
                 .failureUrl("/signin?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다.
             .and()
                 .logout()
@@ -63,7 +63,7 @@ public class SecurityConfig {
             .userDetailsService(userDetailsService)		//로그인 창
             .sessionManagement()
             	.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-            	.maximumSessions(1)
+            	.maximumSessions(3)
             	.expiredUrl("/access-denied");
         return http.build();
 	}
