@@ -16,3 +16,9 @@ default charset=utf8mb4
 engine = InnoDB;
 
 
+alter table tb_repair add customer_no bigint comment '고객번호';
+alter table tb_repair add customer_nm varchar(80) comment '고객명';
+alter table tb_repair add customer_cel varchar(90) comment '연락처 ';
+
+alter table tb_repair add index idx1_tb_repair(customer_no);
+
