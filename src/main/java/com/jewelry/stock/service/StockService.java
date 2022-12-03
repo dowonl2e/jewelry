@@ -32,4 +32,5 @@ public interface StockService {
 	
 	Map<String, Object> findAllAccumulationStock(StockTO to);
 
+	String insertCustomerOrder(StockTO to);
 }

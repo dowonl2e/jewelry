@@ -38,5 +38,9 @@ public interface StockMapper {
 	
 	List<StockVO> selectAccumulationStock(StockTO to);
 	
+	int updateStocksOrder(StockTO to) throws Exception;
+	
+	List<StockVO> selectStockListByNos(StockTO to);
+
 
 }

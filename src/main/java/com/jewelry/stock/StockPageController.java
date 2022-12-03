@@ -85,5 +85,19 @@ public class StockPageController {
 		model.addAttribute("stocksno", stocksno);
 		return "stock/popup/stockVenderModify";
 	}
+	
+	@GetMapping("/popup/customer/order")
+	public String stockCustomerOrderPopup(@RequestParam(value = "stocksno") String stocksno, ModelMap model) {
+		model.addAttribute("stocksno", stocksno);
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId("CT", 2));
+		return "stock/popup/stockCustomerOrder";
+	}	
 
+	@GetMapping("/popup/sale")
+	public String stockSalePopup(@RequestParam(value = "stocksno") String stocksno, ModelMap model) {
+		model.addAttribute("stocksno", stocksno);
+		model.addAttribute("ptlist", codeService.findAllByUpCdId("PT", 2));
+		return "stock/popup/stockSale";
+	}
+	
 }

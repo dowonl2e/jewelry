@@ -229,21 +229,39 @@
 							<td class="text-center important">` + checkNullVal(codemap[checkNullVal(obj.materialcd)]) + `</td>
 							<td class="text-center">` + checkNullVal(obj.saledesc) + `<div class="blue">` + checkNullVal(obj.mainstonetype) + `</div></td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
-							<td class="text-right">` + (checkNullVal(obj.purchaseprice) == '' ? '' : priceWithComma(obj.purchaseprice)) + `</td>
+					`;
+					
+					weight = 0;
+					materialCd = checkNullVal(obj.materialcd);
+					if(materialCd == 'SM01') weight = 0.6435;
+					else if(materialCd == 'SM02') weight = 0.825;
+					else if(materialCd == 'SM03') weight = 1;
+					
+					perPrice = Number(checkNullValR(obj.purchaseprice,'0'));
+					realPchGoldPrice = Number(checkNullValR(obj.realpchgoldprice,'0'));
+					realPchGoldPrice = realPchGoldPrice*(Number(checkNullValR(obj.perweightgram,'0'))*weight)+perPrice;
+					realPchGoldPriceTxt = (realPchGoldPrice == 0 || realPchGoldPrice == 0.0 ? '' : priceWithComma(realPchGoldPrice));
+
+					html += `
+							<td class="text-right">` + realPchGoldPriceTxt + `</td>
 							<td class="text-right">` + (checkNullVal(obj.consumerprice) == '' ? '' : priceWithComma(obj.consumerprice)) + `</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
+							<td class="text-center">` + priceWithComma(obj.saleprice) + `</td>
+							<td class="text-center">` + priceWithComma(obj.recpaytypecd) + `</td>
+							<td class="text-center">` + priceWithComma(obj.cardprice) + `</td>
+							<td class="text-center">` + priceWithComma(obj.cashprice) + `</td>
+							<td class="text-center">` + priceWithComma(obj.maintprice) + `</td>
+							<td class="text-center">` + priceWithComma(obj.pntprice) + `</td>
+							<td class="text-center">` + priceWithComma(obj.etcprice) + `</td>
+					`;
+					totalRecPayPrice = Number(obj.saleprice) + Number(obj.cardprice) + Number(obj.cashprice);
+					totalRecPayPrice += Number(obj.maintprice) + Number(obj.pntprice) + Number(obj.etcprice);
+					html += `
+							<td class="text-center">` + (totalRecPayPrice == 0 ? '' : priceWithComma(totalRecPayPrice))+ `</td>
+							<td class="text-center">` + priceWithComma(obj.accupnt) + `</td>
 						</tr>
 					`;
 					quantityTotal += Number(checkNullValR(obj.quantity,'0'));
-					purchaseTotal += Number(checkNullValR(obj.purchaseprice,'0'));
+					purchaseTotal += Math.round(Number(checkNullValR(realPchGoldPrice,'0')),0);
 					consumerPriceTotal += Number(checkNullValR(obj.consumerprice,'0'));
      		});
      		html += `

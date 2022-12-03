@@ -168,7 +168,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="idx" begin="0" end="4">
+							<c:forEach var="idx" begin="0" end="29">
 								<tr>
 									<td class="text-center border-right">${idx+1}</td>
 									<td class="text-center border-right">
@@ -371,42 +371,6 @@
 					formData.append($(this).attr("name")+'[]', checkNullVal($(this).val()));
 				});
 				
-				/* $("input[name=serial_id_arr]").each(function(){
-					formData.append("serial_id_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=catalog_no_arr]").each(function(){
-					formData.append("catalog_no_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=model_id_arr]").each(function(){
-					formData.append("model_id_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=vender_no_arr]").each(function(){
-					formData.append("vender_no_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=vender_nm_arr]").each(function(){
-					formData.append("vender_nm_arr[]", checkNullVal($(this).val()));
-				});
-				$("select[name=material_cd_arr]").each(function(){
-					formData.append("material_cd_arr[]", checkNullVal($(this).val()));
-				});
-				$("select[name=color_cd_arr]").each(function(){
-					formData.append("color_cd_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=quantity_arr]").each(function(){
-					formData.append("quantity_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=main_stone_type_arr]").each(function(){
-					formData.append("main_stone_type_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=sub_stone_type_arr]").each(function(){
-					formData.append("sub_stone_type_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=size_arr]").each(function(){
-					formData.append("size_arr[]", checkNullVal($(this).val()));
-				});
-				$("input[name=order_desc_arr]").each(function(){
-					formData.append("order_desc_arr[]", checkNullVal($(this).val()));
-				}); */
 				//배열 데이터 넣기
 				formData.append("file", fileField.files[0]);
 								

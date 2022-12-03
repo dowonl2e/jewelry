@@ -73,7 +73,7 @@
 					<div class="col bg-light" style="line-height:40px;">구매단가</div>
 				</div>
 				<div class="row row-cols-4 border-bottom text-center" style="line-height:40px;">
-					<div class="col bg-light border-right">기본공업</div>
+					<div class="col bg-light border-right">기본공임</div>
 					<div class="col bg-light border-right">메인가격</div>
 					<div class="col bg-light border-right">보조가격</div>
 					<div class="col bg-light">합계</div>

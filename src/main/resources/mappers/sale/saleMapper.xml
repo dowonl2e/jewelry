@@ -66,9 +66,12 @@
 					    , 'ORDER' AS sale_type
 					    , a.customer_no, b.contractor_nm AS customer_nm
 					    , a.order_no as sale_no, a.catalog_no, a.model_id
-					    , a.material_cd, a.order_desc AS sale_desc
+					    , NULL AS real_pch_gold_price, a.material_cd, NULL AS per_weight_gram
+					    , a.order_desc AS sale_desc
 					    , a.main_stone_type, a.sub_stone_type, a.quantity
 					    , NULL AS purchase_price, NULL AS consumer_price
+					    , NULL AS sale_price, NULL AS rec_pay_type_cd, NULL AS card_price, NULL AS cash_price
+					    , NULL AS maint_price, NULL AS pnt_price,  NULL AS etc_price, NULL AS accu_pnt
 			FROM tb_order a
 				LEFT OUTER JOIN tb_customer b
 					ON a.customer_no = b.customer_no
@@ -90,10 +93,13 @@
 					    , 'STOCK' AS sale_type
 					   	, NULL AS customer_no, NULL AS customer_nm
 					   	, stock_no AS sale_no, catalog_no, model_id
-					   	, material_cd, stock_desc AS sale_desc
+					   	, real_pch_gold_price, material_cd, per_weight_gram
+					   	, stock_desc AS sale_desc
 					    , main_stone_type, sub_stone_type, quantity
 					    , (per_price_basic+per_price_add+per_price_main+per_price_sub) AS purchase_price
 					    , (per_price_basic+per_price_add+per_price_main+per_price_sub)*multiple_cnt AS consumer_price
+					    , sale_price, rec_pay_type_cd, card_price
+					    , cash_price, maint_price, pnt_price, etc_price, accu_pnt
 			FROM tb_stock
 			WHERE del_yn = 'N'
 			AND sale_yn = 'Y'

@@ -32,6 +32,7 @@
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
 		AND a.sale_yn = 'N'
+		AND a.order_yn = 'N'
 		<include refid="stock-search" />
 	</select>
 	
@@ -44,6 +45,7 @@
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
 		AND a.sale_yn = 'N'
+		AND a.order_yn = 'N'
 		<include refid="stock-search" />
 		ORDER BY a.reg_dt DESC, a.stock_no DESC
 		<include refid="commonMapper.paging" />
@@ -175,6 +177,14 @@
 		SET updt_dt = NOW()
 		, updt_id = #{updt_id}
 		, sale_yn = 'Y'
+		, sale_price = #{sale_price}
+		, rec_pay_type_cd = #{rec_pay_type_cd}
+		, card_price = #{card_price}
+		, cash_price = #{cash_price}
+		, maint_price = #{maint_price}
+		, etc_price = #{etc_price}
+		, pnt_price = #{pnt_price}
+		, accu_pnt = #{accu_pnt}
 		WHERE stock_no IN (
 			<foreach collection="stock_no_arr" item="item" separator=" , ">
 				#{item}
@@ -241,4 +251,27 @@
 		<include refid="commonMapper.paging" />
 	</select>
 	
+	<update id="updateStocksOrder" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, order_yn = 'Y'
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach> 
+		)
+	</update>
+	
+	<select id="selectStockListByNos" parameterType="StockTO" resultType="StockVO">
+		SELECT a.stock_no, a.store_cd, a.catalog_no, a.model_id, a.vender_no, a.vender_nm
+						, a.material_cd, a.color_cd, a.main_stone_type, a.sub_stone_type, a.size, a.stock_desc
+		FROM tb_stock a
+		WHERE a.stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach> 
+		)
+		ORDER BY a.stock_no ASC
+	</select>
 </mapper>

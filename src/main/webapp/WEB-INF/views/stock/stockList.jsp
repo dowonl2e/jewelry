@@ -86,7 +86,7 @@
 				<div class="text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
 	        <a href="javascript: void(0);" onclick="fncPopupSale(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">판매</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
+	        <a href="javascript: void(0);" onclick="fncPopupCustomerOrder(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
 	        <a href="javascript: void(0);" onclick="fncPopupRegDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">등록일 변경</span></a>
 	        <a href="javascript: void(0);" onclick="fncPopupTypeModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고구분변경</span></a>
 	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">매입처변경</span></a>
@@ -339,51 +339,36 @@
 		}
 		
 		function fncPopupSale(){
-			var orderscheckcnt = 0;
+			var stocksno = '';
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
-					orderscheckcnt++;
+					if(stocksno != '')
+						stocksno += ',';
+					stocksno += $(this).val();
 				}
 			});
-			if(orderscheckcnt == 0){
-				alert('판매할 주문이력을 선택해주세요.');
+			
+			if(stocksno == ''){
+				alert('판매할 재고를 선택해주세요.');
 				return false;
 			}
-			if(confirm('판매하시겠습니까?')){
-				const form = document.getElementById('searchForm');
-				const writeForm = new FormData(form);
-	
-				const formData = new FormData();
-				$(".form-check").each(function(){
-					if($(this).is(":checked"))
-						formData.append("stock_no_arr[]", checkNullVal($(this).val()));
-				});
-								
-				fetch('/api/stock/stocks/sale', {
-					method: 'PATCH',
-					body: formData
-				}).then(response => {
-					if(!response.ok){
-						throw new Error('Request Failed...');
-					}
-					alert('판매 되었습니다.');
-					findAll();
-				}).catch(error => {
-					alert('오류가 발생하였습니다.');
-				});
-			}
+			
+			var url = "/stock/popup/sale?stocksno="+stocksno;
+      var name = "stockVenderModifyPopup";
+      var option = "width = 1000, height = 550, top = 100, left = 200, location = no";
+      window.open(url, name, option);
 		}
 		
 		function fncRemove(){
 
-			var orderscheckcnt = 0;
+			var stockscheckcnt = 0;
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
-					orderscheckcnt++;
+					stockscheckcnt++;
 				}
 			});
-			if(orderscheckcnt == 0){
-				alert('삭제할 주문이력을 선택해주세요.');
+			if(stockscheckcnt == 0){
+				alert('삭제할 재고이력을 선택해주세요.');
 				return false;
 			}
 			if(confirm('삭제하시겠습니까?')){
@@ -410,23 +395,22 @@
 				});
 			}
 		}
-
-		function fncPopupCustomerModify(){
-			var ordersno = '';
+		
+		function fncPopupCustomerOrder(){
+			var stocksno = '';
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
+					if(stocksno != '')
+						stocksno += ',';
+					stocksno += $(this).val();
 				}
 			});
 			
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
+			if(stocksno == ''){
+				alert('고객주문할 재고내역을 선택해주세요.');
 				return false;
 			}
-
-		  var url = "/order/popup/customer/modify?ordersno="+ordersno;
+		  var url = "/stock/popup/customer/order?stocksno="+stocksno;
       var name = "orderCustomerModifyPopup";
       var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
@@ -443,7 +427,7 @@
 			});
 			
 			if(stocksno == ''){
-				alert('주문내역을 선택해주세요.');
+				alert('재고내역을 선택해주세요.');
 				return false;
 			}
 

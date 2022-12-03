@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객관리</title>
+<title>고객주문</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -14,29 +14,44 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">카다로그 관리</h6>
+			<h6 class="m-0 font-weight-bold text-primary">고객주문</h6>
 		</div>
 		<div class="card-body">
-    	<form id="searchForm" onsubmit="return false;" class="border-bottom">
+    	<form id="searchForm" onsubmit="return false;">
 				<div class="mb20" id="adv-search">
 					<div class="form-inline">
-						<select id="searchvender" class="form-control">
-	            <option value="">제조사구분</option>
-	            <option value="1">제조사1</option>
-	            <option value="2">제조사2</option>
-		        </select>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="모델명 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
+				    <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light ml5">새로고침</a>
 					</div>
 				</div>
 	    </form>
-	    <div class="table-responsive clearfix text-center border-bottom" id="list">
+			<div class="table-responsive clearfix">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th rowspan="2" class="">No.</th>
+							<th rowspan="2" class="border-left">등록일</th>
+							<th rowspan="2" class="border-left">계약구분</th>
+							<th rowspan="2" class="border-left">고객코드</th>
+							<th colspan="2" class="border-left">계약고객</th>
+							<th rowspan="2" class="border-left">비고</th>
+						</tr>
+						<tr>
+							<th class="border-left">이름</th>
+							<th class="border-left">H.P</th>
+						</tr>
+					</thead>
+					<tbody id="list"></tbody>
+				</table>
+				<div class="btn_wrap text-right">
+	    	</div>
+				<nav aria-label="Page navigation" class="text-center">
+			    <ul class="pagination"></ul>
+				</nav>
 			</div>
-			<nav aria-label="Page navigation" class="text-center">
-		    <ul class="pagination"></ul>
-			</nav>
 		</div>
 	</div>
 	
@@ -88,11 +103,11 @@
 	 				<li><a href="javascript:void(0)" onclick="findAll("+(params.startpage - 1)+");" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a></li>
 	 			`;
 	 		}
-			
+
 	 		// 페이지 번호
 	 		for (let i = startpage ; i < endpage ; i++) {
-	 			const active = ((i) === (pagination.currentpage)) ? 'class="active"' : '';
-	            html += '<li><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
+	 			const active = ((i) === (pagination.currentpage-1)) ? 'class="active"' : '';
+        html += '<li '+active+'><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
 	 		}
 	
 	 		// 다음 페이지, 마지막 페이지
@@ -117,9 +132,8 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  page: page
-			  , openeridx: '${param.openeridx}'
-				, searchvender: form.searchvender.value
+			  startpage: page
+			  , stocksno : '${stocksno}'
 				, searchword: form.searchword.value
 			}
 			checkListNullParams(params);
@@ -128,9 +142,9 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/catalog/list', params).then(response => {
+			getJson('/api/customer/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<div class="row row-cols-1" style="line-height:80px;"><div class="col">등록된 카다로그가 없습니다.</div></div>';
+					document.getElementById('list').innerHTML = '<td colspan="15" class="text-center">등록된 고객이 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -140,45 +154,22 @@
 				
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
-     			if(idx%4 == 0){
-     				html += `<div class="row row-cols-4">`;
-     			}
      			html += `
-     		    	<div class="col text-center text-black">
-     		    		<div class="card bg-light shadow rounded m10">
-     		    			<div class="row row-cols-1">
-     		    				<div class="col">
-     		    					<div class="m5 rounded">
-  		    							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="100%" style="height:200px;"/>
-     		    					</div>
-     		    				</div>
-     		    			</div>
-     		    			<div class="row row-cols-1 mlr5 mt5">
-     		    				<div class="col text-center">
-     		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
-     		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
- 		    								<a href="javascript: void(0);" onclick="fncSelect('`+obj.catalogno+`','`+checkNullVal(obj.modelid)+`'); return false;">
- 		    									` + checkNullVal(obj.modelid) + `(`+checkNullVal(obj.modelnm)+`)
- 		    								</a>
-     		    					</label>
-     		    				</div>
-     		    			</div>
-     		    			<div class="row mlr1 mtb5">
-     		    				<div class="col text-left small">거래처</div>
-     		    				<div class="col text-right small">`+ checkNullValR(codemap[obj.stddmaterialcd], '&nbsp;') +`(`+checkNullValR(obj.stddweight, '&nbsp;')+`)</div>
-     		    			</div>
-     		    			<div class="row mlr1 mtb5">
-     		    				<div class="col text-left small">`+ checkNullValR(obj.stddsize, '&nbsp;')+`</div>
-     		    				<div class="col text-right small">`+ checkNullValR(obj.basicidst, '&nbsp;')+`</div>
-     		    			</div>
-     		    		</div>
-     		    	</div>
+     				<tr>
+							<td class="text-center">` + (num--) + `</td>
+							<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.contractcd)]) +`</td>
+							<td class="text-center bold">
+								<a href="javascript: void(0);" onclick="fncSelect('` + checkNullVal(obj.customerno) + `', '`+checkNullVal(obj.contractornm)+`', '`+checkNullVal(obj.contractorcel)+`'); return false;">`+checkNullVal(obj.customerno)+`</a>
+							</td>
+							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
+							<td class="text-center">`+checkNullVal(obj.etc)+`</td>
+	   				</tr>
      			`;
-     			if(idx > 0 && (idx+1)%4 == 0){
-     				html += `</div>`;
-     			}
      		});
      		
+	
 				document.getElementById('list').innerHTML = html;
 				drawPages(response.params);
 			});
@@ -218,13 +209,55 @@
 				}
 			});
 		}
-		
-		function fncSelect(catalogno, modelid){
-			opener.document.getElementById("catalog_no_${param.openeridx}").value = catalogno;
-			opener.document.getElementById("model_id_${param.openeridx}").value = modelid;
-			self.close();
+
+		//새로고침
+		function fncRefresh(){
+			$("#adv-search").find("input").val('');
+			$("#adv-search").find("select").val('');
+			findAll(0);
 		}
 		
+		function fncSelect(customerno, customernm, customercel){
+			if(confirm('\''+customernm+'\' 고객으로 주문하시겠습니까?')){
+				var stocksno = '${stocksno}';
+				var stock_no_arr = stocksno.split(',');
+				if(stock_no_arr == null || stock_no_arr.length == 0){
+					alert('재고 선택 후 주문바랍니다.');
+					fncClose();
+					return false;
+				}
+				
+				const form = document.getElementById('searchForm');
+				const writeForm = new FormData(form);
+				
+				const formData = new FormData();
+				formData.append('customer_no', customerno);
+				formData.append('customer_nm', customernm);
+				formData.append('customer_cel', customercel);
+				
+				for(var i = 0 ; i < stock_no_arr.length ; i++){
+					formData.append('stock_no_arr[]',stock_no_arr[i]);
+				}
+				
+				fetch('/api/stock/order/customer/write', {
+					method: 'POST',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('고객주문이 완료되었습니다.');
+					window.opener.findAll();
+					fncClose();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
+		}
+		
+		function fncClose(){
+			self.close();
+		}
 	</script>
 </body>
 </html>

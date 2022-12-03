@@ -14,10 +14,13 @@ import com.jewelry.file.domain.FileTO;
 import com.jewelry.file.domain.FileVO;
 import com.jewelry.file.mapper.FileMapper;
 import com.jewelry.file.service.AmazonS3Service;
+import com.jewelry.order.domain.OrderTO;
+import com.jewelry.order.mapper.OrderMapper;
 import com.jewelry.stock.domain.StockTO;
 import com.jewelry.stock.domain.StockVO;
 import com.jewelry.stock.mapper.StockMapper;
 import com.jewelry.stock.service.StockService;
+import com.jewelry.util.Utils;
 import com.jewelry.vender.domain.VenderVO;
 import com.jewelry.vender.mapper.VenderMapper;
 
@@ -35,6 +38,9 @@ public class StockServiceImpl implements StockService {
 
 	@Autowired
 	private VenderMapper venderMapper;
+	
+	@Autowired
+	private OrderMapper orderMapper;
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -277,6 +283,7 @@ public class StockServiceImpl implements StockService {
 		return res > 0 ? "success" : "fail";
 	}
 
+	@Transactional
 	@Override
 	public String updateStocksToDelete(StockTO to) {
 		String result = "success";
@@ -296,6 +303,7 @@ public class StockServiceImpl implements StockService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public String updateStocksToSale(StockTO to) {
 		String result = "success";
@@ -315,6 +323,7 @@ public class StockServiceImpl implements StockService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public String updateStocksRegDate(StockTO to) {
 		String result = "success";
@@ -334,6 +343,7 @@ public class StockServiceImpl implements StockService {
 		return result;
 	}
 	
+	@Transactional
 	@Override
 	public String updateStocksType(StockTO to) {
 		String result = "success";
@@ -353,6 +363,7 @@ public class StockServiceImpl implements StockService {
 		return result;
 	}
 	
+	@Transactional
 	@Override
 	public String updateStocksVender(StockTO to) {
 		String result = "success";
@@ -386,5 +397,74 @@ public class StockServiceImpl implements StockService {
 		response.put("params", to);
 		
 		return response;
+	}
+
+	@Transactional
+	@Override
+	public String insertCustomerOrder(StockTO to) {
+		String result = "success";
+		try {
+			Long[] stock_no_arr = to.getStock_no_arr();
+			if(stock_no_arr != null && stock_no_arr.length > 0) {
+				int res = stockMapper.updateStocksOrder(to);
+				if(res > 0) {
+					List<StockVO> stockList = stockMapper.selectStockListByNos(to);
+					if(stockList != null && stockList.size() > 0) {
+						OrderTO orderto = new OrderTO();
+						orderto.setInpt_id(to.getInpt_id());
+						orderto.setOrder_type("CUSTOMER");
+						orderto.setOrder_step("B");
+						for(StockVO stockvo : stockList) {
+							orderto.setStock_no(stockvo.getStockno());
+							orderto.setStore_cd(stockvo.getStorecd());
+							orderto.setReceipt_dt(Utils.getTodayDateFormat("yyyy-MM-dd"));
+							orderto.setExpected_ord_dt(Utils.getTodayDateFormat("yyyy-MM-dd"));
+							orderto.setCustomer_no(to.getCustomer_no());
+							orderto.setCustomer_nm(to.getCustomer_nm());
+							orderto.setCustomer_cel(to.getCustomer_cel());
+							orderto.setCatalog_no(stockvo.getCatalogno());
+							orderto.setModel_id(stockvo.getModelid());
+							orderto.setVender_no(stockvo.getVenderno());
+							orderto.setVender_nm(stockvo.getVendernm());
+							orderto.setMaterial_cd(stockvo.getMaterialcd());
+							orderto.setColor_cd(stockvo.getColorcd());
+							orderto.setQuantity(1);
+							orderto.setMain_stone_type(stockvo.getMainstonetype());
+							orderto.setSub_stone_type(stockvo.getSubstonetype());
+							orderto.setSize(stockvo.getSize());
+							orderto.setOrder_desc(stockvo.getStockdesc());
+							int orderRes = orderMapper.insertOrder(orderto);
+							if(orderRes > 0) {
+								Long orderno = orderto.getOrder_no();
+								if(orderno != null && orderno > 0) {
+									FileVO filevo = fileMapper.selectFileByRefInfo(new FileTO(stockvo.getStockno(), "STOCK", 1));
+									if(filevo != null) {
+										FileTO fileto = new FileTO();
+										fileto.setInpt_id(to.getInpt_id());
+										fileto.setRef_no(orderno);
+										fileto.setRef_info("ORDER");
+										fileto.setFile_path(filevo.getFilepath());
+										fileto.setFile_nm(filevo.getFilenm());
+										fileto.setOrigin_nm(filevo.getOriginnm());
+										fileto.setFile_ord(1);
+										fileto.setFile_ext(filevo.getFileext());
+										fileto.setFile_size(filevo.getFilesize());
+										fileto.setVersion_id(filevo.getVersionid());
+										fileMapper.insertFile(fileto);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
 	}
 }

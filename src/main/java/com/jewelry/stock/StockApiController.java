@@ -107,6 +107,17 @@ public class StockApiController {
 		return new ResponseEntity<>(response.getStatus());
 	}
 
+	@PostMapping("/order/customer/write")
+	public ResponseEntity<Object> orderCustomerWrite(final StockTO to){
+		String username = ((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername();
+		to.setInpt_id(username);
+		to.setUpdt_id(username);
+		String result = stockService.insertCustomerOrder(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+
 	@PatchMapping("/vender/modify")
 	public ResponseEntity<Object> venderModify(final StockTO to){
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());

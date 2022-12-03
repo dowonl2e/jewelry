@@ -28,8 +28,6 @@
 				            <option value="">선택</option>
 				            <option value="A">주문등록</option>
 				            <option value="B">주문접수</option>
-				            <option value="C">주문 재고등록 완료</option>
-				            <option value="F">판매처리완료</option>
 					        </select>
 								</td>
 							</tr>

@@ -88,6 +88,7 @@
 			<if test='sub_stone_type != null and !sub_stone_type.equals("")'>, sub_stone_type</if>
 			<if test='size != null and !size.equals("")'>, size</if>
 			<if test='order_desc != null and !order_desc.equals("")'>, order_desc</if>
+			<if test='stock_no != null and stock_no > 0'>, stock_no</if>
 			
 		)
 		VALUES
@@ -113,6 +114,7 @@
 			<if test='sub_stone_type != null and !sub_stone_type.equals("")'>, #{sub_stone_type}</if>
 			<if test='size != null and !size.equals("")'>, #{size}</if>
 			<if test='order_desc != null and !order_desc.equals("")'>, #{order_desc}</if>
+			<if test='stock_no != null and stock_no > 0'>, #{stock_no}</if>
 		)
 	</insert>
 	

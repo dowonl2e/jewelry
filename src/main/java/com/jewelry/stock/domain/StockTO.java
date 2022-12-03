@@ -32,6 +32,14 @@ public class StockTO extends CommonTO {
 	private String origin_type;
 	private String del_yn;
 	private String sale_yn;
+	private Integer sale_price;
+	private String rec_pay_type_cd;
+	private Integer card_price;
+	private Integer cash_price;
+	private Integer maint_price;
+	private Integer etc_price;
+	private Integer pnt_price;
+	private Integer accu_pnt;
 	
 	private MultipartFile stockfile;
 	
@@ -59,6 +67,11 @@ public class StockTO extends CommonTO {
 	private String searchstore;
 	private String searchmaterial;
 	private String searchstocktype;
+	
+	//고객 주문
+	private Long customer_no;
+	private String customer_nm;
+	private String customer_cel;
 	
 	public Long getStock_no() {
 		return stock_no;
@@ -450,6 +463,94 @@ public class StockTO extends CommonTO {
 
 	public void setPer_price_gold_real_arr(Integer[] per_price_gold_real_arr) {
 		this.per_price_gold_real_arr = per_price_gold_real_arr;
+	}
+
+	public Integer getSale_price() {
+		return sale_price;
+	}
+
+	public void setSale_price(Integer sale_price) {
+		this.sale_price = sale_price;
+	}
+
+	public Integer getCash_price() {
+		return cash_price;
+	}
+
+	public void setCash_price(Integer cash_price) {
+		this.cash_price = cash_price;
+	}
+
+	public Integer getMaint_price() {
+		return maint_price;
+	}
+
+	public void setMaint_price(Integer maint_price) {
+		this.maint_price = maint_price;
+	}
+
+	public Integer getPnt_price() {
+		return pnt_price;
+	}
+
+	public void setPnt_price(Integer pnt_price) {
+		this.pnt_price = pnt_price;
+	}
+
+	public Integer getAccu_pnt() {
+		return accu_pnt;
+	}
+
+	public void setAccu_pnt(Integer accu_pnt) {
+		this.accu_pnt = accu_pnt;
+	}
+
+	public String getRec_pay_type_cd() {
+		return rec_pay_type_cd;
+	}
+
+	public void setRec_pay_type_cd(String rec_pay_type_cd) {
+		this.rec_pay_type_cd = rec_pay_type_cd;
+	}
+
+	public Integer getCard_price() {
+		return card_price;
+	}
+
+	public void setCard_price(Integer card_price) {
+		this.card_price = card_price;
+	}
+
+	public Integer getEtc_price() {
+		return etc_price;
+	}
+
+	public void setEtc_price(Integer etc_price) {
+		this.etc_price = etc_price;
+	}
+
+	public Long getCustomer_no() {
+		return customer_no;
+	}
+
+	public void setCustomer_no(Long customer_no) {
+		this.customer_no = customer_no;
+	}
+
+	public String getCustomer_nm() {
+		return customer_nm;
+	}
+
+	public void setCustomer_nm(String customer_nm) {
+		this.customer_nm = customer_nm;
+	}
+
+	public String getCustomer_cel() {
+		return customer_cel;
+	}
+
+	public void setCustomer_cel(String customer_cel) {
+		this.customer_cel = customer_cel;
 	}
 	
 }

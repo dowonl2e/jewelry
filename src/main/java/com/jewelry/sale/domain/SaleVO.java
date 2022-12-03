@@ -18,6 +18,8 @@ public class SaleVO extends CommonVO {
 	private Long saleno;
 	private Long catalogno;
 	private String modelid;
+	private Integer realpchgoldprice;
+	private Integer perweightgram;
 	private String materialcd;
 	private String saledesc;
 	private String mainstonetype;
@@ -26,13 +28,14 @@ public class SaleVO extends CommonVO {
 	private Integer purchaseprice;
 	private Integer consumerprice;
 	private Integer saleprice;
-	private String paytype;
-	private Integer paycardprice;
-	private Integer paycashprice;
-	private Integer payuseprice;
-	private Integer payetcprice;
-	private Integer paypoint;
-	private Integer accumulationpoint;
+	private String recpaytypecd;
+	private Integer cardprice;
+	private Integer cashprice;
+	private Integer maintprice;
+	private Integer pntprice;
+	private Integer etcprice;
+	private Integer accupnt;
+	
 	public List<SaleVO> getList() {
 		return list;
 	}
@@ -135,47 +138,35 @@ public class SaleVO extends CommonVO {
 	public void setSaleprice(Integer saleprice) {
 		this.saleprice = saleprice;
 	}
-	public String getPaytype() {
-		return paytype;
+	public Integer getCashprice() {
+		return cashprice;
 	}
-	public void setPaytype(String paytype) {
-		this.paytype = paytype;
+	public void setCashprice(Integer cashprice) {
+		this.cashprice = cashprice;
 	}
-	public Integer getPaycardprice() {
-		return paycardprice;
+	public Integer getMaintprice() {
+		return maintprice;
 	}
-	public void setPaycardprice(Integer paycardprice) {
-		this.paycardprice = paycardprice;
+	public void setMaintprice(Integer maintprice) {
+		this.maintprice = maintprice;
 	}
-	public Integer getPaycashprice() {
-		return paycashprice;
+	public Integer getPntprice() {
+		return pntprice;
 	}
-	public void setPaycashprice(Integer paycashprice) {
-		this.paycashprice = paycashprice;
+	public void setPntprice(Integer pntprice) {
+		this.pntprice = pntprice;
 	}
-	public Integer getPayuseprice() {
-		return payuseprice;
+	public Integer getEtcprice() {
+		return etcprice;
 	}
-	public void setPayuseprice(Integer payuseprice) {
-		this.payuseprice = payuseprice;
+	public void setEtcprice(Integer etcprice) {
+		this.etcprice = etcprice;
 	}
-	public Integer getPayetcprice() {
-		return payetcprice;
+	public Integer getAccupnt() {
+		return accupnt;
 	}
-	public void setPayetcprice(Integer payetcprice) {
-		this.payetcprice = payetcprice;
-	}
-	public Integer getPaypoint() {
-		return paypoint;
-	}
-	public void setPaypoint(Integer paypoint) {
-		this.paypoint = paypoint;
-	}
-	public Integer getAccumulationpoint() {
-		return accumulationpoint;
-	}
-	public void setAccumulationpoint(Integer accumulationpoint) {
-		this.accumulationpoint = accumulationpoint;
+	public void setAccupnt(Integer accupnt) {
+		this.accupnt = accupnt;
 	}
 	public String getSaleday() {
 		return saleday;
@@ -189,7 +180,29 @@ public class SaleVO extends CommonVO {
 	public void setSaletype2(String saletype2) {
 		this.saletype2 = saletype2;
 	}
-	
-	
+	public String getRecpaytypecd() {
+		return recpaytypecd;
+	}
+	public void setRecpaytypecd(String recpaytypecd) {
+		this.recpaytypecd = recpaytypecd;
+	}
+	public Integer getCardprice() {
+		return cardprice;
+	}
+	public void setCardprice(Integer cardprice) {
+		this.cardprice = cardprice;
+	}
+	public Integer getRealpchgoldprice() {
+		return realpchgoldprice;
+	}
+	public void setRealpchgoldprice(Integer realpchgoldprice) {
+		this.realpchgoldprice = realpchgoldprice;
+	}
+	public Integer getPerweightgram() {
+		return perweightgram;
+	}
+	public void setPerweightgram(Integer perweightgram) {
+		this.perweightgram = perweightgram;
+	}	
 	
 }

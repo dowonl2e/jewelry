@@ -28,7 +28,8 @@ public class OrderTO extends CommonTO {
 	private String order_desc;
 	private String order_type;
 	private String order_step;
-	
+	private Long stock_no;
+
 	private MultipartFile orderfile;
 	
 	private String[] serial_id_arr;
@@ -283,6 +284,12 @@ public class OrderTO extends CommonTO {
 	}
 	public void setOrder_no_arr(Long[] order_no_arr) {
 		this.order_no_arr = order_no_arr;
+	}
+	public Long getStock_no() {
+		return stock_no;
+	}
+	public void setStock_no(Long stock_no) {
+		this.stock_no = stock_no;
 	}
 	
 }
