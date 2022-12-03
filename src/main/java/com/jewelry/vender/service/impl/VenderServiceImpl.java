@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.jewelry.vender.domain.VenderTO;
 import com.jewelry.vender.domain.VenderVO;
@@ -70,10 +71,17 @@ public class VenderServiceImpl implements VenderService{
 	public String updateVenderToDelete(VenderTO to) {
 		String result = "fail";
 		try {
-			result = venderMapper.updateVenderToDelete(to) > 0 ? "success" : "fail";
+			Long[] vender_no_arr = to.getVender_no_arr();
+			if(vender_no_arr != null && vender_no_arr.length > 0) {
+			//	int res = venderMapper.updateVenderToDelete(to);  
+			//	result = res > 0? "success" : "fail";
+				result = venderMapper.updateVenderToDelete(to) > 0 ? "success" : "fail"; // 한줄로 표현
+			
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result = "fail";
 		}
 		return result;

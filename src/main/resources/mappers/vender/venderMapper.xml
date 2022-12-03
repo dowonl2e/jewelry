@@ -88,12 +88,16 @@
 		WHERE vender_no = #{vender_no}
 	</update>
 	
-	<update id="updateCustomerToDelete" parameterType="CustomerTO">
-		UPDATE tb_customer
+	<update id="updateVenderToDelete" parameterType="VenderTO">  <!-- dml은 자동으로 result type이 int -->
+		UPDATE tb_vender
 		SET updt_dt = NOW()
 		, updt_id = #{updt_id}
 		, del_yn = 'Y'
-		WHERE customer_no = #{customer_no}
+		WHERE vender_no IN (
+		 <foreach collection="vender_no_arr" item="item" separator=", ">
+		   #{item}
+		 </foreach>
+		)
 	</update>
 	
 </mapper>

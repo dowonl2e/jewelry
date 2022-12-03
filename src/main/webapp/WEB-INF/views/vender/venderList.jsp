@@ -26,6 +26,7 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
+		        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 					</div>
 				</div>
 	    </form>
@@ -34,7 +35,7 @@
 					<thead>
 						<tr>
 							<th rowspan="2" class="">No.</th>
-							<th rowspan="2" class="border-left"><input type="checkbox" id="arr_customer_no"/></th>
+							<th rowspan="2" class="border-left"><input type="checkbox" /></th>
 							<th rowspan="2" class="border-left">등록일</th>
 							<th rowspan="2" class="border-left">거래처명</th>
 							<th rowspan="2" class="border-left">사업자명</th>							
@@ -161,7 +162,7 @@
  */     			html += `
      				<tr>
 							<td class="text-center">` + (num--) + `</td>
-							<td class="text-center"><input type="checkbox" id="arr_vender_no" value="`+checkNullVal(obj.venderno)+`"/></td>
+							<td class="text-center"><input type="checkbox" class="form-check-inline form-check" value="`+checkNullVal(obj.venderno)+`"/></td>
 							<td class="text-center">` + checkSubstringNullVal(obj.inptdt,0,10) +`</td>
 							<td class="text-center bold">
 								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.venderno + `'); return false;">`+checkNullVal(obj.vendernm)+`</a>
@@ -239,6 +240,46 @@
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
+		
+		
+		/* 
+		 * 삭제하기
+		 */
+		 function fncRemove(){
+
+			var checkcnt = 0;
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					checkcnt++;
+				}
+			});
+			if(checkcnt == 0){
+				alert('삭제할 거래처를 선택해주세요.');
+				return false;
+			}
+			
+			if(confirm('삭제하시겠습니까?')){
+				const formData = new FormData();
+				$(".form-check").each(function(){
+					if($(this).is(":checked"))
+						formData.append("vender_no_arr[]", checkNullVal($(this).val())); // VenderTO의 vender_no_arr 변수를 가리킨다. 
+				});
+								
+				fetch('/api/vender/venders/remove', {
+					method: 'PATCH',  //컨트롤러 api에 들어가면 venderto 에 넣기 위해서 이걸 정리하고
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('삭제되었습니다.');
+					findAll();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
+		} 		
+		
 		
 		function fncCheckZero(obj){
 			if($(obj).val() != ''){

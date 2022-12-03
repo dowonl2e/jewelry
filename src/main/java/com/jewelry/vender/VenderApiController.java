@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +49,7 @@ public class VenderApiController {
 		return venderService.findVenderByNo(venderno);
 	}
 	
-	@PatchMapping("/{venderno}")
+	@PatchMapping("/{venderno}") // URL에 있는 {venderno} 을 아래의 넣기 위해 @PathVariable 을 쓴다.
 	public ResponseEntity<Object> modify(@PathVariable final Long venderno, @RequestBody final VenderTO to) { 
 		to.setVender_no(venderno);
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
@@ -60,14 +59,12 @@ public class VenderApiController {
 		return new ResponseEntity<>(response.getStatus());
 	}
 	
-	@DeleteMapping("/{customerno}")
-	public ResponseEntity<Object> remove(@PathVariable final Long venderno) {
-		VenderTO to = new VenderTO();
-		to.setVender_no(venderno);
+	@PatchMapping("/venders/remove")
+	public ResponseEntity<Object> venderRemove(final VenderTO to){ //파라미터로
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
 		String result = venderService.updateVenderToDelete(to);
 		
-		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL; //에러코드를 반환
 		return  new ResponseEntity<>(response.getStatus());
 	}
 

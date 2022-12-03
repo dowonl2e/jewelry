@@ -20,6 +20,14 @@ public class VenderTO extends CommonTO {
 	private String inpt_dt;
 	private String commerce;
 	
+	private Long[] vender_no_arr;
+	
+	public Long[] getVender_no_arr() {
+		return vender_no_arr;
+	}
+	public void setVender_no_arr(Long[] vender_no_arr) {
+		this.vender_no_arr = vender_no_arr;
+	}
 	public String getCommerce() {
 		return commerce;
 	}
