@@ -26,7 +26,6 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
-		        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 					</div>
 				</div>
 	    </form>
@@ -35,7 +34,7 @@
 					<thead>
 						<tr>
 							<th rowspan="2" class="">No.</th>
-							<th rowspan="2" class="border-left"><input type="checkbox" /></th>
+							<th rowspan="2" class="border-left"><input type="checkbox" onclick="fncCheckAll(this);"/></th>
 							<th rowspan="2" class="border-left">등록일</th>
 							<th rowspan="2" class="border-left">거래처명</th>
 							<th rowspan="2" class="border-left">사업자명</th>							
@@ -51,7 +50,9 @@
 					</thead>
 					<tbody id="list"></tbody>
 				</table>
-				<div class="btn_wrap text-right">
+				<div class="btn_wrap text-left mt-3">
+					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
+		      <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
 				<nav aria-label="Page navigation" class="text-center">
 			    <ul class="pagination"></ul>
@@ -162,7 +163,7 @@
  */     			html += `
      				<tr>
 							<td class="text-center">` + (num--) + `</td>
-							<td class="text-center"><input type="checkbox" class="form-check-inline form-check" value="`+checkNullVal(obj.venderno)+`"/></td>
+							<td class="text-center"><input type="checkbox" class="form-check-inline form-check" value="`+checkNullVal(obj.venderno)+`" /></td>
 							<td class="text-center">` + checkSubstringNullVal(obj.inptdt,0,10) +`</td>
 							<td class="text-center bold">
 								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.venderno + `'); return false;">`+checkNullVal(obj.vendernm)+`</a>
@@ -280,7 +281,6 @@
 			}
 		} 		
 		
-		
 		function fncCheckZero(obj){
 			if($(obj).val() != ''){
 				if(Number($(obj).val()) < minNumberLen){
@@ -291,6 +291,14 @@
 				}
 			}
 		}
+
+		function fncCheckAll(obj){
+			if($(obj).is(":checked")){
+        $(".form-check").attr("checked", true);    
+			}
+			else
+        $(".form-check").attr("checked", false);    
+		}	
 	</script>
 </body>
 </html>
