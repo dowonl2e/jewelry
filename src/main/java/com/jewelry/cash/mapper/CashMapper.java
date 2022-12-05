@@ -13,14 +13,17 @@ public interface CashMapper {
 	int selectCashListCount(CashTO to);
 	
 	List<CashVO> selectCashList(CashTO vo);
-	
+
+	List<CashVO> selectCashStatsList(CashTO vo);
+
 	int insertCash(CashTO to) throws Exception;
 	
-	CashVO selectCash(CashTO to);
+	CashVO selectCash(Long cashno);
 	
 	int updateCash(CashTO to) throws Exception;
 	
 	int updateCashToDelete(CashTO to) throws Exception;
 	
-	
+	int updateCashesToDelete(CashTO to) throws Exception;
+
 }

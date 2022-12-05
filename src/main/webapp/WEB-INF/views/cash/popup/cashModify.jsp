@@ -4,13 +4,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>금/현금 등록</title>
+	<title>금/현금 수정</title>
 </head>
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mt-4 mb-4">
 		<div class="card-header py-3 text-center">
-			<h6 class="m-0 font-weight-bold text-primary">금/현금 등록</h6>
+			<h6 class="m-0 font-weight-bold text-primary">금/현금 수정</h6>
 		</div>
 		<div class="card-body">
 			<form id="form" class="form-horizontal">
@@ -94,7 +94,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="idx" begin="0" end="29">
+							<c:forEach var="idx" begin="0" end="4">
 								<tr>
 									<td class="text-center border-right">${idx+1}</td>
 									<td class="text-center border-right">
@@ -157,7 +157,7 @@
 				</div>
 
 				<div class="btn_wrap text-center">
-	        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
+	        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
 	        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 	    	</div>
 			</form>
@@ -167,6 +167,7 @@
 	<script>
 		/*<![CDATA[*/
 			$(document).ready(function(){
+				find();
 				$(".unitprice, .cashtypecd").on('change keyup', function() {
 					var receivedPriceSum = 0;
 					var shipOutPriceSum = 0;
@@ -193,11 +194,52 @@
 				});
 			});
 			
-			function fncSave(){
-				/* if( !isValid() ){
-					return false;
-				} */
+			function find() {
 				
+				const cashno = '${cashno}';
+				if ( !cashno ) {
+		    	return false;
+		    }
+				
+				fetch(`/api/cash/${cashno}`).then(response => {
+		    	if (!response.ok) {
+						throw new Error('Request failed...');
+			    }
+		    	return response.json();
+		
+		   	}).then(json => {
+		   		const form = document.getElementById('form');
+		   		form.store_cd.value = checkNullVal(json.storecd);
+		   		form.reg_dt.value = checkSubstringNullVal(json.regdt,0,10);
+		   		form.cash_type_cd_0.value = checkNullVal(json.cashtypecd);
+		   		fncChangeRS(checkNullVal(json.cashtypecd), '0');
+		   		form.cash_type_cd2_0.value = checkNullVal(json.cashtypecd2);
+		   		form.bankbook_cd_0.value = checkNullVal(json.bankbookcd);
+		   		form.vender_nm_0.value = checkNullVal(json.vendernm);
+		   		form.history_desc_0.value = checkNullVal(json.historydesc);
+		   		form.material_cd_0.value = checkNullVal(json.materialcd);
+		   		form.weight_gram_0.value = checkNullVal(json.weightgram);
+		   		form.quantity_0.value = checkNullVal(json.quantity);
+		   		form.unit_price_0.value = checkNullVal(json.unitprice);
+		   		form.supply_price_0.value = priceWithComma(json.unitprice);
+		   		form.total_price_0.value = priceWithComma(json.unitprice);
+		   		
+		   		typePrice = checkNullValR(json.unitprice,'0');
+					if(checkNullVal(json.cashtypecd) == 'RS01'){
+						form.received_price.value = (typePrice == '0' ? '' : priceWithComma(typePrice));
+						form.rece_ship_total_price.value = (typePrice == '0' ? '' : priceWithComma(typePrice));
+					}
+					else if(checkNullVal(json.cashtypecd) == 'RS02'){
+						form.shipout_price.value = (typePrice == '0' ? '' : priceWithComma(typePrice));
+						form.rece_ship_total_price.value = (typePrice == '0' ? '' : ('-'+priceWithComma(typePrice)));
+					}
+		   	}).catch(error => {
+		    	alert('금/현금 정보를 찾을 수 없습니다.');
+		    	/* fncParentRefresh();
+		    	fncClose(); */
+		   	});
+			}
+			function fncSave(){
 				if($("#store_cd").val() == ''){
 					alert('관리매장을 선택해주세요.');
 					$("#store_cd").focus();
@@ -227,7 +269,7 @@
 					return false;
 				}
 				
-				if(confirm('등록하시겠습니까?')){
+				if(confirm('수정하시겠습니까?')){
 					const formData = new FormData();
 					$(".form-data").each(function(){
 						formData.append($(this).attr("name"), checkNullVal($(this).val()));
@@ -236,14 +278,14 @@
 						formData.append($(this).attr("name")+'[]', checkNullVal($(this).val()));
 					});
 					
-					fetch('/api/cash/write', {
-						method: 'POST',
+					fetch('/api/cash/modify/${cashno}', {
+						method: 'PATCH',
 						body: formData
 					}).then(response => {
 						if(!response.ok){
 							throw new Error('Request Failed...');
 						}
-						alert('저장되었습니다.');
+						alert('수정되었습니다.');
 						window.opener.findAll();
 						fncClose();
 					}).catch(error => {

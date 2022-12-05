@@ -205,7 +205,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="idx" begin="0" end="4">
+							<c:forEach var="idx" begin="0" end="29">
 								<tr>
 									<td class="text-center border-right">${idx+1}</td>
 									<td class="text-center border-right">

@@ -184,7 +184,6 @@
 		   		
 		   		document.getElementById('material_cd_td').innerHTML = checkNullVal(cdmapper[json.materialcd]);
 		   		document.getElementById('color_cd_td').innerHTML = checkNullVal(cdmapper[json.colorcd]);
-		   		document.getElementById('quantity_td').innerHTML = checkNullVal(json.quantity);
 		   		document.getElementById('main_stone_type_td').innerHTML = checkNullVal(json.mainstonetype);
 		   		document.getElementById('sub_stone_type_td').innerHTML = checkNullVal(json.substonetype);
 		   		document.getElementById('size_td').innerHTML = checkNullVal(json.size);

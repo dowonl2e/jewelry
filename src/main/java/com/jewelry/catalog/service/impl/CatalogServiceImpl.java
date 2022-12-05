@@ -207,6 +207,24 @@ public class CatalogServiceImpl implements CatalogService {
 	public String updateCatalogToDelete(String cdid) {
 		return null;
 	}
-	
-	
+
+	@Transactional
+	@Override
+	public String updateCatalogsToDelete(CatalogTO to) {
+		String result = "fail";
+		try {
+			Long[] catalog_no_arr = to.getCatalog_no_arr();
+			if(catalog_no_arr != null && catalog_no_arr.length > 0) {
+				int res = catalogMapper.updateCatalogsToDelete(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
 }

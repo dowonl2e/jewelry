@@ -67,4 +67,13 @@ public class CatalogApiController {
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());
 	}
+
+	@PatchMapping("/catalogs/remove")
+	public ResponseEntity<Object> repairsRemove(final CatalogTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = catalogService.updateCatalogsToDelete(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
 }

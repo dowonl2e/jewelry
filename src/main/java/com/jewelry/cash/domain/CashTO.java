@@ -25,6 +25,8 @@ public class CashTO extends CommonTO {
 	private String searchcashtype2;
 	private String searchbankbook;
 	private String searchmaterial;
+	private String today;
+	private String yesterday;
 	
 	private String[] cash_type_cd_arr;
 	private String[] cash_type_cd2_arr;
@@ -32,7 +34,7 @@ public class CashTO extends CommonTO {
 	private String[] vender_nm_arr;
 	private String[] history_desc_arr;
 	private String[] material_cd_arr;
-	private Integer[] weight_gram_arr;
+	private Double[] weight_gram_arr;
 	private Integer[] quantity_arr;
 	private Integer[] unit_price_arr;
 	
@@ -236,11 +238,11 @@ public class CashTO extends CommonTO {
 		this.material_cd_arr = material_cd_arr;
 	}
 
-	public Integer[] getWeight_gram_arr() {
+	public Double[] getWeight_gram_arr() {
 		return weight_gram_arr;
 	}
 
-	public void setWeight_gram_arr(Integer[] weight_gram_arr) {
+	public void setWeight_gram_arr(Double[] weight_gram_arr) {
 		this.weight_gram_arr = weight_gram_arr;
 	}
 
@@ -258,6 +260,22 @@ public class CashTO extends CommonTO {
 
 	public void setUnit_price_arr(Integer[] unit_price_arr) {
 		this.unit_price_arr = unit_price_arr;
+	}
+
+	public String getToday() {
+		return today;
+	}
+
+	public void setToday(String today) {
+		this.today = today;
+	}
+
+	public String getYesterday() {
+		return yesterday;
+	}
+
+	public void setYesterday(String yesterday) {
+		this.yesterday = yesterday;
 	}
 
 	

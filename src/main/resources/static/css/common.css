@@ -33,6 +33,10 @@
 .m15 {margin: 15px;}
 .m20 {margin: 20px;}
 
+.weight-400 {font-weight:400;}
+.weight-500 {font-weight:500;}
+.weight-600 {font-weight:600;}
+
 .vertical-middle {vertical-align:middle;}
 
 .border-left { border-left: 2px solid #e3e6f0; }
@@ -52,3 +56,5 @@
 .bg-orange {background: #ff8c00;}
 .bg-springgreen {background: #00ff7f;}
 .bg-lightyellow {background: #ffffe0;}
+.bg-lightyellow3 {background: #ffff66;}
+

@@ -218,8 +218,14 @@
 		}
 		
 		function fncSelect(venderno, vendernm){
-			opener.document.getElementById("vender_no_${param.openeridx}").value = venderno;
-			opener.document.getElementById("vender_nm_${param.openeridx}").value = vendernm;
+			if('${param.openeridx}' == '-1'){
+				opener.document.getElementById("vender_no").value = venderno;
+				opener.document.getElementById("vender_nm").value = vendernm;
+			}
+			else {
+				opener.document.getElementById("vender_no_${param.openeridx}").value = venderno;
+				opener.document.getElementById("vender_nm_${param.openeridx}").value = vendernm;
+			}
 			self.close();
 		}
 		

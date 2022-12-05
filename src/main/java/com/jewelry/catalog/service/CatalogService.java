@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.jewelry.catalog.domain.CatalogTO;
 import com.jewelry.catalog.domain.CatalogVO;
+import com.jewelry.repair.domain.RepairTO;
 
 public interface CatalogService {
 	
@@ -16,4 +17,7 @@ public interface CatalogService {
 	String updateCatalog(CatalogTO to);
 	
 	String updateCatalogToDelete(String cdid);
+	
+	String updateCatalogsToDelete(CatalogTO to);
+	
 }

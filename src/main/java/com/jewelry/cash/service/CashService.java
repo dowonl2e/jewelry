@@ -13,5 +13,8 @@ public interface CashService {
 	
 	String insertCash(CashTO to);
 	
+	String updateCash(CashTO to);
 	
+	String updateCashesToDelete(CashTO to);
+
 }

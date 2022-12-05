@@ -40,9 +40,10 @@
 			</div>
 			
 			<div class="btn_wrap text-left mt-3">
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">가성주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
+        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">가성주문</span></a>
+        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
+        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
+        <a href="javascript: void(0);" onclick="fncRemove(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
     	</div>
     	
 			<nav aria-label="Page navigation" class="text-center">
@@ -166,7 +167,7 @@
      		    			</div>
      		    			<div class="row row-cols-1 mlr5 mt5">
      		    				<div class="col text-center">
-     		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
+     		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline form-check" value="`+obj.catalogno+`"/>
      		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
  		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
  		    								` + checkNullVal(obj.modelid) + `(`+checkNullVal(obj.modelnm)+`)
@@ -260,6 +261,42 @@
       window.open(url, name, option);
 		}
 
+		function fncRemove(){
+
+			var checkcnt = 0;
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					checkcnt++;
+				}
+			});
+			if(checkcnt == 0){
+				alert('삭제할 카다로그를 선택해주세요.');
+				return false;
+			}
+			
+			if(confirm('삭제하시겠습니까?')){
+				
+				const formData = new FormData();
+				$(".form-check").each(function(){
+					if($(this).is(":checked"))
+						formData.append("catalog_no_arr[]", checkNullVal($(this).val()));
+				});
+								
+				fetch('/api/catalog/catalogs/remove', {
+					method: 'PATCH',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('삭제되었습니다.');
+					findAll();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
+		}
+		
 		//새로고침
 		function fncRefresh(){
 			$("#adv-search").find("input").val('');

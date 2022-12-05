@@ -70,7 +70,7 @@
 					<thead>
 						<tr>
 							<th class="text-center">No</th>
-							<th class="text-center border-left"><a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a></th>
+							<th class="text-center border-left"><input type="checkbox" onchange="fncCheckAll(this);"/></th>
 							<th class="text-center border-left">매장</th>
 							<th class="text-center border-left">등록일</th>
 							<th class="text-center border-left">구분</th>
@@ -97,6 +97,9 @@
 				<nav aria-label="Page navigation" class="text-center">
 			    <ul class="pagination"></ul>
 				</nav>
+				
+				<div class="table-responsive clearfix" id="stats_div">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -115,7 +118,6 @@
 			  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
 			</c:forEach>
 		};
-		
 		
 		window.onload = () => {
 			setQueryStringParams();
@@ -190,6 +192,8 @@
 				, searchbankbook: form.searchbankbook.value
 				, searchcashtype2: form.searchcashtype2.value
 				, searchmaterial: form.searchmaterial.value
+				, searchstdt: form.searchstdt.value
+				, searcheddt: form.searcheddt.value
 				, searchrecordcnt: form.searchrecordcnt.value
 				, searchword: form.searchword.value
 			}
@@ -198,7 +202,7 @@
 			const queryString = new URLSearchParams(params).toString();
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
-			
+
 			getJson('/api/cash/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="14" class="text-center">금/현금 내역이 없습니다.</td>';
@@ -209,32 +213,165 @@
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
 				
+				recWeightGramSum = 0.0;
+				recQuantitySum = 0;
+				recUnitPriceSum = 0;
+				shipWeightGramSum = 0.0;
+				shipQuantitySum = 0;
+				shipUnitPriceSum = 0;
+				totalWeightGramSum = 0.0;
+				totalQuantitySum = 0;
+				totalUnitPriceSum = 0;
      		response.list.forEach((obj, idx) => {
+     			fontClass = checkNullVal(obj.cashtypecd) == 'RS02' ? 'blue' : '';
      			html += `
-     				<tr class="small">
+     				<tr class="small `+fontClass+`">
 							<td class="text-center">
 								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.cashno)+`'); return false;">` + (num--) + `</a>
 							</td>
 							<td class="text-center"><input type="checkbox" name="cash_no_arr" class="form-check" value="`+checkNullVal(obj.cashno)+`"/></td>
-							<td class="text-center">` + checkNullVal(codemap[obj.storecd])+ `</td>
-							<td class="text-center">` + checkNullVal(obj.regday) + checkSubstringNullVal(obj.regdt,0,10) + `</td>
-							<td class="text-center">` + checkNullVal(codemap[obj.cashtypecd])+ `</td>
-							<td class="text-center">` + checkNullVal(codemap[obj.bankbookcd])+ `</td>
-							<td class="text-center">` + checkNullVal(codemap[obj.cashtypecd2])+ `</td>
-							<td class="text-center">` + checkNullVal(obj.vendernm)+ `</td>
-							<td class="text-center">` + checkNullVal(obj.historydesc)+ `</td>
-							<td class="text-center">` + checkNullVal(codemap[obj.materialcd])+ `</td>
-							<td class="text-center">` + checkNullVal(obj.weightgram)+ `</td>
-							<td class="text-center">` + checkNullVal(obj.quantity)+ `</td>
-							<td class="text-center">` + priceWithComma(obj.unitprice)+ `</td>
-							<td class="text-center">` + priceWithComma(obj.unitprice)+ `</td>
+							<td class="text-center">` + checkNullVal(codemap[obj.storecd]) + `</td>
+							<td class="text-center">` + checkNullVal(obj.regday) + ` ` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
+							<td class="text-center">` + checkNullVal(codemap[obj.cashtypecd]) + `</td>
+							<td class="text-center">` + checkNullVal(codemap[obj.bankbookcd]) + `</td>
+							<td class="text-center">` + checkNullVal(codemap2[obj.cashtypecd2]) + `</td>
+							<td class="text-center">` + checkNullVal(obj.vendernm) + `</td>
+							<td class="text-center">` + checkNullVal(obj.historydesc) + `</td>
+							<td class="text-center">` + checkNullVal(codemap[obj.materialcd]) + `</td>
+							<td class="text-right">` + checkNullVal(obj.weightgram) + `</td>
+							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
+							<td class="text-right">` + priceWithComma(obj.unitprice) + `</td>
+							<td class="text-right">` + priceWithComma(obj.unitprice) + `</td>
 							<td></td>
 						</tr>
 					`;
+					
+					
+					if(checkNullVal(obj.cashtypecd) == 'RS01'){
+						recWeightGramSum += Number(checkNullValR(obj.weightgram,'0'));
+						recQuantitySum += Number(checkNullValR(obj.quantity,'0'));
+						recUnitPriceSum += Number(checkNullValR(obj.unitprice,'0'));
+						totalWeightGramSum += Number(checkNullValR(obj.weightgram,'0'));
+						totalQuantitySum += Number(checkNullValR(obj.quantity,'0'));
+						totalUnitPriceSum += Number(checkNullValR(obj.unitprice,'0'));
+					}
+					else if(checkNullVal(obj.cashtypecd) == 'RS02'){
+						shipWeightGramSum += Number(checkNullValR(obj.weightgram,'0'));
+						shipQuantitySum += Number(checkNullValR(obj.quantity,'0'));
+						shipUnitPriceSum += Number(checkNullValR(obj.unitprice,'0'));
+						totalWeightGramSum -= Number(checkNullValR(obj.weightgram,'0'));
+						totalQuantitySum -= Number(checkNullValR(obj.quantity,'0'));
+						totalUnitPriceSum -= Number(checkNullValR(obj.unitprice,'0'));
+					}
      		});
-	
+     		html += `
+     			<tr class="weight-500 important bg-lightyellow">
+     				<td colspan="10" class="small weight-600 text-right">입고 리스트 합계</td>
+     				<td class="small weight-600 text-right">` + (recWeightGramSum == 0.0 ? '' : (recWeightGramSum+'')) + `</td>
+     				<td class="small weight-600 text-center">` + (recQuantitySum == 0 ? '' : (recQuantitySum+'')) + `</td>
+     				<td></td>
+     				<td colspan="2" class="small weight-600 text-right">` + (recUnitPriceSum == 0 ? '' : (priceWithComma(recUnitPriceSum)+'')) + `</td>
+     			</tr>
+     			<tr class="blue">
+		 				<td colspan="10" class="small weight-600 text-right">출고 리스트 합계</td>
+     				<td class="small weight-600 text-right">` + (shipWeightGramSum == 0.0 ? '' : (shipWeightGramSum+'')) + `</td>
+     				<td class="small weight-600 text-center">` + (shipQuantitySum == 0 ? '' : (shipQuantitySum+'')) + `</td>
+     				<td></td>
+     				<td colspan="2" class="small weight-600 text-right">` + (shipUnitPriceSum == 0 ? '' : (priceWithComma(shipUnitPriceSum)+'')) + `</td>
+		 			</tr>
+		 			<tr class="bg-lightyellow3">
+     				<td colspan="10" class="small weight-600 text-right">입고-출고 리스트 합계</td>
+     				<td class="small weight-600 text-right">` + (totalWeightGramSum == 0.0 ? '' : (totalWeightGramSum+'')) + `</td>
+     				<td class="small weight-600 text-center">` + (totalQuantitySum == 0 ? '' : (totalQuantitySum+'')) + `</td>
+     				<td></td>
+     				<td colspan="2" class="small weight-600 text-right">` + (totalUnitPriceSum == 0 ? '' : (priceWithComma(totalUnitPriceSum)+'')) + `</td>
+     			</tr>
+				`;
 				document.getElementById('list').innerHTML = html;
 				drawPages(response.params);
+
+				let html2 = '';
+				html2 += `
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="text-center">매장명</th>
+								<th class="text-center border-left">통장 및 재질 구분</th>
+								<th class="text-center border-left">전일</th>
+								<th class="text-center border-left">`+response.today+`</th>
+							</tr>
+						</thead>
+						<tbody>
+				`;
+			
+				//전일 당일 통계
+				if (response.statslist == null || response.statslist.length == 0) {
+					<c:forEach var="st" items="${stlist}">
+						html2 += `
+		      	  <tr class="border-bottom">
+		      		  <th class="text-center">${st.cdnm}</th>
+		      		  <td></td>
+		      		  <td></td>
+		      		  <td></td>
+		      		</tr>
+		      	`;
+		      </c:forEach>
+				}
+				else {
+					statsListLen = response.statslist.length;
+	      	let yesBankBookTotal = 0;
+	      	let todayBankBookTotal = 0;
+
+					<c:forEach var="st" items="${stlist}">
+		      	html2 += `
+		      	  <tr class="border-bottom">
+		      		  <th rowspan="`+(statsListLen+3)+`" class="text-center">${st.cdnm}</th>
+		      		</tr>
+		      	`;
+		      	yesBankBookTotal = 0;
+		      	todayBankBookTotal = 0;
+      			response.statslist.forEach((obj, idx) => {
+      				if('${st.cdid}' == checkNullVal(obj.storecd)){
+      					if(checkSubstringNullVal(obj.statscd,0,2) == 'BT'){
+      						html2 += `
+	      						<tr>
+	      							<td class="text-center border-right">`+checkNullVal(codemap[obj.statscd])+`</td>
+	      							<td class="text-right border-right">`+priceWithComma(obj.yesterdayprice)+`</td>
+	      							<td class="text-right">`+priceWithComma(obj.todayprice)+`</td>
+	      						</tr>
+	      					`;
+      						yesBankBookTotal += Number(obj.yesterdayprice == null ? 0 : checkNullValR(obj.yesterdayprice,'0'));
+      						todayBankBookTotal += Number(obj.todayprice == null ? 0 : checkNullValR(obj.todayprice,'0'));
+      					}      					
+      				}
+      			});
+      			html2 += `
+      				<tr class="bg-lightyellow">
+      			    <td class="text-right border-right">현금합계</td>
+      			    <td class="text-right border-right">`+priceWithComma(yesBankBookTotal)+`</td>
+      			    <td class="text-right">`+priceWithComma(todayBankBookTotal)+`</td>
+      			  </tf>
+      			`;
+      			response.statslist.forEach((obj, idx) => {
+	    				if('${st.cdid}' == checkNullVal(obj.storecd)){
+	    					if(checkSubstringNullVal(obj.statscd,0,2) == 'SM'){
+	    						html2 += `
+	      						<tr>
+	      							<td class="text-center border-right">`+checkNullVal(codemap[obj.statscd])+`</td>
+	      							<td class="text-right border-right">`+priceWithComma(obj.yesterdayprice)+`</td>
+	      							<td class="text-right">`+priceWithComma(obj.todayprice)+`</td>
+	      						</tr>
+	      					`;
+	    					}      					
+	    				}
+	    			});
+		      </c:forEach>
+				}
+				html2 += `
+						</tbody>
+					</table>
+				`;
+				document.getElementById('stats_div').innerHTML = html2;
 			});
 		}
 		
@@ -284,8 +421,8 @@
 		 * 조회하기
 		 */
 		function fncPopupView(orderno, ordertype) {
-		  var url = ordertype == 'CUSTOMER' ? "/order/popup/customer/"+orderno : "/order/popup/read-made/"+orderno;
-      var name = "orderViewPopup";
+		  var url = "/cash/popup/"+orderno;
+      var name = "cashViewPopup";
       var option = "width = 1150, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
@@ -301,14 +438,14 @@
 		
 		function fncRemove(){
 
-			var orderscheckcnt = 0;
+			var checkcnt = 0;
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
-					orderscheckcnt++;
+					checkcnt++;
 				}
 			});
-			if(orderscheckcnt == 0){
-				alert('삭제할 주문이력을 선택해주세요.');
+			if(checkcnt == 0){
+				alert('삭제할 이력을 선택해주세요.');
 				return false;
 			}
 			if(confirm('삭제하시겠습니까?')){
@@ -318,10 +455,10 @@
 				const formData = new FormData();
 				$(".form-check").each(function(){
 					if($(this).is(":checked"))
-						formData.append("order_no_arr[]", checkNullVal($(this).val()));
+						formData.append("cash_no_arr[]", checkNullVal($(this).val()));
 				});
 								
-				fetch('/api/order/orders/remove', {
+				fetch('/api/cash/cashes/remove', {
 					method: 'PATCH',
 					body: formData
 				}).then(response => {
@@ -362,6 +499,15 @@
 			$("#adv-search").find("input").val('');
 			$("#adv-search").find("select").val('');
 			findAll(0);
+		}
+		
+		function fncCheckAll(obj){
+			if($(obj).is(":checked")){
+				$(".form-check").attr("checked", true);
+			}
+			else {
+				$(".form-check").attr("checked", false);
+			}
 		}
 		
 		function fncCheckZero(obj){

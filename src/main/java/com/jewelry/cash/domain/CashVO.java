@@ -23,6 +23,11 @@ public class CashVO extends CommonVO {
 	private Integer quantity;
 	private Integer unitprice;
 	
+	private Integer statsord;
+	private String statscd;
+	private Integer yesterdayprice;
+	private Integer todayprice;
+	
 	public List<CashVO> getList() {
 		return list;
 	}
@@ -112,6 +117,30 @@ public class CashVO extends CommonVO {
 	}
 	public void setRegday(String regday) {
 		this.regday = regday;
+	}
+	public Integer getStatsord() {
+		return statsord;
+	}
+	public void setStatsord(Integer statsord) {
+		this.statsord = statsord;
+	}
+	public String getStatscd() {
+		return statscd;
+	}
+	public void setStatscd(String statscd) {
+		this.statscd = statscd;
+	}
+	public Integer getYesterdayprice() {
+		return yesterdayprice;
+	}
+	public void setYesterdayprice(Integer yesterdayprice) {
+		this.yesterdayprice = yesterdayprice;
+	}
+	public Integer getTodayprice() {
+		return todayprice;
+	}
+	public void setTodayprice(Integer todayprice) {
+		this.todayprice = todayprice;
 	}
 	
 }

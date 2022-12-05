@@ -12,7 +12,6 @@ import org.springframework.util.ObjectUtils;
 import com.jewelry.file.domain.FileTO;
 import com.jewelry.file.mapper.FileMapper;
 import com.jewelry.file.service.AmazonS3Service;
-import com.jewelry.order.domain.OrderTO;
 import com.jewelry.repair.domain.RepairTO;
 import com.jewelry.repair.domain.RepairVO;
 import com.jewelry.repair.mapper.RepairMapper;

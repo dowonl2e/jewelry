@@ -11,6 +11,7 @@ public class SaleTO extends CommonTO {
 	
 	private Long[] sale_no_arr;
 	private String[] sale_type_arr;
+	private String[] sale_arr;
 	
 	public String getSearchstore() {
 		return searchstore;
@@ -47,6 +48,12 @@ public class SaleTO extends CommonTO {
 	}
 	public void setSale_type_arr(String[] sale_type_arr) {
 		this.sale_type_arr = sale_type_arr;
+	}
+	public String[] getSale_arr() {
+		return sale_arr;
+	}
+	public void setSale_arr(String[] sale_arr) {
+		this.sale_arr = sale_arr;
 	}
 	
 	

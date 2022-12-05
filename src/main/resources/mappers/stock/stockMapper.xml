@@ -178,6 +178,7 @@
 		, updt_id = #{updt_id}
 		, sale_yn = 'Y'
 		, sale_price = #{sale_price}
+		, sale_dt = NOW()
 		, rec_pay_type_cd = #{rec_pay_type_cd}
 		, card_price = #{card_price}
 		, cash_price = #{cash_price}

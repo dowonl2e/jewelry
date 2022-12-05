@@ -29,4 +29,6 @@ public interface CatalogMapper {
 	int updateCatalog(CatalogTO to) throws Exception;
 	
 	int updateCatalogDelete(Long catalogid) throws Exception;
+	
+	int updateCatalogsToDelete(CatalogTO to) throws Exception;
 }

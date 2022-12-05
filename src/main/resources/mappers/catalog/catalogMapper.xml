@@ -145,5 +145,17 @@
 		WHERE catalog_no = #{catalog_no}
 	</delete>
 	
+	<update id="updateCatalogsToDelete" parameterType="CatalogTO">
+		UPDATE tb_catalog
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, del_yn = 'Y'
+		WHERE catalog_no IN (
+			<foreach collection="catalog_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
 	
 </mapper>

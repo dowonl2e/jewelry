@@ -36,8 +36,11 @@
 				</div>
 				<div class="row row-cols-3 border-bottom text-center">
 					<div class="col border-right">
-						<input type="hidden" name="vender_no" id="vender_no" class="form-data"/>
-						<input type="text" id="vender_nm" class="form-control mtb5" readonly="readonly"/>
+						<div class="input-group-append">
+							<input type="hidden" name="vender_no" id="vender_no" class="form-data"/>
+							<input type="text" id="vender_nm" class="form-control mtb5" readonly="readonly"/>
+							<i class="fas fa-search fa-sm ml5 mt15" onclick="fncVenderListPop(); return false;"></i>
+						</div>
 					</div>
 					<div class="col border-right">
 						<input type="text" name="model_id" id="model_id" class="form-control form-data mtb5"/>
@@ -305,6 +308,13 @@
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
 				});
+			}
+
+			function fncVenderListPop(){
+				var url = "/vender/popup/list?openeridx=-1";
+	      var name = "venderListPopup";
+	      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+	      window.open(url, name, option);
 			}
 			
 			function fncClose(){

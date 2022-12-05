@@ -29,7 +29,7 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">자료등록</a>
 					</div>
 				</div>
 	    </form>
@@ -185,10 +185,10 @@
 							<td class="text-center">` + checkNullVal(obj.ordercnt)+`</td>
 							<td class="text-center">` + checkNullVal(obj.repaircnt)+`</td>
 							<td class="text-center">` + checkNullVal(obj.reservecnt)+`</td>
-							<td class="text-center">???</td>
-							<td class="text-center">???</td>
+							<td class="text-center"></td>
+							<td class="text-center"></td>
 							<td class="text-center">` + (checkNullVal(obj.salesprice) == '' ? '' : priceWithComma(obj.salesprice)) +`</td>
-							<td class="text-center">???</td>
+							<td class="text-center"></td>
 							<td class="text-center">`+checkNullVal(obj.etc)+`</td>
 	   				</tr>
      			`;

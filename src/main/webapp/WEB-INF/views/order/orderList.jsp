@@ -48,7 +48,7 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-				    <a href="javascript: void(0);" onclick="fncPopupCustomerOrderWrite(); return false;" class="btn btn-primary waves-effect waves-light ml5">고객</a>
+				    <a href="javascript: void(0);" onclick="fncPopupCustomerOrderWrite(); return false;" class="btn btn-primary waves-effect waves-light">고객</a>
 				    <a href="javascript: void(0);" onclick="fncPopupReadMadeOrderWrite(); return false;" class="btn btn-danger waves-effect waves-light ml5">기성</a>
 			    </div>
 				</div>
@@ -63,7 +63,7 @@
 							<th class="text-center border-left">구  분<br/>판매일</th>
 							<th class="text-center border-left">매장명<br/>고객명</th>
 							<th class="text-center border-left">사진</th>
-							<th class="text-center border-left">모델번호<br/>접수번호</th>
+							<th class="text-center border-left">모델번호</th>
 							<th class="text-center border-left">재질<br/>색상</th>
 							<th class="text-center border-left">수량</th>
 							<th class="text-center border-left">메.스톤<br/>보.스톤</th>
@@ -210,7 +210,7 @@
 					`;
 					html += `
 							<td class="text-center"><img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="60px;" height="60px"/></td>
-							<td class="text-center">` + checkNullVal(obj.modelid)+`<br/>`+checkNullVal(obj.orderno)+`</td>
+							<td class="text-center">` + checkNullVal(obj.modelid)+`</td>
 							<td class="text-center"><span class="important">` + checkNullVal(codemap[obj.materialcd])+`</span><br/>`+checkNullVal(codemap[obj.colorcd])+`</td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
 							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `<br/>` + checkNullVal(obj.substonetype) + `</td>
