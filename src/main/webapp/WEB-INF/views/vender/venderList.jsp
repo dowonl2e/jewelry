@@ -25,6 +25,7 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
+		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
 		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
 					</div>
 				</div>
@@ -33,19 +34,19 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th rowspan="2" class="">No.</th>
-							<th rowspan="2" class="border-left"><input type="checkbox" onclick="fncCheckAll(this);"/></th>
-							<th rowspan="2" class="border-left">등록일</th>
-							<th rowspan="2" class="border-left">거래처명</th>
-							<th rowspan="2" class="border-left">사업자명</th>							
-							<th rowspan="2" class="border-left">대표자연락처</th>
-							<th rowspan="2" class="border-left">전화번호</th>
-							<th rowspan="2" class="border-left">팩스번호</th>
-							<th rowspan="2" class="border-left">담당자</th>
-							<th rowspan="2" class="border-left">담당자연락처</th>
-							<th rowspan="2" class="border-left">비고</th>
-							<th rowspan="2" class="border-left">VAT</th>
-							<th rowspan="2" class="border-left">해리</th>
+							<th class="">No.</th>
+							<th class="border-left"><input type="checkbox" onclick="fncCheckAll(this);"/></th>
+							<th class="border-left">등록일</th>
+							<th class="border-left">거래처명</th>
+							<th class="border-left">사업자명</th>							
+							<th class="border-left">대표자연락처</th>
+							<th class="border-left">전화번호</th>
+							<th class="border-left">팩스번호</th>
+							<th class="border-left">담당자</th>
+							<th class="border-left">담당자연락처</th>
+							<th class="border-left">비고</th>
+							<th class="border-left">VAT</th>
+							<th class="border-left">해리</th>
   					</tr>
 					</thead>
 					<tbody id="list"></tbody>
@@ -150,7 +151,7 @@
 			
 			getJson('/api/vender/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="15" class="text-center">등록된 고객이 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="13" class="text-center">등록된 거래처가 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -226,7 +227,7 @@
 		 * 작성하기
 		 */
 		function fncPopupWrite() {
-		  var url = "./popup/write";
+		  var url = "/vender/popup/write";
       var name = "venderWritePopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
@@ -236,7 +237,7 @@
 		 * 수정하기
 		 */
 		function fncPopupView(venderno) {
-		  var url = "./popup/"+venderno;
+		  var url = "/vender/popup/"+venderno;
       var name = "venderModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);

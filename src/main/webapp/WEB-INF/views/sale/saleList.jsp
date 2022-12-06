@@ -246,7 +246,7 @@
 							<td class="text-right">` + realPchGoldPriceTxt + `</td>
 							<td class="text-right">` + (checkNullVal(obj.consumerprice) == '' ? '' : priceWithComma(obj.consumerprice)) + `</td>
 							<td class="text-center">` + priceWithComma(obj.saleprice) + `</td>
-							<td class="text-center">` + priceWithComma(obj.recpaytypecd) + `</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.recpaytypecd)]) + `</td>
 							<td class="text-center">` + priceWithComma(obj.cardprice) + `</td>
 							<td class="text-center">` + priceWithComma(obj.cashprice) + `</td>
 							<td class="text-center">` + priceWithComma(obj.maintprice) + `</td>

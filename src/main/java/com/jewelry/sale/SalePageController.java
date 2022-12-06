@@ -19,7 +19,7 @@ public class SalePageController {
 	public String list(ModelMap model) {
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
 		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
-		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","PT"}, 2));
 		return "sale/saleList";
 	}
 	

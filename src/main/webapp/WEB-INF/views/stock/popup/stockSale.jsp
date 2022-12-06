@@ -27,8 +27,28 @@
 						</colgroup>
 						<tbody>
 							<tr>
+								<th colspan="7" class="bg-light text-center">구매 고객</th>
+							</tr>
+							<tr>
+								<td class="bg-light border-right text-center">고객명<span class="important"> *</span></td>
+								<td colspan="3">
+									<div class="input-group-append">
+										<input type="hidden" name="customer_no" id="customer_no" class="form-control form-data mtb5"/>
+										<input type="text" name="customer_nm" id="customer_nm" class="form-control form-data mtb5" readonly="readonly"/>
+										<i class="fas fa-search fa-sm ml5 mt15" onclick="fncCustomerListPop(); return false;"></i>
+									</div>
+								</td>
+								<td class="bg-light border-right text-center">연락처<span class="important"> *</span></td>
+								<td colspan="3">
+									<input type="text" name="customer_cel" id="customer_cel" class="form-control form-data mtb5" readonly="readonly"/>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="7" class="bg-light text-center">매출 정보</th>
+							</tr>
+							<tr>
 								<td class="bg-light border-right text-center">매출금액<span class="important"> *</span></td>
-								<td colspan="6" class="text-center border-right">
+								<td colspan="6" class="text-center">
 					        <input type="number" name="sale_price" id="sale_price" class="form-control form-data mtb5"/>
 								</td>
 							</tr>
@@ -42,7 +62,7 @@
 								<td class="bg-light border-right text-center">고금</td>
 								<td class="bg-light border-right text-center">기타</td>
 								<td class="bg-light border-right text-center">포인</td>
-								<td class="bg-light border-right text-center">합계</td>
+								<td class="bg-light text-center">합계</td>
 							</tr>
 							<tr>
 								<td class="text-center border-right">
@@ -67,11 +87,11 @@
 								<td class="text-center border-right">
 					        <input type="number" name="pnt_price" id="pnt_price" class="form-control pntprice form-data mtb5"/>
 								</td>
-								<td class="text-center border-right" id="total_sale_price_td"></td>
+								<td class="text-center" id="total_sale_price_td"></td>
 							</tr>
 							<tr class="border-bottom">
 								<td class="bg-light border-right text-center">적립 포인트</td>
-								<td colspan="6" class="text-center border-right">
+								<td colspan="6" class="text-center">
 					        <input type="number" name="accu_pnt" id="accu_pnt" class="form-control form-data mtb5"/>
 								</td>
 							</tr>
@@ -141,6 +161,13 @@
 						alert('오류가 발생하였습니다.');
 					});
 				}
+			}
+
+			function fncCustomerListPop(){
+				var url = "/customer/popup/list";
+	      var name = "customerListPopup";
+	      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+	      window.open(url, name, option);
 			}
 			
 			function fncClose(){

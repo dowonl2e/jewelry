@@ -221,7 +221,7 @@
 							<td class="text-center">` + checkSubstringNullVal(obj.regdt,2,10) + `</td>
 							<td class="text-center bold">`+checkNullVal(obj.stockno)+`</td>
 							<td class="text-center">`+ checkNullVal(codemap[obj.stocktypecd]) + `</td>
-							<td class="text-center"><div class="border-bottom">` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
+							<td class="text-center"><div>` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
 							<td class="text-center"><a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a></td>
 							<td class="text-center">` + checkNullVal(codemap[obj.materialcd])+`</td>
 							<td class="text-center">` + checkNullVal(codemap[obj.colorcd]) + `</td>

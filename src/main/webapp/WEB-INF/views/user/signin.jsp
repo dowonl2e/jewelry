@@ -53,9 +53,11 @@
 										<button type="submit" class="btn btn-primary btn-user btn-block"> 로그인 </button>
 									</form>
 									<hr>
+									<%-- 
 									<div class="text-center">
 										<a class="small" href="forgot-password.html">Forgot Password?</a>
 									</div>
+									--%>
 									<hr>
 								</div>
 							</div>

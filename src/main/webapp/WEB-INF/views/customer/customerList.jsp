@@ -239,7 +239,7 @@
 		 * 작성하기
 		 */
 		function fncPopupWrite() {
-		  var url = "./popup/write";
+		  var url = "/customer/popup/write";
       var name = "customerWritePopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);

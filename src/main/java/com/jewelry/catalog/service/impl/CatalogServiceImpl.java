@@ -41,7 +41,7 @@ public class CatalogServiceImpl implements CatalogService {
 		to.setTotalcount(catalogMapper.selectCatalogListCount(to));
 		response.put("list", catalogMapper.selectCatalogList(to));
 		response.put("params", to);
-		
+
 		return response;
 	}
 

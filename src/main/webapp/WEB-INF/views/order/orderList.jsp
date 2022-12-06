@@ -209,7 +209,20 @@
 							</td>
 					`;
 					html += `
-							<td class="text-center"><img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="60px;" height="60px"/></td>
+							<td class="text-center">
+					`;
+     		  if(checkNullVal(obj.filepath) == ''){
+ 	     		  html += `
+ 							<img src="/img/no-image.png" width="60px;" height="60px"/>
+ 						`;
+     		  }
+     		  else {
+     			 	html += `
+ 							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="60px;" height="60px"/>
+ 						`;
+     		  }
+ 					html += `
+							</td>
 							<td class="text-center">` + checkNullVal(obj.modelid)+`</td>
 							<td class="text-center"><span class="important">` + checkNullVal(codemap[obj.materialcd])+`</span><br/>`+checkNullVal(codemap[obj.colorcd])+`</td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>

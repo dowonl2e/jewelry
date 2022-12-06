@@ -67,6 +67,23 @@
 	    </form>
 			<div class="table-responsive clearfix">
 				<table class="table">
+					<colgroup>
+						<col width="3%"/>
+						<col width="3%"/>
+						<col width="5%"/>
+						<col width="10%"/>
+						<col width="7%"/>
+						<col width="8%"/>
+						<col width="7%"/>
+						<col width="7%"/>
+						<col />
+						<col width="6%"/>
+						<col width="6%"/>
+						<col width="4%"/>
+						<col width="7%"/>
+						<col width="7%"/>
+						<col width="5%"/>
+					</colgroup>
 					<thead>
 						<tr>
 							<th class="text-center">No</th>
@@ -236,7 +253,7 @@
 							<td class="text-center">` + checkNullVal(codemap[obj.bankbookcd]) + `</td>
 							<td class="text-center">` + checkNullVal(codemap2[obj.cashtypecd2]) + `</td>
 							<td class="text-center">` + checkNullVal(obj.vendernm) + `</td>
-							<td class="text-center">` + checkNullVal(obj.historydesc) + `</td>
+							<td class="text-left">` + checkNullVal(obj.historydesc) + `</td>
 							<td class="text-center">` + checkNullVal(codemap[obj.materialcd]) + `</td>
 							<td class="text-right">` + checkNullVal(obj.weightgram) + `</td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>

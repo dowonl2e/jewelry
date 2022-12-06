@@ -91,7 +91,7 @@
 				       		WHEN '7' THEN '토'
 				       	END AS sale_day
 					    , 'STOCK' AS sale_type
-					   	, NULL AS customer_no, NULL AS customer_nm
+					   	, customer_no, customer_nm
 					   	, stock_no AS sale_no, catalog_no, model_id
 					   	, real_pch_gold_price, material_cd, per_weight_gram
 					   	, stock_desc AS sale_desc

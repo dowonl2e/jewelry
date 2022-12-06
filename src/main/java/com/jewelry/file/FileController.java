@@ -39,9 +39,8 @@ public class FileController {
 		if(filePath == null || filePath.equals("") || fileName == null || fileName.equals("")) {
 			filePath = "common";
 			fileName = "no-image.png";
-		    System.out.println("파일1 : " + filePath + ", " + fileName);
 		}
-	    System.out.println("파일2 : " + filePath + ", " + fileName);
+
     	S3Object object = amazonS3Service.download(filePath, fileName);
 
     	S3ObjectInputStream inputStream = object.getObjectContent();

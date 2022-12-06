@@ -24,6 +24,8 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
+		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">자료등록</a>
 					</div>
 				</div>
 	    </form>
@@ -131,7 +133,7 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  startpage: page
+			  currentpage: page
 				, searchword: form.searchword.value
 			}
 			checkListNullParams(params);
@@ -149,8 +151,8 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
-     		response.list.forEach((obj, idx) => {
+
+				response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
      				<tr>
@@ -207,6 +209,17 @@
 				}
 			});
 		}
+
+		/**
+		 * 작성하기
+		 */
+		function fncPopupWrite() {
+		  var url = "/customer/popup/write";
+      var name = "customerWritePopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+
 		
 		function fncSelect(customerno, customernm, customercel){
 			opener.document.getElementById("customer_no").value = customerno;

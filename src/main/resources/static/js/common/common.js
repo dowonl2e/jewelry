@@ -63,3 +63,10 @@ function priceWithComma(val){
 		return '0';
 	}
 }
+
+//새로고침
+function fncRefresh(){
+	$("#adv-search").find("input").val('');
+	$("#adv-search").find("select").val('');
+	findAll(0);
+}

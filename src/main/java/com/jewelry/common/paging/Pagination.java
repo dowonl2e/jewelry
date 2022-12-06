@@ -74,7 +74,7 @@ public class Pagination {
 	}
 
 	public void setTotalcount(int totalcount) {
-		this.totalcount = totalcount > recordcount ? recordcount : totalcount;
+		this.totalcount = totalcount;
 		if (totalcount > 0)
 			calculation();
 	}
@@ -118,17 +118,16 @@ public class Pagination {
 	public void setLastrecordindex(int lastrecordindex) {
 		this.lastrecordindex = lastrecordindex;
 	}
-
-	public boolean isHasprevpage() {
-		return hasprevpage;
+	public boolean getHasprevpage() {
+		return this.hasprevpage;
 	}
 
 	public void setHasprevpage(boolean hasprevpage) {
 		this.hasprevpage = hasprevpage;
 	}
 
-	public boolean isHasnextpage() {
-		return hasnextpage;
+	public boolean getHasnextpage() {
+		return this.hasnextpage;
 	}
 
 	public void setHasnextpage(boolean hasnextpage) {

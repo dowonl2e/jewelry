@@ -25,6 +25,8 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
+		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
 					</div>
 				</div>
 	    </form>
@@ -32,18 +34,18 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th rowspan="2" class="">No.</th>
-							<th rowspan="2" class="border-left">등록일</th>
-							<th rowspan="2" class="border-left">거래처명</th>
-							<th rowspan="2" class="border-left">사업자명</th>							
-							<th colspan="2" class="border-left">대표자연락처</th>
-							<th colspan="5" class="border-left">전화번호</th>
-							<th colspan="2" class="border-left">팩스번호</th>
-							<th rowspan="2" class="border-left">담당자</th>
-							<th rowspan="2" class="border-left">담당자연락처</th>
-							<th rowspan="2" class="border-left">비고</th>
-							<th rowspan="2" class="border-left">VAT</th>
-							<th rowspan="2" class="border-left">해리</th>
+							<th class="">No.</th>
+							<th class="border-left">등록일</th>
+							<th class="border-left">거래처명</th>
+							<th class="border-left">사업자명</th>							
+							<th class="border-left">대표자연락처</th>
+							<th class="border-left">전화번호</th>
+							<th class="border-left">팩스번호</th>
+							<th class="border-left">담당자</th>
+							<th class="border-left">담당자연락처</th>
+							<th class="border-left">비고</th>
+							<th class="border-left">VAT</th>
+							<th class="border-left">해리</th>
   					</tr>
 					</thead>
 					<tbody id="list"></tbody>
@@ -62,7 +64,7 @@
 		 * 페이지 HTML 렌더링
 		 */
 		var codemap = {
-				<c:forEach var="code" items="${codelist}" varStatus="loop">
+				<c:forEach var="code" items="${cdmapper}" varStatus="loop">
 				  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
 				</c:forEach>
 		};
@@ -147,7 +149,7 @@
 			
 			getJson('/api/vender/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="15" class="text-center">등록된 고객이 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="12" class="text-center">등록된 거래처가 없습니다.</td>';
 					drawPages();
 					return false;
 				}
@@ -159,19 +161,19 @@
      			html += `
      				<tr>
 							<td class="text-center">` + (num--) + `</td>
-							<td class="text-center"><input type="checkbox" id="arr_vender_no" value="`+checkNullVal(obj.venderno)+`"/></td>
-							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.vendernm)]) +`</td>
+							<td class="text-center">` + checkSubstringNullVal(obj.inptdt,0,10) +`</td>
 							<td class="text-center bold">
 								<a href="javascript: void(0);" onclick="fncSelect('`+checkNullVal(obj.venderno)+`','`+checkNullVal(obj.vendernm)+`'); return false;">`+checkNullVal(obj.vendernm)+`</a>
 							</td>
-							<td class="text-center">` + checkNullVal(obj.vendernm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.businessnm)+`</td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
+							<td class="text-center">` + checkNullVal(obj.agentcel)+`</td>
+							<td class="text-center">` + checkNullVal(obj.vendercel1)+`</td>
+							<td class="text-center">` + checkNullVal(obj.venderfax)+`</td>
+							<td class="text-center">` + checkNullVal(obj.managernm)+`</td>
+							<td class="text-center">` + checkNullVal(obj.managercel)+`</td>
+							<td class="text-center">` + checkNullVal(obj.etc)+`</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.vatcd)])+`</td>
+							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.meltcd)])+`</td>
 						</tr>
      			`;
      		});
@@ -227,6 +229,16 @@
 				opener.document.getElementById("vender_nm_${param.openeridx}").value = vendernm;
 			}
 			self.close();
+		}
+
+		/**
+		 * 작성하기
+		 */
+		function fncPopupWrite() {
+		  var url = "/vender/popup/write";
+      var name = "venderWritePopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
 		}
 		
 		function fncCheckZero(obj){

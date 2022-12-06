@@ -59,7 +59,7 @@ public class VenderPageController {
 	//작업 겹치기 방지 줄---------------------------------------------------------------
 	@GetMapping("/popup/list")
 	public String listPopup(Model model) {
-		model.addAttribute("codelist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"MT","VT"}, 2));
 		return "vender/popup/venderList";
 	}
 }

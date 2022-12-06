@@ -21,11 +21,9 @@ public class AuthAspect {
 	private MenuService menuService;
 	
 	@Before(
-//		  "execution(* com.jewelry.*.*Controller.*(..)) && " + 
-//		  "!execution(* com.ineast.manager..*.UserController.*(..))"
 		"(" +
-		"execution(* com.jewelry.*.*Controller.*(..)) || " + 
-		"execution(* com.jewelry.cms.*.*Controller.*(..))" + 
+			"execution(* com.jewelry.*.*Controller.*(..)) || " + 
+			"execution(* com.jewelry.cms.*.*Controller.*(..))" + 
 		") && " + 
 		"!execution(* com.jewelry.*.UserController.*(..)) && " +
 		"!execution(* com.jewelry.*.FileController.*(..)) && " +

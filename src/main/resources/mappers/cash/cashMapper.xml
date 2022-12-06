@@ -210,7 +210,9 @@
 					FROM (
 						SELECT 2 AS stats_ord, reg_dt, store_cd, material_cd
 						FROM tb_cash a
-						WHERE a.del_yn = 'N'
+						WHERE a.material_cd = 'SM03'
+						AND a.weight_gram > 0
+						AND a.del_yn = 'N'
 						<include refid="cash-search" />
 						ORDER BY a.reg_dt DESC, a.cash_no DESC
 						<include refid="commonMapper.paging" />

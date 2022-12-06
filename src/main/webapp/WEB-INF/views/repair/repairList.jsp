@@ -150,7 +150,18 @@
      		    			<div class="row row-cols-1">
      		    				<div class="col">
      		    					<div class="m5 rounded">
-  		    							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="100%" style="height:200px;"/>
+   				`;
+     		  if(checkNullVal(obj.filepath) == ''){
+	     		  html += `
+							<img src="/img/no-image.png" width="100%" style="height:200px;"/>
+						`;
+     		  }
+     		  else {
+     			 	html += `
+							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="100%" style="height:200px;"/>
+						`;
+     		  }
+					html += `
      		    					</div>
      		    				</div>
      		    			</div>

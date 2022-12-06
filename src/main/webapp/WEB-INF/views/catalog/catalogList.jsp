@@ -31,7 +31,7 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light mlr5">단독등록</a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">단독등록</a>
 					</div>
 				</div>
 	    </form>
@@ -161,7 +161,18 @@
      		    			<div class="row row-cols-1">
      		    				<div class="col">
      		    					<div class="m5 rounded">
-  		    							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="100%" style="height:200px;"/>
+     		  `;
+     		  if(checkNullVal(obj.filepath) == ''){
+	     		  html += `
+							<img src="/img/no-image.png" width="100%" style="height:200px;"/>
+						`;
+     		  }
+     		  else {
+     			 	html += `
+							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="100%" style="height:200px;"/>
+						`;
+     		  }
+					html += `
      		    					</div>
      		    				</div>
      		    			</div>
@@ -235,7 +246,7 @@
 		 * 작성하기
 		 */
 		function fncPopupWrite() {
-		  var url = "./popup/write";
+		  var url = "/catalog/popup/write";
       var name = "catalogWritePopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
@@ -245,7 +256,7 @@
 		 * 수정하기
 		 */
 		function fncPopupView(catalogno) {
-		  var url = "./popup/"+catalogno;
+		  var url = "/catalog/popup/"+catalogno;
       var name = "catalogViewPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
@@ -255,7 +266,7 @@
 		 * 수정하기
 		 */
 		function fncPopupModify(catalogno) {
-		  var url = "./popup/modify/"+catalogno;
+		  var url = "/catalog/popup/modify/"+catalogno;
       var name = "catalogModifyPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);

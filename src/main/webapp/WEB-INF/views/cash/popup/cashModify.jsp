@@ -125,7 +125,7 @@
 										<input type="text" name="vender_nm_arr" id="vender_nm_${idx}" class="form-control form-multi mtb5" maxlength="20"/>
 									</td>
 									<td class="text-center border-right">
-										<input type="text" name="history_desc_arr" id="history_desc_${idx}" class="form-control form-multi mtb5" maxlength="20"/>
+										<input type="text" name="history_desc_arr" id="history_desc_${idx}" class="form-control form-multi mtb5" maxlength="200"/>
 									</td>
 									<td class="text-center border-right">
 										<select name="material_cd_arr" id="material_cd_${idx}" class="form-control form-multi mtb5">

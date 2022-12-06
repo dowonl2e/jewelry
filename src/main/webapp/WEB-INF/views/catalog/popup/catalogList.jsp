@@ -12,7 +12,7 @@
 </head>
 <body>
 	<!-- DataTales Example -->
-	<div class="card shadow mb-4">
+	<div class="card shadow mt-4 mb-4">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-primary">카다로그 관리</h6>
 		</div>
@@ -29,6 +29,8 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
+		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">단독등록</a>
 					</div>
 				</div>
 	    </form>
@@ -91,8 +93,8 @@
 			
 	 		// 페이지 번호
 	 		for (let i = startpage ; i < endpage ; i++) {
-	 			const active = ((i) === (pagination.currentpage)) ? 'class="active"' : '';
-	            html += '<li><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
+	 			const active = ((i) === (pagination.currentpage-1)) ? 'class="active"' : '';
+	 			html += '<li '+active+'><a href="javascript:void(0)" onclick="findAll(\''+(i+1)+'\')">'+(i+1)+'</a></li>';
 	 		}
 	
 	 		// 다음 페이지, 마지막 페이지
@@ -117,7 +119,7 @@
 			const form = document.getElementById('searchForm');
 			
 			var params = {
-			  page: page
+			  currentpage: page
 			  , openeridx: '${param.openeridx}'
 				, searchvender: form.searchvender.value
 				, searchword: form.searchword.value
@@ -149,7 +151,18 @@
      		    			<div class="row row-cols-1">
      		    				<div class="col">
      		    					<div class="m5 rounded">
-  		    							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="100%" style="height:200px;"/>
+   				`;
+     		  if(checkNullVal(obj.filepath) == ''){
+ 	     		  html += `
+ 							<img src="/img/no-image.png" width="100%" style="height:200px;"/>
+ 						`;
+     		  }
+     		  else {
+     			 	html += `
+ 							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="100%" style="height:200px;"/>
+ 						`;
+     		  }
+ 					html += `
      		    					</div>
      		    				</div>
      		    			</div>
@@ -218,6 +231,17 @@
 				}
 			});
 		}
+
+		/**
+		 * 작성하기
+		 */
+		function fncPopupWrite() {
+		  var url = "/catalog/popup/write";
+      var name = "catalogWritePopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+	
 		
 		function fncSelect(catalogno, modelid){
 			opener.document.getElementById("catalog_no_${param.openeridx}").value = catalogno;
