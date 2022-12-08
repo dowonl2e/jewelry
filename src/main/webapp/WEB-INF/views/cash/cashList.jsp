@@ -284,21 +284,21 @@
      		html += `
      			<tr class="weight-500 important bg-lightyellow">
      				<td colspan="10" class="small weight-600 text-right">입고 리스트 합계</td>
-     				<td class="small weight-600 text-right">` + (recWeightGramSum == 0.0 ? '' : (recWeightGramSum+'')) + `</td>
+     				<td class="small weight-600 text-right">` + (recWeightGramSum == 0.0 ? '' : ((Math.round(recWeightGramSum*100)/100)+'')) + `</td>
      				<td class="small weight-600 text-center">` + (recQuantitySum == 0 ? '' : (recQuantitySum+'')) + `</td>
      				<td></td>
      				<td colspan="2" class="small weight-600 text-right">` + (recUnitPriceSum == 0 ? '' : (priceWithComma(recUnitPriceSum)+'')) + `</td>
      			</tr>
      			<tr class="blue">
 		 				<td colspan="10" class="small weight-600 text-right">출고 리스트 합계</td>
-     				<td class="small weight-600 text-right">` + (shipWeightGramSum == 0.0 ? '' : (shipWeightGramSum+'')) + `</td>
+     				<td class="small weight-600 text-right">` + (shipWeightGramSum == 0.0 ? '' : ((Math.round(shipWeightGramSum*100)/100)+'')) + `</td>
      				<td class="small weight-600 text-center">` + (shipQuantitySum == 0 ? '' : (shipQuantitySum+'')) + `</td>
      				<td></td>
      				<td colspan="2" class="small weight-600 text-right">` + (shipUnitPriceSum == 0 ? '' : (priceWithComma(shipUnitPriceSum)+'')) + `</td>
 		 			</tr>
 		 			<tr class="bg-lightyellow3">
      				<td colspan="10" class="small weight-600 text-right">입고-출고 리스트 합계</td>
-     				<td class="small weight-600 text-right">` + (totalWeightGramSum == 0.0 ? '' : (totalWeightGramSum+'')) + `</td>
+     				<td class="small weight-600 text-right">` + (totalWeightGramSum == 0.0 ? '' : ((Math.round(totalWeightGramSum*100)/100)+'')) + `</td>
      				<td class="small weight-600 text-center">` + (totalQuantitySum == 0 ? '' : (totalQuantitySum+'')) + `</td>
      				<td></td>
      				<td colspan="2" class="small weight-600 text-right">` + (totalUnitPriceSum == 0 ? '' : (priceWithComma(totalUnitPriceSum)+'')) + `</td>

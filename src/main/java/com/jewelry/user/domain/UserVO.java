@@ -2,7 +2,9 @@ package com.jewelry.user.domain;
 
 import java.util.List;
 
-public class UserVO {
+import com.jewelry.common.domain.CommonVO;
+
+public class UserVO extends CommonVO {
 
 	private List<UserVO> list;
 	
@@ -11,6 +13,7 @@ public class UserVO {
 	private String username;
 	private String email;
 	private String celnum;
+	private String gender;
 	private String useyn;
 	private String inptid;
 	private String inptdt;
@@ -82,5 +85,11 @@ public class UserVO {
 	}
 	public void setUpdtdt(String updtdt) {
 		this.updtdt = updtdt;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }

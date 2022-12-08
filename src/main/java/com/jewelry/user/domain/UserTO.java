@@ -1,6 +1,8 @@
 package com.jewelry.user.domain;
 
-public class UserTO {
+import com.jewelry.common.domain.CommonTO;
+
+public class UserTO extends CommonTO {
 
 	private String user_id;
 	private String user_pwd;
@@ -8,6 +10,7 @@ public class UserTO {
 	private String user_role;
 	private String email;
 	private String celnum;
+	private String gender;
 	private String use_yn;
 	private String inpt_id;
 	private String inpt_dt;
@@ -79,5 +82,11 @@ public class UserTO {
 	}
 	public void setUpdt_dt(String updt_dt) {
 		this.updt_dt = updt_dt;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }

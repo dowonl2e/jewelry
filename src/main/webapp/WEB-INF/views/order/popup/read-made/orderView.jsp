@@ -141,7 +141,11 @@
 			   			}
 			   		}
 		   		}
-		   		document.getElementById('order_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		if(filenm == '')
+		   			document.getElementById('order_img').src = '/img/no-image.png';
+		   		else
+		   			document.getElementById('order_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		
 		   		document.getElementById('store_cd_td').innerHTML = checkNullVal(cdmapper[json.storecd]);
 		   		document.getElementById('receipt_dt_td').innerHTML = checkSubstringNullVal(json.receiptdt,0,10);
 		   		document.getElementById('expected_ord_dt_td').innerHTML = checkSubstringNullVal(json.expectedorddt,0,10);

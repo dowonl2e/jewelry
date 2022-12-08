@@ -172,7 +172,11 @@
 			   			}
 			   		}
 		   		}
-		   		document.getElementById('stock_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		if(filenm == '')
+		   			document.getElementById('stock_img').src = '/img/no-image.png';
+		   		else
+		   			document.getElementById('stock_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		
 		   		document.getElementById('reg_dt_td').innerHTML = checkSubstringNullVal(json.regdt,0,10);
 		   		document.getElementById('store_cd_td').innerHTML = checkNullVal(cdmapper[json.storecd]);
 		   		document.getElementById('stock_type_cd_td').innerHTML = checkNullVal(cdmapper[json.stocktypecd]);

@@ -20,7 +20,7 @@
 				<div class="row text-center">
 					<div class="col bg-light">
 						<label for="file" id="file-label" class="custom-file custom-file-label mt5">파일 첨부하기</label>
-						<input type="file" name="file" id="file" class="custom-file-input" onchange="readURL(this);" style="display:none;"/>
+						<input type="file" name="file" id="file" class="custom-file-input" style="display:none;"/>
 					</div>
 				</div>
 				<div class="row text-center">
@@ -91,8 +91,27 @@
 	
 	<script>
 		/*<![CDATA[*/
-				
-			function readURL(obj) {
+			
+			$(document).ready(function(){
+				const inputElement = document.getElementById("file");
+				inputElement.addEventListener("change", readURL, false);
+			});
+			
+			function readURL() {
+			  if (this.files && this.files[0]) {
+			    var reader = new FileReader();
+			    reader.onload = function(e) {
+			      document.getElementById('preview').src = e.target.result;
+			    };
+			    reader.readAsDataURL(this.files[0]);
+			    document.getElementById('file-label').innerHTML = this.files[0].name;
+			  } else {
+			    document.getElementById('preview').src = "";
+			    document.getElementById('file-label').innerHTML = '파일 첨부하기';
+			  }
+			}
+		
+			/* function readURL(obj) {
 			  if (obj.files && obj.files[0]) {
 			    var reader = new FileReader();
 			    reader.onload = function(e) {
@@ -104,7 +123,7 @@
 			    document.getElementById('preview').src = "";
 			    document.getElementById('file-label').innerHTML = '파일 첨부하기';
 			  }
-			}
+			} */
 
 			function fncSave(){
 				/* if( !isValid() ){

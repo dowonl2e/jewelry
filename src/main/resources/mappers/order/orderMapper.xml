@@ -24,6 +24,7 @@
 			AND (
 				a.model_id LIKE CONCAT('%', #{searchword}, '%')
 				OR b.contractor_nm LIKE CONCAT('%', #{searchword}, '%')
+				OR a.vender_nm LIKE CONCAT('%', #{searchword}, '%')
 			)
 		</if>
 	</sql>

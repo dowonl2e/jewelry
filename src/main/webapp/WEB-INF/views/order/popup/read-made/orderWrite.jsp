@@ -25,8 +25,8 @@
 						<tbody>
 							<tr>
 								<td rowspan="2" class="text-center border-right">
-									<label for="file" id="file-label"><img src="/img/no-image.png" id="preview" width="200px" height="150px"/></label>
-									<input type="file" name="file" id="file" class="custom-file-input" onchange="readURL(this);" style="display:none;"/>
+									<label for="file"><img src="/img/no-image.png" id="preview" width="200px" height="150px"/></label>
+									<input type="file" name="file" id="file" class="custom-file-input" style="display:none;"/>
 								</td>
 								<td class="bg-light border-right text-center">매장<span class="important"> *</span></td>
 								<td class="bg-light border-right text-center">접수일<span class="important"> *</span></td>
@@ -158,10 +158,25 @@
 	<script>
 		/*<![CDATA[*/
 			$(document).ready(function(){
-				
+				const inputElement = document.getElementById("file");
+				inputElement.addEventListener("change", readURL, false);
 			});
 				
-			function readURL(obj) {
+			function readURL() {
+			  if (this.files && this.files[0]) {
+			    var reader = new FileReader();
+			    reader.onload = function(e) {
+			      document.getElementById('preview').src = e.target.result;
+			    };
+			    reader.readAsDataURL(this.files[0]);
+			    document.getElementById('file-label').innerHTML = this.files[0].name;
+			  } else {
+			    document.getElementById('preview').src = "";
+			    document.getElementById('file-label').innerHTML = '파일 첨부하기';
+			  }
+			}
+		
+			/* function readURL(obj) {
 			  if (obj.files && obj.files[0]) {
 			    var reader = new FileReader();
 			    reader.onload = function(e) {
@@ -171,7 +186,7 @@
 			  } else {
 			    document.getElementById('preview').src = "";
 			  }
-			}
+			} */
 
 			function fncSave(){
 				/* if( !isValid() ){

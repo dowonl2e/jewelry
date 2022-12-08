@@ -102,7 +102,12 @@
 			   			}
 			   		}
 		   		}
-		   		document.getElementById('repair_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+
+		   		if(filenm == '')
+		   			document.getElementById('repair_img').src = '/img/no-image.png';
+		   		else
+		   			document.getElementById('repair_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+
 		   		document.getElementById('customer_no_td').innerHTML = checkNullVal(json.customerno);
 		   		document.getElementById('customer_nm_td').innerHTML = checkNullVal(json.customernm);
 		   		document.getElementById('customer_cel_td').innerHTML = checkNullVal(json.customercel);

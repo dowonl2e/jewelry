@@ -164,7 +164,10 @@
 			   			}
 			   		}
 		   		}
-		   		document.getElementById('catalog_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
+		   		if(filenm == '')
+		   			document.getElementById('catalog_img').src = '/img/no-image.png';
+		   		else
+		   			document.getElementById('catalog_img').src = '/file/image/display?filePath='+filepath+'&fileName='+filenm;
 		   		document.getElementById('vender_div').innerHTML = checkNullVal(json.vendernm);
 		   		document.getElementById('model_id_div').innerHTML = checkNullVal(json.modelid);
 		   		document.getElementById('model_nm_div').innerHTML = checkNullVal(json.modelnm);

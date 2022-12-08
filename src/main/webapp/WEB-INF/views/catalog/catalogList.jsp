@@ -40,7 +40,7 @@
 			</div>
 			
 			<div class="btn_wrap text-left mt-3">
-        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">가성주문</span></a>
+        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">기성주문</span></a>
         <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
         <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
         <a href="javascript: void(0);" onclick="fncRemove(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
@@ -181,14 +181,25 @@
      		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline form-check" value="`+obj.catalogno+`"/>
      		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
  		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
- 		    								` + checkNullVal(obj.modelid) + `(`+checkNullVal(obj.modelnm)+`)
+ 		    								` + checkNullVal(obj.modelid) + `
+					`;
+					if(checkNullVal(obj.modelnm) != ''){
+						html += `(` + checkNullVal(obj.modelnm) + `)`;
+					}
+					html += `
  		    								</a>
      		    					</label>
      		    				</div>
      		    			</div>
      		    			<div class="row mlr1 mtb5">
      		    				<div class="col text-left small">거래처</div>
-     		    				<div class="col text-right small">`+ checkNullValR(codemap[obj.stddmaterialcd], '&nbsp;') +`(`+checkNullValR(obj.stddweight, '&nbsp;')+`)</div>
+     		    				<div class="col text-right small">`+ checkNullValR(codemap[obj.stddmaterialcd], '&nbsp;') + `
+   				`;
+  				if(checkNullVal(obj.stddweight) != ''){
+  					html += `(` + checkNullValR(obj.modelnm, '&nbsp;') + `)`;
+  				}
+  				html += `
+     		    				</div>
      		    			</div>
      		    			<div class="row mlr1 mtb5">
      		    				<div class="col text-left small">`+ checkNullValR(obj.stddsize, '&nbsp;')+`</div>

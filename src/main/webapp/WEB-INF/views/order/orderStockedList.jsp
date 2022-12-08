@@ -38,7 +38,7 @@
 						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
 						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="고객명/모델번호 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="고객명/모델번호/제조사 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
@@ -219,7 +219,7 @@
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
 							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `<br/>` + checkNullVal(obj.substonetype) + `</td>
 							<td class="text-center">` + checkNullVal(obj.size) + `</td>
-							<td class="text-center">` + checkNullVal(obj.orderdesc) + `</td>
+							<td class="text-left">` + checkNullVal(obj.orderdesc) + `</td>
 							<td class="text-center">` + checkNullVal(obj.vendernm) + `<br/>` + checkNullVal(obj.venderno) + `</td>
 							<td class="text-center">` + checkNullVal(obj.orderstep) + `</td>
 	   				</tr>
