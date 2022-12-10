@@ -13,9 +13,6 @@
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">판매관리</h6>
-		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
 				<div class="mb20" id="adv-search">
@@ -256,7 +253,7 @@
 					totalRecPayPrice = Number(obj.saleprice) + Number(obj.cardprice) + Number(obj.cashprice);
 					totalRecPayPrice += Number(obj.maintprice) + Number(obj.pntprice) + Number(obj.etcprice);
 					html += `
-							<td class="text-center">` + (totalRecPayPrice == 0 ? '' : priceWithComma(totalRecPayPrice))+ `</td>
+							<td class="text-center">` + priceWithComma(totalRecPayPrice)+ `</td>
 							<td class="text-center">` + priceWithComma(obj.accupnt) + `</td>
 						</tr>
 					`;

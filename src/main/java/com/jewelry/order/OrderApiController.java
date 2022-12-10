@@ -113,19 +113,10 @@ public class OrderApiController {
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());
 	}
-	
 
-	@PatchMapping("/stock/write")
-	public ResponseEntity<Object> stockWrite(final OrderTO to){
-		String userid = ((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername();
-		to.setInpt_id(userid);
-		to.setUpdt_id(userid);
-		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
-		String result = orderService.insertOrdersToStock(to);
-
-		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
-		return new ResponseEntity<>(response.getStatus());
+	@PostMapping("/list/nos")
+	public Map<String, Object> listByOrdersNo(final OrderTO to){
+		return orderService.findAllOrdersNo(to);
 	}
-	
 
 }

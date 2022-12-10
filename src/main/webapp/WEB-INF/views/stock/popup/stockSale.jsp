@@ -30,17 +30,12 @@
 								<th colspan="7" class="bg-light text-center">구매 고객</th>
 							</tr>
 							<tr>
-								<td class="bg-light border-right text-center">고객명<span class="important"> *</span></td>
-								<td colspan="3">
+								<td colspan="7">
 									<div class="input-group-append">
 										<input type="hidden" name="customer_no" id="customer_no" class="form-control form-data mtb5"/>
 										<input type="text" name="customer_nm" id="customer_nm" class="form-control form-data mtb5" readonly="readonly"/>
 										<i class="fas fa-search fa-sm ml5 mt15" onclick="fncCustomerListPop(); return false;"></i>
 									</div>
-								</td>
-								<td class="bg-light border-right text-center">연락처<span class="important"> *</span></td>
-								<td colspan="3">
-									<input type="text" name="customer_cel" id="customer_cel" class="form-control form-data mtb5" readonly="readonly"/>
 								</td>
 							</tr>
 							<tr>
@@ -127,9 +122,17 @@
 			});
 		
 			function fncSave(){
+
+			  if($("#customer_no").val() == ''){
+				  alert('고객을 선택해주세요.');
+				  $("#customer_no").focus();
+				  return false;
+			  }
+				
 			  if($("#sale_price").val() == ''){
 				  alert('매출금액을 입력해주세요.');
 				  $("#sale_price").focus();
+				  return false;
 			  }
 			  
 				if(confirm('판매하시겠습니까?')){

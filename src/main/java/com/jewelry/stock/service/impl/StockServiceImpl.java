@@ -72,8 +72,9 @@ public class StockServiceImpl implements StockService {
 	@Transactional
 	@Override
 	public String insertStock(StockTO to) {
-		String result = "success";
+		String result = "fail";
 		try {
+			int rescnt = 0;
 			Long[] catalog_no_arr = to.getCatalog_no_arr();
 			Integer[] quantity_arr = to.getQuantity_arr();
 			if(catalog_no_arr != null && catalog_no_arr.length > 0 && quantity_arr != null && quantity_arr.length > 0) {
@@ -128,10 +129,12 @@ public class StockServiceImpl implements StockService {
 									fileMapper.insertFile(fileto);
 								}
 							}
+							rescnt += res;
 						}
 					}
 				}
 			}
+			result = rescnt > 0 ? "success" : "fail";
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -465,6 +468,86 @@ public class StockServiceImpl implements StockService {
 			result = "fail";
 		}
 
+		return result;
+	}
+
+	@Transactional
+	@Override
+	public String insertOrdersToStock(StockTO to, OrderTO orderto) {
+		String result = "fail";
+		try {
+			int rescnt = 0;
+			Long[] catalog_no_arr = to.getCatalog_no_arr();
+			Integer[] quantity_arr = to.getQuantity_arr();
+			if(catalog_no_arr != null && catalog_no_arr.length > 0 && quantity_arr != null && quantity_arr.length > 0) {
+				FileTO fileto = amazonS3Service.upload(to.getStockfile(), "stock", "STOCK");
+				
+				
+				String[] model_id_arr = to.getModel_id_arr();
+				Long[] vender_no_arr = to.getVender_no_arr();
+				String[] vender_nm_arr = to.getVender_nm_arr();
+				String[] mateial_cd_arr = to.getMaterial_cd_arr();
+				String[] color_cd_arr = to.getColor_cd_arr();
+				String[] main_stone_type_arr = to.getMain_stone_type_arr();
+				String[] sub_stone_type_arr = to.getSub_stone_type_arr();
+				String[] size_arr = to.getSize_arr();
+				String[] stock_desc_arr = to.getStock_desc_arr();
+
+				Double[] per_weight_gram_arr = to.getPer_weight_gram_arr();
+				Integer[] per_price_basic_arr = to.getPer_price_basic_arr();
+				Integer[] per_price_add_arr = to.getPer_price_add_arr();
+				Integer[] per_price_main_arr = to.getPer_price_main_arr();
+				Integer[] per_price_sub_arr = to.getPer_price_sub_arr();
+				Integer[] multiple_cnt_arr = to.getMultiple_cnt_arr();
+
+				to.setStock_type_cd("OC03");
+				for(int i = 0 ; i < catalog_no_arr.length ; i++) {
+					Long catalogno = catalog_no_arr[i];
+					if(catalogno != null && catalogno > 0) {
+
+						to.setCatalog_no(catalogno);
+						to.setModel_id(model_id_arr[i]);
+						to.setVender_no(vender_no_arr[i]);
+						to.setVender_nm(vender_nm_arr[i]);
+						to.setMaterial_cd(mateial_cd_arr[i]);
+						to.setColor_cd(color_cd_arr[i]);
+						to.setMain_stone_type(main_stone_type_arr[i]);
+						to.setSub_stone_type(sub_stone_type_arr[i]);
+						to.setSize(size_arr[i]);
+						to.setStock_desc(stock_desc_arr[i]);
+						to.setQuantity(1);
+						to.setPer_weight_gram(per_weight_gram_arr[i]);
+						to.setPer_price_basic(per_price_basic_arr[i]);
+						to.setPer_price_add(per_price_add_arr[i]);
+						to.setPer_price_main(per_price_main_arr[i]);
+						to.setPer_price_sub(per_price_sub_arr[i]);
+						to.setMultiple_cnt(multiple_cnt_arr[i]);
+						
+						int quantity = quantity_arr[i];
+						for(int j = 0 ; j < quantity ; j++){
+							int res = stockMapper.insertStock(to);
+							if(res > 0) {
+								if(!ObjectUtils.isEmpty(fileto.getOrigin_nm())) {
+									fileto.setInpt_id(to.getInpt_id());
+									fileto.setRef_no(to.getStock_no());
+									fileMapper.insertFile(fileto);
+								}
+							}
+							rescnt += res;
+						}
+					}
+				}
+
+				orderto.setOrder_step("C");
+				orderMapper.updateOrdersStatus(orderto);
+			}
+			result = rescnt > 0 ? "success" : "fail";
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
 		return result;
 	}
 }

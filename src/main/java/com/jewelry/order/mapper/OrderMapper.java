@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.jewelry.main.domain.MainTO;
 import com.jewelry.order.domain.OrderTO;
 import com.jewelry.order.domain.OrderVO;
 
@@ -31,5 +32,15 @@ public interface OrderMapper {
 	int updateOrderToDelete(OrderTO to) throws Exception;
 	
 	List<OrderVO> selectOrderListWithNo(OrderTO to);
+
+	List<OrderVO> selectOrderListByOrdersNo(OrderTO to);
+	
+	
+	/**
+	 * 메인화면 - 재질별 주문 수
+	 * @param to
+	 * @return
+	 */
+	List<OrderVO> selectNumOfOrdersPerMaterial(MainTO to);
 
 }

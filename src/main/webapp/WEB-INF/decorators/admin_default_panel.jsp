@@ -48,11 +48,17 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
+						
+						
+						
             <!-- Nav Item - Dashboard -->
             <c:set var="uri" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
             <c:set var="uri" value="${fn:substring(uri,1,fn:length(uri))}"/>
+						<c:set var="menunm" value=""/>
             <c:forEach var="menu" items="${menus}">
+            	<c:if test="${fn:startsWith(uri,menu.menuid)}">
+            		<c:set var="menunm" value="${menu.menunm}"/>
+            	</c:if>
             	<li class="nav-item ${fn:startsWith(uri, menu.menuid) ? 'active' : ''}">
                 <a class="nav-link collapsed" href="${empty menu.menulink ? '#none' : menu.menulink}"
 	                <c:if test="${menu.childcnt gt 0}">
@@ -67,6 +73,9 @@
 	                  <div class="bg-white py-2 collapse-inner rounded">
               				<c:forEach var="submenu" items="${submenus}">
               					<c:if test ="${submenu.upmenuid eq menu.menuid}">
+              						<c:if test="${fn:startsWith(uri,submenu.menuid)}">
+						            		<c:set var="menunm" value="${submenu.menunm}"/>
+						            	</c:if>
 	                    		<a class="collapse-item ${fn:startsWith(uri, submenu.menuid) ? 'active' : ''}" href="${submenu.menulink}">${submenu.menunm}</a>
 	                    	</c:if>
              					</c:forEach>
@@ -198,11 +207,11 @@
             
 	            <!-- Topbar -->
             	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-			       <!-- Sidebar Toggle (Topbar) -->
-			       <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-			           <i class="fa fa-bars"></i>
-			       </button>
+								<h6 class="m-0 font-weight-bold text-primary">${empty menunm ? 'Dashboard' : menunm}</h6>
+								<!-- Sidebar Toggle (Topbar) -->
+								<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+								    <i class="fa fa-bars"></i>
+								</button>
 			
 			       <!-- Topbar Search -->
 			       <%--

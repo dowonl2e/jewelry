@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jewelry.exception.ErrorCode;
+import com.jewelry.order.domain.OrderTO;
 import com.jewelry.stock.domain.StockTO;
 import com.jewelry.stock.domain.StockVO;
 import com.jewelry.stock.service.StockService;
@@ -122,6 +123,20 @@ public class StockApiController {
 	public ResponseEntity<Object> venderModify(final StockTO to){
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
 		String result = stockService.updateStocksVender(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+
+	@PatchMapping("/orders/stock/write")
+	public ResponseEntity<Object> ordersStockWrite(final StockTO to, final OrderTO orderto,
+			@RequestPart(value = "file", required = false) MultipartFile file){
+		String userid = ((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername();
+		to.setInpt_id(userid);
+		to.setUpdt_id(userid);
+		to.setStockfile(file);
+		orderto.setUpdt_id(userid);
+		String result = stockService.insertOrdersToStock(to, orderto);
 
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());

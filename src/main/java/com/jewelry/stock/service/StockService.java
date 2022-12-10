@@ -3,6 +3,7 @@ package com.jewelry.stock.service;
 import java.util.List;
 import java.util.Map;
 
+import com.jewelry.order.domain.OrderTO;
 import com.jewelry.stock.domain.StockTO;
 import com.jewelry.stock.domain.StockVO;
 
@@ -33,4 +34,7 @@ public interface StockService {
 	Map<String, Object> findAllAccumulationStock(StockTO to);
 
 	String insertCustomerOrder(StockTO to);
+	
+	String insertOrdersToStock(StockTO to, OrderTO orderto);
+
 }

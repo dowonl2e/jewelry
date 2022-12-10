@@ -5,13 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사용자 등록</title>
+<title>사용자 수정</title>
 </head>
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mt-4 mb-4">
 		<div class="card-header py-3 text-center">
-			<h6 class="m-0 font-weight-bold text-primary">사용자 등록</h6>
+			<h6 class="m-0 font-weight-bold text-primary">사용자 수정</h6>
 		</div>
 		<div class="card-body">
 			<form id="form" class="form-horizontal m10">

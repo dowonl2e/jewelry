@@ -66,23 +66,15 @@
 							, (IFNULL(yesterday_price,0)-IFNULL(yesterday_price2,0)) AS yesterday_price
 							, (IFNULL(today_price,0)-IFNULL(today_price2,0)) AS today_price
 			FROM (
-			
-			
 				SELECT sa.stats_ord, sa.store_cd, sa.bankbook_cd AS stats_cd
 								, (
-										SELECT SUM(unit_price) 
-										FROM (
-											SELECT a.unit_price
-											FROM tb_cash a
-											WHERE cash_type_cd = 'RS01' 
-											AND store_cd = sa.store_cd 
-											AND bankbook_cd = sa.bankbook_cd 
-											AND reg_dt = #{yesterday}
-											AND del_yn = 'N'
-											<include refid="cash-search" />
-											ORDER BY a.reg_dt DESC, a.cash_no DESC
-											<include refid="commonMapper.paging" />
-										) a
+										SELECT SUM(unit_price)
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS01' 
+										AND store_cd = sa.store_cd 
+										AND bankbook_cd = sa.bankbook_cd 
+										AND reg_dt = #{yesterday}
+										AND del_yn = 'N'
 									) AS yesterday_price
 								, (
 										SELECT SUM(unit_price)
@@ -101,18 +93,12 @@
 									) AS today_price
 								, (
 										SELECT SUM(unit_price)
-										FROM (
-											SELECT a.unit_price
-											FROM tb_cash a
-											WHERE cash_type_cd = 'RS02'
-											AND store_cd = sa.store_cd
-											AND bankbook_cd = sa.bankbook_cd
-											AND reg_dt = #{yesterday}
-											AND del_yn = 'N'
-											<include refid="cash-search" />
-											ORDER BY a.reg_dt DESC, a.cash_no DESC
-											<include refid="commonMapper.paging" />
-										) a
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS02'
+										AND store_cd = sa.store_cd
+										AND bankbook_cd = sa.bankbook_cd
+										AND reg_dt = #{yesterday}
+										AND del_yn = 'N'
 									) AS yesterday_price2
 								, (
 										SELECT SUM(unit_price)
@@ -147,18 +133,12 @@
 				SELECT sa.stats_ord, sa.store_cd, sa.material_cd AS stats_cd
 								, (
 										SELECT SUM(unit_price)
-										FROM ( 
-											SELECT a.unit_price
-											FROM tb_cash a
-											WHERE cash_type_cd = 'RS01'
-											AND store_cd = sa.store_cd
-											AND material_cd = sa.material_cd
-											AND reg_dt = #{yesterday}
-											AND del_yn = 'N'
-											<include refid="cash-search" />
-											ORDER BY a.reg_dt DESC, a.cash_no DESC
-											<include refid="commonMapper.paging" />
-										) a
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS01'
+										AND store_cd = sa.store_cd
+										AND material_cd = sa.material_cd
+										AND reg_dt = #{yesterday}
+										AND del_yn = 'N'
 									) AS yesterday_price
 								, (
 										SELECT SUM(unit_price)
@@ -177,18 +157,12 @@
 									) AS today_price
 								, (
 										SELECT SUM(unit_price)
-										FROM (
-											SELECT unit_price
-											FROM tb_cash a
-											WHERE cash_type_cd = 'RS02'
-											AND store_cd = sa.store_cd
-											AND material_cd = sa.material_cd
-											AND reg_dt = #{yesterday}
-											AND del_yn = 'N'
-											<include refid="cash-search" />
-											ORDER BY a.reg_dt DESC, a.cash_no DESC
-											<include refid="commonMapper.paging" />
-										) a
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS02'
+										AND store_cd = sa.store_cd
+										AND material_cd = sa.material_cd
+										AND reg_dt = #{yesterday}
+										AND del_yn = 'N'
 									) AS yesterday_price
 								, (
 										SELECT SUM(unit_price)

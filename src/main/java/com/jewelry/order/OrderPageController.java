@@ -112,4 +112,13 @@ public class OrderPageController {
 		return "order/popup/orderVenderModify";
 	}
 
+	@GetMapping("/popup/orders/stock/write")
+	public String stocksWritePopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
+		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		model.addAttribute("ordersno", ordersno);
+		return "order/popup/ordersStockWrite";
+	}
 }

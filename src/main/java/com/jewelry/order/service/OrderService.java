@@ -25,5 +25,11 @@ public interface OrderService {
 
 	String updateOrderToDelete(OrderTO to);
 	
-	String insertOrdersToStock(OrderTO to);
+	Map<String, Object> findAllOrdersNo(OrderTO to);
+	
+	/**
+	 * 2022-12-09 dwlee
+	 * 주문이력 재고등록 기능 수정으로 StockService로 이동
+	 */
+//	String insertOrdersToStock(OrderTO to);
 }

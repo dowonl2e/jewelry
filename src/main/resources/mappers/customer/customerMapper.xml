@@ -33,7 +33,7 @@
 		        , a.del_yn, a.reg_dt, a.inpt_dt
 		        
 		        , IFNULL(b.order_cnt, 0) AS order_cnt, IFNULL(b.reserve_cnt, 0) AS reserve_cnt, IFNULL(c.repair_cnt, 0) AS repair_cnt
-		        , IFNULL(b.order_cnt, 0) AS sales_cnt
+		        , IFNULL(b.order_cnt, 0) AS sales_cnt, IFNULL(e.sale_price, 0) AS sale_price
 		FROM tb_customer a
 			LEFT OUTER JOIN (
 				SELECT customer_no
@@ -58,6 +58,14 @@
 				GROUP BY customer_no
 			) d
 				ON a.customer_no = d.customer_no
+			LEFT OUTER JOIN (
+				SELECT customer_no, SUM(sale_price) AS sale_price
+				FROM tb_stock
+				WHERE sale_yn = 'Y'
+				AND del_yn = 'N'
+				GROUP BY customer_no
+			) e
+				ON a.customer_no = e.customer_no
 		WHERE a.del_yn = 'N'
 		<include refid="customer-search" />
 		ORDER BY a.reg_dt DESC

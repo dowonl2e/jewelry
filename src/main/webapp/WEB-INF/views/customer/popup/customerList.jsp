@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객관리</title>
+<title>고객현황</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
@@ -13,8 +13,8 @@
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">고객관리</h6>
+		<div class="card-header py-3 text-center">
+			<h6 class="m-0 font-weight-bold text-primary">고객현황</h6>
 		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">

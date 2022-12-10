@@ -228,4 +228,29 @@
 		)
 	</select>
 	
+	<select id="selectOrderListByOrdersNo" parameterType="OrderTO" resultType="OrderVO">
+		SELECT a.order_no, a.catalog_no, a.model_id, a.vender_no, a.vender_nm, a.material_cd, a.color_cd
+						, a.main_stone_type, a.sub_stone_type, a.size, a.quantity
+						, a.order_desc
+		FROM tb_order a
+		WHERE a.order_no IN (
+			<foreach collection="order_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+		ORDER BY a.order_no DESC
+	</select>
+	
+	
+	<select id="selectNumOfOrdersPerMaterial" parameterType="MainTO" resultType="OrderVO">
+		SELECT material_cd, COUNT(order_no) AS order_cnt
+		FROM tb_order
+		WHERE del_yn = 'N'
+		<if test='searchyear != null and !searchyear.equals("")'>
+			AND YEAR(receipt_dt) = #{searchyear}
+		</if>
+		GROUP BY material_cd
+		ORDER BY material_cd ASC
+	</select>
+	
 </mapper>

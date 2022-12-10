@@ -36,6 +36,8 @@ public class SaleVO extends CommonVO {
 	private Integer etcprice;
 	private Integer accupnt;
 	
+	private Integer salemonth;
+	
 	public List<SaleVO> getList() {
 		return list;
 	}
@@ -203,6 +205,13 @@ public class SaleVO extends CommonVO {
 	}
 	public void setPerweightgram(Integer perweightgram) {
 		this.perweightgram = perweightgram;
-	}	
+	}
+	public Integer getSalemonth() {
+		return salemonth;
+	}
+	public void setSalemonth(Integer salemonth) {
+		this.salemonth = salemonth;
+	}
+	
 	
 }

@@ -41,6 +41,10 @@ public class OrderVO extends CommonVO {
 	private Long filesize;
 	private String versionid;
 	
+	private Integer ordermonth;
+	private Integer ordercnt;
+	
+	
 	private List<OrderCatalogVO> ordercataloglist;
 	
 	private List<FileVO> filelist;
@@ -307,6 +311,22 @@ public class OrderVO extends CommonVO {
 
 	public void setVersionid(String versionid) {
 		this.versionid = versionid;
+	}
+
+	public Integer getOrdermonth() {
+		return ordermonth;
+	}
+
+	public void setOrdermonth(Integer ordermonth) {
+		this.ordermonth = ordermonth;
+	}
+
+	public Integer getOrdercnt() {
+		return ordercnt;
+	}
+
+	public void setOrdercnt(Integer ordercnt) {
+		this.ordercnt = ordercnt;
 	}
 	
 }

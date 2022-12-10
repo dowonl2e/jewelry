@@ -13,9 +13,6 @@
 <body>
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">주문관리</h6>
-		</div>
 		<div class="card-body">
     	<form id="searchForm" onsubmit="return false;">
 				<div class="mb20" id="adv-search">
@@ -416,8 +413,26 @@
 		}
 
 		function fncOrderToStock(){
+			var ordersno = '';
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					if(ordersno != '')
+						ordersno += ',';
+					ordersno += $(this).val();
+				}
+			});
+			
+			if(ordersno == ''){
+				alert('주문내역을 선택해주세요.');
+				return false;
+			}
 
-			var orderscheckcnt = 0;
+			var url = "/order/popup/orders/stock/write?ordersno="+ordersno;
+      var name = "orderVenderModifyPopup";
+      var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		      
+			/* var orderscheckcnt = 0;
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
 					orderscheckcnt++;
@@ -449,7 +464,7 @@
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
 				});
-			}
+			} */
 		}
 
 		//새로고침

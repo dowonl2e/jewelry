@@ -87,6 +87,9 @@
 			<if test='per_price_main != null and per_price_main > 0'>, per_price_main</if>
 			<if test='per_price_sub != null and per_price_sub > 0'>, per_price_sub</if>
 			<if test='multiple_cnt != null and multiple_cnt > 0'>, multiple_cnt</if>
+			<if test='customer_no != null and customer_no > 0'>
+				, customer_no, customer_nm
+			</if>
 		)
 		VALUES
 		(
@@ -112,6 +115,9 @@
 			<if test='per_price_main != null and per_price_main > 0'>, #{per_price_main}</if>
 			<if test='per_price_sub != null and per_price_sub > 0'>, #{per_price_sub}</if>
 			<if test='multiple_cnt != null and multiple_cnt > 0'>, #{multiple_cnt}</if>
+			<if test='customer_no != null and customer_no > 0'>
+				, #{customer_no}, #{customer_nm}
+			</if>
 		)
 	</insert>
 	

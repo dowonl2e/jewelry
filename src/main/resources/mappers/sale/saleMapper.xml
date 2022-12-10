@@ -110,4 +110,15 @@
 		<include refid="commonMapper.paging" />
 	</select>
 
+	<select id="selectMonthlySalePriceStats" parameterType="MainTO" resultType="SaleVO">
+		SELECT MONTH(sale_dt) AS sale_month, SUM(sale_price) AS sale_price
+		FROM tb_stock
+		WHERE sale_yn = 'Y'
+		AND del_yn = 'N'
+		<if test='searchyear != null and !searchyear.equals("")'>
+			AND YEAR(sale_dt) = #{searchyear} 
+		</if>
+    GROUP BY MONTH(sale_dt)
+    ORDER BY MONTH(sale_dt) ASC
+	</select>
 </mapper>
