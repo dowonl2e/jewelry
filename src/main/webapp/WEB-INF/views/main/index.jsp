@@ -69,6 +69,7 @@
     </div>
 	</div>
 	
+	<%--
 	<!-- Content Row -->
 	<div class="row">
 	
@@ -115,7 +116,8 @@
       </div>
 		</div>
 	</div>
-	
+ 	--%>
+ 	
 	<!-- Page level plugins -->
   <script src="/vendor/chart.js/Chart.min.js"></script>
 
