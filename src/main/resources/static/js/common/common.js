@@ -70,3 +70,8 @@ function fncRefresh(){
 	$("#adv-search").find("select").val('');
 	findAll(0);
 }
+
+//부모창 새로고침
+function fncParentRefresh(){
+	window.opener.refresh();
+}
