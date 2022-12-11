@@ -85,7 +85,7 @@
 		
 		function drawPages(params) {
 	
-	 		if (!params) {
+			if (!params) {
 	 			document.querySelector('.pagination').innerHTML = '';
 	 			return false;
 	 		}
@@ -93,18 +93,17 @@
 	 		let html = '';
 	 		const pagination = params;
 
-			var startpage = parseInt(params.currentpage / pagination.pagesize) * pagination.pagesize;
-			var endpage = startpage + pagination.pagesize - 1;
-			endpage  = ( endpage > pagination.totalpage ? pagination.totalpage : endpage);
-
+			var startpage = pagination.startpage;
+			var endpage = pagination.endpage;
+			
 			// 첫 페이지, 이전 페이지
 	 		if (pagination.hasprevpage) {
 	 			html += `
 	 				<li><a href="javascript:void(0)" onclick="findAll(0);" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-	 				<li><a href="javascript:void(0)" onclick="findAll("+(params.startpage - 1)+");" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a></li>
+	 				<li><a href="javascript:void(0)" onclick="findAll(`+(startpage)+`);" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a></li>
 	 			`;
 	 		}
-
+			
 	 		// 페이지 번호
 	 		for (let i = startpage ; i < endpage ; i++) {
 	 			const active = ((i) === (pagination.currentpage-1)) ? 'class="active"' : '';
@@ -114,8 +113,8 @@
 	 		// 다음 페이지, 마지막 페이지
 	 		if (pagination.hasnextpage) {
 	 			html += `
-	 				<li><a href="javascript:void(0)" onclick="findAll("+(params.endpage - 1)+");" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a></li>
-	 				<li><a href="javascript:void(0)" onclick="findAll("+(params.totalpage)+");" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+	 				<li><a href="javascript:void(0)" onclick="findAll(`+(endpage+1)+`);" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a></li>
+	 				<li><a href="javascript:void(0)" onclick="findAll(`+(pagination.totalpage)+`);" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 	 			`;
 	 		}
 	

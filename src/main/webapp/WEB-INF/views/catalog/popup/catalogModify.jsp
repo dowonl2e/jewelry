@@ -104,16 +104,16 @@
 				</div>
 				<div class="row row-cols-4 border-bottom text-center">
 					<div class="col border-right">
-						<input type="text" name="basic_idst" id="basic_idst" class="form-control form-data mtb5" maxlength="50"/>
+						<input type="number" name="basic_idst" id="basic_idst" class="form-control form-data mtb5"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="main_price" id="main_price" class="form-control form-data mtb5" maxlength="10"/>
+						<input type="number" name="main_price" id="main_price" class="form-control form-data mtb5"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="sub_price" id="sub_price" class="form-control form-data mtb5" maxlength="10"/>
+						<input type="number" name="sub_price" id="sub_price" class="form-control form-data mtb5"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" maxlength="10"/>
+						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" readonly="readonly"/>
 					</div>
 				</div>
 				<div class="table-responsive clearfix mt-3">
@@ -162,6 +162,14 @@
 			$(document).ready(function(){
 				const inputElement = document.getElementById("file");
 				inputElement.addEventListener("change", readURL, false);
+				
+				$('#basic_idst, #main_price, #sub_price').on('change keyup', function() {
+					basicIdstVal = Number(checkNullValR($("#basic_idst").val(),'0'));
+					mainPriceVal = Number(checkNullValR($("#main_price").val(),'0'));
+					subPriceVal = Number(checkNullValR($("#sub_price").val(),'0'));
+					totalPurchasePrice = basicIdstVal + mainPriceVal + subPriceVal;
+					$("#total_price").val(totalPurchasePrice);
+				});
 				
 				find();
 			});
@@ -212,7 +220,10 @@
 		   		form.basic_idst.value = checkNullVal(json.basicidst);
 		   		form.main_price.value = checkNullVal(json.mainprice);
 		   		form.sub_price.value = checkNullVal(json.subprice);
-		   		form.total_price.value = checkNullVal(json.totalprice);
+		   		totalPriceVal = Number(checkNullValR(json.basicidst,'0'));
+		   		totalPriceVal += Number(checkNullValR(json.mainprice,'0'));
+		   		totalPriceVal += Number(checkNullValR(json.subprice,'0'));
+		   		form.total_price.value = checkNullVal(totalPriceVal);
 		   		
 		   		var stonelist = json.stonelist;
 		   		var html = ``;
@@ -348,8 +359,8 @@
 		   		
 		   	}).catch(error => {
 		    	alert('카다로그 정보를 찾을 수 없습니다.');
-		    	/* fncParentRefresh();
-		    	fncClose(); */
+		    	fncParentRefresh();
+		    	fncClose();
 		   	});
 			}
 				
@@ -419,7 +430,7 @@
 						throw new Error('Request Failed...');
 					}
 					alert('수정되었습니다.');
-					window.opener.findAll();
+					fncParentRefresh();
 					fncClose();
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
@@ -477,10 +488,6 @@
 	      var name = "venderListPopup";
 	      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
 	      window.open(url, name, option);
-			}
-			
-			function fncParentRefresh(){
-				window.opener.findAll();
 			}
 			
 			function fncInitNo(id){

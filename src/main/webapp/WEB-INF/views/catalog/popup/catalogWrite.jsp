@@ -104,16 +104,16 @@
 				</div>
 				<div class="row row-cols-4 border-bottom text-center">
 					<div class="col border-right">
-						<input type="text" name="basic_idst" id="basic_idst" class="form-control form-data mtb5" maxlength="50"/>
+						<input type="number" name="basic_idst" id="basic_idst" class="form-control form-data mtb5"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="main_price" id="main_price" class="form-control form-data mtb5" maxlength="10"/>
+						<input type="number" name="main_price" id="main_price" class="form-control form-data mtb5"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="sub_price" id="sub_price" class="form-control form-data mtb5" maxlength="10"/>
+						<input type="number" name="sub_price" id="sub_price" class="form-control form-data mtb5"/>
 					</div>
 					<div class="col border-right">
-						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" maxlength="10"/>
+						<input type="text" name="total_price" id="total_price" class="form-control form-data mtb5" readonly="readonly"/>
 					</div>
 				</div>
 				<div class="table-responsive clearfix mt-3">
@@ -194,6 +194,14 @@
 			$(document).ready(function(){
 				const inputElement = document.getElementById("file");
 				inputElement.addEventListener("change", readURL, false);
+				
+				$('#basic_idst, #main_price, #sub_price').on('change keyup', function() {
+					basicIdstVal = Number(checkNullValR($("#basic_idst").val(),'0'));
+					mainPriceVal = Number(checkNullValR($("#main_price").val(),'0'));
+					subPriceVal = Number(checkNullValR($("#sub_price").val(),'0'));
+					totalPurchasePrice = basicIdstVal + mainPriceVal + subPriceVal;
+					$("#total_price").val(totalPurchasePrice);
+				});
 				
 				$('.beadcnt').on('change keyup', function() {
 					

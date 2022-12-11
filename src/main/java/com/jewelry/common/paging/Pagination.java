@@ -34,17 +34,22 @@ public class Pagination {
 
 	/** 다음 페이지 존재 여부 */
 	private boolean hasnextpage;
-
+	
+	private int startpage;
+	private int endpage;
+	
 	public Pagination() {
 		this.currentpage = 1;
 		this.recordcount = 20;
 		this.pagesize = 10;
 	}
 	
-	public int getStartPage() {
-		return (currentpage - 1) * recordcount;
+	public int getStartpage() {
+		return this.startpage;
 	}
-	
+	public int getEndpage() {
+		return this.endpage;
+	}
 	public int getCurrentpage() {
 		return currentpage;
 	}
@@ -141,6 +146,8 @@ public class Pagination {
 			this.currentpage = totalpage;
 		}
 
+//		pagesize = (int) Math.ceil(totalcount / (double) recordcount);
+//		System.out.println("개수 : " + totalcount + ", " + recordcount + ", " + pagesize + ", " + totalpage);
 		/* 페이지 리스트의 첫 페이지 번호 */
 		firstpage = ((currentpage - 1) / pagesize) * pagesize + 1;
 
@@ -149,6 +156,13 @@ public class Pagination {
 		if (lastpage > totalpage) {
 			lastpage = totalpage;
 		}
+		
+		//시작 페이지 인덱스
+		this.startpage = (int)(currentpage%pagesize == 0 ? currentpage-1 : currentpage)/pagesize * pagesize;
+		
+		//종료 페이지 인덱스
+		this.endpage = startpage + pagesize;
+		this.endpage = endpage > totalpage ? totalpage : endpage;
 
 		/* SQL의 조건절에 사용되는 첫 RNUM */
 		firstrecordindex = (currentpage - 1) * recordcount;

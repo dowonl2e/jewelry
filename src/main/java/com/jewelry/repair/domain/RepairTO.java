@@ -21,6 +21,10 @@ public class RepairTO extends CommonTO {
 	private MultipartFile repairfile;
 	
 	private Long[] repair_no_arr;
+	
+	public RepairTO() {
+		setRecordcount(16);
+	}
 
 	public Long getRepair_no() {
 		return repair_no;

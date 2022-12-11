@@ -177,10 +177,13 @@
 		   		document.getElementById('stdd_size_div').innerHTML = checkNullVal(json.stddsize);
 		   		document.getElementById('odr_notice_div').innerHTML = checkNullVal(json.odrnotice);
 		   		document.getElementById('reg_dt_div').innerHTML = checkSubstringNullVal(json.regdt,0,10);
-		   		document.getElementById('basic_idst_div').innerHTML = checkNullVal(json.basicidst);
-		   		document.getElementById('main_price_div').innerHTML = checkNullVal(json.mainprice);
-		   		document.getElementById('sub_price_div').innerHTML = checkNullVal(json.subprice);
-		   		document.getElementById('total_price_div').innerHTML = checkNullVal(json.totalprice);
+		   		document.getElementById('basic_idst_div').innerHTML = priceWithComma(json.basicidst);
+		   		document.getElementById('main_price_div').innerHTML = priceWithComma(json.mainprice);
+		   		document.getElementById('sub_price_div').innerHTML = priceWithComma(json.subprice);
+		   		totalPriceVal = Number(checkNullValR(json.basicidst,'0'));
+		   		totalPriceVal += Number(checkNullValR(json.mainprice,'0'));
+		   		totalPriceVal += Number(checkNullValR(json.subprice,'0'));
+		   		document.getElementById('total_price_div').innerHTML = priceWithComma(totalPriceVal);
 		   		
 		   		var stonelist = json.stonelist;
 		   		var html = ``;

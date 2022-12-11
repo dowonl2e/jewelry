@@ -16,14 +16,12 @@ public class CatalogTO extends CommonTO {
 	private String stdd_size;
 	private String odr_notice;
 	private String reg_dt;
-	private String basic_idst;
-	private String main_price;
-	private String sub_price;
-	private String total_price;
+	private Integer basic_idst;
+	private Integer main_price;
+	private Integer sub_price;
+	private Integer total_price;
 	private String del_yn;
-	
-	private int recordcount;
-	
+		
 	private Integer searchvender;
 	
 	private Long[] catalog_no_arr;
@@ -36,7 +34,7 @@ public class CatalogTO extends CommonTO {
 	private MultipartFile catalogfile;
 	
 	public CatalogTO() {
-		this.recordcount = 16;
+		setRecordcount(16);
 	}
 	
 	public Long getCatalog_no() {
@@ -93,24 +91,6 @@ public class CatalogTO extends CommonTO {
 	public void setReg_dt(String reg_dt) {
 		this.reg_dt = reg_dt;
 	}
-	public String getBasic_idst() {
-		return basic_idst;
-	}
-	public void setBasic_idst(String basic_idst) {
-		this.basic_idst = basic_idst;
-	}
-	public String getMain_price() {
-		return main_price;
-	}
-	public void setMain_price(String main_price) {
-		this.main_price = main_price;
-	}
-	public String getSub_price() {
-		return sub_price;
-	}
-	public void setSub_price(String sub_price) {
-		this.sub_price = sub_price;
-	}
 	public String getDel_yn() {
 		return del_yn;
 	}
@@ -122,12 +102,6 @@ public class CatalogTO extends CommonTO {
 	}
 	public void setSearchvender(Integer searchvender) {
 		this.searchvender = searchvender;
-	}
-	public int getRecordcount() {
-		return recordcount;
-	}
-	public void setRecordcount(int recordcount) {
-		this.recordcount = recordcount;
 	}
 	public Long[] getCatalog_no_arr() {
 		return catalog_no_arr;
@@ -171,20 +145,41 @@ public class CatalogTO extends CommonTO {
 	public void setCatalogfile(MultipartFile catalogfile) {
 		this.catalogfile = catalogfile;
 	}
-
 	public String getStdd_color_cd() {
 		return stdd_color_cd;
 	}
-
 	public void setStdd_color_cd(String stdd_color_cd) {
 		this.stdd_color_cd = stdd_color_cd;
 	}
+	public Integer getBasic_idst() {
+		return basic_idst;
+	}
 
-	public String getTotal_price() {
+	public void setBasic_idst(Integer basic_idst) {
+		this.basic_idst = basic_idst;
+	}
+
+	public Integer getMain_price() {
+		return main_price;
+	}
+
+	public void setMain_price(Integer main_price) {
+		this.main_price = main_price;
+	}
+
+	public Integer getSub_price() {
+		return sub_price;
+	}
+
+	public void setSub_price(Integer sub_price) {
+		this.sub_price = sub_price;
+	}
+
+	public Integer getTotal_price() {
 		return total_price;
 	}
 
-	public void setTotal_price(String total_price) {
+	public void setTotal_price(Integer total_price) {
 		this.total_price = total_price;
 	}
 }
