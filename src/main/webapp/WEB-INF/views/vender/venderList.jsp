@@ -289,6 +289,10 @@
 			}
 		}
 
+		function refresh(){
+			findAll('${param.currentpage}');
+		}
+		
 		function fncCheckAll(obj){
 			if($(obj).is(":checked")){
         $(".form-check").attr("checked", true);    

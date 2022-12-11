@@ -456,8 +456,8 @@
  
 		   	}).catch(error => {
 		    	alert('재고 정보를 찾을 수 없습니다.');
-		    	/* fncParentRefresh();
-		    	fncClose(); */
+		    	window.opener.refresh();
+		    	fncClose();
 		   	});
 			}
 			
@@ -538,7 +538,7 @@
 						throw new Error('Request Failed...');
 					}
 					alert('저장되었습니다.');
-					window.opener.findAll();
+					window.opener.refresh();
 					fncClose();
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');

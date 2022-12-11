@@ -151,7 +151,7 @@
 		   
 		   	}).catch(error => {
 		    	alert('거래처 정보를 찾을 수 없습니다.');
-		    	window.opener.findAll();
+		    	window.opener.refresh();
 		   	});
 			}
 			
@@ -193,7 +193,7 @@
 							throw new Error('Request Failed...');
 						}
 						alert('수정되었습니다.');
-						window.opener.findAll();
+						window.opener.refresh();
 						fncClose();
 					}).catch(error => {
 						alert('오류가 발생하였습니다.');

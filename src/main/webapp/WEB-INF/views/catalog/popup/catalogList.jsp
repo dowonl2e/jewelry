@@ -252,7 +252,11 @@
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
-	
+
+
+		function refresh(){
+			findAll('${param.currentpage}');
+		}
 		
 		function fncSelect(catalogno, modelid){
 			opener.document.getElementById("catalog_no_${param.openeridx}").value = catalogno;

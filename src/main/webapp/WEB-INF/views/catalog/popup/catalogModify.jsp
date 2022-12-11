@@ -493,6 +493,11 @@
 			function fncInitNo(id){
 				$("#"+id).val('');	
 			}
+
+			//부모창 새로고침
+			function fncParentRefresh(){
+				window.opener.refresh();
+			}
 			
 			function fncClose(){
 				self.close();

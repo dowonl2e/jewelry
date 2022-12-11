@@ -522,6 +522,10 @@
 				$(".form-check").attr("checked", false);
 			}
 		}
+
+		function refresh(){
+			findAll('${param.currentpage}');
+		}
 		
 		function fncCheckZero(obj){
 			if($(obj).val() != ''){

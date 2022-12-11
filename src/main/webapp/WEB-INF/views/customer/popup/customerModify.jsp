@@ -153,7 +153,7 @@
 		   		
 		   	}).catch(error => {
 		    	alert('고객정보를 찾을 수 없습니다.');
-		    	window.opener.findAll();
+		    	fncParentRefresh();
 		    	fncClose();
 		   	});
 			}
@@ -206,7 +206,7 @@
 						throw new Error('Request Failed...');
 					}
 					alert('수정되었습니다.');
-					window.opener.findAll();
+					fncParentRefresh();
 					fncClose();
 				}).catch(error => {
 					alert('오류가 발생하였습니다.');
@@ -232,7 +232,7 @@
         	}
 
         	alert('삭제되었습니다.');
-					window.opener.findAll();
+        	fncParentRefresh();
 					fncClose();
 
       	}).catch(error => {
@@ -240,6 +240,11 @@
       	});
 	  	}
 			
+			//부모창 새로고침
+			function fncParentRefresh(){
+				window.opener.refresh();
+			}
+						
 			function fncClose(){
 				self.close();
 			}

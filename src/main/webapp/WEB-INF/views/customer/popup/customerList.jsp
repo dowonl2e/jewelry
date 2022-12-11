@@ -219,6 +219,9 @@
       window.open(url, name, option);
 		}
 
+		function refresh(){
+			findAll('${param.currentpage}');
+		}
 		
 		function fncSelect(customerno, customernm, customercel){
 			opener.document.getElementById("customer_no").value = customerno;

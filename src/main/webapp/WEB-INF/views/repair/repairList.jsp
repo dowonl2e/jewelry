@@ -302,6 +302,10 @@
 			$("#adv-search").find("select").val('');
 			findAll(0);
 		}
+
+		function refresh(){
+			findAll('${param.currentpage}');
+		}
 		
 		function fncCheckZero(obj){
 			if($(obj).val() != ''){
