@@ -11,4 +11,7 @@ public interface MainService {
 	Map<String, Object> findMonthlySalePrice(MainTO to);
 	
 	Map<String, Object> findMaterialOrders(MainTO to);
+	
+	Map<String, Object> findMaterialStocks(MainTO to);
 }
+

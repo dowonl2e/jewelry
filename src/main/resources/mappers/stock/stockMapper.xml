@@ -283,4 +283,15 @@
 		)
 		ORDER BY a.stock_no ASC
 	</select>
+	
+	<select id="selectNumOfStocksPerMaterial" parameterType="StockTO" resultType="StockVO">
+		SELECT material_cd, sum(per_weight_gram) AS per_weight_gram, COUNT(stock_no) AS stock_cnt
+		FROM tb_stock
+		WHERE del_yn = 'N'
+		<if test='searchyear != null and !searchyear.equals("")'>
+			AND YEAR(reg_dt) = #{searchyear}
+		</if>
+		GROUP BY material_cd
+		ORDER BY material_cd ASC
+	</select>
 </mapper>

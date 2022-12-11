@@ -7,6 +7,71 @@
 <title>너의 금방</title>
 </head>
 <body>
+
+	<div class="row">
+		<div class="col-xl-12 col-lg-11">
+			<div class="card shadow mb-1">
+				<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+			    <h6 class="m-0 font-weight-bold text-primary">재질별 현 재고현황</h6>
+			    <div class="dropdown no-arrow">
+            <select class="form-control" onchange="materialStocksStats(this.value);">
+         		  <option value="">전체</option>
+           	  <c:forEach var="year" begin="2022" end="2030">
+           		  <option value="${year}" <c:if test="${nowYear eq year}">selected</c:if>>${year}년</option>
+           	  </c:forEach>
+            </select>
+	        </div>
+			  </div>
+			</div>
+		</div>
+		<div class="col-xl-4 col-lg-5">
+			<div class="card shadow mb-4">
+				<div class="m-2 font-weight-bold text-center">재고(개수)</div>
+				<!-- Card Body -->
+		   	<div class="card-body">
+		     	<div class="chart-area">
+		       <canvas id="materialStocksChart"></canvas>
+		     	</div>
+		   	</div>
+			</div>
+		</div>
+		<div class="col-xl-4 col-lg-5">
+			<div class="card shadow mb-4">
+				<div class="m-2 font-weight-bold text-center">재고(중량)</div>
+				<!-- Card Body -->
+		   	<div class="card-body">
+		     	<div class="chart-area">
+		       <canvas id="materialStocksChart2"></canvas>
+		     	</div>
+		   	</div>
+			</div>
+		</div>
+		<div class="col-xl-4 col-lg-5">
+			<div class="card shadow mb-4">
+				<div class="m-2 font-weight-bold text-center">재고현황</div>
+				<div class="card-body">
+					<div class="chart-area" style="overflow:auto;">
+						<div class="table-responsive">
+							<table class="table">
+								<colgroup>
+									<col />
+									<col width="30%"/>
+									<col width="30%"/>
+								</colgroup>
+								<tr>
+									<th>재질</th>
+									<th>중량(g)</th>
+									<th>개수</th>
+								</tr>
+								<tbody id="matStockList" class="border-bottom"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- Content Row -->
 	<div class="row">
 	
@@ -126,6 +191,8 @@
   <script src="/js/chart/pie.js"></script>
   
 	<script>
+		var salePriceLineChartLabels = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+	
 		var codemap = {
 			<c:forEach var="code" items="${cdmapper}" varStatus="loop">
 			  ${code.cdid}: '${code.cdnm}' ${not loop.last ? ',' : ''}
@@ -139,17 +206,17 @@
 		 * 게시글 리스트 조회
 		 */
 		function findAll() {
-			
+			var salePriceData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 			getJson('/api/main/stats/all', null).then(response => {
 				var salePriceData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				if(!Object.keys(response).length){
-					initChart('monthlySalePriceChart');
+					initLineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
 					initPieChart('materialOrdersPieChart');
      			return false;
 				}
 				
 				if (response.salePriceMonthly == null || response.salePriceMonthly.length == 0) {
-					initChart('monthlySalePriceChart');
+					initLineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
 					return false;
 				}
 			
@@ -157,7 +224,7 @@
      		response.salePriceMonthly.forEach((obj, idx) => {
      			salePriceData.push(obj);
      		});
-     		monthlySalePriceChart('monthlySalePriceChart', salePriceData);
+     		lineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
      		
      		//재질별 주문
      		if (response.salePriceMonthly == null || response.salePriceMonthly.length == 0) {
@@ -170,12 +237,12 @@
      		var hoverBgColor = ['#fd7e14', '#36b9cc', '#36b9cc', '#e74a3b', '#858796'];
      		var chartData = new Array();
      		
-     		let pieChartHtml = '';
+     		let html = '';
      		
      		response.materialOrders.forEach((obj, idx) => {
      			chartLabels.push(checkNullVal(codemap[obj.materialcd]));
      			chartData.push(Number(checkNullValR(obj.ordercnt,'0')));
-     			pieChartHtml += `
+     			html += `
      				<span class="mr-2">
 	            <i class="fas fa-circle " style="color: `+bgColor[idx]+` !important;"></i> `+ checkNullVal(codemap[obj.materialcd]) + `
 	          </span>
@@ -183,8 +250,46 @@
      		});
      		
      		pieChart('materialOrdersPieChart', chartLabels, bgColor, hoverBgColor, chartData);
+     		document.getElementById('materialOrdersPieChart-Div').innerHTML = html;
      		
-     		document.getElementById('materialOrdersPieChart-Div').innerHTML = pieChartHtml;
+     		html = '';
+     		//재질별 재고현황
+     		chartLabels = new Array();
+     		chartData = new Array();
+     		chartData2 = new Array();
+     		if (response.materialStocks == null || response.materialStocks.length == 0) {
+     			initBarChart('materialStocksChart', '', chartLabels, chartData);
+     			initBarChart('materialStocksChart2', '', chartLabels, chartData2);
+     			document.getElementById('matStockList').innerHTML = '<td colspan="3" class="text-center">No Data</th>';
+     			return false;
+				}
+     		
+     		totalWeightGram = 0.0;
+     		totalStockCnt = 0;
+     		response.materialStocks.forEach((obj, idx) => {
+     			chartLabels.push(checkNullVal(codemap[obj.materialcd]));
+     			chartData.push(Number(checkNullValR(obj.stockcnt,'0')));
+     			chartData2.push(Math.round(Number(checkNullValR(obj.perweightgram,'0.0'))*100)/100);
+     			html += `
+     				<tr>
+     			    <td class="text-center">` + checkNullVal(codemap[obj.materialcd]) + `</td>
+     			    <td class="text-center">` + Math.round(Number(checkNullValR(obj.perweightgram,'0.0'))*100)/100 + `g</td>
+     			    <td class="text-center">` + checkNullValR(obj.stockcnt,'0') + `</td>
+     			  </tr>
+          `;
+         	totalWeightGram += Math.round(Number(checkNullValR(obj.perweightgram,'0.0'))*100)/100;
+         	totalStockCnt += Number(checkNullValR(obj.stockcnt,'0'));
+     		});
+     		html += `
+     			<tr>
+     		    <th>합계</th>
+     		    <th>`+totalWeightGram+`g</th>
+     		    <th>`+totalStockCnt+`</th>
+     		  </tr>
+     		`;
+     		barChart('materialStocksChart', '개수', chartLabels, chartData);
+     		barChart('materialStocksChart2', '중량', chartLabels, chartData2);
+				document.getElementById('matStockList').innerHTML = html;
 			});
 		}
 		
@@ -207,6 +312,52 @@
 	
 			return await response.json();
 		}
+		function materialStocksStats(val){
+			var params = {
+			  searchyear: val
+			};
+			getJson('/api/main/material/stocks', params).then(response => {
+				//재질별 재고현황
+     		chartLabels = new Array();
+     		chartData = new Array();
+     		chartData2 = new Array();
+     		if (response.materialStocks == null || response.materialStocks.length == 0) {
+     			initBarChart('materialStocksChart', '', chartLabels, chartData);
+     			initBarChart('materialStocksChart2', '', chartLabels, chartData2);
+     			document.getElementById('matStockList').innerHTML = '<td colspan="3" class="text-center">No Data</th>';
+     			return false;
+				}
+     		
+				let html = '';
+
+				totalWeightGram = 0.0;
+     		totalStockCnt = 0;
+     		response.materialStocks.forEach((obj, idx) => {
+     			chartLabels.push(checkNullVal(codemap[obj.materialcd]));
+     			chartData.push(Number(checkNullValR(obj.stockcnt,'0')));
+     			chartData2.push(Math.round(Number(checkNullValR(obj.perweightgram,'0.0'))*100)/100);
+     			html += `
+     				<tr>
+     			    <td class="text-center">` + checkNullVal(codemap[obj.materialcd]) + `</td>
+     			    <td class="text-center">` + Math.round(Number(checkNullValR(obj.perweightgram,'0.0'))*100)/100 + `g</td>
+     			    <td class="text-center">` + checkNullValR(obj.stockcnt,'0') + `</td>
+     			  </tr>
+          `;
+         	totalWeightGram += Math.round(Number(checkNullValR(obj.perweightgram,'0.0'))*100)/100;
+         	totalStockCnt += Number(checkNullValR(obj.stockcnt,'0'));
+     		});
+     		html += `
+     			<tr>
+     		    <th>합계</th>
+     		    <th>`+totalWeightGram+`g</th>
+     		    <th>`+totalStockCnt+`</th>
+     		  </tr>
+     		`;
+     		barChart('materialStocksChart', '개수', chartLabels, chartData);
+     		barChart('materialStocksChart2', '중량', chartLabels, chartData2);
+				document.getElementById('matStockList').innerHTML = html;
+			});
+		}
 		
 		function salePriceStats(val){
 			var params = {
@@ -224,7 +375,7 @@
      		response.salePriceMonthly.forEach((obj, idx) => {
      			salePriceData.push(obj);
      		});
-     		monthlySalePriceChart('monthlySalePriceChart', salePriceData);
+     		lineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
 			});
 		}
 		
@@ -262,11 +413,12 @@
 			});
 		}
 		
-		function initChart(id){
-			salePriceData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-   		monthlySalePriceChart(id, salePriceData);
+		function initLineChart(id, labels, data){
+   		lineChart(id, labels, data);
 		}
-		
+		function initBarChart(id, label, labels, data){
+			barChart(id, label, labels, data);
+		}
 		function initPieChart(id){
 			pieChart(id, null, null, null, null);
  			document.getElementById(id+'-Div').innerHTML = 'No Data';

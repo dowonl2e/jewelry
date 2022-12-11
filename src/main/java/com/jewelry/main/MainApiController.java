@@ -31,5 +31,10 @@ public class MainApiController {
 	public Map<String, Object> materialOrdersStats(final MainTO to){
 		return mainService.findMaterialOrders(to);
 	}
+
+	@GetMapping("/material/stocks")
+	public Map<String, Object> materialStocksStats(final MainTO to){
+		return mainService.findMaterialStocks(to);
+	}
 	
 }

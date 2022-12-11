@@ -577,7 +577,7 @@
 			}
 			
 			function fncCatalogListPop(idx){
-				var url = "/catalog/popup/list?openeridx="+idx;
+				var url = "/catalog/popup/list?reqtype=all&openeridx="+idx;
 	      var name = "catalogListPopup";
 	      var option = "width = 1150, height = 800, top = 100, left = 200, location = no";
 	      window.open(url, name, option);

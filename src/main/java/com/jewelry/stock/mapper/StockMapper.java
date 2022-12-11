@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.jewelry.main.domain.MainTO;
 import com.jewelry.stock.domain.StockTO;
 import com.jewelry.stock.domain.StockVO;
 
@@ -42,5 +43,11 @@ public interface StockMapper {
 	
 	List<StockVO> selectStockListByNos(StockTO to);
 
+	/**
+	 * 메인화면 - 재질별 현 재고현황
+	 * @param to
+	 * @return
+	 */
+	List<StockVO> selectNumOfStocksPerMaterial(MainTO to);
 
 }

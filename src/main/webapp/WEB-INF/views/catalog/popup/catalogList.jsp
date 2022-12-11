@@ -120,6 +120,7 @@
 			
 			var params = {
 			  currentpage: page
+			  , reqtype: '${param.reqtype}'
 			  , openeridx: '${param.openeridx}'
 				, searchvender: form.searchvender.value
 				, searchword: form.searchword.value
@@ -170,7 +171,15 @@
      		    				<div class="col text-center">
      		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
      		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
- 		    								<a href="javascript: void(0);" onclick="fncSelect('`+obj.catalogno+`','`+checkNullVal(obj.modelid)+`'); return false;">
+     		 	`;
+     		 	catalogno = checkNullVal(obj.catalogno);
+     		 	modelid = checkNullVal(obj.modelid);
+     		 	venderno = checkNullVal(obj.venderno);
+     		 	vendernm = checkNullVal(obj.vendernm);
+     		 	stddmaterialcd = checkNullVal(obj.stddmaterialcd);
+     		 	stddcolorcd = checkNullVal(obj.stddcolorcd);
+     		 	html += `
+ 		    								<a href="javascript: void(0);" onclick="fncSelect('`+catalogno+`','`+modelid+`','`+venderno+`','`+vendernm+`','`+stddmaterialcd+`','`+stddcolorcd+`'); return false;">
  		    									` + checkNullVal(obj.modelid) + `
 					`;
 					if(checkNullVal(obj.modelnm) != ''){
@@ -258,9 +267,15 @@
 			findAll('${param.currentpage}');
 		}
 		
-		function fncSelect(catalogno, modelid){
+		function fncSelect(catalogno, modelid, venderno, vendernm, materialcd, colorcd){
 			opener.document.getElementById("catalog_no_${param.openeridx}").value = catalogno;
 			opener.document.getElementById("model_id_${param.openeridx}").value = modelid;
+			if('${param.reqtype}' == 'all'){
+				opener.document.getElementById("vender_no_${param.openeridx}").value = venderno;
+				opener.document.getElementById("vender_nm_${param.openeridx}").value = vendernm;
+				opener.document.getElementById("material_cd_${param.openeridx}").value = materialcd;
+				opener.document.getElementById("color_cd_${param.openeridx}").value = colorcd;
+			}
 			self.close();
 		}
 		

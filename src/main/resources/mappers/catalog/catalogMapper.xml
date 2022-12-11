@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id="selectCatalogList" parameterType="CatalogTO" resultType="CatalogVO">
-		SELECT a.catalog_no, a.vender_no, c.vender_nm, a.model_id, a.model_nm, a.stdd_size, a.stdd_weight, a.stdd_material_cd, a.basic_idst
+		SELECT a.catalog_no, a.vender_no, c.vender_nm, a.model_id, a.model_nm, a.stdd_size, a.stdd_weight, a.stdd_material_cd, a.stdd_color_cd, a.basic_idst
 						, b.file_path, b.origin_nm, b.file_nm
 		FROM tb_catalog a
 			LEFT OUTER JOIN tb_vender c

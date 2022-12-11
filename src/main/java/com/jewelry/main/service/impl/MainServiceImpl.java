@@ -15,6 +15,7 @@ import com.jewelry.main.service.MainService;
 import com.jewelry.order.mapper.OrderMapper;
 import com.jewelry.sale.domain.SaleVO;
 import com.jewelry.sale.mapper.SaleMapper;
+import com.jewelry.stock.mapper.StockMapper;
 import com.jewelry.util.Utils;
 
 @Service
@@ -25,6 +26,10 @@ public class MainServiceImpl implements MainService {
 
 	@Autowired
 	private OrderMapper orderMapper;
+
+	@Autowired
+	private StockMapper stockMapper;
+	
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -55,6 +60,9 @@ public class MainServiceImpl implements MainService {
 		
 		//재질별 주문개수
 		response.put("materialOrders", orderMapper.selectNumOfOrdersPerMaterial(to));
+		
+		//재질별 현 재고현황
+		response.put("materialStocks", stockMapper.selectNumOfStocksPerMaterial(to));
 		return response;
 	}
 	
@@ -92,6 +100,17 @@ public class MainServiceImpl implements MainService {
 
 		//재질별 주문개수
 		response.put("materialOrders", orderMapper.selectNumOfOrdersPerMaterial(to));
+		return response;
+		
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public Map<String, Object> findMaterialStocks(MainTO to) {
+		Map<String, Object> response = new HashMap<>();
+
+		//재질별 주문개수
+		response.put("materialStocks", stockMapper.selectNumOfStocksPerMaterial(to));
 		return response;
 		
 	}
