@@ -39,7 +39,6 @@ public class CatalogApiController {
 	@PostMapping("/write")
 	public ResponseEntity<Object> write(final CatalogTO to,
 			@RequestPart(value = "file", required = false) MultipartFile file){
-		to.setVender_no((long)1);
 		to.setCatalogfile(file);
 		to.setInpt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
 		String result = catalogService.insertCatalog(to);
@@ -57,7 +56,6 @@ public class CatalogApiController {
 	public ResponseEntity<Object> modify(@PathVariable final Long catalogno, CatalogTO to,
 			@RequestPart(value = "file", required = false) MultipartFile file){
 		String userid = ((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername();
-		to.setVender_no((long)1);
 		to.setCatalogfile(file);
 		to.setCatalog_no(catalogno);
 		to.setInpt_id(userid);
