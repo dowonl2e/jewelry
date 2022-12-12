@@ -294,4 +294,20 @@
 		GROUP BY material_cd
 		ORDER BY material_cd ASC
 	</select>
+	
+	<update id="updateStocksCustomer" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='customer_no != null and customer_no > 0'>
+			, customer_no = #{customer_no}
+			, customer_nm = #{customer_nm}
+		</if>
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach> 
+		) 
+	</update>
+	
 </mapper>

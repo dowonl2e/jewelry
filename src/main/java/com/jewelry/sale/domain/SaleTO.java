@@ -13,6 +13,10 @@ public class SaleTO extends CommonTO {
 	private String[] sale_type_arr;
 	private String[] sale_arr;
 	
+	private Long customer_no;
+	private String customer_nm;
+	private String customer_cel;
+	
 	public String getSearchstore() {
 		return searchstore;
 	}
@@ -55,6 +59,23 @@ public class SaleTO extends CommonTO {
 	public void setSale_arr(String[] sale_arr) {
 		this.sale_arr = sale_arr;
 	}
-	
+	public Long getCustomer_no() {
+		return customer_no;
+	}
+	public void setCustomer_no(Long customer_no) {
+		this.customer_no = customer_no;
+	}
+	public String getCustomer_nm() {
+		return customer_nm;
+	}
+	public void setCustomer_nm(String customer_nm) {
+		this.customer_nm = customer_nm;
+	}
+	public String getCustomer_cel() {
+		return customer_cel;
+	}
+	public void setCustomer_cel(String customer_cel) {
+		this.customer_cel = customer_cel;
+	}
 	
 }

@@ -15,6 +15,8 @@ public interface SaleMapper {
 	
 	List<SaleVO> selectSaleList(SaleTO to);
 	
+	int updateSalesToStock(SaleTO to) throws Exception;
+	
 	/**
 	 * 메인화면 - 월별 매출액
 	 * @param to

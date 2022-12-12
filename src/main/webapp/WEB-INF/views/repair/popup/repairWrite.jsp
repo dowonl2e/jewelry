@@ -71,8 +71,8 @@
 						<tr>
 							<th>수리요청일</th>
 							<td><input type="date" name="repair_req_dt" id="repair_req_dt" class="form-control form-data mtb5" maxlength="10"/></td>
-							<th>수리완료일</th>
-							<td><input type="date" name="repair_res_dt" id="repair_res_dt" class="form-control form-data mtb5" maxlength="10"/></td>
+							<th>수리완료예정일</th>
+							<td><input type="date" name="repair_due_dt" id="repair_due_dt" class="form-control form-data mtb5" maxlength="10"/></td>
 						</tr>
 						<tr class="border-bottom">
 							<th>비고</th>

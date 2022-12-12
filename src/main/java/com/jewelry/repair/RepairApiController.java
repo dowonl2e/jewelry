@@ -75,4 +75,12 @@ public class RepairApiController {
 		return new ResponseEntity<>(response.getStatus());
 	}
 	
+	@PatchMapping("/repairs/complete")
+	public ResponseEntity<Object> repairscomplete(final RepairTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = repairService.updateRepairsToComplete(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
 }

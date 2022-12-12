@@ -8,6 +8,9 @@ public interface SaleService {
 
 	Map<String, Object> findAllSale(SaleTO to);
 	
-	String updateSalesToDelete(SaleTO to);
+	String updateSalesToStock(SaleTO to);
+	
+	String updateSalesCustomer(SaleTO to);
+	
 	
 }

@@ -19,4 +19,6 @@ public interface RepairService {
 	
 	String updateRepairsToDelete(RepairTO to);
 	
+	String updateRepairsToComplete(RepairTO to);
+	
 }

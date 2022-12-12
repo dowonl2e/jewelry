@@ -10,6 +10,7 @@ public class RepairVO extends CommonVO {
 	private Long repairno;
 	private String repairnm;
 	private String repairreqdt;
+	private String repairduedt;
 	private String repairresdt;
 	private String repairdesc;
 	private String delyn;
@@ -135,6 +136,14 @@ public class RepairVO extends CommonVO {
 
 	public void setCustomercel(String customercel) {
 		this.customercel = customercel;
+	}
+
+	public String getRepairduedt() {
+		return repairduedt;
+	}
+
+	public void setRepairduedt(String repairduedt) {
+		this.repairduedt = repairduedt;
 	}
 	
 }

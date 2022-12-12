@@ -33,10 +33,19 @@ public class SaleApiController {
 		return saleService.findAllSale(to);
 	}
 	
-	@PatchMapping("/sales/remove")
-	public ResponseEntity<Object> ordersRemove(final SaleTO to){
+	@PatchMapping("/sales/stock/modify")
+	public ResponseEntity<Object> salesStockModify(final SaleTO to){
 		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
-		String result = saleService.updateSalesToDelete(to);
+		String result = saleService.updateSalesToStock(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+	
+	@PatchMapping("/sales/customer/modify")
+	public ResponseEntity<Object> salesCustomerModify(final SaleTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = saleService.updateSalesCustomer(to);
 
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());

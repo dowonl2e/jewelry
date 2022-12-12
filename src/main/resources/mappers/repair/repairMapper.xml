@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="selectRepairList" parameterType="RepairTO" resultType="RepairVO">
-		SELECT a.repair_no, a.repair_nm, a.repair_req_dt, a.repair_res_dt, a.customer_no, a.customer_nm, a.customer_cel
+		SELECT a.repair_no, a.repair_nm, a.repair_req_dt, a.repair_due_dt, a.repair_res_dt, a.customer_no, a.customer_nm, a.customer_cel
 						, b.file_path, b.origin_nm, b.file_nm
 		FROM tb_repair a
 			LEFT OUTER JOIN tb_file b
@@ -44,7 +44,7 @@
 			inpt_id, inpt_dt
 			<if test='repair_nm != null and !repair_nm.equals("")'>, repair_nm</if>
 			<if test='repair_req_dt != null and !repair_req_dt.equals("")'>, repair_req_dt</if>
-			<if test='repair_res_dt != null and !repair_res_dt.equals("")'>, repair_res_dt</if>
+			<if test='repair_due_dt != null and !repair_due_dt.equals("")'>, repair_due_dt</if>
 			<if test='repair_desc != null and !repair_desc.equals("")'>, repair_desc</if>
 			<if test='customer_no != null and customer_no > 0'>, customer_no</if>
 			<if test='customer_nm != null and !customer_nm.equals("")'>, customer_nm</if>
@@ -54,7 +54,7 @@
 			#{inpt_id}, NOW()
 			<if test='repair_nm != null and !repair_nm.equals("")'>, #{repair_nm}</if>
 			<if test='repair_req_dt != null and !repair_req_dt.equals("")'>, #{repair_req_dt}</if>
-			<if test='repair_res_dt != null and !repair_res_dt.equals("")'>, #{repair_res_dt}</if>
+			<if test='repair_due_dt != null and !repair_due_dt.equals("")'>, #{repair_due_dt}</if>
 			<if test='repair_desc != null and !repair_desc.equals("")'>, #{repair_desc}</if>
 			<if test='customer_no != null and customer_no > 0'>, #{customer_no}</if>
 			<if test='customer_nm != null and !customer_nm.equals("")'>, #{customer_nm}</if>
@@ -63,7 +63,7 @@
 	</insert>
 	
 	<select id="selectRepair" parameterType="Long" resultType="RepairVO">
-		SELECT a.repair_no, a.repair_nm, a.repair_req_dt, a.repair_res_dt, a.repair_desc
+		SELECT a.repair_no, a.repair_nm, a.repair_req_dt, a.repair_due_dt, a.repair_res_dt, a.repair_desc
 						, a.customer_no, a.customer_nm, a.customer_cel
 		FROM tb_repair a
 		WHERE a.repair_no = #{repair_no}
@@ -75,7 +75,7 @@
 		, updt_id = #{updt_id} 
 		, repair_nm = #{repair_nm}
 		, repair_req_dt = #{repair_req_dt}
-		, repair_res_dt = #{repair_res_dt}
+		, repair_due_dt = #{repair_due_dt}
 		, repair_desc = #{repair_desc}
 		, customer_no = #{customer_no}
 		, customer_nm = #{customer_nm}
@@ -96,6 +96,18 @@
 		SET updt_dt = NOW()
 		, updt_id = #{updt_id}
 		, del_yn = 'Y'
+		WHERE repair_no IN (
+			<foreach collection="repair_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
+	<update id="updateRepairsToComplete" parameterType="RepairTO">
+		UPDATE tb_repair
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, repair_res_dt = NOW()
 		WHERE repair_no IN (
 			<foreach collection="repair_no_arr" item="item" separator=" , ">
 				#{item}

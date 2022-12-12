@@ -23,5 +23,7 @@ public interface RepairMapper {
 	int updateRepairToDelete(RepairTO to);
 	
 	int updateRepairsToDelete(RepairTO to);
+	
+	int updateRepairsToComplete(RepairTO to);
 
 }

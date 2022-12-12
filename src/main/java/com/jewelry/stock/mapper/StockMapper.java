@@ -42,6 +42,8 @@ public interface StockMapper {
 	int updateStocksOrder(StockTO to) throws Exception;
 	
 	List<StockVO> selectStockListByNos(StockTO to);
+	
+	int updateStocksCustomer(StockTO to) throws Exception;
 
 	/**
 	 * 메인화면 - 재질별 현 재고현황

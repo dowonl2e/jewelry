@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jewelry.cms.code.service.CodeService;
+import com.jewelry.stock.service.StockService;
 import com.jewelry.util.Utils;
 
 @Controller
@@ -17,6 +18,9 @@ public class OrderPageController {
 
 	@Autowired
 	private CodeService codeService;
+	
+	@Autowired
+	private StockService stockService;
 	
 	@GetMapping("/list")
 	public String list(ModelMap model) {
@@ -118,6 +122,7 @@ public class OrderPageController {
 		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
 		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
 		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		model.addAttribute("prevstocklist", stockService.findAllPrevStock());
 		model.addAttribute("ordersno", ordersno);
 		return "order/popup/ordersStockWrite";
 	}

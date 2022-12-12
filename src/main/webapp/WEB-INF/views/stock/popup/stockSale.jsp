@@ -35,6 +35,7 @@
 										<input type="hidden" name="customer_no" id="customer_no" class="form-control form-data mtb5"/>
 										<input type="text" name="customer_nm" id="customer_nm" class="form-control form-data mtb5" readonly="readonly"/>
 										<i class="fas fa-search fa-sm ml5 mt15" onclick="fncCustomerListPop(); return false;"></i>
+										<input type="hidden" name="customer_cel" id="customer_cel" class="form-control mtb5" disabled="disabled"/>
 									</div>
 								</td>
 							</tr>

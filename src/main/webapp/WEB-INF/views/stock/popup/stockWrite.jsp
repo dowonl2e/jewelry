@@ -88,23 +88,60 @@
 								<th class="bg-light text-center border-right small">배수</th>
 								<th class="bg-light text-center border-right small">TAG가</th>
 							</tr>
-							<c:forEach var="idx" begin="1" end="3">
+							<c:forEach var="idx" begin="0" end="2">
 								<tr>
-									<td class="text-center border-right" id="prev_reg_dt_${idx}"></td>
-									<td class="text-center border-right" id="prev_model_id_${idx}"></td>
-									<td class="text-center border-right" id="prev_stone_type_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_material_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_size_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_main_stone_type_${idx}"></td>
-									<td class="text-center border-right" id="prev_sub_stone_type_${idx}"></td>
-									<td class="text-center border-right" id="prev_size_cd_${idx}"></td>
-									<td class="text-center border-right" id="prev_stone_desc_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_weight_gram_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_price_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_price_gold_real_${idx}"></td>
-									<td class="text-center border-right" id="prev_per_price_gold_stdd_${idx}"></td>
-									<td class="text-center border-right" id="prev_multiple_cnt_${idx}"></td>
-									<td class="text-center" id="prev_consumer_price_${idx}"></td>
+									<td class="text-center border-right small" id="prev_reg_dt_${idx}">${fn:substring(prevstocklist[idx].regdt,0,10)}</td>
+									<td class="text-center border-right small" id="prev_model_id_${idx}">${prevstocklist[idx].modelid}</td>
+									<td class="text-center border-right small" id="prev_stock_type_cd_${idx}">
+										<c:forEach var="oc" items="${oclist}">
+											<c:if test="${prevstocklist[idx].stocktypecd eq oc.cdid}">${oc.cdnm}</c:if>
+										</c:forEach>
+									</td>
+									<td class="text-center border-right small" id="prev_material_cd_${idx}">
+										<c:forEach var="sm" items="${smlist}">
+											<c:if test="${prevstocklist[idx].materialcd eq sm.cdid}">${sm.cdnm}</c:if>
+										</c:forEach>
+									</td>
+									<td class="text-center border-right small" id="prev_color_cd_${idx}">
+										<c:forEach var="sc" items="${sclist}">
+											<c:if test="${prevstocklist[idx].colorcd eq sc.cdid}">${sc.cdnm}</c:if>
+										</c:forEach>
+									</td>
+									<td class="text-center border-right small" id="prev_main_stone_type_${idx}">${prevstocklist[idx].mainstonetype}</td>
+									<td class="text-center border-right small" id="prev_sub_stone_type_${idx}">${prevstocklist[idx].substonetype}</td>
+									<td class="text-center border-right small" id="prev_size_${idx}">${prevstocklist[idx].size}</td>
+									<td class="text-center border-right small" id="prev_stock_desc_${idx}">${prevstocklist[idx].stockdesc}</td>
+									<td class="text-center border-right small" id="prev_per_weight_gram_${idx}">${prevstocklist[idx].perweightgram}</td>
+									<td class="text-center border-right small" id="prev_per_price_${idx}">
+										<c:set var="prevPerPrice" value="${prevstocklist[idx].perpricemain}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice+prevstocklist[idx].perpricesub}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice+prevstocklist[idx].perpricebasic}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice+prevstocklist[idx].perpriceadd}"/>
+										<c:set var="prevPerPrice" value="${prevPerPrice eq 0 ? '' : (prevPerPrice+'')}"/>
+										${prevPerPrice}
+									</td>
+									<td class="text-center border-right small" id="prev_per_price_gold_real_${idx}">
+										<c:set var="weight" value="0"/>
+										<c:if test="${prevstocklist[idx].materialcd eq 'SM01'}">
+											<c:set var="weight" value="0.6435"/>
+										</c:if>
+										<c:if test="${prevstocklist[idx].materialcd eq 'SM02'}">
+											<c:set var="weight" value="0.825"/>
+										</c:if>
+										<c:if test="${prevstocklist[idx].materialcd eq 'SM03'}">
+											<c:set var="weight" value="1"/>
+										</c:if>
+										<c:set var="realPchGoldPrice" value="${prevstocklist[idx].realpchgoldprice*weight+prevPerPrice}"/>
+										<c:set var="realPchGoldPrice" value="${realPchGoldPrice eq 0 ? '' : (realPchGoldPrice+'')}"/>
+										${realPchGoldPrice}
+									</td>
+									<td class="text-center border-right small" id="prev_per_price_gold_stdd_${idx}">${prevPerPrice}</td>
+									<td class="text-center border-right small" id="prev_multiple_cnt_${idx}">${prevstocklist[idx].multiplecnt}</td>
+									<td class="text-center small" id="prev_consumer_price_${idx}">
+										<c:set var="prevConsumerPrice" value="${prevPerPrice*prevstocklist[idx].multiplecnt}"/>
+										<c:set var="prevConsumerPrice" value="${prevConsumerPrice eq 0 ? '' : (prevConsumerPrice+'')}"/>
+										${prevConsumerPrice}
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>

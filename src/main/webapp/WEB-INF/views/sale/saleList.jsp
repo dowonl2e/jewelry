@@ -83,10 +83,10 @@
 				</table>
 				
 				<div class="text-left mt-3">
-					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: alert('준비중입니다.');" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
+					<a href="javascript: void(0)" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
+	        <a href="javascript: void(0)" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
 	        <a href="javascript: alert('준비중입니다.');" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">거래일변경</span></a>
-	        <a href="javascript: alert('준비중입니다.');" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+	        <a href="javascript: void(0)" id="remove-btn" onclick="fncSaleToStocks(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
 	    					
 				<nav aria-label="Page navigation" class="text-center">
@@ -211,7 +211,7 @@
 								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.saleno)+`','`+checkNullVal(obj.saletype)+`','`+checkNullVal(obj.saletype2)+`'); return false;">` + (num--) + `</a>
 							</td>
      					<td class="text-center">
-     						<input type="checkbox" name="saleno_no_arr" class="form-check" value="`+checkNullVal(obj.saleno)+`"/>
+     						<input type="checkbox" name="saleno_no_arr" class="form-check" value="`+checkNullVal(obj.saleno)+`_`+checkNullVal(obj.saletype)+`"/>
 							</td>
 							<td class="text-center blue">` + checkNullVal(codemap[checkNullVal(obj.storecd)]) + `</td>
 							<td class="text-center">` + checkNullVal(obj.saleday) + `<span class="blue">` + checkSubstringNullVal(obj.saledt,2,10) + `</span></td>
@@ -249,7 +249,7 @@
 							<td class="text-center">` + priceWithComma(obj.pntprice) + `</td>
 							<td class="text-center">` + priceWithComma(obj.etcprice) + `</td>
 					`;
-					totalRecPayPrice = Number(obj.saleprice) + Number(obj.cardprice) + Number(obj.cashprice);
+					totalRecPayPrice = Number(obj.cardprice) + Number(obj.cashprice);
 					totalRecPayPrice += Number(obj.maintprice) + Number(obj.pntprice) + Number(obj.etcprice);
 					html += `
 							<td class="text-center">` + priceWithComma(totalRecPayPrice)+ `</td>
@@ -355,29 +355,46 @@
       window.open(url, name, option);
 		}
 		
-		function fncRemove(){
+		function fncSaleToStocks(){
 
-			var orderscheckcnt = 0;
+			var salecheckcnt = 0;
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
-					orderscheckcnt++;
+					salecheckcnt++;
 				}
 			});
-			if(orderscheckcnt == 0){
-				alert('삭제할 주문이력을 선택해주세요.');
+			if(salecheckcnt == 0){
+				alert('삭제할 판매이력을 선택해주세요.');
 				return false;
 			}
+			
+			var ordercheckcnt = 0;
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					var checkValArr = $(this).val().split('_');
+					if(checkNullVal(checkValArr[1]) != 'STOCK'){
+						ordercheckcnt++;
+					}
+				}
+			});
+			if(ordercheckcnt > 0){
+				alert('주문은 삭제불가능합니다.');
+				return false;
+			}
+			
 			if(confirm('삭제하시겠습니까?')){
 				const form = document.getElementById('searchForm');
 				const writeForm = new FormData(form);
 	
 				const formData = new FormData();
 				$(".form-check").each(function(){
-					if($(this).is(":checked"))
-						formData.append("stock_no_arr[]", checkNullVal($(this).val()));
+					if($(this).is(":checked")){
+						var checkValArr = $(this).val().split('_');
+						formData.append("sale_no_arr[]", checkNullValR(checkValArr[0],'0'));
+					}
 				});
 								
-				fetch('/api/sale/sales/remove', {
+				fetch('/api/sale/sales/stock/modify', {
 					method: 'PATCH',
 					body: formData
 				}).then(response => {
@@ -393,22 +410,22 @@
 		}
 
 		function fncPopupCustomerModify(){
-			var ordersno = '';
+			var salesno = '';
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
+					if(salesno != '')
+						salesno += ',';
+					salesno += $(this).val();
 				}
 			});
 			
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
+			if(salesno == ''){
+				alert('판매내역을 선택해주세요.');
 				return false;
 			}
 
-		  var url = "/order/popup/customer/modify?ordersno="+ordersno;
-      var name = "orderCustomerModifyPopup";
+		  var url = "/sale/popup/customer/list?salesno="+salesno;
+      var name = "saleCustomerModifyPopup";
       var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
@@ -438,6 +455,10 @@
 			$("#adv-search").find("input").val('');
 			$("#adv-search").find("select").val('');
 			findAll(0);
+		}
+
+		function refresh(){
+			findAll('${param.currentpage}');
 		}
 		
 		function fncCheckZero(obj){

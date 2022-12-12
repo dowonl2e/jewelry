@@ -121,4 +121,28 @@
     GROUP BY MONTH(sale_dt)
     ORDER BY MONTH(sale_dt) ASC
 	</select>
+	
+	<update id="updateSalesToStock" parameterType="SaleTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, sale_yn = 'N'
+		, sale_price = null
+		, sale_dt = NOW()
+		, rec_pay_type_cd = null
+		, card_price = null
+		, cash_price = null
+		, maint_price = null
+		, etc_price = null
+		, pnt_price = null
+		, accu_pnt = null
+		, customer_no = null
+		, customer_nm = null
+		WHERE stock_no IN (
+			<foreach collection="sale_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
 </mapper>

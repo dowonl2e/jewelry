@@ -36,6 +36,7 @@
 			
 			<div class="btn_wrap text-left mt-3">
 				<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
+        <a href="javascript: void(0);" onclick="fncRepairComplete(); return false;" id="remove-btn" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">수리완료</span></a>
         <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
     	</div>
     	
@@ -137,11 +138,11 @@
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			if(idx%4 == 0){
-     				html += `<div class="row row-cols-4">`;
+     				html += `<div class="row">`;
      			}
      			html += `
-     		    	<div class="col text-center text-black">
-     		    		<div class="card bg-light shadow rounded m10">
+     		    	<div class="col-xl-3 col-lg-4 text-center text-black">
+     		    		<div class="card bg-light shadow rounded m10" style="min-height:385px;">
      		    			<div class="row row-cols-1">
      		    				<div class="col">
      		    					<div class="m5 rounded">
@@ -176,11 +177,24 @@
      		    			<div class="row mlr1 mtb5">
      		    				<div class="col text-center">요청일 : `+checkSubstringNullVal(obj.repairreqdt,0,10)+`</div>
      		    			</div>
-     		    			<div class="row mlr1 mtb5">
-		 		    				<div class="col text-center">완료일 : `+checkSubstringNullVal(obj.repairresdt,0,10)+`</div>
-		 		    			</div>
-     		    		</div>
-     		    	</div>
+   		    `;
+   		    if(checkNullVal(obj.repairduedt) != ''){
+   		    	html += `
+   		    		<div class="row mlr1 mtb5">
+		    				<div class="col text-center">완료예정일 : `+checkSubstringNullVal(obj.repairduedt,0,10)+`</div>
+		    			</div>
+ 		    	`;
+   		    }
+   		   	if(checkNullVal(obj.repairresdt) != ''){
+   		    	html += `
+  		    		<div class="row mlr1 mtb5">
+ 		    				<div class="col text-center">완료일 : `+checkSubstringNullVal(obj.repairresdt,0,10)+`</div>
+ 		    			</div>
+ 		    		`;
+   		   	}
+   		   	html += `
+  		    		</div>
+  		    	</div>
      			`;
      			if(idx > 0 && (idx+1)%4 == 0){
      				html += `</div>`;
@@ -257,7 +271,43 @@
       window.open(url, name, option);
 		}
 		
-
+		function fncRepairComplete(){
+			var checkcnt = 0;
+			$(".form-check").each(function(){
+				if($(this).is(":checked")){
+					checkcnt++;
+				}
+			});
+			if(checkcnt == 0){
+				alert('수리 완료할 이력을 선택해주세요.');
+				return false;
+			}
+			
+			if(confirm('완료하시겠습니까?')){
+				const form = document.getElementById('searchForm');
+				const writeForm = new FormData(form);
+	
+				const formData = new FormData();
+				$(".form-check").each(function(){
+					if($(this).is(":checked"))
+						formData.append("repair_no_arr[]", checkNullVal($(this).val()));
+				});
+								
+				fetch('/api/repair/repairs/complete', {
+					method: 'PATCH',
+					body: formData
+				}).then(response => {
+					if(!response.ok){
+						throw new Error('Request Failed...');
+					}
+					alert('완료처리 되었습니다.');
+					findAll();
+				}).catch(error => {
+					alert('오류가 발생하였습니다.');
+				});
+			}
+		}
+		
 		function fncRemove(){
 
 			var checkcnt = 0;

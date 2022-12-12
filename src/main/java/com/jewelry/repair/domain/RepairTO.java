@@ -9,6 +9,7 @@ public class RepairTO extends CommonTO {
 	private Long repair_no;
 	private String repair_nm;
 	private String repair_req_dt;
+	private String repair_due_dt;
 	private String repair_res_dt;
 	private String repair_desc;
 	
@@ -112,6 +113,14 @@ public class RepairTO extends CommonTO {
 
 	public void setCustomer_cel(String customer_cel) {
 		this.customer_cel = customer_cel;
+	}
+
+	public String getRepair_due_dt() {
+		return repair_due_dt;
+	}
+
+	public void setRepair_due_dt(String repair_due_dt) {
+		this.repair_due_dt = repair_due_dt;
 	}
 	
 	

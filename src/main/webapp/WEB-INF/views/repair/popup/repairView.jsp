@@ -50,10 +50,14 @@
 							<td colspan="3" id="repair_nm_td"></td>
 						</tr>
 						<tr>
-							<th>수리요청일</th>
+							<th>수리 요청일</th>
 							<td id="repair_req_dt_td"></td>
-							<th>수리완료일</th>
-							<td id="repair_res_dt_td"></td>
+							<th>수리 완료 예정일</th>
+							<td id="repair_due_dt_td"></td>
+						</tr>
+						<tr>
+							<th>수리 완료일</th>
+							<td colspan="3" id="repair_res_dt_td"></td>
 						</tr>
 						<tr class="border-bottom">
 							<th>비고</th>
@@ -113,6 +117,7 @@
 		   		document.getElementById('customer_cel_td').innerHTML = checkNullVal(json.customercel);
 		   		document.getElementById('repair_nm_td').innerHTML = checkNullVal(json.repairnm);
 		   		document.getElementById('repair_req_dt_td').innerHTML = checkSubstringNullVal(json.repairreqdt,0,10);
+		   		document.getElementById('repair_due_dt_td').innerHTML = checkSubstringNullVal(json.repairduedt,0,10);
 		   		document.getElementById('repair_res_dt_td').innerHTML = checkSubstringNullVal(json.repairresdt,0,10);
 		   		document.getElementById('repair_desc_td').innerHTML = checkNullVal(json.repairdesc);
 		   		

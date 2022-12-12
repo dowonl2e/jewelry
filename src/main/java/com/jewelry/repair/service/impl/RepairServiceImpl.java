@@ -151,11 +151,31 @@ public class RepairServiceImpl implements RepairService {
 	@Transactional
 	@Override
 	public String updateRepairsToDelete(RepairTO to) {
-		String result = "success";
+		String result = "fail";
 		try {
 			Long[] repair_no_arr = to.getRepair_no_arr();
 			if(repair_no_arr != null && repair_no_arr.length > 0) {
 				int res = repairMapper.updateRepairsToDelete(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+
+		return result;
+	}
+	
+	@Transactional
+	@Override
+	public String updateRepairsToComplete(RepairTO to) {
+		String result = "fail";
+		try {
+			Long[] repair_no_arr = to.getRepair_no_arr();
+			if(repair_no_arr != null && repair_no_arr.length > 0) {
+				int res = repairMapper.updateRepairsToComplete(to);
 				result = res > 0 ? "success" : "fail";
 			}
 		}
