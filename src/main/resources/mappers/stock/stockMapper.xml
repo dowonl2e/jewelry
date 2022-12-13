@@ -310,4 +310,16 @@
 		) 
 	</update>
 	
+	<update id="updateStocksSaleDate" parameterType="StockTO">
+		UPDATE tb_stock
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, sale_dt = #{sale_dt}
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
+	
 </mapper>

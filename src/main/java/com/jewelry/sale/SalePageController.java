@@ -30,4 +30,11 @@ public class SalePageController {
 		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
 		return "sale/popup/saleCustomerList";
 	}
+
+	@GetMapping("/popup/date/modify")
+	public String saleDataModify(@RequestParam(value = "salesno") String salesno, ModelMap model) {
+		model.addAttribute("salesno", salesno);
+		return "sale/popup/saleDateModify";
+	}
+	
 }

@@ -17,6 +17,8 @@ public class SaleTO extends CommonTO {
 	private String customer_nm;
 	private String customer_cel;
 	
+	private String sale_dt;
+	
 	public String getSearchstore() {
 		return searchstore;
 	}
@@ -76,6 +78,12 @@ public class SaleTO extends CommonTO {
 	}
 	public void setCustomer_cel(String customer_cel) {
 		this.customer_cel = customer_cel;
+	}
+	public String getSale_dt() {
+		return sale_dt;
+	}
+	public void setSale_dt(String sale_dt) {
+		this.sale_dt = sale_dt;
 	}
 	
 }

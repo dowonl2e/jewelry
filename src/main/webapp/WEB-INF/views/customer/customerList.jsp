@@ -183,7 +183,7 @@
 							<td class="text-center">` + checkNullVal(obj.reservecnt)+`</td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>
-							<td class="text-center">` + (checkNullVal(obj.salesprice) == '' ? '' : priceWithComma(obj.salesprice)) +`</td>
+							<td class="text-center">` + (checkNullVal(obj.saleprice) == '' ? '' : priceWithComma(obj.saleprice)) +`</td>
 							<td class="text-center"></td>
 							<td class="text-center">`+checkNullVal(obj.etc)+`</td>
 	   				</tr>

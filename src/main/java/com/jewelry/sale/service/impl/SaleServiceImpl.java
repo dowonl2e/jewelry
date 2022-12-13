@@ -108,4 +108,51 @@ public class SaleServiceImpl implements SaleService {
 		}
 		return result;
 	}
+	
+	@Transactional
+	@Override
+	public String updateSalesDate(SaleTO to) {
+		String result = "fail";
+		try {
+			
+			int res = 0;
+			if(to.getSale_arr() != null && to.getSale_arr().length > 0) {
+				List<Long> stockNoList = new ArrayList<>();
+				List<Long> orderNoList = new ArrayList<>();
+				
+				for(String sale : to.getSale_arr()) {
+					String[] sales = sale.split("_");
+					if(sales.length == 2) {
+						if(sales[1].equals("STOCK")) stockNoList.add(Long.parseLong(sales[0]));
+						if(sales[1].equals("ORDER")) orderNoList.add(Long.parseLong(sales[0]));
+					}
+				}
+				
+				if(stockNoList.size() > 0) {
+					StockTO stockto = new StockTO();
+					stockto.setStock_no_arr(stockNoList.toArray(Long[]::new));
+					stockto.setSale_dt(to.getSale_dt());
+					stockto.setUpdt_id(to.getUpdt_id());
+					res += stockMapper.updateStocksSaleDate(stockto);
+				}
+				
+				if(orderNoList.size() > 0) {
+					OrderTO orderto = new OrderTO();
+					orderto.setOrder_no_arr(orderNoList.toArray(Long[]::new));
+					orderto.setSale_dt(to.getSale_dt());
+					orderto.setUpdt_id(to.getUpdt_id());
+					res += orderMapper.updateOrdersSaleDate(orderto);
+				}
+				
+			}
+			return res > 0 ? "success" : "fail";
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+		return result;
+	}
 }

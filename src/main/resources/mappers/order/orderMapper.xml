@@ -241,6 +241,16 @@
 		ORDER BY a.order_no DESC
 	</select>
 	
+	<update id="updateOrdersSaleDate" parameterType="OrderTO">
+		UPDATE tb_order
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		WHERE order_no IN (
+			<foreach collection="order_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
 	
 	<select id="selectNumOfOrdersPerMaterial" parameterType="MainTO" resultType="OrderVO">
 		SELECT material_cd, COUNT(order_no) AS order_cnt

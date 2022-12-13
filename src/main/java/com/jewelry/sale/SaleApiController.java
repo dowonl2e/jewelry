@@ -51,4 +51,13 @@ public class SaleApiController {
 		return new ResponseEntity<>(response.getStatus());
 	}
 	
+	@PatchMapping("/sales/date/modify")
+	public ResponseEntity<Object> salesDateModify(final SaleTO to){
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = saleService.updateSalesCustomer(to);
+
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+	
 }

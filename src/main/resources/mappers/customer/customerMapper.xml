@@ -63,6 +63,7 @@
 				FROM tb_stock
 				WHERE sale_yn = 'Y'
 				AND del_yn = 'N'
+				AND customer_no IS NOT NULL
 				GROUP BY customer_no
 			) e
 				ON a.customer_no = e.customer_no

@@ -51,6 +51,8 @@ public class OrderTO extends CommonTO {
 	
 	private Long[] order_no_arr;
 	
+	private String sale_dt;
+	
 	public Long getOrder_no() {
 		return order_no;
 	}
@@ -290,6 +292,12 @@ public class OrderTO extends CommonTO {
 	}
 	public void setStock_no(Long stock_no) {
 		this.stock_no = stock_no;
+	}
+	public String getSale_dt() {
+		return sale_dt;
+	}
+	public void setSale_dt(String sale_dt) {
+		this.sale_dt = sale_dt;
 	}
 	
 }

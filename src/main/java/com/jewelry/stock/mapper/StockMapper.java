@@ -45,6 +45,8 @@ public interface StockMapper {
 	
 	int updateStocksCustomer(StockTO to) throws Exception;
 
+	int updateStocksSaleDate(StockTO to) throws Exception;
+
 	/**
 	 * 메인화면 - 재질별 현 재고현황
 	 * @param to

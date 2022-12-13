@@ -92,6 +92,36 @@
 				<nav aria-label="Page navigation" class="text-center">
 			    <ul class="pagination"></ul>
 				</nav>
+				
+				<table class="table mt-3">
+					<thead>
+						<tr>
+							<th colspan="14">거래구분별 합계</th>
+						</tr>
+						<tr>
+							<th rowspan="2" class="text-center">거래구분</th>
+							<th rowspan="2" class="text-center border-left">수량</th>
+							<th rowspan="2" class="text-center border-left">소비자가</th>
+							<th rowspan="2" class="text-center border-left">매출금액<br/>(받을금액)</th>
+							<th colspan="6" class="text-center border-left">결제(받은)금액</th>
+							<th rowspan="2" class="text-center border-left">결제금액<br/>(포인트제외)</th>
+							<th rowspan="2" class="text-center border-left">구매원가</th>
+							<th rowspan="2" class="text-center border-left">매출마진<br/>(매출-원가)</th>
+							<th rowspan="2" class="text-center border-left">결제마진<br/>(결제-원가)</th>
+						</tr>
+						<tr>
+							<th class="border-left">카드</th>
+							<th class="border-left">현금</th>
+							<th class="border-left">고금</th>
+							<th class="border-left">기타</th>
+							<th class="border-left">포인트</th>
+							<th class="border-left">합계</th>
+						</tr>
+					</thead>
+					<tbody id="statsList">
+					
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -201,10 +231,24 @@
 				purchaseTotal = 0;
 				consumerPriceTotal = 0;
 				
+				saleTypes = ['판매','주문'];
+				saleCnts = [0, 0];
+				tagPrices = [0, 0];
+				salePrices = [0, 0];
+				cardPrices = [0, 0];
+				cashPrices = [0, 0];
+				maintPrices = [0, 0];
+				etcPrices = [0, 0];
+				pointPrices = [0, 0];
+				sumPrices = [0, 0];
+				purchasePrices = [0, 0];
+				saleMarginPrices = [0, 0];
+				chargeMarginPrices = [0, 0];
      		response.list.forEach((obj, idx) => {
      			backgroundTr = '';
      			if(checkNullVal(obj.saletype) == 'ORDER')
      				backgroundTr = 'bg-springgreen';
+     			
      			html += `
      				<tr class="`+backgroundTr+` small">
      					<td class="text-center">
@@ -246,8 +290,8 @@
 							<td class="text-center">` + priceWithComma(obj.cardprice) + `</td>
 							<td class="text-center">` + priceWithComma(obj.cashprice) + `</td>
 							<td class="text-center">` + priceWithComma(obj.maintprice) + `</td>
-							<td class="text-center">` + priceWithComma(obj.pntprice) + `</td>
 							<td class="text-center">` + priceWithComma(obj.etcprice) + `</td>
+							<td class="text-center">` + priceWithComma(obj.pntprice) + `</td>
 					`;
 					totalRecPayPrice = Number(obj.cardprice) + Number(obj.cashprice);
 					totalRecPayPrice += Number(obj.maintprice) + Number(obj.pntprice) + Number(obj.etcprice);
@@ -259,19 +303,104 @@
 					quantityTotal += Number(checkNullValR(obj.quantity,'0'));
 					purchaseTotal += Math.round(Number(checkNullValR(realPchGoldPrice,'0')),0);
 					consumerPriceTotal += Number(checkNullValR(obj.consumerprice,'0'));
+					
+					if(checkNullVal(obj.saletype) == 'STOCK'){
+						saleCnts[0] += Number(checkNullValR(obj.quantity,'0'));
+						tagPrices[0] += Number(checkNullValR(obj.consumerprice,'0'));
+						salePrices[0] += Number(checkNullValR(obj.saleprice,'0'));
+						cardPrices[0] += Number(checkNullValR(obj.cardprice,'0'));
+						cashPrices[0] += Number(checkNullValR(obj.cashprice,'0'));
+						maintPrices[0] += Number(checkNullValR(obj.maintprice,'0'));
+						etcPrices[0] += Number(checkNullValR(obj.etcprice,'0'));
+						pointPrices[0] += Number(checkNullValR(obj.pntprice,'0'));
+						sumPrices[0] += Number(checkNullValR(totalRecPayPrice,'0'));
+						purchasePrices[0] += Number(checkNullValR(realPchGoldPrice,'0'));
+						saleMarginPrices[0] += (Number(checkNullValR(obj.saleprice,'0')) - Number(checkNullValR(realPchGoldPrice,'0')));
+						chargeMarginPrices[0] += (Number(checkNullValR(totalRecPayPrice,'0')) - Number(checkNullValR(realPchGoldPrice,'0')));
+					}
+					else if(checkNullVal(obj.saletype) == 'ORDER'){
+						saleCnts[1] += Number(checkNullValR(obj.quantity,'0')); 
+						tagPrices[1] += Number(checkNullValR(obj.consumerprice,'0'));
+						salePrices[1] += Number(checkNullValR(obj.saleprice,'0'));
+						cardPrices[1] += Number(checkNullValR(obj.cardprice,'0'));
+						cashPrices[1] += Number(checkNullValR(obj.cashprice,'0'));
+						maintPrices[1] += Number(checkNullValR(obj.maintprice,'0'));
+						etcPrices[1] += Number(checkNullValR(obj.etcprice,'0'));
+						pointPrices[1] += Number(checkNullValR(obj.pntprice,'0'));
+						sumPrices[1] += Number(checkNullValR(totalRecPayPrice,'0'));
+						purchasePrices[1] += Number(checkNullValR(realPchGoldPrice,'0'));
+						saleMarginPrices[1] += (Number(checkNullValR(obj.saleprice,'0')) - Number(checkNullValR(realPchGoldPrice,'0')));
+						chargeMarginPrices[1] += (Number(checkNullValR(totalRecPayPrice,'0')) - Number(checkNullValR(realPchGoldPrice,'0')));
+					}
      		});
      		html += `
      			<tr class="bg-lightyellow border-bottom small">
-	     			<td colspan="10" class="text-right">판매/주문/수리 소계</td>
-	     			<td class="text-center">`+(quantityTotal == 0 ? '' : quantityTotal)+`</td>
-	     			<td class="text-right">`+(purchaseTotal == 0 ? '' : priceWithComma(purchaseTotal))+`</td>
-	     			<td class="text-right">`+(consumerPriceTotal == 0 ? '' : priceWithComma(consumerPriceTotal))+`</td>
+	     			<td colspan="10" class="text-right weight-600">판매/주문/수리 소계</td>
+	     			<td class="text-center weight-600">`+(quantityTotal == 0 ? '' : quantityTotal)+`</td>
+	     			<td class="text-right weight-600">`+(purchaseTotal == 0 ? '' : priceWithComma(purchaseTotal))+`</td>
+	     			<td class="text-right weight-600">`+(consumerPriceTotal == 0 ? '' : priceWithComma(consumerPriceTotal))+`</td>
 	     			<td class="text-right"></td>
 	     			<td colspan="7" class="text-right"></td>
 	     			<td class="text-right"></td>
 	     		</tr>
      		`;
+     		
+     		let statsHtml = ``;
+     		var totalSaleCnt = 0, totalTagPrice = 0, totalSalePrice = 0, totalCardPrice = 0, totalCashPrice = 0, totalMaintPrice = 0;
+     		var totalEtcPrice = 0, totalPointPrice = 0, totalSumPrice = 0, totalPurchasePrice = 0, totalSaleMarginPrice = 0, totalChargeMarginPrice = 0;
+     		saleTypes.forEach((item, idx) => {
+     			statsHtml += `
+     				<tr class="`+(item == '주문' ? 'bg-springgreen' : '')+`">
+		 					<td class="text-center border-right weight-600 small">`+item+`</td>
+		 					<td class="text-center border-right small">`+saleCnts[idx]+`</td>
+		 					<td class="text-right border-right small">`+(tagPrices[idx] == 0 ? '' : priceWithComma(tagPrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(salePrices[idx] == 0 ? '' : priceWithComma(salePrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(cardPrices[idx] == 0 ? '' : priceWithComma(cardPrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(cashPrices[idx] == 0 ? '' : priceWithComma(cashPrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(maintPrices[idx] == 0 ? '' : priceWithComma(maintPrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(etcPrices[idx] == 0 ? '' : priceWithComma(etcPrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(pointPrices[idx] == 0 ? '' : priceWithComma(pointPrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(sumPrices[idx] == 0 ? '' : priceWithComma(sumPrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(salePrices[idx] == 0 ? '' : priceWithComma(salePrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(purchasePrices[idx] == 0 ? '' : priceWithComma(purchasePrices[idx]))+`</td>
+		 					<td class="text-right border-right small">`+(saleMarginPrices[idx] == 0 ? '' : priceWithComma(saleMarginPrices[idx]))+`</td>
+		 					<td class="text-right small">`+(chargeMarginPrices[idx] == 0 ? '' : priceWithComma(chargeMarginPrices[idx]))+`</td>
+     				</tr>
+     			`;
+     			totalSaleCnt += saleCnts[idx];
+     			totalTagPrice += tagPrices[idx];
+     			totalSalePrice += salePrices[idx];
+     			totalCardPrice += cardPrices[idx];
+     			totalCashPrice += cashPrices[idx];
+     			totalMaintPrice += maintPrices[idx];
+     			totalEtcPrice += etcPrices[idx];
+     			totalPointPrice += pointPrices[idx];
+     			totalSumPrice += sumPrices[idx];
+     			totalPurchasePrice += purchasePrices[idx];
+     			totalSaleMarginPrice += saleMarginPrices[idx];
+     			totalChargeMarginPrice += chargeMarginPrices[idx];
+     		});
+     		statsHtml += `
+	 				<tr class="bg-orange important">
+	 					<th class="text-center border-right weight-600 small">합계</th>
+	 					<th class="text-center border-right weight-600 small">`+totalSaleCnt+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalTagPrice == 0 ? '' : priceWithComma(totalTagPrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalSalePrice == 0 ? '' : priceWithComma(totalSalePrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalCardPrice == 0 ? '' : priceWithComma(totalCardPrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalCashPrice == 0 ? '' : priceWithComma(totalCashPrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalMaintPrice == 0 ? '' : priceWithComma(totalMaintPrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalEtcPrice == 0 ? '' : priceWithComma(totalEtcPrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalPointPrice == 0 ? '' : priceWithComma(totalPointPrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalSumPrice == 0 ? '' : priceWithComma(totalSumPrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalSalePrice == 0 ? '' : priceWithComma(totalSalePrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalPurchasePrice == 0 ? '' : priceWithComma(totalPurchasePrice))+`</th>
+	 					<th class="text-right border-right weight-600 small">`+(totalSaleMarginPrice == 0 ? '' : priceWithComma(totalSaleMarginPrice))+`</th>
+	 					<th class="text-right weight-600 small">`+(totalChargeMarginPrice == 0 ? '' : priceWithComma(totalChargeMarginPrice))+`</th>
+	 				</tr>
+ 				`;
+ 			
 				document.getElementById('list').innerHTML = html;
+				document.getElementById('statsList').innerHTML = statsHtml;
 				drawPages(response.params);
 			});
 		}
@@ -425,29 +554,29 @@
 			}
 
 		  var url = "/sale/popup/customer/list?salesno="+salesno;
-      var name = "saleCustomerModifyPopup";
+      var name = "saleCustomerListPopup";
       var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
-		
+
 		function fncPopupSaleDateModify(){
-			var nos = '';
+			var salesno = '';
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
-					if(nos != '')
-						nos += ',';
-					nos += $(this).val();
+					if(salesno != '')
+						salesno += ',';
+					salesno += $(this).val();
 				}
 			});
 			
-			if(nos == ''){
-				alert('재고내역을 선택해주세요.');
+			if(salesno == ''){
+				alert('판매내역을 선택해주세요.');
 				return false;
 			}
-			
-		  var url = "/stock/popup/reg-date/modify?stocksno="+stocksno;
-      var name = "stockRegisterDateModifyPopup";
-      var option = "width = 500, height = 300, top = 100, left = 200, location = no";
+
+		  var url = "/sale/popup/date/modify?salesno="+salesno;
+      var name = "saleDateModifyPopup";
+      var option = "width = 700, height = 350, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
 		

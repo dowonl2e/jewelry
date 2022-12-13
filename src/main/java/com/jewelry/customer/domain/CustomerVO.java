@@ -30,7 +30,7 @@ public class CustomerVO extends CommonVO {
 	private Integer ordercnt;
 	private Integer repaircnt;
 	private Integer reservecnt;
-	private Integer salesprice;
+	private Integer saleprice;
 	
 	private Map<String, String> codemap;
 	
@@ -167,11 +167,10 @@ public class CustomerVO extends CommonVO {
 	public void setReservecnt(Integer reservecnt) {
 		this.reservecnt = reservecnt;
 	}
-	public Integer getSalesprice() {
-		return salesprice;
+	public Integer getSaleprice() {
+		return saleprice;
 	}
-	public void setSalesprice(Integer salesprice) {
-		this.salesprice = salesprice;
+	public void setSaleprice(Integer saleprice) {
+		this.saleprice = saleprice;
 	}
-	
 }

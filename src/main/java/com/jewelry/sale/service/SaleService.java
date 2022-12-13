@@ -12,5 +12,7 @@ public interface SaleService {
 	
 	String updateSalesCustomer(SaleTO to);
 	
+	String updateSalesDate(SaleTO to);
+	
 	
 }
