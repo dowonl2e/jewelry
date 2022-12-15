@@ -150,10 +150,10 @@
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			if(idx%4 == 0){
-     				html += `<div class="row row-cols-4">`;
+     				html += `<div class="row">`;
      			}
      			html += `
-     		    	<div class="col text-center text-black">
+     		    	<div class="col-xl-3 col-lg-4 text-center text-black">
      		    		<div class="card bg-light shadow rounded m10">
      		    			<div class="row row-cols-1">
      		    				<div class="col">

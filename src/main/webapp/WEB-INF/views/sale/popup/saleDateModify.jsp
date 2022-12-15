@@ -49,16 +49,16 @@
 			  }
 				if(confirm('변경하시겠습니까?')){
 					var salesno = '${salesno}';
-					var sale_arr = orderno.split(',');
+					var sale_arr = salesno.split(',');
 					
 					const formData = new FormData();
 					$(".form-data").each(function(){
 						formData.append($(this).attr("name"), checkNullVal($(this).val()));
 					});
-					for(var i = 0 ; i < order_no_arr.length ; i++){
-						formData.append('sale_arr[]',order_no_arr[i]);
+					for(var i = 0 ; i < sale_arr.length ; i++){
+						formData.append('sale_arr[]',sale_arr[i]);
 					}
-					fetch('/api/order/step/modify', {
+					fetch('/api/sale/sales/date/modify', {
 						method: 'PATCH',
 						body: formData
 					}).then(response => {

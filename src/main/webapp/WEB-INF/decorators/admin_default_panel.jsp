@@ -207,11 +207,11 @@
             
 	            <!-- Topbar -->
             	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-								<h6 class="m-0 font-weight-bold text-primary">${empty menunm ? 'Dashboard' : menunm}</h6>
 								<!-- Sidebar Toggle (Topbar) -->
 								<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
 								    <i class="fa fa-bars"></i>
 								</button>
+								<h6 class="m-0 font-weight-bold text-primary">${empty menunm ? 'Dashboard' : menunm}</h6>
 			
 			       <!-- Topbar Search -->
 			       <%--

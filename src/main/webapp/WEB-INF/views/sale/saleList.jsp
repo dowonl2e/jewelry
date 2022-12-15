@@ -85,7 +85,7 @@
 				<div class="text-left mt-3">
 					<a href="javascript: void(0)" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
 	        <a href="javascript: void(0)" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
-	        <a href="javascript: alert('준비중입니다.');" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">거래일변경</span></a>
+	        <a href="javascript: void(0)" onclick="fncPopupSaleDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">거래일변경</span></a>
 	        <a href="javascript: void(0)" id="remove-btn" onclick="fncSaleToStocks(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	    	</div>
 	    					

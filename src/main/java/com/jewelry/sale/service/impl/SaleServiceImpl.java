@@ -139,7 +139,7 @@ public class SaleServiceImpl implements SaleService {
 				if(orderNoList.size() > 0) {
 					OrderTO orderto = new OrderTO();
 					orderto.setOrder_no_arr(orderNoList.toArray(Long[]::new));
-					orderto.setSale_dt(to.getSale_dt());
+					orderto.setReceipt_dt(to.getSale_dt());
 					orderto.setUpdt_id(to.getUpdt_id());
 					res += orderMapper.updateOrdersSaleDate(orderto);
 				}

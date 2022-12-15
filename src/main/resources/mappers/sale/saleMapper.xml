@@ -81,7 +81,7 @@
 			UNION ALL
 			
 			SELECT store_cd, sale_dt, NULL AS sale_type2
-							, CASE DAYOFWEEK(DATE_FORMAT(reg_dt, '%Y%m%d'))
+							, CASE DAYOFWEEK(DATE_FORMAT(sale_dt, '%Y%m%d'))
 				       		WHEN '1' THEN '일'
 					       	WHEN '2' THEN '월'
 					       	WHEN '3' THEN '화'

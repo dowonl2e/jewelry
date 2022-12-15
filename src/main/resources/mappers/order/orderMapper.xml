@@ -245,6 +245,7 @@
 		UPDATE tb_order
 		SET updt_dt = NOW()
 		, updt_id = #{updt_id}
+		, receipt_dt = #{receipt_dt}
 		WHERE order_no IN (
 			<foreach collection="order_no_arr" item="item" separator=" , ">
 				#{item}

@@ -350,7 +350,7 @@
 	      						<tr>
 	      							<td class="text-center border-right">`+checkNullVal(codemap[obj.statscd])+`</td>
 	      							<td class="text-right border-right">`+priceWithComma(obj.yesterdayprice)+`</td>
-	      							<td class="text-right">`+priceWithComma(obj.todayprice)+`</td>
+	      							<td class="text-right">`+priceWithComma(Number(checkNullValR(obj.yesterdayprice,'0'))+Number(checkNullValR(obj.todayprice,'0')))+`</td>
 	      						</tr>
 	      					`;
       						yesBankBookTotal += Number(obj.yesterdayprice == null ? 0 : checkNullValR(obj.yesterdayprice,'0'));
@@ -362,7 +362,7 @@
       				<tr class="bg-lightyellow">
       			    <td class="text-right border-right">현금합계</td>
       			    <td class="text-right border-right">`+priceWithComma(yesBankBookTotal)+`</td>
-      			    <td class="text-right">`+priceWithComma(todayBankBookTotal)+`</td>
+      			    <td class="text-right">`+priceWithComma(yesBankBookTotal+todayBankBookTotal)+`</td>
       			  </tf>
       			`;
       			response.statslist.forEach((obj, idx) => {

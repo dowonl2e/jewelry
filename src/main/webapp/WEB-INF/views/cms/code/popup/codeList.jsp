@@ -22,6 +22,7 @@
 							<th class="text-center">사용여부</th>
 							<th class="text-center">등록자</th>
 							<th class="text-center">등록일</th>
+							<th class="text-center">하위코드</th>
 						</tr>
 					</thead>
 					<tbody id="list"></tbody>
@@ -48,9 +49,9 @@
 		function findAll() {
 	
 			getJson('/api/code/list/${upcdid}/${cddepth}').then(response => {
-				document.getElementById('upcdnm').innerHTML = response.vo.cdnm;
+				document.getElementById('upcdnm').innerHTML = checkNullVal(response.vo.cdnm)+'(${upcdid})';
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="5" class="text-center">등록된 코드가 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<td colspan="6" class="text-center">등록된 코드가 없습니다.</td>';
 					return false;
 				}
 	
@@ -66,6 +67,7 @@
   						<td class="text-center">`+obj.useyn+`</td>
   						<td class="text-center">`+obj.inptnm+`</td>
   						<td class="text-center">`+obj.inptdt+`</td>
+  						<td class="text-center"><a href="javascript: void(0);" onclick="fncPopupSubCodeList(\'`+obj.cdid+`\'); return false;" class="btn btn-info">하위코드</a></td>
       			</tr>
      			`;
      		});
@@ -88,6 +90,16 @@
 			}
 	
 			return await response.json();
+		}
+		
+		/**
+		 * 하위코드 팝업
+		 */
+		function fncPopupSubCodeList(up_cd_id) {
+		  var url = "/code/popup/list/"+up_cd_id+"/${cddepth+1}";
+      var name = "subCodeListPopup"+up_cd_id;
+      var option = "width = 800, height = 500, top = 100, left = 200, location = no";
+      window.open(url, name, option);
 		}
 		
 		/**

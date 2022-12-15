@@ -217,8 +217,8 @@
 		 * 하위코드 팝업
 		 */
 		function fncPopupSubCodeList(up_cd_id) {
-		  var url = "./popup/list/"+up_cd_id+"/2";
-      var name = "subCodeListPopup";
+		  var url = "/code/popup/list/"+up_cd_id+"/2";
+      var name = "subCodeListPopup2";
       var option = "width = 800, height = 500, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
