@@ -21,7 +21,7 @@
   <!-- <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
   
   
-	<title>너의 금방</title>
+	<title>단골금빵</title>
 
 	<script type="text/javascript">
 		function fncLogout(){
@@ -43,7 +43,7 @@
                 <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div> -->
-                <div class="sidebar-brand-text mx-3">너의 금방</div>
+                <div class="sidebar-brand-text mx-3">단골금빵</div>
             </a>
 
             <!-- Divider -->

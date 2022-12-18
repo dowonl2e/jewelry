@@ -25,5 +25,9 @@ public interface RepairMapper {
 	int updateRepairsToDelete(RepairTO to);
 	
 	int updateRepairsToComplete(RepairTO to);
+	
+	int selectCustomerRepairListCount(RepairTO to);
+	
+	List<RepairVO> selectCustomerRepairList(RepairTO to);
 
 }

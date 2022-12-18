@@ -187,4 +187,16 @@ public class RepairServiceImpl implements RepairService {
 
 		return result;
 	}
+
+
+	@Override
+	public Map<String, Object> findAllCustomerRepair(RepairTO to) {
+		Map<String, Object> response = new HashMap<>();
+
+		to.setTotalcount(repairMapper.selectCustomerRepairListCount(to));
+		response.put("list", repairMapper.selectCustomerRepairList(to));
+		response.put("params", to);
+		
+		return response;
+	}
 }

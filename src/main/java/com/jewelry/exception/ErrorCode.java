@@ -26,7 +26,12 @@ public enum ErrorCode {
      * 500 INTERNAL_SERVER_ERROR: 내부 서버 오류
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "내부 서버 오류입니다."),
-
+    
+    /**
+     * 주문 관련 오류 코드
+     */
+    ORDERS_NOT_SELECTED(HttpStatus.BAD_REQUEST, "선택된 주문 이력이 없습니다."),
+    ORDERS_NO_CUSTOMERS(HttpStatus.BAD_REQUEST, "고객정보가 없는 주문이력이 있습니다.")
     ;
 	
 	/*

@@ -354,6 +354,18 @@ public class OrderServiceImpl implements OrderService {
 		return response;
 	}
 	
+	@Transactional(readOnly = true)
+	@Override
+	public Map<String, Object> findAllCustomerOrder(OrderTO to) {
+		Map<String, Object> response = new HashMap<>();
+
+		to.setTotalcount(orderMapper.selectCustomerOrderListCount(to));
+		response.put("list", orderMapper.selectCustomerOrderList(to));
+		response.put("params", to);
+		
+		return response;
+	}
+	
 	/**
 	 * 2022-12-09 dwlee
 	 * 주문이력 재고등록 기능 수정으로 StockService로 이동

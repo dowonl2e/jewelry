@@ -130,6 +130,12 @@
 		WHERE a.stock_no = #{stock_no}
 	</select>
 	
+	<select id="selectStockCustomer" parameterType="Long" resultType="StockVO">
+		SELECT a.stock_no, a.customer_no, a.customer_nm
+		FROM tb_stock a
+		WHERE a.stock_no = #{stock_no}
+	</select>
+	
 	<update id="updateStock" parameterType="StockTO">
 		UPDATE tb_stock
 		SET updt_dt = NOW()

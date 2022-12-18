@@ -68,6 +68,12 @@ public class StockServiceImpl implements StockService {
 			vo.setFilelist(fileMapper.selectFileListByRefInfo(new FileTO(stockno, "STOCK")));
 		return vo;
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public StockVO findStockCustomerByNo(Long stockno) {
+		return stockMapper.selectStockCustomer(stockno);
+	}
 
 	@Transactional
 	@Override
@@ -477,6 +483,7 @@ public class StockServiceImpl implements StockService {
 		String result = "fail";
 		try {
 			int rescnt = 0;
+
 			Long[] catalog_no_arr = to.getCatalog_no_arr();
 			Integer[] quantity_arr = to.getQuantity_arr();
 			if(catalog_no_arr != null && catalog_no_arr.length > 0 && quantity_arr != null && quantity_arr.length > 0) {

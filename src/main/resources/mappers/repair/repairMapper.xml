@@ -115,4 +115,28 @@
 		)
 	</update>
 	
+	<select id="selectCustomerRepairListCount" parameterType="RepairTO" resultType="Integer">
+		SELECT COUNT(a.repair_no)
+		FROM tb_repair a
+		WHERE a.customer_no = #{customer_no}
+		AND a.del_yn = 'N'
+		<include refid="repair-search" />
+	</select>
+	
+	<select id="selectCustomerRepairList" parameterType="RepairTO" resultType="RepairVO">
+		SELECT a.repair_no, a.repair_nm, a.repair_req_dt, a.repair_due_dt, a.repair_res_dt, a.customer_no, a.customer_nm, a.customer_cel
+						, b.file_path, b.origin_nm, b.file_nm
+		FROM tb_repair a
+			LEFT OUTER JOIN tb_file b
+				ON a.repair_no = b.ref_no
+				AND b.ref_info = 'REPAIR'
+				AND b.file_ord = 1
+				AND b.del_yn = 'N'
+		WHERE a.customer_no = #{customer_no}
+		AND a.del_yn = 'N'
+		<include refid="repair-search" />
+		ORDER BY a.repair_req_dt DESC, a.repair_no DESC
+		<include refid="commonMapper.paging" />
+	</select>
+	
 </mapper>

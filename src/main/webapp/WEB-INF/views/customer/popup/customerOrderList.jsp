@@ -45,8 +45,6 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-				    <a href="javascript: void(0);" onclick="fncPopupCustomerOrderWrite(); return false;" class="btn btn-primary waves-effect waves-light">고객</a>
-				    <a href="javascript: void(0);" onclick="fncPopupReadMadeOrderWrite(); return false;" class="btn btn-danger waves-effect waves-light ml5">기성</a>
 			    </div>
 				</div>
 	    </form>
@@ -55,11 +53,9 @@
 					<thead>
 						<tr>
 							<th class="text-center">No</th>
-							<th class="text-center border-left"><a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a></th>
 							<th class="text-center border-left">접수일<br/>입고일</th>
 							<th class="text-center border-left">구  분<br/>판매일</th>
 							<th class="text-center border-left">매장명<br/>고객명</th>
-							<th class="text-center border-left">사진</th>
 							<th class="text-center border-left">모델번호</th>
 							<th class="text-center border-left">재질<br/>색상</th>
 							<th class="text-center border-left">수량</th>
@@ -72,15 +68,6 @@
 					</thead>
 					<tbody id="list"></tbody>
 				</table>
-				
-				<div class="text-left mt-3">
-					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0);" onclick="fncPopupStepModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">단계변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncOrderToStock(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
-	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
-	    	</div>
 	    					
 				<nav aria-label="Page navigation" class="text-center">
 			    <ul class="pagination"></ul>
@@ -178,7 +165,7 @@
 			const replaceUri = location.pathname + '?' + queryString;
 			history.replaceState({}, '', replaceUri);
 			
-			getJson('/api/order/list', params).then(response => {
+			getJson('/api/order/customer/list/${customerno}/${orderstep}', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="14" class="text-center">주문내역이 없습니다.</td>';
 					drawPages();
@@ -194,7 +181,6 @@
 							<td class="text-center">
 								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.orderno)+`','`+checkNullVal(obj.ordertype)+`'); return false;">` + (num--) + `</a>
 							</td>
-							<td class="text-center"><input type="checkbox" name="order_no_arr" class="form-check" value="`+checkNullVal(obj.orderno)+`"/></td>
 							<td class="text-center">
 								<input type="hidden" id="order_type_arr_`+checkNullVal(obj.orderno)+`" value="`+checkNullVal(obj.ordertype)+`"/>
 								<div>접:` + checkSubstringNullVal(obj.receiptdt,0,10) + `</div>
@@ -206,20 +192,6 @@
 							</td>
 					`;
 					html += `
-							<td class="text-center">
-					`;
-     		  if(checkNullVal(obj.filepath) == ''){
- 	     		  html += `
- 							<img src="/img/no-image.png" width="60px;" height="60px"/>
- 						`;
-     		  }
-     		  else {
-     			 	html += `
- 							<img src="/file/image/display?filePath=`+checkNullVal(obj.filepath)+`&fileName=`+checkNullVal(obj.filenm)+`" width="60px;" height="60px"/>
- 						`;
-     		  }
- 					html += `
-							</td>
 							<td class="text-center">` + checkNullVal(obj.modelid)+`</td>
 							<td class="text-center"><span class="important">` + checkNullVal(codemap[obj.materialcd])+`</span><br/>`+checkNullVal(codemap[obj.colorcd])+`</td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
@@ -271,26 +243,6 @@
 					form[key].value = value;
 				}
 			});
-		}
-
-		/**
-		 * 작성하기(고객)
-		 */
-		function fncPopupCustomerOrderWrite() {
-		  var url = "/order/popup/customer/write";
-      var name = "orderCustomerWritePopup";
-      var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		/**
-		 * 작성하기(기성)
-		 */
-		function fncPopupReadMadeOrderWrite() {
-		  var url = "/order/popup/read-made/write";
-      var name = "orderReadMadeWritePopup";
-      var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
 		}
 
 		/**
@@ -347,109 +299,6 @@
 					alert('오류가 발생하였습니다.');
 				});
 			}
-		}
-
-		function fncPopupStepModify(){
-			var ordersno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
-				}
-			});
-			
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-			
-		  var url = "/order/popup/step/modify?ordersno="+ordersno;
-      var name = "orderStepModifyPopup";
-      var option = "width = 500, height = 300, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		function fncPopupCustomerModify(){
-			var ordersno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
-				}
-			});
-			
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-
-		  var url = "/order/popup/customer/modify?ordersno="+ordersno;
-      var name = "orderCustomerModifyPopup";
-      var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-		
-		function fncPopupVenderModify(){
-			var ordersno = '';
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
-				}
-			});
-			
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-
-		  var url = "/order/popup/vender/modify?ordersno="+ordersno;
-      var name = "orderVenderModifyPopup";
-      var option = "width = 1100, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
-		}
-
-		function fncOrderToStock(){
-			var ordersno = '';
-			var customercnt = 0;
-			var nocustomercnt = 0;
-			$(".form-check").each(function(){
-				if($(this).is(":checked")){
-					if(ordersno != '')
-						ordersno += ',';
-					ordersno += $(this).val();
-					if($("#order_type_arr_"+$(this).val()).val() == 'CUSTOMER'){
-						customercnt++;
-					}
-					else {
-						nocustomercnt++;
-					}
-				}
-			});
-
-			if(ordersno == ''){
-				alert('주문내역을 선택해주세요.');
-				return false;
-			}
-			
-			if(customercnt > 1){
-				alert('재고등록시 고객 주문은 1건만 등록가능합니다.');
-				return false;
-			}
-			
-			if(customercnt > 0 && nocustomercnt > 0){
-				alert('재고등록은 고객주문과 기성주문을 따로 등록가능합니다.');
-				return false;
-			}
-			
-
-			var url = "/order/popup/orders/stock/write?ordersno="+ordersno;
-      var name = "orderVenderModifyPopup";
-      var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
 		}
 
 		//새로고침

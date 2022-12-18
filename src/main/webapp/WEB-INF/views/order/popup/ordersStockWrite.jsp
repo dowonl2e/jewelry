@@ -395,6 +395,12 @@
 		    	return response.json();
 				}).then(json => {
 					if(json.list != null && json.list.length > 0){
+						if(json.list.length == 1){
+							document.getElementById('customer_no').value = checkNullVal(json.list[0].customerno) == '0' ? '' : checkNullVal(json.list[0].customerno);
+							document.getElementById('customer_nm').value = checkNullVal(json.list[0].customernm);
+							document.getElementById('customer_cel').value = checkNullVal(json.list[0].customercel);
+						}
+						
 						json.list.forEach((obj, idx) => {
 							document.getElementById('catalog_no_'+idx).value = checkNullVal(obj.catalogno);
 							document.getElementById('model_id_'+idx).value = checkNullVal(obj.modelid);
@@ -462,7 +468,8 @@
 				
 				const ordersno = '${ordersno}';
 				if(!ordersno){
-					alert()
+					alert('선택된 주문 이력이 없습니다.');
+					fncClose();
 					return false;
 				}
 				

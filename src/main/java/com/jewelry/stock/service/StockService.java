@@ -3,6 +3,7 @@ package com.jewelry.stock.service;
 import java.util.List;
 import java.util.Map;
 
+import com.jewelry.exception.ErrorCode;
 import com.jewelry.order.domain.OrderTO;
 import com.jewelry.stock.domain.StockTO;
 import com.jewelry.stock.domain.StockVO;
@@ -14,6 +15,8 @@ public interface StockService {
 	List<StockVO> findAllPrevStock();
 	
 	StockVO findStockByNo(Long stockno);
+	
+	StockVO findStockCustomerByNo(Long stockno);
 	
 	String insertStock(StockTO to);
 	

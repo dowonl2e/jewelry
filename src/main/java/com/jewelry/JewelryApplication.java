@@ -15,8 +15,8 @@ public class JewelryApplication extends SpringBootServletInitializer {
 	}
 	
 	// 배포 시 동작하지 않는 경우 해당 주석을 풀고 다시 빌드
-     @Override
-     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-         return builder.sources(JewelryApplication.class);
-     }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(JewelryApplication.class);
+    }
 }

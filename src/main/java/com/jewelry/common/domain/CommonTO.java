@@ -76,7 +76,6 @@ public class CommonTO extends Pagination {
 	public void setSearchrecordcnt(String searchrecordcnt) {
 		this.searchrecordcnt = searchrecordcnt;
 		if(searchrecordcnt != null && searchrecordcnt.length() > 0) {
-			System.out.println("333 : " + searchrecordcnt);
 			setRecordcount(Integer.parseInt(searchrecordcnt));
 		}
 	}

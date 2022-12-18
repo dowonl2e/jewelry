@@ -216,7 +216,9 @@
 							<td class="text-center"><input type="checkbox" name="stock_no_arr" class="form-check" value="`+checkNullVal(obj.stockno)+`"/></td>
 							<td class="text-center">` + checkSubstringNullVal(obj.regdt,2,10) + `</td>
 							<td class="text-center bold">`+checkNullVal(obj.stockno)+`</td>
-							<td class="text-center">`+ checkNullVal(codemap[obj.stocktypecd]) + `</td>
+							<td class="text-center">
+								<input type="hidden" id="stock_type_cd_`+checkNullVal(obj.stockno)+`" value="`+checkNullVal(obj.stocktypecd)+`"/>`+ checkNullVal(codemap[obj.stocktypecd]) + `
+							</td>
 							<td class="text-center"><div>` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
 							<td class="text-center"><a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a></td>
 							<td class="text-center">` + checkNullVal(codemap[obj.materialcd])+`</td>
@@ -336,16 +338,34 @@
 		
 		function fncPopupSale(){
 			var stocksno = '';
+			var stockTypeCnt1 = 0;
+			var stockTypeCnt2 = 0;
 			$(".form-check").each(function(){
 				if($(this).is(":checked")){
 					if(stocksno != '')
 						stocksno += ',';
 					stocksno += $(this).val();
+					if($("#stock_type_cd_"+$(this).val()).val() == 'OC03'){
+						stockTypeCnt1++;
+					}
+					else {
+						stockTypeCnt2++;
+					}
 				}
 			});
 			
 			if(stocksno == ''){
 				alert('판매할 재고를 선택해주세요.');
+				return false;
+			}
+			
+			if(stockTypeCnt1 > 1){
+				alert('주문재고는 1건씩 판매 가능합니다.');
+				return false;
+			}
+			
+			if(stockTypeCnt1 > 0 && stockTypeCnt2 > 0){
+				alert('주문재고와 일반재고는 따로 판매가능합니다.');
 				return false;
 			}
 			

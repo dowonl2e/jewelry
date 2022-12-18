@@ -21,6 +21,8 @@ public interface StockMapper {
 		
 	StockVO selectStock(Long stockno);
 	
+	StockVO selectStockCustomer(Long stockno);
+	
 	int updateStock(StockTO to) throws Exception;
 
 	int updateStockToDelete(StockTO to) throws Exception;

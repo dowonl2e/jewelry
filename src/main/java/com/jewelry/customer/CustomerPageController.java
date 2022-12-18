@@ -3,6 +3,7 @@ package com.jewelry.customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,5 +49,21 @@ public class CustomerPageController {
 	public String listPopup(Model model) {
 		model.addAttribute("codelist", codeService.findAllByUpCdId(new String[] {"ST","CT"}, 2));
 		return "customer/popup/customerList";
+	}
+	
+	@GetMapping("/popup/order/list/{customerno}/{orderstep}")
+	public String orderListPopup(@PathVariable("customerno") final Long customerno, @PathVariable("orderstep") final String orderstep, ModelMap model) {
+		model.addAttribute("customerno", customerno);
+		model.addAttribute("orderstep", orderstep);
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","SC"}, 2));
+		return "customer/popup/customerOrderList";
+	}
+
+	@GetMapping("/popup/repair/list/{customerno}")
+	public String repairListPopup(@PathVariable final Long customerno, ModelMap model) {
+		model.addAttribute("customerno", customerno);
+		return "customer/popup/customerRepairList";
 	}
 }

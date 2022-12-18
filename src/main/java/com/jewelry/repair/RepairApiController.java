@@ -83,4 +83,10 @@ public class RepairApiController {
 		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
 		return new ResponseEntity<>(response.getStatus());
 	}
+	
+	@GetMapping("/customer/list/{customerno}")
+	public Map<String, Object> customerList(@PathVariable final Long customerno, final RepairTO to){
+		to.setCustomer_no(customerno);
+		return repairService.findAllCustomerRepair(to);
+	}
 }

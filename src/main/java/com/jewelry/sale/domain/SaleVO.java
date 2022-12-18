@@ -19,7 +19,7 @@ public class SaleVO extends CommonVO {
 	private Long catalogno;
 	private String modelid;
 	private Integer realpchgoldprice;
-	private Integer perweightgram;
+	private Double perweightgram;
 	private String materialcd;
 	private String saledesc;
 	private String mainstonetype;
@@ -200,10 +200,10 @@ public class SaleVO extends CommonVO {
 	public void setRealpchgoldprice(Integer realpchgoldprice) {
 		this.realpchgoldprice = realpchgoldprice;
 	}
-	public Integer getPerweightgram() {
+	public Double getPerweightgram() {
 		return perweightgram;
 	}
-	public void setPerweightgram(Integer perweightgram) {
+	public void setPerweightgram(Double perweightgram) {
 		this.perweightgram = perweightgram;
 	}
 	public Integer getSalemonth() {

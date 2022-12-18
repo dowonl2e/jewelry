@@ -35,6 +35,9 @@ public class StockVO extends CommonVO {
 	private String origintype;
 	private String delyn;
 	private String saleyn;
+	
+	private Long customerno;
+	private String customernm;
 
 	private Integer stockcnt;
 	
@@ -270,6 +273,22 @@ public class StockVO extends CommonVO {
 
 	public void setStockcnt(Integer stockcnt) {
 		this.stockcnt = stockcnt;
+	}
+
+	public Long getCustomerno() {
+		return customerno;
+	}
+
+	public void setCustomerno(Long customerno) {
+		this.customerno = customerno;
+	}
+
+	public String getCustomernm() {
+		return customernm;
+	}
+
+	public void setCustomernm(String customernm) {
+		this.customernm = customernm;
 	}
 	
 	

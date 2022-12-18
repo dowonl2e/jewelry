@@ -231,7 +231,7 @@
 	<select id="selectOrderListByOrdersNo" parameterType="OrderTO" resultType="OrderVO">
 		SELECT a.order_no, a.catalog_no, a.model_id, a.vender_no, a.vender_nm, a.material_cd, a.color_cd
 						, a.main_stone_type, a.sub_stone_type, a.size, a.quantity
-						, a.order_desc
+						, a.order_desc, a.customer_no, a.customer_nm, a.customer_cel
 		FROM tb_order a
 		WHERE a.order_no IN (
 			<foreach collection="order_no_arr" item="item" separator=" , ">
@@ -262,6 +262,37 @@
 		</if>
 		GROUP BY material_cd
 		ORDER BY material_cd ASC
+	</select>
+
+	<select id="selectCustomerOrderListCount" parameterType="OrderTO" resultType="Integer">
+		SELECT COUNT(a.order_no)
+		FROM tb_order a
+			LEFT OUTER JOIN tb_customer b
+				ON a.customer_no = b.customer_no
+		WHERE a.customer_no = #{customer_no} 
+		AND a.del_yn = 'N'
+		<if test='order_step != null and !order_step.equals("")'>
+			AND a.order_step = #{order_step}
+		</if>
+		<include refid="order-search" />
+	</select>
+	
+	<select id="selectCustomerOrderList" parameterType="OrderTO" resultType="OrderVO">
+		SELECT a.order_no, a.order_type, a.store_cd, a.receipt_dt, a.expected_ord_dt, a.customer_no
+						, b.contractor_nm AS customer_nm, b.contractor_cel AS customer_cel, a.order_step
+						, a.catalog_no, a.model_id, a.vender_no, a.vender_nm, a.serial_id, a.material_cd, a.color_cd, a.quantity
+						, a.main_stone_type, a.sub_stone_type, a.size, a.order_desc
+		FROM tb_order a
+			LEFT OUTER JOIN tb_customer b
+				ON a.customer_no = b.customer_no
+		WHERE a.customer_no = #{customer_no} 
+		AND a.del_yn = 'N'
+		<if test='order_step != null and !order_step.equals("")'>
+			AND a.order_step = #{order_step}
+		</if>
+		<include refid="order-search" />
+		ORDER BY a.order_no DESC
+		<include refid="commonMapper.paging" />
 	</select>
 	
 </mapper>

@@ -174,13 +174,40 @@
 							<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
 							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.contractcd)]) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.customerno + `'); return false;">`+checkNullVal(obj.customerno)+`</a>
+								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.customerno + `'); return false;">` + checkNullVal(obj.customerno) + `</a>
 							</td>
 							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>
-							<td class="text-center">` + checkNullVal(obj.ordercnt)+`</td>
-							<td class="text-center">` + checkNullVal(obj.repaircnt)+`</td>
-							<td class="text-center">` + checkNullVal(obj.reservecnt)+`</td>
+							<td class="text-center">
+					`;
+					if(Number(checkNullValR(obj.ordercnt,'0')) == 0){
+     				html += checkNullVal(obj.ordercnt);
+     			}
+					else {
+						html += `<a href="javascript: void(0);" onclick="fncCustomerOrderListPopup('` + obj.customerno + `'); return false;">` + checkNullVal(obj.ordercnt) + `</a>`;
+					}
+					html += `
+							</td>
+							<td class="text-center">
+					`;
+					if(Number(checkNullValR(obj.repaircnt,'0')) == 0){
+     				html += checkNullVal(obj.repaircnt);
+     			}
+					else {
+						html += `<a href="javascript: void(0);" onclick="fncCustomerRepairListPopup('` + obj.customerno + `'); return false;">` + checkNullVal(obj.repaircnt)+`</a>`;
+					}
+					html += `
+							</td>
+							<td class="text-center">
+					`;
+					if(Number(checkNullValR(obj.reservecnt,'0')) == 0){
+     				html += checkNullVal(obj.reservecnt);
+     			}
+					else {
+						html += `<a href="javascript: void(0);" onclick="fncCustomerReserveListPopup('` + obj.customerno + `'); return false;">` + checkNullVal(obj.reservecnt)+`<a/>`;
+					}
+					html += `
+							</td>
 							<td class="text-center"></td>
 							<td class="text-center"></td>
 							<td class="text-center">` + (checkNullVal(obj.saleprice) == '' ? '' : priceWithComma(obj.saleprice)) +`</td>
@@ -250,7 +277,26 @@
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
+		function fncCustomerOrderListPopup(customerno){
+			var url = "/customer/popup/order/list/"+customerno+"/A";
+      var name = "customeOrderAListPopup";
+      var option = "width = 1300, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
 
+		function fncCustomerReserveListPopup(customerno){
+			var url = "/customer/popup/order/list/"+customerno+"/B";
+      var name = "customeOrderBListPopup";
+      var option = "width = 1300, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
+		
+		function fncCustomerRepairListPopup(customerno){
+			var url = "/customer/popup/repair/list/"+customerno;
+      var name = "customeRepairListPopup";
+      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+      window.open(url, name, option);
+		}
 		//새로고침
 		function fncRefresh(){
 			$("#adv-search").find("input").val('');

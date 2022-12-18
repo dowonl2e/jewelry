@@ -49,8 +49,13 @@ public class StockApiController {
 	}
 
 	@GetMapping("/{stockno}")
-	public StockVO order(@PathVariable final Long stockno){
+	public StockVO stock(@PathVariable final Long stockno){
 		return stockService.findStockByNo(stockno);
+	}
+
+	@GetMapping("/customer/{stockno}")
+	public StockVO stockCustomer(@PathVariable final Long stockno){
+		return stockService.findStockCustomerByNo(stockno);
 	}
 
 	@PatchMapping("/modify/{stockno}")

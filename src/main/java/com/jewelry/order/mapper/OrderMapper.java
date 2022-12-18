@@ -37,6 +37,10 @@ public interface OrderMapper {
 	
 	int updateOrdersSaleDate(OrderTO to) throws Exception;
 
+	int selectCustomerOrderListCount(OrderTO to);
+	
+	List<OrderVO> selectCustomerOrderList(OrderTO to);
+	
 	/**
 	 * 메인화면 - 재질별 주문 수
 	 * @param to

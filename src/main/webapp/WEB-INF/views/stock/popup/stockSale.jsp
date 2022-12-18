@@ -106,7 +106,8 @@
 	<script>
 		/*<![CDATA[*/
 			$(document).ready(function(){
-				
+				find();
+
 				$(".cardprice, .cashprice, .maintprice, .etcprice, .pntprice").on('change keyup', function() {
 					$(".cardprice").each(function(idx){
 						cardPrice = Number($(".cardprice").eq(idx).val() == '' ? 0 : $(".cardprice").eq(idx).val());
@@ -122,6 +123,28 @@
 				});
 			});
 		
+			function find() {
+				const stocksno = '${stocksno}';
+				if ( !stocksno ) {
+		    	return false;
+		    }
+				
+				var stocknoarr = stocksno.split(',');
+				if(stocknoarr.length == 1){
+					var stockno = stocknoarr[0];
+					fetch(`/api/stock/customer/`+stockno).then(response => {
+			    	if (!response.ok) {
+							throw new Error('Request failed...');
+				    }
+			    	return response.json();
+			
+			   	}).then(json => {
+			   		document.getElementById('customer_no').value = checkNullVal(json.customerno) == '0' ? '' : checkNullVal(json.customerno);
+			   		document.getElementById('customer_nm').value = checkNullVal(json.customernm);
+			   	});
+				}
+			}
+		   		
 			function fncSave(){
 
 			  if($("#customer_no").val() == ''){
