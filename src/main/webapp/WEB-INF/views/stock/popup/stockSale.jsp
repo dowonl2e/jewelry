@@ -106,7 +106,17 @@
 	<script>
 		/*<![CDATA[*/
 			$(document).ready(function(){
-				find();
+
+				if('${customer.result}' != 'success'){
+					alert('${customer.message}');
+					fncClose();
+				}
+				else {
+					document.getElementById('customer_no').value = ('${customer.customerno}' == '0' ? '' : '${customer.customerno}');
+					document.getElementById('customer_nm').value = '${customer.customernm}';
+				}
+				
+				/* find(); */
 
 				$(".cardprice, .cashprice, .maintprice, .etcprice, .pntprice").on('change keyup', function() {
 					$(".cardprice").each(function(idx){
@@ -123,7 +133,7 @@
 				});
 			});
 		
-			function find() {
+			/* function find() {
 				const stocksno = '${stocksno}';
 				if ( !stocksno ) {
 		    	return false;
@@ -143,7 +153,7 @@
 			   		document.getElementById('customer_nm').value = checkNullVal(json.customernm);
 			   	});
 				}
-			}
+			} */
 		   		
 			function fncSave(){
 

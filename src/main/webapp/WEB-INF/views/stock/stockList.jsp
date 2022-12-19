@@ -41,7 +41,7 @@
 						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
 						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="모델번호 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="모델번호/고객명 입력" style="width: auto;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
@@ -60,7 +60,7 @@
 							<th rowspan="2" class="text-center border-left">시리얼</th>
 							<th rowspan="2" class="text-center border-left">재고<br/>구분</th>
 							<th rowspan="2" class="text-center border-left">사이즈<br/>비&nbsp;&nbsp;&nbsp;고</th>
-							<th rowspan="2" class="text-center border-left">모델<br/>번호</th>
+							<th rowspan="2" class="text-center border-left">모델번호<br/>고객명(코드)</th>
 							<th rowspan="2" class="text-center border-left">재질</th>
 							<th rowspan="2" class="text-center border-left">색상</th>
 							<th rowspan="2" class="text-center border-left">메인</th>
@@ -220,8 +220,14 @@
 								<input type="hidden" id="stock_type_cd_`+checkNullVal(obj.stockno)+`" value="`+checkNullVal(obj.stocktypecd)+`"/>`+ checkNullVal(codemap[obj.stocktypecd]) + `
 							</td>
 							<td class="text-center"><div>` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
-							<td class="text-center"><a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a></td>
-							<td class="text-center">` + checkNullVal(codemap[obj.materialcd])+`</td>
+							<td class="text-center"><a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a>
+					`;
+					if(Number(checkNullValR(obj.customerno,'0')) > 0){
+						html += `<div class="mt-1">` + checkNullVal(obj.customernm) + `(`+checkNullVal(obj.customerno)+`)</div>`;
+					}
+					html += `
+							</td>
+							<td class="text-center">` + checkNullVal(codemap[obj.materialcd]) + `</td>
 							<td class="text-center">` + checkNullVal(codemap[obj.colorcd]) + `</td>
 							<td class="text-center">` + checkNullVal(obj.mainstonetype) + `</td>
 							<td class="text-center">` + checkNullVal(obj.substonetype) + `</td>
@@ -359,13 +365,8 @@
 				return false;
 			}
 			
-			if(stockTypeCnt1 > 1){
-				alert('주문재고는 1건씩 판매 가능합니다.');
-				return false;
-			}
-			
 			if(stockTypeCnt1 > 0 && stockTypeCnt2 > 0){
-				alert('주문재고와 일반재고는 따로 판매가능합니다.');
+				alert('주문재고와 일반재고는 별도로 판매가능합니다.');
 				return false;
 			}
 			

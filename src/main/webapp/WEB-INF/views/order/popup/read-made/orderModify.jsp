@@ -32,7 +32,7 @@
 								<td class="bg-light border-right text-center">접수일<span class="important"> *</span></td>
 								<td class="bg-light text-center">주문예정일<span class="important"> *</span></td>
 							</tr>
-							<tr>
+							<tr class="border-bottom">
 								<td class="text-center border-right mtb5">
 									<select name="store_cd" id="store_cd" class="form-control form-data">
 										<c:forEach var="stlist" items="${stlist}">
@@ -421,7 +421,7 @@
 			}
 			
 			function fncCatalogListPop(idx){
-				var url = "/catalog/popup/list?openeridx="+idx;
+				var url = "/catalog/popup/list?openeridx="+idx+"&reqtype=all";
 	      var name = "catalogListPopup";
 	      var option = "width = 1150, height = 800, top = 100, left = 200, location = no";
 	      window.open(url, name, option);

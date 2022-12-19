@@ -48,6 +48,8 @@ public interface StockMapper {
 	int updateStocksCustomer(StockTO to) throws Exception;
 
 	int updateStocksSaleDate(StockTO to) throws Exception;
+	
+	List<StockVO> selectStockListByStockNos(StockTO to);
 
 	/**
 	 * 메인화면 - 재질별 현 재고현황
@@ -55,5 +57,6 @@ public interface StockMapper {
 	 * @return
 	 */
 	List<StockVO> selectNumOfStocksPerMaterial(MainTO to);
+	
 
 }

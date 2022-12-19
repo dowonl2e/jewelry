@@ -172,7 +172,7 @@
 			 * 수정하기
 			 */
 			function goModify() {
-		    location.href = '/order/popup/customer/modify/${orderno}';
+		    location.href = '/order/popup/read-made/modify/${orderno}';
 			}
 			
 			function fncParentRefresh(){

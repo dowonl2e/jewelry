@@ -4,13 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객관리</title>
+<title>고객 수리 현황</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
 </script>
 </head>
 <body>
+	<div class="card-header py-3 text-left mt-4">
+		<h6 class="m-0 font-weight-bold text-primary">고객 수리 현황</h6>
+	</div>
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-body">

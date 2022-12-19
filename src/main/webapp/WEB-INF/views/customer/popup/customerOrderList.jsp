@@ -4,13 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주문관리</title>
+<title>
+	<c:if test="${orderstep eq 'A'}">고객 주문 현황</c:if>
+	<c:if test="${orderstep eq 'B'}">고객 예약 현황</c:if>
+</title>
 <script>
 	var minNumberLen = 1;
 	var maxNumberLen = 100;
 </script>
 </head>
 <body>
+	<div class="card-header py-3 text-left mt-4">
+		<h6 class="m-0 font-weight-bold text-primary">
+			<c:if test="${orderstep eq 'A'}">고객 주문 현황</c:if>
+			<c:if test="${orderstep eq 'B'}">고객 예약 현황</c:if>
+		</h6>
+	</div>
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-body">

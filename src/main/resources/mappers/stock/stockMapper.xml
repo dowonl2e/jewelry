@@ -23,6 +23,7 @@
 		<if test='searchword != null and !searchword.equals("")'>
 			AND (
 				a.model_id LIKE CONCAT('%', #{searchword}, '%')
+				OR a.customer_nm LIKE CONCAT('%', #{searchword}, '%')
 			)
 		</if>
 	</sql>
@@ -42,6 +43,7 @@
 						, a.per_weight_gram, a.real_pch_gold_price
 						, a.per_price_basic, a.per_price_add, a.per_price_main, a.per_price_sub
 						, a.multiple_cnt
+						, a.customer_no, a.customer_nm
 		FROM tb_stock a
 		WHERE a.del_yn = 'N'
 		AND a.sale_yn = 'N'
@@ -327,5 +329,15 @@
 			</foreach>
 		)
 	</update>
+	
+	<select id="selectStockListByStockNos" parameterType="StockTO" resultType="StockVO">
+		SELECT stock_type_cd, customer_no, customer_nm
+		FROM tb_stock
+		WHERE stock_no IN (
+			<foreach collection="stock_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</select>
 	
 </mapper>

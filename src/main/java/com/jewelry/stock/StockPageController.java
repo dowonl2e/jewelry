@@ -95,6 +95,7 @@ public class StockPageController {
 
 	@GetMapping("/popup/sale")
 	public String stockSalePopup(@RequestParam(value = "stocksno") String stocksno, ModelMap model) {
+		model.addAttribute("customer", stockService.isSameCustomer(stocksno));
 		model.addAttribute("stocksno", stocksno);
 		model.addAttribute("ptlist", codeService.findAllByUpCdId("PT", 2));
 		return "stock/popup/stockSale";

@@ -1,5 +1,6 @@
 package com.jewelry.stock.service.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-
 import com.jewelry.file.domain.FileTO;
 import com.jewelry.file.domain.FileVO;
 import com.jewelry.file.mapper.FileMapper;
@@ -556,5 +557,72 @@ public class StockServiceImpl implements StockService {
 			result = "fail";
 		}
 		return result;
+	}
+
+	@Override
+	public Map<String, Object> isSameCustomer(String stocksno) {
+		Map<String, Object> map = new HashMap<>();
+		if(ObjectUtils.isEmpty(stocksno)) {
+			map.put("result", "fail");
+			map.put("message", "판매할 재고를 선택해주세요.");
+		}
+		else {
+			Long[] stockNoArr = Arrays.stream(stocksno.split(","))
+						                .map(String::trim)
+						                .map(Long::valueOf)
+						                .toArray(Long[]::new);
+			
+			StockTO to = new StockTO();
+			to.setStock_no_arr(stockNoArr);
+			List<StockVO> list = stockMapper.selectStockListByStockNos(to);
+			if(CollectionUtils.isEmpty(list)) {
+				map.put("result", "fail");
+				map.put("message", "재고내역이 없습니다.");
+			}
+			else {
+				int i = 0, orderCnt = 0, stockCnt = 0;
+				
+				Long customerNo = list.get(0).getCustomerno() == null ? (long)0 : list.get(0).getCustomerno();
+				String customerNm = ObjectUtils.isEmpty(list.get(0).getCustomernm()) ? "" : list.get(0).getCustomernm();
+				
+				boolean isDupType = false, isNotSameCustomer = false;
+				for(StockVO tempvo : list) {
+					if(!ObjectUtils.isEmpty(tempvo.getStocktypecd())) {
+						if(ObjectUtils.nullSafeEquals(tempvo.getStocktypecd(), "OC03"))
+							orderCnt++;
+						if(ObjectUtils.nullSafeEquals(tempvo.getStocktypecd(), "OC01"))
+							stockCnt++;
+						
+						if(orderCnt > 0 && stockCnt > 0) {
+							isDupType = true;
+							break;
+						}
+					}
+					if(i > 0 && list.get(i).getCustomerno() != null
+							&& list.get(i).getCustomerno() > 0
+							&& customerNo != list.get(i).getCustomerno()) {
+						isNotSameCustomer = true;
+						break;
+					}
+					i++;
+				}
+				if(isDupType) {
+					map.put("result", "fail");
+					map.put("message", "주문재고와 일반재고는 별도로 판매 가능합니다.");
+				}
+				else {
+					if(isNotSameCustomer) {
+						map.put("result", "fail");
+						map.put("message", "주문재고는 동일 고객의 재고만 판매 가능합니다.");
+					}
+					else {
+						map.put("result", "success");
+						map.put("customerno", customerNo);
+						map.put("customernm", customerNm);
+					}
+				}
+			}
+		}
+		return map;
 	}
 }

@@ -17,9 +17,11 @@ public class SessionInterceptor implements HandlerInterceptor {
 		// 요청 URL 
 		String url = request.getRequestURI();
 		
-		System.out.println("==================== BEGIN ====================");
-		System.out.println("Request URI ===> " + url);
-		System.out.println("===============================================");
+		if(!url.contains("image/display")) {
+			System.out.println("==================== BEGIN ====================");
+			System.out.println("Request URI ===> " + url);
+			System.out.println("===============================================");
+		}
 		HttpSession session = request.getSession();
 		
     	// UserDto는 User에 대한 Dto인데 로직 흐름을 참고만 하셔도 됩니다.
@@ -43,9 +45,11 @@ public class SessionInterceptor implements HandlerInterceptor {
 	 */
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-		System.out.println("===================== END =====================");
-		System.out.println("Request URI ===> " + request.getRequestURI());
-		System.out.println("===================== END =====================");
+		if(!request.getRequestURI().contains("image/display")) {
+			System.out.println("===================== END =====================");
+			System.out.println("Request URI ===> " + request.getRequestURI());
+			System.out.println("===================== END =====================");
+		}
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 

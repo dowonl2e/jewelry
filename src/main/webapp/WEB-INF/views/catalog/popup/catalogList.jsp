@@ -169,8 +169,7 @@
      		    			</div>
      		    			<div class="row row-cols-1 mlr5 mt5">
      		    				<div class="col text-center">
-     		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline"/>
-     		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
+     		    					<label for="" class="form-label">
      		 	`;
      		 	catalogno = checkNullVal(obj.catalogno);
      		 	modelid = checkNullVal(obj.modelid);
