@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jewelry.exception.ErrorCode;
 import com.jewelry.user.domain.CustomUserDetails;
+import com.jewelry.vender.domain.VenderPayTO;
+import com.jewelry.vender.domain.VenderPayVO;
 import com.jewelry.vender.domain.VenderTO;
 import com.jewelry.vender.domain.VenderVO;
 import com.jewelry.vender.service.VenderService;
@@ -68,5 +70,41 @@ public class VenderApiController {
 		return  new ResponseEntity<>(response.getStatus());
 	}
 
+	@GetMapping("/pay/list")
+	public Map<String, Object> findAllVenderPay(final VenderPayTO to){
+		return venderService.findAllVenderPay(to);
+	}
+
+	@PostMapping("/pay/write")
+	public ResponseEntity<Object> payWrite(@RequestBody final VenderPayTO to) { //이쪽으로온 json 데이터 형식을 to에 넣어줌 requestbody
+		to.setInpt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = venderService.insertVenderPay(to);
+		
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
 	
+	@GetMapping("/pay/{payNo}")
+	public VenderPayVO findVenderPayByNo(@PathVariable final Long payNo) { 
+		return venderService.findVenderPayByNo(payNo);
+	}
+
+	@PatchMapping("/pay/modify/{payNo}")
+	public ResponseEntity<Object> payModify(@PathVariable final Long payNo, @RequestBody final VenderPayTO to) { //이쪽으로온 json 데이터 형식을 to에 넣어줌 requestbody
+		to.setPay_no(payNo);
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = venderService.updateVenderPay(to);
+		
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
+	
+	@PatchMapping("/pays/remove")
+	public ResponseEntity<Object> paysRemove(final VenderPayTO to) { //이쪽으로온 json 데이터 형식을 to에 넣어줌 requestbody
+		to.setUpdt_id(((CustomUserDetails)session.getAttribute("USER_INFO")).getUsername());
+		String result = venderService.updateVenderPaysToDelete(to);
+		
+		ErrorCode response = result.equals("success") ? ErrorCode.SUCCESS : ErrorCode.FAIL;
+		return new ResponseEntity<>(response.getStatus());
+	}
 }

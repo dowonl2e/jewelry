@@ -1,7 +1,6 @@
 package com.jewelry.vender.service.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.jewelry.vender.domain.VenderPayTO;
+import com.jewelry.vender.domain.VenderPayVO;
 import com.jewelry.vender.domain.VenderTO;
 import com.jewelry.vender.domain.VenderVO;
 import com.jewelry.vender.mapper.VenderMapper;
@@ -87,4 +88,70 @@ public class VenderServiceImpl implements VenderService{
 		return result;
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public Map<String, Object> findAllVenderPay(VenderPayTO to) {
+		Map<String, Object> response = new HashMap<>();
+		
+		to.setTotalcount(venderMapper.selectVenderPayListCount(to));
+		response.put("list", venderMapper.selectVenderPayList(to)); 
+		response.put("params", to);
+		
+		return response;
+	}
+
+	@Override
+	public VenderPayVO findVenderPayByNo(Long payNo) {
+		return venderMapper.selectVenderPay(payNo);
+	}
+
+	@Transactional
+	@Override
+	public String insertVenderPay(VenderPayTO to) {
+		String result = "fail";
+		try {
+			int res = venderMapper.insertVenderPay(to);
+			result = res > 0 ? "success" : "fail";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+		return result;
+	}
+
+	@Transactional
+	@Override
+	public String updateVenderPay(VenderPayTO to) {
+		String result = "fail";
+		try {
+			int res = venderMapper.updateVenderPay(to);
+			result = res > 0 ? "success" : "fail";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+		return result;
+	}
+	
+	@Transactional
+	@Override
+	public String updateVenderPaysToDelete(VenderPayTO to) {
+		String result = "fail";
+		try {
+			if(to.getPay_no_arr() != null && to.getPay_no_arr().length > 0) {
+				int res = venderMapper.updateVenderPaysToDelete(to);
+				result = res > 0 ? "success" : "fail";
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result = "fail";
+		}
+		return result;
+	}
 }

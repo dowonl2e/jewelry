@@ -23,8 +23,6 @@ public class SessionInterceptor implements HandlerInterceptor {
 			System.out.println("===============================================");
 		}
 		HttpSession session = request.getSession();
-		
-    	// UserDto는 User에 대한 Dto인데 로직 흐름을 참고만 하셔도 됩니다.
         
 		if(!url.contains("signin")) {
 	        // 로그인 정보가 없으면 튕겨내기

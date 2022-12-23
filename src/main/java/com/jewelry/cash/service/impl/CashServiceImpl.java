@@ -74,7 +74,7 @@ public class CashServiceImpl implements CashService {
 						to.setUnit_price(unit_price_arr[i]);
 						to.setQuantity(1);
 						
-						int quantity = quantity_arr[i];
+						int quantity = quantity_arr[i] == null ? 0 : quantity_arr[i];
 						for(int j = 0 ; j < quantity ; j++)
 							resultCnt += cashMapper.insertCash(to);
 					}
@@ -139,7 +139,7 @@ public class CashServiceImpl implements CashService {
 						}
 						
 						if((quantity_arr[0] != null && quantity_arr[0] > 1) || multiInsertCheck == true) {
-							int quantity = quantity_arr[i];
+							int quantity = quantity_arr[i] == null ? 0 : quantity_arr[i];
 							if(i == 0)
 								quantity = quantity <= 1 ? 0 : (quantity-1);
 							

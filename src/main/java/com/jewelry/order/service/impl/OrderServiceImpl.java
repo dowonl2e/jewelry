@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 						to.setSize(size_arr[i]);
 						to.setOrder_desc(order_desc_arr[i]);
 						
-						int quantity = quantity_arr[i];
+						int quantity = quantity_arr[i] == null ? 0 : quantity_arr[i];
 						for(int j = 0 ; j < quantity ; j++){
 							to.setQuantity(1);
 							int res = orderMapper.insertOrder(to);
@@ -219,7 +219,7 @@ public class OrderServiceImpl implements OrderService {
 							to.setSize(size_arr[i]);
 							to.setOrder_desc(order_desc_arr[i]);
 							
-							int quantity = quantity_arr[i];
+							int quantity = quantity_arr[i] == null ? 0 : quantity_arr[i];
 							if(i == 0)
 								quantity = quantity <= 1 ? 0 : (quantity-1);
 							

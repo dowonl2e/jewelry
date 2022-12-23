@@ -126,7 +126,7 @@ public class StockServiceImpl implements StockService {
 						to.setPer_price_sub(per_price_sub_arr[i]);
 						to.setMultiple_cnt(multiple_cnt_arr[i]);
 						
-						int quantity = quantity_arr[i];
+						int quantity = quantity_arr[i] == null ? 0 : quantity_arr[i];
 						for(int j = 0 ; j < quantity ; j++){
 							int res = stockMapper.insertStock(to);
 							if(res > 0) {
@@ -253,7 +253,7 @@ public class StockServiceImpl implements StockService {
 							to.setPer_price_sub(per_price_sub_arr[i]);
 							to.setMultiple_cnt(multiple_cnt_arr[i]);
 							
-							int quantity = quantity_arr[i];
+							int quantity = quantity_arr[i] == null ? 0 : quantity_arr[i];
 							if(i == 0)
 								quantity = quantity <= 1 ? 0 : (quantity-1);
 							
@@ -531,7 +531,7 @@ public class StockServiceImpl implements StockService {
 						to.setPer_price_sub(per_price_sub_arr[i]);
 						to.setMultiple_cnt(multiple_cnt_arr[i]);
 						
-						int quantity = quantity_arr[i];
+						int quantity = quantity_arr[i] == null ? 0 : quantity_arr[i];
 						for(int j = 0 ; j < quantity ; j++){
 							int res = stockMapper.insertStock(to);
 							if(res > 0) {

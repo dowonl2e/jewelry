@@ -2,7 +2,8 @@ package com.jewelry.vender.service;
 
 import java.util.Map;
 
-import com.jewelry.customer.domain.CustomerTO;
+import com.jewelry.vender.domain.VenderPayTO;
+import com.jewelry.vender.domain.VenderPayVO;
 import com.jewelry.vender.domain.VenderTO;
 import com.jewelry.vender.domain.VenderVO;
 
@@ -18,4 +19,15 @@ public interface VenderService {
 	
 	String updateVenderToDelete(VenderTO to);
 	
+	Map<String, Object> findAllVenderPay(VenderPayTO to);
+
+	VenderPayVO findVenderPayByNo(Long payNo);
+	
+	String insertVenderPay(VenderPayTO to);
+	
+	String updateVenderPay(VenderPayTO to);
+	
+	String updateVenderPaysToDelete(VenderPayTO to);
+	
+
 }

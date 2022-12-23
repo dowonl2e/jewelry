@@ -283,7 +283,7 @@
      		html += `
      			<tr>
      		    <th>합계</th>
-     		    <th>`+totalWeightGram+`g</th>
+     		    <th>`+totalWeightGram.toFixed(2)+`g</th>
      		    <th>`+totalStockCnt+`</th>
      		  </tr>
      		`;

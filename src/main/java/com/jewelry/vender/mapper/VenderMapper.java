@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.jewelry.vender.domain.VenderPayTO;
+import com.jewelry.vender.domain.VenderPayVO;
 import com.jewelry.vender.domain.VenderTO;
 import com.jewelry.vender.domain.VenderVO;
 
@@ -21,5 +23,23 @@ public interface VenderMapper {
 	int updateVender(VenderTO to) throws Exception;  // update to용 담아야할 용도
 	
 	int updateVenderToDelete(VenderTO to) throws Exception; 	// delete 사용할지 안할지 key로 결정하기 위한 것
+
 	
+	/*
+	 * ------------
+	 * 제조사 결제 현황
+	 * ------------
+	 */
+	int selectVenderPayListCount(VenderPayTO to);
+	
+	List<VenderPayVO> selectVenderPayList(VenderPayTO to);
+	
+	VenderPayVO selectVenderPay(Long payNo);
+	
+	int insertVenderPay(VenderPayTO to) throws Exception;
+	
+	int updateVenderPay(VenderPayTO to) throws Exception;
+	
+	int updateVenderPaysToDelete(VenderPayTO to) throws Exception;
+
 }

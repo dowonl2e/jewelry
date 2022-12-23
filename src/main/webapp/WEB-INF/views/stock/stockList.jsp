@@ -234,6 +234,7 @@
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>
 							<td class="text-center">` + checkNullVal(obj.perweightgram) + `</td>
 					`;
+					
 					//개당구매가 공임
 					perPrice = Number(checkNullValR(obj.perpricebasic,'0'));
 					perPrice += Number(checkNullValR(obj.perpriceadd,'0'));

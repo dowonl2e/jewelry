@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jewelry.vender.mapper.VenderMapper">
 	
-	<sql id="customer-search">
+	<sql id="vender-search">
 		<!-- 검색 키워드가 있을 때 -->
 		<if test='searchword != null and !searchword.equals("")'>
 			AND a.vender_nm LIKE CONCAT('%', <![CDATA[ #{searchword} ]]>, '%')
@@ -13,14 +13,14 @@
 		SELECT COUNT(a.vender_no)
 		FROM tb_vender a
 		WHERE a.del_yn = 'N'
-		<include refid="customer-search" />
+		<include refid="vender-search" />
 	</select>
 	
 	<select id="selectVenderList" parameterType="VenderTO" resultType="VenderVO"> <!-- 필요한거만 갖고오기. -->
 		SELECT * 
 		FROM tb_vender a
 		WHERE a.del_yn = 'N'
-		<include refid="customer-search" />
+		<include refid="vender-search" />
 		ORDER BY a.vender_no DESC
 		<include refid="commonMapper.paging" />
 	</select>
@@ -100,4 +100,102 @@
 		)
 	</update>
 	
+	<select id="selectVenderPayListCount" parameterType="VenderPayTO" resultType="Integer">
+		SELECT COUNT(a.pay_no)
+		FROM tb_vender_pay a
+		WHERE a.del_yn = 'N'
+		<if test='searchstore != null and !searchstore.equals("")'>
+			AND a.store_cd = #{searchstore}
+		</if>
+		<if test='searchstdt != null and !searchstdt.equals("")'>
+			AND a.reg_dt = #{searchstdt}
+		</if>
+		<if test='searchword != null and !searchword.equals("")'>
+			AND b.vender_nm LIKE CONCAT('%', <![CDATA[ #{searchword} ]]>, '%')
+		</if>
+	</select>
+	
+	<select id="selectVenderPayList" parameterType="VenderPayTO" resultType="VenderPayVO"> <!-- 필요한거만 갖고오기. -->
+		SELECT a.pay_no, a.vender_no, b.vender_nm, a.reg_dt, a.store_cd
+						, a.expt_gold_gram, a.expt_pay_price, a.prg_gold_gram, a.prg_pay_price
+						, a.pay_etc
+		FROM tb_vender_pay a
+			LEFT OUTER JOIN tb_vender b
+				ON a.vender_no = b.vender_no
+		WHERE a.del_yn = 'N'
+		<if test='searchstore != null and !searchstore.equals("")'>
+			AND a.store_cd = #{searchstore}
+		</if>
+		<if test='searchstdt != null and !searchstdt.equals("")'>
+			AND a.reg_dt = #{searchstdt}
+		</if>
+		<if test='searchword != null and !searchword.equals("")'>
+			AND b.vender_nm LIKE CONCAT('%', <![CDATA[ #{searchword} ]]>, '%')
+		</if>
+		ORDER BY a.reg_dt DESC
+		<include refid="commonMapper.paging" />
+	</select>
+	
+	<select id="selectVenderPay" parameterType="Long" resultType="VenderPayVO"> <!-- 필요한거만 갖고오기. -->
+		SELECT a.pay_no, a.vender_no, b.vender_nm, a.reg_dt, a.store_cd
+						, a.expt_gold_gram, a.expt_pay_price, a.prg_gold_gram, a.prg_pay_price
+						, a.pay_etc
+		FROM tb_vender_pay a
+			LEFT OUTER JOIN tb_vender b
+				ON a.vender_no = b.vender_no
+		WHERE a.pay_no = #{payNo}
+	</select>
+	
+	<insert id="insertVenderPay" parameterType="VenderPayTO">
+		INSERT INTO tb_vender_pay
+		(
+			inpt_id, inpt_dt
+			<if test='vender_no != null and vender_no > 0'>, vender_no</if>
+			<if test='reg_dt != null and !reg_dt.equals("")'>, reg_dt</if>
+			<if test='store_cd != null and !store_cd.equals("")'>, store_cd</if>
+			<if test='expt_gold_gram != null and expt_gold_gram > 0'>, expt_gold_gram</if>
+			<if test='expt_pay_price != null and expt_pay_price > 0'>, expt_pay_price</if>
+			<if test='prg_gold_gram != null and prg_gold_gram > 0'>, prg_gold_gram</if>
+			<if test='prg_pay_price != null and prg_pay_price > 0'>, prg_pay_price</if>
+			<if test='pay_etc != null and !pay_etc.equals("")'>, pay_etc</if>
+		)
+		VALUES (
+			#{inpt_id}, NOW()
+			<if test='vender_no != null and vender_no > 0'>, #{vender_no}</if>
+			<if test='reg_dt != null and !reg_dt.equals("")'>, #{reg_dt}</if>
+			<if test='store_cd != null and !store_cd.equals("")'>, #{store_cd}</if>
+			<if test='expt_gold_gram != null and expt_gold_gram > 0'>, #{expt_gold_gram}</if>
+			<if test='expt_pay_price != null and expt_pay_price > 0'>, #{expt_pay_price}</if>
+			<if test='prg_gold_gram != null and prg_gold_gram > 0'>, #{prg_gold_gram}</if>
+			<if test='prg_pay_price != null and prg_pay_price > 0'>, #{prg_pay_price}</if>
+			<if test='pay_etc != null and !pay_etc.equals("")'>, #{pay_etc}</if>
+		)
+	</insert>
+	
+	<update id="updateVenderPay" parameterType="VenderPayTO">
+		UPDATE tb_vender_pay
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		<if test='vender_no != null and vender_no > 0'>, vender_no = #{vender_no}</if>
+		<if test='reg_dt != null and !reg_dt.equals("")'>, reg_dt = #{reg_dt}</if>
+		<if test='store_cd != null and !store_cd.equals("")'>, store_cd = #{store_cd}</if>
+		, expt_gold_gram = #{expt_gold_gram}
+		, expt_pay_price = #{expt_pay_price}
+		, prg_gold_gram = #{prg_gold_gram}
+		, prg_pay_price = #{prg_pay_price}
+		, pay_etc = #{pay_etc}
+		WHERE pay_no = #{pay_no}
+	</update>
+	
+	<update id="updateVenderPaysToDelete" parameterType="VenderPayTO">
+		UPDATE tb_vender_pay
+		SET updt_dt = NOW()
+		, updt_id = #{updt_id}
+		, del_yn = 'Y'
+		WHERE pay_no IN (
+			<foreach collection="pay_no_arr" item="item" separator=" , ">
+				#{item}
+			</foreach>
+		)
+	</update>
 </mapper>

@@ -234,7 +234,7 @@
 		 */
 		function fncPopupView(venderno) {
 		  var url = "/vender/popup/"+venderno;
-      var name = "venderModifyPopup";
+      var name = "venderViewPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}

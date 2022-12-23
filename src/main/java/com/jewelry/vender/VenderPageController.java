@@ -3,6 +3,7 @@ package com.jewelry.vender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,9 +45,31 @@ public class VenderPageController {
 		return "vender/popup/venderModify";
 	}
 	
+	@GetMapping("/pay/list")
+	public String payList(Model model) {
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"ST"}, 2));
+		return "vender/venderPayList";
+	}
+
+	@GetMapping("/popup/pay/write")
+	public String writePayPopup(Model model) {
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		return "vender/popup/venderPayWrite";
+	}
+
+	@GetMapping("/popup/pay/{payNo}")
+	public String viewPayPopup(@PathVariable final Long payNo, ModelMap model) {
+		model.addAttribute("payNo", payNo);
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"ST"}, 2));
+		return "vender/popup/venderPayView";
+	}
 	
-	
-	
+	@GetMapping("/popup/pay/modify/{payNo}")
+	public String modifyPayPopup(@PathVariable final Long payNo, Model model) {
+		model.addAttribute("payNo", payNo);
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		return "vender/popup/venderPayModify";
+	}
 	
 	
 	

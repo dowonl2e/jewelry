@@ -325,9 +325,6 @@
 				return false;
 			}
 			if(confirm('삭제하시겠습니까?')){
-				const form = document.getElementById('searchForm');
-				const writeForm = new FormData(form);
-	
 				const formData = new FormData();
 				$(".form-check").each(function(){
 					if($(this).is(":checked"))
