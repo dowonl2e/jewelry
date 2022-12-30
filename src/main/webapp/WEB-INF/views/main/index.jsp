@@ -29,7 +29,7 @@
 				<div class="m-2 font-weight-bold text-center">재고(개수)</div>
 				<!-- Card Body -->
 		   	<div class="card-body">
-		     	<div class="chart-area">
+		     	<div class="chart-area" id="materialStocksChartDiv">
 		       <canvas id="materialStocksChart"></canvas>
 		     	</div>
 		   	</div>
@@ -40,7 +40,7 @@
 				<div class="m-2 font-weight-bold text-center">재고(중량)</div>
 				<!-- Card Body -->
 		   	<div class="card-body">
-		     	<div class="chart-area">
+		     	<div class="chart-area" id="materialStocksChart2Div">
 		       <canvas id="materialStocksChart2"></canvas>
 		     	</div>
 		   	</div>
@@ -91,7 +91,7 @@
 			  </div>
 			  <!-- Card Body -->
 		   	<div class="card-body">
-		     	<div class="chart-area">
+		     	<div class="chart-area" id="monthlySalePriceChartDiv">
 		       <canvas id="monthlySalePriceChart"></canvas>
 		     	</div>
 		   	</div>
@@ -115,7 +115,7 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
-          <div class="chart-pie pt-4 pb-2">
+          <div class="chart-pie pt-4 pb-2" id="materialOrdersPieChartDiv">
             <canvas id="materialOrdersPieChart"></canvas>
           </div>
           <div class="mt-4 text-center small" id="materialOrdersPieChart-Div">
@@ -208,10 +208,7 @@
 		function findAll() {
 			var salePriceData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 			getJson('/api/main/stats/all', null).then(response => {
-				var salePriceData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				if(!Object.keys(response).length){
-					initLineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
-					initPieChart('materialOrdersPieChart');
      			return false;
 				}
 				
@@ -224,11 +221,12 @@
      		response.salePriceMonthly.forEach((obj, idx) => {
      			salePriceData.push(obj);
      		});
+     		initCanvas('monthlySalePriceChart');
      		lineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
      		
      		//재질별 주문
-     		if (response.salePriceMonthly == null || response.salePriceMonthly.length == 0) {
-     			initPieChart('materialOrdersPieChart');
+     		if (response.materialOrders == null || response.materialOrders.length == 0) {
+					initPieChart('materialOrdersPieChart');
      			return false;
 				}
 				
@@ -249,6 +247,7 @@
           `;
      		});
      		
+     		initCanvas('materialOrdersPieChart');
      		pieChart('materialOrdersPieChart', chartLabels, bgColor, hoverBgColor, chartData);
      		document.getElementById('materialOrdersPieChart-Div').innerHTML = html;
      		
@@ -287,6 +286,8 @@
      		    <th>`+totalStockCnt+`</th>
      		  </tr>
      		`;
+     		initCanvas('materialStocksChart');
+     		initCanvas('materialStocksChart2');
      		barChart('materialStocksChart', '개수', chartLabels, chartData);
      		barChart('materialStocksChart2', '중량', chartLabels, chartData2);
 				document.getElementById('matStockList').innerHTML = html;
@@ -321,9 +322,10 @@
      		chartLabels = new Array();
      		chartData = new Array();
      		chartData2 = new Array();
+
      		if (response.materialStocks == null || response.materialStocks.length == 0) {
-     			initBarChart('materialStocksChart', '', chartLabels, chartData);
-     			initBarChart('materialStocksChart2', '', chartLabels, chartData2);
+		 			initBarChart('materialStocksChart', '', chartLabels, chartData);
+		 			initBarChart('materialStocksChart2', '', chartLabels, chartData2);
      			document.getElementById('matStockList').innerHTML = '<td colspan="3" class="text-center">No Data</th>';
      			return false;
 				}
@@ -349,10 +351,12 @@
      		html += `
      			<tr>
      		    <th>합계</th>
-     		    <th>`+totalWeightGram+`g</th>
+     		    <th>`+totalWeightGram.toFixed(2)+`g</th>
      		    <th>`+totalStockCnt+`</th>
      		  </tr>
      		`;
+     		initCanvas('materialStocksChart');
+     		initCanvas('materialStocksChart2');
      		barChart('materialStocksChart', '개수', chartLabels, chartData);
      		barChart('materialStocksChart2', '중량', chartLabels, chartData2);
 				document.getElementById('matStockList').innerHTML = html;
@@ -367,7 +371,7 @@
 			getJson('/api/main/monthly/sale/price', params).then(response => {
 				var salePriceData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				if (!Object.keys(response).length || response.salePriceMonthly == null || response.salePriceMonthly.length == 0) {
-					v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+					initLineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
 					return false;
 				}
 			
@@ -375,6 +379,8 @@
      		response.salePriceMonthly.forEach((obj, idx) => {
      			salePriceData.push(obj);
      		});
+     		
+     		initCanvas('monthlySalePriceChart');
      		lineChart('monthlySalePriceChart', salePriceLineChartLabels, salePriceData);
 			});
 		}
@@ -407,6 +413,7 @@
           `;
      		});
      		
+     		initCanvas('materialOrdersPieChart');
      		pieChart('materialOrdersPieChart', chartLabels, bgColor, hoverBgColor, chartData);
      		
      		document.getElementById('materialOrdersPieChart-Div').innerHTML = pieChartHtml;
@@ -414,14 +421,21 @@
 		}
 		
 		function initLineChart(id, labels, data){
+			initCanvas(id);
    		lineChart(id, labels, data);
 		}
 		function initBarChart(id, label, labels, data){
+			initCanvas(id);
 			barChart(id, label, labels, data);
 		}
 		function initPieChart(id){
+			initCanvas(id);
 			pieChart(id, null, null, null, null);
  			document.getElementById(id+'-Div').innerHTML = 'No Data';
+		}
+		function initCanvas(id){
+			$('#'+id).remove(); // this is my <canvas> element
+		  $('#'+id+'Div').append('<canvas id="'+id+'"><canvas>');
 		}
 	</script>
 </body>

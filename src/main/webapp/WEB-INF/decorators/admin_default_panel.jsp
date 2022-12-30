@@ -211,7 +211,12 @@
 								<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
 								    <i class="fa fa-bars"></i>
 								</button>
-								<h6 class="m-0 font-weight-bold text-primary">${empty menunm ? 'Dashboard' : menunm}</h6>
+								<h6 class="m-0 font-weight-bold text-primary">
+									<c:choose>
+										<c:when test="${fn:startsWith(uri,'member')}">내 정보</c:when>
+										<c:otherwise>${empty menunm ? 'Dashboard' : menunm}</c:otherwise>
+									</c:choose>
+								</h6>
 			
 			       <!-- Topbar Search -->
 			       <%--
@@ -375,21 +380,28 @@
 			               </div>
 			           </li>
 								 --%>
-			           <div class="topbar-divider d-none d-sm-block"></div>
+			          <div class="topbar-divider d-none d-sm-block"></div>
 			
-			           <!-- Nav Item - User Information -->
-			           <li class="nav-item dropdown no-arrow">
-		               <a class="nav-link dropdown-toggle" href="#" role="button"
-		                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                 <form action="/signout" method="post">
-	                   	 <span class="mr-2 d-none d-lg-inline text-gray-600 small" onclick="fncLogout(); return false;"> Logout </span>
-                   	 	 <button type="submit" style="display:none;" id="logoutSubmitBtn">Logout</button>
-                   	 </form>
-		               </a>
-			           </li>
-			
+								<li class="nav-item dropdown no-arrow">
+                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.USER_INFO.userRealName}</span>
+                   	<c:set var="profile_img" value="/img/undraw_profile_1.svg"/>
+                    <c:if test="${sessionScope.USER_INFO.gender eq '남'}">
+											<c:set var="profile_img" value="/img/undraw_profile_2.svg"/>
+                    </c:if>
+                    <img class="img-profile rounded-circle" src="${profile_img}">
+                  </a>
+                  <!-- Dropdown - User Information -->
+                  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                    <a href="/member/profile" class="dropdown-item">
+                      <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>내 정보
+                    </a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                     	<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout
+                    </a>
+                  </div>
+             	 </li>
 			       </ul>
-			
 			   </nav>
 			   <!-- End of Topbar -->
 			   <div class="container-fluid">
@@ -413,23 +425,25 @@
     </a>
     
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/html/login.html">Logout</a>
-                </div>
-            </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h5 class="modal-title" id="exampleModalLabel">로그아웃</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">로그아웃 하시겠습니까?</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+            <a class="btn btn-primary" href="javascript:void(0)" onclick="fncLogout(); return false;">로그아웃</a>
+            <form action="/signout" method="post">
+          	 	<button type="submit" style="display:none;" id="logoutSubmitBtn">Logout</button>
+         	 	</form>
+          </div>
         </div>
+      </div>
     </div>
     
     <!-- Bootstrap core JavaScript-->
