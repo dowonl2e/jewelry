@@ -75,8 +75,8 @@
 			FROM tb_order a
 				LEFT OUTER JOIN tb_customer b
 					ON a.customer_no = b.customer_no
-			WHERE a.del_yn = 'N'
-			AND a.order_step = 'A'
+			WHERE a.order_step = 'A'
+			AND a.del_yn = 'N'
 				
 			UNION ALL
 			
@@ -101,8 +101,8 @@
 					    , sale_price, rec_pay_type_cd, card_price
 					    , cash_price, maint_price, pnt_price, etc_price, accu_pnt
 			FROM tb_stock
-			WHERE del_yn = 'N'
-			AND sale_yn = 'Y'
+			WHERE sale_yn = 'Y'
+			AND del_yn = 'N'
 		) a
 		WHERE 1 = 1
 		<include refid="sale-search" />

@@ -21,9 +21,11 @@ public class CustomUserDetails implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
 	private String username;
+	private String userRealName;
     private String password;
     private String enableyn;
     private String userrole;
+    private String gender;
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

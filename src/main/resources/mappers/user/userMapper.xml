@@ -13,7 +13,8 @@
 	</sql>
 	
 	<select id="selectUserWithLogin" parameterType="String" resultType="CustomUserDetails">
-		SELECT user_id as username, user_pwd as password, user_role as userrole, IFNULL(use_yn,'N') as enableyn
+		SELECT user_id as username, user_name as user_real_name, gender
+						, user_pwd as password, user_role as userrole, IFNULL(use_yn,'N') as enableyn
 		FROM tb_user
 		WHERE user_id = #{user_id}
 		AND use_yn = 'Y'
@@ -64,5 +65,21 @@
 		, use_yn = #{use_yn}
 		WHERE user_id = #{user_id}
 	</update>
+	
+	<select id="selectManagerListCount" parameterType="UserTO" resultType="Integer">
+		SELECT COUNT(a.user_id)
+		FROM tb_user a
+		WHERE a.user_role = 'MANAGER'
+		<include refid="user-search" />
+	</select>
+	
+	<select id="selectManagerList" parameterType="UserTO" resultType="UserVO">
+		SELECT user_id, user_name
+		FROM tb_user a
+		WHERE a.user_role = 'MANAGER'
+		<include refid="user-search" />
+		ORDER BY a.user_name DESC
+		<include refid="commonMapper.paging" />
+	</select>
 	
 </mapper>

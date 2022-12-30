@@ -22,5 +22,10 @@ public interface UserMapper {
 	UserVO selectUser(String userid);
 
 	int updateUser(UserTO to) throws Exception;
+	
+	int selectManagerListCount(UserTO to);
+	
+	List<UserVO> selectManagerList(UserTO to);
+
 
 }

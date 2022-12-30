@@ -166,6 +166,12 @@
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
 				
+				var exptSumGram = 0;
+				var exptSumPrice = 0;
+				var prgSumGram = 0;
+				var prgSumPrice = 0;
+				var exptDotMaxLen = 0;
+				var prgDotMaxLen = 0;
      		response.list.forEach((obj, idx) => {
      			calGoldGram = 0;
      			calPayPrice = 0;
@@ -178,24 +184,58 @@
 								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.payNo + `'); return false;">`+checkNullVal(obj.venderNm)+`</a>
 							</td>
 							<td class="text-center">` + checkSubstringNullVal(obj.regDt,0,10) +`</td>
-							<td class="text-center">` + checkNullVal(obj.exptGoldGram)+`g</td>
+							<td class="text-center">` + checkNullValR(obj.exptGoldGram,'0')+`g</td>
 							<td class="text-center">` + priceWithComma(checkNullValR(obj.exptPayPrice,'0'))+`</td>
-							<td class="text-center">` + checkNullVal(obj.prgGoldGram)+`g</td>
+							<td class="text-center">` + checkNullValR(obj.prgGoldGram,'0')+`g</td>
 							<td class="text-center">` + priceWithComma(checkNullValR(obj.prgPayPrice,'0'))+`</td>
 					`;
+					
 					exptGoldGram = checkNullValR(obj.exptGoldGram,'0');
 					exptGoldGramIdx = exptGoldGram.indexOf('.');
 					exptGoldGramLen = (exptGoldGramIdx > 0) ? exptGoldGram.length - (exptGoldGramIdx+1) : 0;
 					
-					calGoldGram = Number(exptGoldGram) - Number(checkNullValR(obj.prgGoldGram,'0'));
+					prgGoldGram = checkNullValR(obj.prgGoldGram,'0');
+					prgGoldGramIdx = prgGoldGram.indexOf('.');
+					prgGoldGramLen = (prgGoldGramIdx > 0) ? prgGoldGram.length - (prgGoldGramIdx+1) : 0;
+					
+					gramDotLen = exptGoldGramLen < prgGoldGramLen ? prgGoldGramLen : exptGoldGramLen;
+					
+					calGoldGram = Number(exptGoldGram) - Number(prgGoldGram);
 					calPayPrice = Number(checkNullValR(obj.exptPayPrice,'0')) - Number(checkNullValR(obj.prgPayPrice,'0'));
 					html += `
-							<td class="text-center">` + (calGoldGram == 0.0 ? '0' : calGoldGram.toFixed(exptGoldGramLen)) + `g</td>
+							<td class="text-center">` + (calGoldGram == 0.0 ? '0' : calGoldGram.toFixed(gramDotLen)) + `g</td>
 							<td class="text-center">` + priceWithComma(calPayPrice) + `</td>
 							<td class="text-center">` + checkNullVal(obj.payEtc)+`</td>
 	   				</tr>
      			`;
+     			
+     			exptDotMaxLen = exptDotMaxLen <= exptGoldGramLen ? exptGoldGramLen : exptDotMaxLen;
+     			prgDotMaxLen = prgDotMaxLen <= prgGoldGramLen ? prgGoldGramLen : prgDotMaxLen;
+     			
+     			
+					exptSumGram += Number(exptGoldGram);
+					exptSumPrice += Number(checkNullValR(obj.exptPayPrice,'0'));
+					prgSumGram += Number(checkNullValR(obj.prgGoldGram,'0'));
+					prgSumPrice += Number(checkNullValR(obj.prgPayPrice,'0'));
      		});
+
+     		html += `
+     			<tr>
+		 				<th colspan="4" class="border-right">합계</th>
+		 				<th class="border-right">` + (exptSumGram == 0.0 ? '0' : exptSumGram.toFixed(exptDotMaxLen)) + `g</th>
+		 				<th class="border-right">` + priceWithComma(exptSumPrice) + `</th>
+		 				<th class="border-right">` + (prgSumGram == 0.0 ? '0' : prgSumGram.toFixed(prgDotMaxLen)) + `g</th>
+		 				<th class="border-right">` + priceWithComma(prgSumPrice) + `</th>
+		 		`;
+		 		
+		 		sumDotMaxLen = exptDotMaxLen <= prgDotMaxLen ? prgDotMaxLen : exptDotMaxLen;
+		 		sumGoldGram = exptSumGram - prgSumGram;
+		 		html += `
+		 				<th class="border-right">` + (sumGoldGram == 0.0 ? '0' : sumGoldGram.toFixed(sumDotMaxLen)) + `g</th>
+		 				<th class="border-right">` + priceWithComma(exptSumPrice-prgSumPrice) + `</th>
+		 				<th></th>
+     			</tr>
+     		`;
      		
 	
 				document.getElementById('list').innerHTML = html;
