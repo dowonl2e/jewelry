@@ -26,7 +26,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
+		        <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+		        	<a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
+		        </c:if>
 					</div>
 				</div>
 	    </form>
@@ -155,7 +157,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			html += `
      				<tr>

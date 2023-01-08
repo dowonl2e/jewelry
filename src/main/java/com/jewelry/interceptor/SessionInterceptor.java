@@ -4,8 +4,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.jewelry.cms.auth.domain.AuthMenuTO;
+import com.jewelry.cms.auth.domain.AuthMenuVO;
+import com.jewelry.cms.auth.service.AuthService;
+import com.jewelry.user.domain.CustomUserDetails;
 
 public class SessionInterceptor implements HandlerInterceptor {
 	
@@ -18,9 +25,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 		String url = request.getRequestURI();
 		
 		if(!url.contains("image/display")) {
-			System.out.println("==================== BEGIN ====================");
-			System.out.println("Request URI ===> " + url);
-			System.out.println("===============================================");
+			System.out.println("================== SESSION BEGIN ==================");
+			System.out.println("Request URI(PreHandle) ==> " + url);
+			System.out.println("===================================================");
 		}
 		HttpSession session = request.getSession();
         
@@ -44,9 +51,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		if(!request.getRequestURI().contains("image/display")) {
-			System.out.println("===================== END =====================");
-			System.out.println("Request URI ===> " + request.getRequestURI());
-			System.out.println("===================== END =====================");
+			System.out.println("===================================================");
+			System.out.println("Request URI(PostHandle) ==> " + request.getRequestURI());
+			System.out.println("=================== SESSION END ===================");
 		}
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}

@@ -66,12 +66,17 @@
 					<tbody id="list"></tbody>
 				</table>
 				
-				<div class="text-left mt-3"><a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0);" onclick="fncPopupStepModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">단계변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncOrderToStock(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
-	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+				<div class="text-left mt-3">
+					<a href="javascript:void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
+	        <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+	        	<a href="javascript: void(0);" onclick="fncPopupStepModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">단계변경</span></a>
+		        <a href="javascript: void(0);" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
+		        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">제조사 변경</span></a>
+		        <a href="javascript: void(0);" onclick="fncOrderToStock(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
+		      </c:if>
+	        <c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
+	        	<a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+	        </c:if>
 	    	</div>
 	    					
 				<nav aria-label="Page navigation" class="text-center">
@@ -178,12 +183,19 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			html += `
      				<tr class="small">
 							<td class="text-center">
-								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.orderno)+`','`+checkNullVal(obj.ordertype)+`'); return false;">` + (num--) + `</a>
+					`;
+					if(viewAuth == 'Y'){
+						html += `		<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.orderno)+`','`+checkNullVal(obj.ordertype)+`'); return false;">` + (num--) + `</a>`;
+					}
+					else {
+						html += (num--);
+					}
+					html += `
 							</td>
 							<td class="text-center"><input type="checkbox" name="order_no_arr" class="form-check" value="`+checkNullVal(obj.orderno)+`"/></td>
 							<td class="text-center">

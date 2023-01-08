@@ -69,7 +69,9 @@
 						</tbody>
 					</table>
 					<div class="btn_wrap text-center">
-		        <a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
+						<c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+		        	<a href="javascript: void(0);" onclick="fncSave(); return false;" class="btn btn-primary waves-effect waves-light mlr5">등록</a>
+		        </c:if>
 		        <a href="javascript: void(0);" onclick="goList(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">목록</a>
 		    	</div>
 				</div>

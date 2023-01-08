@@ -23,7 +23,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
+		        <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+		        	<a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light mlr5">자료등록</a>
+		        </c:if>
 					</div>
 				</div>
 	    </form>
@@ -50,7 +52,9 @@
 				</table>
 				<div class="btn_wrap text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-		      <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+					<c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
+		      	<a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+		     	</c:if>
 	    	</div>
 				<nav aria-label="Page navigation" class="text-center">
 			    <ul class="pagination"></ul>
@@ -154,16 +158,23 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
-/*      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
- */     			html += `
+				//const viewUri = `/code/modify/`+obj.cdid + '?' + queryString; 
+				html += `
      				<tr>
 							<td class="text-center">` + (num--) + `</td>
 							<td class="text-center"><input type="checkbox" class="form-check-inline form-check" value="`+checkNullVal(obj.venderno)+`" /></td>
 							<td class="text-center">` + checkSubstringNullVal(obj.inptdt,0,10) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.venderno + `'); return false;">`+checkNullVal(obj.vendernm)+`</a>
+				`;
+				if(viewAuth == 'Y'){
+					html += `			<a href="javascript: void(0);" onclick="fncPopupView('` + obj.venderno + `'); return false;">`+checkNullVal(obj.vendernm)+`</a>`;
+				}
+				else {
+					html += checkNullVal(obj.vendernm);
+				}
+				html += `
 							</td>
 							<td class="text-center">` + checkNullVal(obj.businessnm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.agentcel)+`</td>

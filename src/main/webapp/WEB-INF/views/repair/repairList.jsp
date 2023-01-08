@@ -26,7 +26,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light">수리등록</a>
+		        <c:if test="${sessionScope.WRITE_AUTH}">
+		        	<a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light">수리등록</a>
+		        </c:if>
 					</div>
 				</div>
 	    </form>
@@ -36,8 +38,12 @@
 			
 			<div class="btn_wrap text-left mt-3">
 				<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-        <a href="javascript: void(0);" onclick="fncRepairComplete(); return false;" id="remove-btn" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">수리완료</span></a>
-        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+				<c:if test="${sessionScope.WRITE_AUTH}">
+        	<a href="javascript: void(0);" onclick="fncRepairComplete(); return false;" id="remove-btn" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">수리완료</span></a>
+       	</c:if>
+        <c:if test="${sessionScope.REMOVE_AUTH}">
+        	<a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+        </c:if>
     	</div>
     	
 			<nav aria-label="Page navigation" class="text-center">
@@ -134,7 +140,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			if(idx%4 == 0){
@@ -165,9 +171,19 @@
      		    				<div class="col text-center">
      		    					<input type="checkbox" id="repair_no_`+obj.repairno+`" class="form-check-inline form-check" value="`+obj.repairno+`"/>
      		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
+     		  `;
+     		  if(viewAuth == 'Y'){
+     			  html += `
  		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.repairno+`\'); return false;">
  		    								` + checkSubstringNullVal(obj.repairnm,0,14) + `
  		    								</a>
+ 		    		`;
+     		  }
+     		  else {
+     			  html += checkSubstringNullVal(obj.repairnm,0,14);
+     			  
+     		  }
+     		  html += `
      		    					</label>
      		    				</div>
      		    			</div>

@@ -26,7 +26,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">자료등록</a>
+		        <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+		        	<a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">자료등록</a>
+		        </c:if>
 					</div>
 				</div>
 	    </form>
@@ -164,7 +166,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			html += `
@@ -174,7 +176,14 @@
 							<td class="text-center">` + checkSubstringNullVal(obj.regdt,0,10) + `</td>
 							<td class="text-center">` + checkNullVal(codemap[checkNullVal(obj.contractcd)]) +`</td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.customerno + `'); return false;">` + checkNullVal(obj.customerno) + `</a>
+					`;
+					if(viewAuth == 'Y'){
+						html += `		<a href="javascript: void(0);" onclick="fncPopupView('` + obj.customerno + `'); return false;">` + checkNullVal(obj.customerno) + `</a>`;
+					}
+					else {
+						html += checkNullVal(obj.customerno);
+					}
+					html += `
 							</td>
 							<td class="text-center">` + checkNullVal(obj.contractornm)+`</td>
 							<td class="text-center">` + checkNullVal(obj.contractorcel)+`</td>

@@ -11,4 +11,6 @@ import com.jewelry.cms.menu.domain.MenuVO;
 public interface MenuMapper {
 	
 	List<MenuVO> selectMenuList(MenuTO to);
+	
+	List<MenuVO> selectMenuListAll(MenuTO to);
 }

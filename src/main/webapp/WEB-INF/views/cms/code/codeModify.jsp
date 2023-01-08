@@ -36,8 +36,12 @@
 				</div>
 				
 				<div class="btn_wrap text-center mb-3">
-					<a href="javascript:void(0);" onclick="modify(); return false;" class="btn btn-primary waves-effect waves-light"><span class="text">저장</span></a>
-					<a href="javascript:void(0);" onclick="remove(); return false;" class="btn btn-danger waves-effect waves-light"><span class="text">삭제</span></a>
+					<c:if test="${sessionScope.MODIFY_AUTH eq 'Y'}">
+						<a href="javascript:void(0);" onclick="modify(); return false;" class="btn btn-primary waves-effect waves-light"><span class="text">저장</span></a>
+					</c:if>
+					<c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
+						<a href="javascript:void(0);" onclick="remove(); return false;" class="btn btn-danger waves-effect waves-light"><span class="text">삭제</span></a>
+					</c:if>
 	    		<a href="javascript:void(0);" onclick="goList();" class="btn btn-secondary btn-icon-split"><span class="text">목록</span></a>
 				</div>
 			</form>

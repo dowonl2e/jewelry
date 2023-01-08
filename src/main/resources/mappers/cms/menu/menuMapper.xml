@@ -3,14 +3,29 @@
 <mapper namespace="com.jewelry.cms.menu.mapper.MenuMapper">
 
 	<select id="selectMenuList" parameterType="MenuTO" resultType="MenuVO">
-		SELECT menu_id, menu_nm, menu_link, menu_ord, up_menu_id, use_yn
+		SELECT a.menu_id, a.menu_nm, a.menu_link, a.menu_ord, a.up_menu_id, a.use_yn
 						, (SELECT COUNT(*) FROM tb_menu where up_menu_id = a.menu_id and menu_depth = (a.menu_depth+1)) as child_cnt
 		FROM tb_menu a
-		WHERE menu_depth = #{menu_depth}
+			INNER JOIN TB_AUTH_MENU b
+				ON a.menu_id = b.MENU_ID
+				AND b.USER_ID = #{user_id}
+		WHERE a.menu_depth = #{menu_depth}
+		AND b.ACCESS_AUTH = 'Y'
 		<if test='use_yn != null and !use_yn.equals("")'>
-			AND use_yn = #{use_yn}
+			AND a.use_yn = #{use_yn}
 		</if>
-		ORDER BY menu_ord ASC, menu_id ASC
+		ORDER BY a.menu_ord ASC, a.menu_id ASC
+	</select>
+	
+	<select id="selectMenuListAll" parameterType="MenuTO" resultType="MenuVO">
+		SELECT a.menu_id, a.menu_nm, a.menu_link, a.menu_ord, a.up_menu_id, a.use_yn
+						, (SELECT COUNT(*) FROM tb_menu where up_menu_id = a.menu_id and menu_depth = (a.menu_depth+1)) as child_cnt
+		FROM tb_menu a
+		WHERE a.menu_depth = #{menu_depth}
+		<if test='use_yn != null and !use_yn.equals("")'>
+			AND a.use_yn = #{use_yn}
+		</if>
+		ORDER BY a.menu_ord ASC, a.menu_id ASC
 	</select>
 	
 </mapper>

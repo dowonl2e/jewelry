@@ -28,7 +28,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">단독등록</a>
+		        <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+		        	<a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary waves-effect waves-light">단독등록</a>
+		        </c:if>
 					</div>
 				</div>
 	    </form>
@@ -37,10 +39,14 @@
 			</div>
 			
 			<div class="btn_wrap text-left mt-3">
-        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">기성주문</span></a>
-        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
-        <a href="javascript: void(0);" onclick="fncRemove(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+				<c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+	        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">기성주문</span></a>
+	        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
+	        <a href="javascript: alert('준비중입니다.');" onclick="" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고등록</span></a>
+        </c:if>
+        <c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
+        	<a href="javascript: void(0);" onclick="fncRemove(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+       	</c:if>
     	</div>
     	
 			<nav aria-label="Page navigation" class="text-center">
@@ -147,6 +153,7 @@
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
 				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/modify/`+obj.cdid + '?' + queryString;
      			if(idx%4 == 0){
@@ -177,14 +184,28 @@
      		    				<div class="col text-center">
      		    					<input type="checkbox" id="catalog_no_`+obj.catalogno+`" class="form-check-inline form-check" value="`+obj.catalogno+`"/>
      		    					<label for="catalog_no_`+obj.catalogno+`" class="form-label">
- 		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
- 		    								` + checkNullVal(obj.modelid) + `
-					`;
-					if(checkNullVal(obj.modelnm) != ''){
-						html += `(` + checkNullVal(obj.modelnm) + `)`;
-					}
+     		  `;
+     		  
+	     		if(viewAuth == 'Y'){
+	     		  html += `
+	 		    								<a href="javascript: void(0);" onclick="fncPopupView(\'`+obj.catalogno+`\'); return false;">
+	 		    								` + checkNullVal(obj.modelid) + `
+						`;
+						if(checkNullVal(obj.modelnm) != ''){
+							html += `(` + checkNullVal(obj.modelnm) + `)`;
+						}
+						html += `
+	 		    								</a>
+						`;
+	     		}
+	     		else {
+	     			html += checkNullVal(obj.modelid);
+						if(checkNullVal(obj.modelnm) != ''){
+							html += `(` + checkNullVal(obj.modelnm) + `)`;
+						}
+	     		}
+	     		
 					html += `
- 		    								</a>
      		    					</label>
      		    				</div>
      		    			</div>

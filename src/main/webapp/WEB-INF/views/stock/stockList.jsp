@@ -46,7 +46,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 				    <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light ml5">새로고침</a>
-				    <a href="javascript: void(0);" onclick="fncPopupStockWrite();" class="btn btn-primary waves-effect waves-light ml5">재고등록</a>
+				    <c:if test="${sessionScope.WRITE_AUTH}">
+				    	<a href="javascript: void(0);" onclick="fncPopupStockWrite();" class="btn btn-primary waves-effect waves-light ml5">재고등록</a>
+				    </c:if>
 			    </div>
 				</div>
 	    </form>
@@ -82,13 +84,17 @@
 				
 				<div class="text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0);" onclick="fncPopupSale(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">판매</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupCustomerOrder(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupRegDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">등록일 변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupTypeModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고구분변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">매입처변경</span></a>
-	        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고이동</span></a>
-	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+					<c:if test="${sessionScope.WRITE_AUTH}">
+		        <a href="javascript: void(0);" onclick="fncPopupSale(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">판매</span></a>
+		        <a href="javascript: void(0);" onclick="fncPopupCustomerOrder(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
+		        <a href="javascript: void(0);" onclick="fncPopupRegDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">등록일 변경</span></a>
+		        <a href="javascript: void(0);" onclick="fncPopupTypeModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고구분변경</span></a>
+		        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">매입처변경</span></a>
+		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고이동</span></a>
+		      </c:if>
+		      <c:if test="${sessionScope.REMOVE_AUTH}">
+	        	<a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+	       	</c:if>
 	    	</div>
 	    					
 				<nav aria-label="Page navigation" class="text-center">
@@ -198,7 +204,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			delyn = checkNullVal(obj.delyn);
      			saleyn = checkNullVal(obj.saleyn);
@@ -211,7 +217,14 @@
      			html += `
      				<tr class="`+backgroundTr+` small">
      					<td class="text-center">
-								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.stockno)+`'); return false;">` + (num--) + `</a>
+     			`;
+     			if(viewAuth == 'Y'){
+						html += `	 <a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.stockno)+`'); return false;">` + (num--) + `</a>`;
+     			}
+     			else {
+     				html += (num--);
+     			}
+     			html += `
 							</td>
 							<td class="text-center"><input type="checkbox" name="stock_no_arr" class="form-check" value="`+checkNullVal(obj.stockno)+`"/></td>
 							<td class="text-center">` + checkSubstringNullVal(obj.regdt,2,10) + `</td>
@@ -220,8 +233,14 @@
 								<input type="hidden" id="stock_type_cd_`+checkNullVal(obj.stockno)+`" value="`+checkNullVal(obj.stocktypecd)+`"/>`+ checkNullVal(codemap[obj.stocktypecd]) + `
 							</td>
 							<td class="text-center"><div>` + checkNullVal(obj.size)+`</div><div>`+checkNullVal(obj.stockdesc)+`</div></td>
-							<td class="text-center"><a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a>
+							<td class="text-center">
 					`;
+					if(viewAuth == 'Y'){
+						html += `<a href="javascript:void(0)" onclick="fncPopupCatalogView(`+obj.catalogno+`);">` + checkNullVal(obj.modelid)+`<a>`;
+					}
+					else {
+						html += checkNullVal(obj.modelid);
+					}
 					if(Number(checkNullValR(obj.customerno,'0')) > 0){
 						html += `<div class="mt-1">` + checkNullVal(obj.customernm) + `(`+checkNullVal(obj.customerno)+`)</div>`;
 					}

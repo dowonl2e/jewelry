@@ -51,20 +51,20 @@ public class VenderPageController {
 		return "vender/venderPayList";
 	}
 
-	@GetMapping("/popup/pay/write")
+	@GetMapping("/pay/popup/write")
 	public String writePayPopup(Model model) {
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
 		return "vender/popup/venderPayWrite";
 	}
 
-	@GetMapping("/popup/pay/{payNo}")
+	@GetMapping("/pay/popup/{payNo}")
 	public String viewPayPopup(@PathVariable final Long payNo, ModelMap model) {
 		model.addAttribute("payNo", payNo);
 		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"ST"}, 2));
 		return "vender/popup/venderPayView";
 	}
 	
-	@GetMapping("/popup/pay/modify/{payNo}")
+	@GetMapping("/pay/popup/modify/{payNo}")
 	public String modifyPayPopup(@PathVariable final Long payNo, Model model) {
 		model.addAttribute("payNo", payNo);
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));

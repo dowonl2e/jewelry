@@ -46,7 +46,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 				    <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light ml5">새로고침</a>
-				    <a href="javascript: void(0);" onclick="fncPopupStockWrite();" class="btn btn-primary waves-effect waves-light ml5">재고등록</a>
+				    <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+				    	<a href="javascript: void(0);" onclick="fncPopupStockWrite();" class="btn btn-primary waves-effect waves-light ml5">재고등록</a>
+				    </c:if>
 			    </div>
 				</div>
 	    </form>
@@ -83,7 +85,9 @@
 				
 				<div class="text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+					<c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
+	        	<a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+	        </c:if>
 	    	</div>
 	    					
 				<nav aria-label="Page navigation" class="text-center">
@@ -193,7 +197,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
-				
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			
      			delyn = checkNullVal(obj.delyn);
@@ -211,7 +215,14 @@
      			html += `
      				<tr class="`+backgroundTr+` small">
 							<td class="text-center">
-								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.stockno)+`'); return false;">` + (num--) + `</a>
+					`;
+					if(viewAuth == 'Y'){
+						html += `		<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.stockno)+`'); return false;">` + (num--) + `</a>`;
+					}
+					else {
+						html += (num--);
+					}
+					html += `
 							</td>
 							<td class="text-center"><input type="checkbox" name="stock_no_arr" class="form-check" value="`+checkNullVal(obj.stockno)+`"/></td>
 							<td class="text-center">`+ checkNullVal(codemap[obj.storecd]) + `</td>

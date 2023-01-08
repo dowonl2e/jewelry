@@ -1,6 +1,7 @@
 package com.jewelry.vender.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import com.jewelry.vender.mapper.VenderMapper;
 import com.jewelry.vender.service.VenderService;
 
 @Service
-public class VenderServiceImpl implements VenderService{
+public class VenderServiceImpl implements VenderService {
 
 	@Autowired
 	private VenderMapper venderMapper;
@@ -29,7 +30,7 @@ public class VenderServiceImpl implements VenderService{
 		to.setTotalcount(venderMapper.selectVenderListCount(to));
 		response.put("list", venderMapper.selectVenderList(to)); 
 		response.put("params", to);
-		
+				
 		return response;
 	}
 
@@ -153,5 +154,9 @@ public class VenderServiceImpl implements VenderService{
 			result = "fail";
 		}
 		return result;
+	}
+	
+	private void sort(List<VenderVO> list) {
+		
 	}
 }

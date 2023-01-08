@@ -7,6 +7,8 @@ import com.jewelry.cms.menu.domain.MenuVO;
 
 public interface MenuService {
 	
-	List<MenuVO> getMenuList(MenuTO to);
+	List<MenuVO> selectMenuList(MenuTO to);
+	
+	List<MenuVO> selectMenuListAll(MenuTO to);
 
 }

@@ -29,7 +29,9 @@
 				</table>
 			</div>
 			<div class="text-center">
-				<a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
+				<c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+					<a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">코드추가</a>
+				</c:if>
 				<a href="javascript: void(0);" onclick="fncClose();" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 			</div>
 		</div>
@@ -56,18 +58,32 @@
 				}
 	
 				let html = '';
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/code/popup/modify/`+obj.cdid+`/`+obj.cddepth;
      			html += `
       			<tr>
   						<td class="text-center">`+obj.cdid+`</td>
   						<td class="text-center bold">
-								<a href="`+viewUri+`">`+obj.cdnm+`</a>
+  				`;
+  				if(viewAuth == 'Y'){
+						html += `		<a href="`+viewUri+`">`+checkNullVal(obj.cdnm)+`</a>`;
+  				}
+  				else {
+  					html += checkNullVal(obj.cdnm);	
+  				}
+  				html += `
 							</td>
   						<td class="text-center">`+obj.useyn+`</td>
   						<td class="text-center">`+obj.inptnm+`</td>
   						<td class="text-center">`+obj.inptdt+`</td>
-  						<td class="text-center"><a href="javascript: void(0);" onclick="fncPopupSubCodeList(\'`+obj.cdid+`\'); return false;" class="btn btn-info">하위코드</a></td>
+  						<td class="text-center">
+  				`;
+  				if(viewAuth == 'Y'){
+  					html += `		<a href="javascript: void(0);" onclick="fncPopupSubCodeList(\'`+obj.cdid+`\'); return false;" class="btn btn-info">하위코드</a>`;
+  				}
+  				html += `
+ 							</td>
       			</tr>
      			`;
      		});

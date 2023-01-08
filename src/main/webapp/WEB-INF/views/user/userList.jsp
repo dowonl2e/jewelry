@@ -17,7 +17,9 @@
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
-				    <a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">사용자 추가</a>
+				    <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+				    	<a href="javascript: void(0);" onclick="goWrite();" class="btn btn-primary waves-effect waves-light mlr5">사용자 추가</a>
+				    </c:if>
 			    </div>
 				</div>
 	    </form>
@@ -141,6 +143,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
      		response.list.forEach((obj, idx) => {
      			const viewUri = `/user/`+ checkNullVal(obj.userid) + '?' + queryString;
      			html += `
@@ -148,7 +151,14 @@
   						<td class="text-center">`+(num--)+`</td>
   						<td class="text-center">`+checkNullVal(obj.userid)+`</td>
   						<td class="text-center bold">
-								<a href="`+viewUri+`">`+checkNullVal(obj.username)+`</a>
+  				`;
+  				if(viewAuth == 'Y'){
+						html += `		<a href="`+viewUri+`">`+checkNullVal(obj.username)+`</a>`;
+  				}
+  				else {
+  					html += checkNullVal(obj.username);	
+  				}
+  				html += `
 							</td>
   						<td class="text-center">`+checkNullVal(obj.celnum)+`</td>
   						<td class="text-center">`+checkNullVal(obj.email)+`</td>

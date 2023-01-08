@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewelry.cms.auth.mapper.AuthMapper">
+	
+	<select id="selectUserAuthMenuList" parameterType="AuthMenuTO" resultType="AuthMenuVO">
+		SELECT A.menu_id, A.menu_nm, A.up_menu_id
+						, IFNULL(B.ACCESS_AUTH,'N') AS ACCESS_AUTH, IFNULL(B.WRITE_AUTH,'N') AS WRITE_AUTH
+						, IFNULL(B.VIEW_AUTH,'N') AS VIEW_AUTH, IFNULL(B.MODIFY_AUTH,'N') AS MODIFY_AUTH
+						, IFNULL(B.REMOVE_AUTH,'N') AS REMOVE_AUTH
+		FROM tb_menu A
+			LEFT OUTER JOIN TB_AUTH_MENU B
+				ON A.menu_id = B.MENU_ID
+				AND B.USER_ID = #{user_id}
+		WHERE A.menu_depth = #{menu_depth}
+		ORDER BY A.menu_ord ASC
+	</select>
+	
+	<select id="selectUserAuthMenuExistCnt" parameterType="AuthMenuTO" resultType="Integer">
+		SELECT COUNT(*)
+		FROM TB_AUTH_MENU
+		WHERE USER_ID = #{user_id}
+		AND MENU_ID = #{menu_id}
+	</select>
+	
+	<select id="selectUserAuthMenusWithUserId" parameterType="String" resultType="AuthMenuVO">
+		SELECT MENU_ID, USER_ID
+		FROM TB_AUTH_MENU
+		WHERE USER_ID = #{user_id}
+	</select>
+	
+	<insert id="insertUserAuthMenu" parameterType="AuthMenuTO">
+		INSERT INTO TB_AUTH_MENU (
+			USER_ID, MENU_ID, INPT_ID, INPT_DT
+			<if test='access_auth != null and !access_auth.equals("")'>, ACCESS_AUTH</if>
+			<if test='write_auth != null and !write_auth.equals("")'>, WRITE_AUTH</if>
+			<if test='view_auth != null and !view_auth.equals("")'>, VIEW_AUTH</if>
+			<if test='modify_auth != null and !modify_auth.equals("")'>, MODIFY_AUTH</if>
+			<if test='remove_auth != null and !remove_auth.equals("")'>, REMOVE_AUTH</if>
+		)
+		VALUES (
+			#{user_id}, #{menu_id}, #{inpt_id}, NOW()
+			<if test='access_auth != null and !access_auth.equals("")'>, #{access_auth}</if>
+			<if test='write_auth != null and !write_auth.equals("")'>, #{write_auth}</if>
+			<if test='view_auth != null and !view_auth.equals("")'>, #{view_auth}</if>
+			<if test='modify_auth != null and !modify_auth.equals("")'>, #{modify_auth}</if>
+			<if test='remove_auth != null and !remove_auth.equals("")'>, #{remove_auth}</if>
+		)
+	</insert>
+	
+	<insert id="insertUserAuthMenus" parameterType="List">
+		INSERT INTO TB_AUTH_MENU (
+			USER_ID, MENU_ID, INPT_ID, INPT_DT
+			, ACCESS_AUTH, WRITE_AUTH, VIEW_AUTH
+			, MODIFY_AUTH, REMOVE_AUTH
+		)
+		VALUES 
+		<foreach item="item" collection="list" separator=" , ">
+			(
+				#{item.user_id}, #{item.menu_id}, #{item.inpt_id}, NOW()
+				, IFNULL(#{item.access_auth},'N'), IFNULL(#{item.write_auth},'N'), IFNULL(#{item.view_auth},'N')
+				, IFNULL(#{item.modify_auth},'N'), IFNULL(#{item.remove_auth},'N')
+			)
+		</foreach>
+	</insert>
+	
+	<update id="updateUserAuthMenu" parameterType="List">
+		UPDATE TB_AUTH_MENU
+		SET UPDT_DT = NOW()
+		, UPDT_ID = #{updt_id}
+		, ACCESS_AUTH = IFNULL(#{access_auth}, 'N')
+		, WRITE_AUTH = IFNULL(#{write_auth}, 'N')
+		, VIEW_AUTH = IFNULL(#{view_auth}, 'N')
+		, MODIFY_AUTH = IFNULL(#{modify_auth}, 'N')
+		, REMOVE_AUTH = IFNULL(#{remove_auth}, 'N')
+		WHERE USER_ID = #{user_id}
+		AND MENU_ID = #{menu_id}
+	</update>
+	
+	<update id="updateUserAuthMenus" parameterType="List">
+		<foreach item="item" collection="list" open="" close="" separator="">
+			UPDATE TB_AUTH_MENU
+			SET UPDT_DT = NOW()
+			, UPDT_ID = #{item.updt_id}
+			, ACCESS_AUTH = IFNULL(#{item.access_auth}, 'N')
+			, WRITE_AUTH = IFNULL(#{item.write_auth}, 'N')
+			, VIEW_AUTH = IFNULL(#{item.view_auth}, 'N')
+			, MODIFY_AUTH = IFNULL(#{item.modify_auth}, 'N')
+			, REMOVE_AUTH = IFNULL(#{item.remove_auth}, 'N')
+			WHERE USER_ID = #{item.user_id}
+			AND MENU_ID = #{item.menu_id};
+		</foreach>
+	</update>
+	
+	<select id="selectUserAuthMenus" parameterType="AuthMenuTO" resultType="AuthMenuVO">
+		SELECT MENU_ID
+						, IFNULL(ACCESS_AUTH,'N') AS ACCESS_AUTH, IFNULL(WRITE_AUTH,'N') AS WRITE_AUTH
+						, IFNULL(VIEW_AUTH,'N') AS VIEW_AUTH, IFNULL(MODIFY_AUTH,'N') AS MODIFY_AUTH
+						, IFNULL(REMOVE_AUTH,'N') AS REMOVE_AUTH
+		FROM TB_AUTH_MENU
+		WHERE USER_ID = #{user_id}
+		AND MENU_ID LIKE CONCAT(#{menu_id}, '%')
+	</select>
+</mapper>

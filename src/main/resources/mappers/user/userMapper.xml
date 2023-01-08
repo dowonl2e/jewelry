@@ -74,7 +74,7 @@
 	</select>
 	
 	<select id="selectManagerList" parameterType="UserTO" resultType="UserVO">
-		SELECT user_id, user_name
+		SELECT user_id, user_name, use_yn, gender, user_role
 		FROM tb_user a
 		WHERE a.user_role = 'MANAGER'
 		<include refid="user-search" />

@@ -30,7 +30,9 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 		        <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light mlr5">새로고침</a>
-		        <a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light">자료등록</a>
+		       	<c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+		        	<a href="javascript: void(0);" onclick="fncPopupWrite();" class="btn btn-primary waves-effect waves-light">자료등록</a>
+		        </c:if>
 					</div>
 				</div>
 	    </form>
@@ -60,7 +62,9 @@
 				</table>
 				<div class="btn_wrap text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-		      <a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+					<c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
+		      	<a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+		      </c:if>
 	    	</div>
 				<nav aria-label="Page navigation" class="text-center">
 			    <ul class="pagination"></ul>
@@ -165,6 +169,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
 				
 				var exptSumGram = 0;
 				var exptSumPrice = 0;
@@ -181,7 +186,14 @@
 							<td class="text-center">` + (num--) + `</td>
 							<td class="text-center"><input type="checkbox" class="form-check-inline form-check" value="`+checkNullVal(obj.payNo)+`" /></td>
 							<td class="text-center bold">
-								<a href="javascript: void(0);" onclick="fncPopupView('` + obj.payNo + `'); return false;">`+checkNullVal(obj.venderNm)+`</a>
+					`;
+					if(viewAuth == 'Y'){
+						html += `		<a href="javascript: void(0);" onclick="fncPopupView('` + obj.payNo + `'); return false;">`+checkNullVal(obj.venderNm)+`</a>`;
+					}
+					else {
+						html += checkNullVal(obj.venderNm);
+					}
+					html += `
 							</td>
 							<td class="text-center">` + checkSubstringNullVal(obj.regDt,0,10) +`</td>
 							<td class="text-center">` + checkNullValR(obj.exptGoldGram,'0')+`g</td>
@@ -316,7 +328,7 @@
 		 * 작성하기
 		 */
 		function fncPopupWrite() {
-		  var url = "/vender/popup/pay/write";
+		  var url = "/vender/pay/popup/write";
       var name = "venderPayWritePopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
@@ -326,7 +338,7 @@
 		 * 조회하기
 		 */
 		function fncPopupView(payno) {
-		  var url = "/vender/popup/pay/"+payno;
+		  var url = "/vender/pay/popup/"+payno;
       var name = "venderPayViewPopup";
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);

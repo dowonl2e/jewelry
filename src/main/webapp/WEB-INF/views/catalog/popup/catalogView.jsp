@@ -28,7 +28,7 @@
 					<div class="col bg-light border-right">모델번호</div>
 					<div class="col bg-light">품명</div>
 				</div>
-				<div class="row row-cols-3 border-bottom text-center">
+				<div class="row row-cols-3 border-bottom text-center" style="line-height:40px;">
 					<div class="col border-right" id="vender_div"></div>
 					<div class="col border-right" id="model_id_div"></div>
 					<div class="col" id="model_nm_div"></div>
@@ -115,7 +115,9 @@
 				</div>
 
 				<div class="btn_wrap text-center">
-	        <a href="javascript: void(0);" onclick="goModify(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
+					<c:if test="${sessionScope.MODIFY_AUTH eq 'Y'}">
+	        	<a href="javascript: void(0);" onclick="goModify(); return false;" class="btn btn-primary waves-effect waves-light mlr5">수정</a>
+	        </c:if>
 	        <a href="javascript: void(0);" onclick="fncClose(); return false;" class="btn btn-secondary waves-effect waves-light mlr5">닫기</a>
 	    	</div>
 				<nav aria-label="Page navigation" class="text-center">
@@ -189,7 +191,7 @@
 		   		var html = ``;
 		   		if(stonelist == null || stonelist.length == 0){
 		   			html += `
-		   				<tr>
+		   				<tr class="border-bottom">
 		   					<td colspan="7" class="text-center" style="line-height:60px;">등록된 스톤정보가 없습니다.</td>
 		   				</tr>
 		   			`;

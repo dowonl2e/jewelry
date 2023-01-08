@@ -84,9 +84,13 @@
 				
 				<div class="text-left mt-3">
 					<a href="javascript: void(0)" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-	        <a href="javascript: void(0)" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
-	        <a href="javascript: void(0)" onclick="fncPopupSaleDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">거래일변경</span></a>
-	        <a href="javascript: void(0)" id="remove-btn" onclick="fncSaleToStocks(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+					<c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
+		        <a href="javascript: void(0)" onclick="fncPopupCustomerModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객변경</span></a>
+		        <a href="javascript: void(0)" onclick="fncPopupSaleDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">거래일변경</span></a>
+	        </c:if>
+					<c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
+		        <a href="javascript: void(0)" id="remove-btn" onclick="fncSaleToStocks(); return false;" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
+		      </c:if>
 	    	</div>
 	    					
 				<nav aria-label="Page navigation" class="text-center">
@@ -226,6 +230,7 @@
 	
 				let html = '';
 				let num = response.params.totalcount - (response.params.currentpage-1) * response.params.recordcount;
+				const viewAuth = '${sessionScope.VIEW_AUTH}';
 				
 				quantityTotal = 0;
 				purchaseTotal = 0;
@@ -252,7 +257,14 @@
      			html += `
      				<tr class="`+backgroundTr+` small">
      					<td class="text-center">
-								<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.saleno)+`','`+checkNullVal(obj.saletype)+`','`+checkNullVal(obj.saletype2)+`'); return false;">` + (num--) + `</a>
+     			`;
+     			if(viewAuth == 'Y'){
+						html += `		<a href="javascript: void(0);" onclick="fncPopupView('`+checkNullVal(obj.saleno)+`','`+checkNullVal(obj.saletype)+`','`+checkNullVal(obj.saletype2)+`'); return false;">` + (num--) + `</a>`;
+     			}
+     			else {
+     				html += (num--);
+     			}
+     			html += `
 							</td>
      					<td class="text-center">
      						<input type="checkbox" name="saleno_no_arr" class="form-check" value="`+checkNullVal(obj.saleno)+`_`+checkNullVal(obj.saletype)+`"/>
@@ -263,9 +275,27 @@
 					saletypenm = (checkNullVal(obj.saletype) == 'ORDER' ? '주문' : '판매');
      			html += `
 							<td class="text-center">` + saletypenm + `</td>
-							<td class="text-center"><a href="javascript: void(0)" onclick="fncPopupCustomerView('`+obj.customerno+`'); return false;">` + checkNullVal(obj.customernm) + `</a></td>
+							<td class="text-center">
+					`;
+     			if(viewAuth == 'Y'){
+						html += `		<a href="javascript: void(0)" onclick="fncPopupCustomerView('`+obj.customerno+`'); return false;">` + checkNullVal(obj.customernm) + `</a>`;
+     			}
+     			else {
+     				html += checkNullVal(obj.customernm);
+     			}
+					html += `
+							</td>
 							<td class="text-center blue">` + checkNullVal(obj.saleno) + `</td>
-							<td class="text-center"><a href="javascript: void(0)" onclick="fncPopupCatalogView('`+obj.catalogno+`'); return false;">` + checkNullVal(obj.modelid) + `</a></td>
+							<td class="text-center">
+					`;
+					if(viewAuth == 'Y'){
+						html += `	<a href="javascript: void(0)" onclick="fncPopupCatalogView('`+obj.catalogno+`'); return false;">` + checkNullVal(obj.modelid) + `</a>`;
+					}
+					else {
+						html += checkNullVal(obj.modelid);
+					}
+					html += `
+							</td>
 							<td class="text-center important">` + checkNullVal(codemap[checkNullVal(obj.materialcd)]) + `</td>
 							<td class="text-center">` + checkNullVal(obj.saledesc) + `<div class="blue">` + checkNullVal(obj.mainstonetype) + `</div></td>
 							<td class="text-center">` + checkNullVal(obj.quantity) + `</td>

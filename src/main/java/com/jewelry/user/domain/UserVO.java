@@ -14,6 +14,7 @@ public class UserVO extends CommonVO {
 	private String email;
 	private String celnum;
 	private String gender;
+	private String userrole;
 	private String useyn;
 	private String inptid;
 	private String inptdt;
@@ -91,5 +92,11 @@ public class UserVO extends CommonVO {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public String getUserrole() {
+		return userrole;
+	}
+	public void setUserrole(String userrole) {
+		this.userrole = userrole;
 	}
 }
