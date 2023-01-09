@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthPageController {
 
 	@GetMapping("/manager/list")
-	private String list() {
+	public String list() {
 		return "cms/auth/managerList";
 	}
-	
 	
 }

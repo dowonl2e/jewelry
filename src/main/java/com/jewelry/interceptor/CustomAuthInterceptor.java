@@ -36,9 +36,9 @@ public class CustomAuthInterceptor implements HandlerInterceptor {
 		String url = request.getRequestURI();
 		
 		if(!url.contains("image/display")) {
-			System.out.println("==================== AUTH BEGIN ====================");
+			System.out.println("=================== AUTH BEGIN ====================");
 			System.out.println("Request URI(PreHandle) ==> " + url);
-			System.out.println("====================================================");
+			System.out.println("===================================================");
 		}
 		HttpSession session = request.getSession();
         
@@ -122,9 +122,9 @@ public class CustomAuthInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		if(!request.getRequestURI().contains("image/display")) {
-			System.out.println("====================================================");
+			System.out.println("===================================================");
 			System.out.println("Request URI(PostHandle) ==> " + request.getRequestURI());
-			System.out.println("===================== AUTH END =====================");
+			System.out.println("==================== AUTH END =====================");
 		}
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}

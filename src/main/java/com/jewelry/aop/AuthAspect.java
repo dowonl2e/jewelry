@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,19 +26,24 @@ public class AuthAspect {
 	@Autowired
 	private MenuService menuService;
 	
-	@Before(
+	@Pointcut(
 		"(" +
-			"execution(* com.jewelry.*.*Controller.*(..)) || " + 
-			"execution(* com.jewelry.cms.*.*Controller.*(..))" + 
+			"execution(* com.jewelry..*PageController.*(..)) || " +
+			"execution(* com.jewelry.cms..*PageController.*(..))" +
 		") && " + 
-		"!execution(* com.jewelry.*.UserController.*(..)) && " +
-		"!execution(* com.jewelry.*.FileController.*(..)) && " +
-		"!execution(* com.jewelry.*.*Controller.*Popup(..)) && " +
-		"!execution(* com.jewelry.*.*ApiController.*(..)) && " +
-		"!execution(* com.jewelry.cms.*.*ApiController.*(..)) && " +
-		"!execution(* com.jewelry.cms.*.*Controller.*Popup(..))"
+//		"!execution(* com.jewelry.*.UserController.*(..)) && " +
+//		"!execution(* com.jewelry.*.FileController.*(..)) && " +
+//		"!execution(* com.jewelry.ErrorController.*(..)) && " +
+//		"!execution(* com.jewelry.*.*ApiController.*(..)) && " +
+//		"!execution(* com.jewelry.cms.*.*ApiController.*(..)) && " +
+		"!execution(* com.jewelry..*PageController.*Popup(..)) && " + 
+		"!execution(* com.jewelry.cms..*PageController.*Popup(..)) "
 	)
-	public void afterAdvice(JoinPoint joinPoint) throws Exception {
+	private void menuPointCut() {}
+	
+	//메뉴
+	@Before("menuPointCut()")
+	public void beforeAdvice(JoinPoint joinPoint) throws Exception {
 		System.out.println("[****************************** 메뉴 조회 AOP ***********************************");
 		
 		ServletRequestAttributes attr = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
