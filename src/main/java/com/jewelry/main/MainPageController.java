@@ -9,7 +9,7 @@ import com.jewelry.cms.code.service.CodeService;
 import com.jewelry.util.Utils;
 
 @Controller
-public class MainController {
+public class MainPageController {
 	
 	@Autowired
 	private CodeService codeService;
