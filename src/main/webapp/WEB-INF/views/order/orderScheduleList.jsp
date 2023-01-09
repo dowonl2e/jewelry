@@ -438,16 +438,6 @@
 			findAll(0);
 		}
 		
-		function fncCheckZero(obj){
-			if($(obj).val() != ''){
-				if(Number($(obj).val()) < minNumberLen){
-					$(obj).val('1');
-				}
-				if(Number($(obj).val()) > maxNumberLen){
-					$(obj).val('100');
-				}
-			}
-		}
 	</script>
 </body>
 </html>

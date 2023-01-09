@@ -3,8 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>권한관리</title>
+	<meta charset="UTF-8">
+	<title>권한관리</title>
+	<script>
+		var minNumberLen = 1;
+		var maxNumberLen = 100;
+	</script>
 </head>
 <body>
 	<!-- DataTales Example -->
@@ -18,6 +22,7 @@
 	            <option value="id">아이디</option>
 	            <option value="name">이름</option>
 		        </select>
+		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
 		        <input type="text" id="searchword" class="form-control mlr5" placeholder="키워드를 입력해 주세요." style="width: 200px;" />
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
@@ -26,7 +31,7 @@
 				</div>
 	    </form>
 			<div class="table-responsive clearfix">
-				<table class="table table-hover">
+				<table class="table table-hover border-bottom">
 					<colgroup>
 						<col width="10%"/>
 						<col width="15%"/>
@@ -251,7 +256,7 @@
 
 				let html = ``;
 				html += `
-					<table class="table table-hover" id="authMenuTbl">
+					<table class="table table-hover border-bottom" id="authMenuTbl">
 						<colgroup>
 							<col />
 							<col width="13%"/>

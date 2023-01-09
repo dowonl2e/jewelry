@@ -241,17 +241,6 @@
       var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
-		
-		function fncCheckZero(obj){
-			if($(obj).val() != ''){
-				if(Number($(obj).val()) < minNumberLen){
-					$(obj).val('1');
-				}
-				if(Number($(obj).val()) > maxNumberLen){
-					$(obj).val('100');
-				}
-			}
-		}
 	</script>
 </body>
 </html>

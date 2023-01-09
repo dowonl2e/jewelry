@@ -71,3 +71,14 @@ function fncRefresh(){
 	findAll(0);
 }
 
+//숫자 체크(1 ~ 100){
+function fncCheckZero(obj){
+	if($(obj).val() != ''){
+		if(Number($(obj).val()) < minNumberLen){
+			$(obj).val('1');
+		}
+		if(Number($(obj).val()) > maxNumberLen){
+			$(obj).val('100');
+		}
+	}
+}
