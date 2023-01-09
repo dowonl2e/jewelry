@@ -65,7 +65,7 @@
 	                	aria-expanded="true"
 	                </c:if>
                 	>
-                  <i class="fas fa-fw fa-tachometer-alt"></i>
+                  <i class="fas fa-fw fa-folder"></i>
                   <span> ${menu.menunm}</span>
                 </a>
                 <c:if test="${menu.childcnt gt 0}">
@@ -76,7 +76,9 @@
               						<c:if test="${fn:startsWith(uri,submenu.menuid)}">
 						            		<c:set var="menunm" value="${submenu.menunm}"/>
 						            	</c:if>
-	                    		<a class="collapse-item ${fn:startsWith(uri, submenu.menuid) ? 'active' : ''}" href="${submenu.menulink}">${submenu.menunm}</a>
+	                    		<a class="collapse-item ${fn:startsWith(uri, submenu.menuid) ? 'active' : ''}" href="${submenu.menulink}">
+	                    			<span>${submenu.menunm}</span>
+                    			</a>
 	                    	</c:if>
              					</c:forEach>
 	                  </div>
