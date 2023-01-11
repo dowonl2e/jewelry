@@ -46,7 +46,7 @@
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
 				    <a href="javascript: void(0);" onclick="fncRefresh(); return false;" class="btn btn-warning waves-effect waves-light ml5">새로고침</a>
-				    <c:if test="${sessionScope.WRITE_AUTH}">
+				    <c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
 				    	<a href="javascript: void(0);" onclick="fncPopupStockWrite();" class="btn btn-primary waves-effect waves-light ml5">재고등록</a>
 				    </c:if>
 			    </div>
@@ -84,7 +84,7 @@
 				
 				<div class="text-left mt-3">
 					<a href="javascript: void(0);" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a><span class="ml5">체크된 것</span>
-					<c:if test="${sessionScope.WRITE_AUTH}">
+					<c:if test="${sessionScope.WRITE_AUTH eq 'Y'}">
 		        <a href="javascript: void(0);" onclick="fncPopupSale(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">판매</span></a>
 		        <a href="javascript: void(0);" onclick="fncPopupCustomerOrder(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">고객주문</span></a>
 		        <a href="javascript: void(0);" onclick="fncPopupRegDateModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">등록일 변경</span></a>
@@ -92,7 +92,7 @@
 		        <a href="javascript: void(0);" onclick="fncPopupVenderModify(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">매입처변경</span></a>
 		        <a href="javascript: void(0);" onclick="fncPopupWrite(); return false;" class="btn btn-primary btn-icon-split btn-sm mlr5"><span class="text">재고이동</span></a>
 		      </c:if>
-		      <c:if test="${sessionScope.REMOVE_AUTH}">
+		      <c:if test="${sessionScope.REMOVE_AUTH eq 'Y'}">
 	        	<a href="javascript: void(0);" onclick="fncRemove(); return false;" id="remove-btn" class="btn btn-danger btn-icon-split btn-sm mlr5"><span class="text">삭제</span></a>
 	       	</c:if>
 	    	</div>
