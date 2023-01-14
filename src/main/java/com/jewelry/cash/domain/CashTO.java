@@ -27,6 +27,7 @@ public class CashTO extends CommonTO {
 	private String searchmaterial;
 	private String today;
 	private String yesterday;
+	private String befYesterday;
 	
 	private String[] cash_type_cd_arr;
 	private String[] cash_type_cd2_arr;
@@ -276,6 +277,14 @@ public class CashTO extends CommonTO {
 
 	public void setYesterday(String yesterday) {
 		this.yesterday = yesterday;
+	}
+
+	public String getBefYesterday() {
+		return befYesterday;
+	}
+
+	public void setBefYesterday(String befYesterday) {
+		this.befYesterday = befYesterday;
 	}
 
 	

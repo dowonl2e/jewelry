@@ -353,6 +353,7 @@
 		      		  <th rowspan="`+(statsListLen+3)+`" class="text-center">${st.cdnm}</th>
 		      		</tr>
 		      	`;
+		      	befYesBankBookTotal = 0;
 		      	yesBankBookTotal = 0;
 		      	todayBankBookTotal = 0;
       			response.statslist.forEach((obj, idx) => {
@@ -361,10 +362,11 @@
       						html2 += `
 	      						<tr>
 	      							<td class="text-center border-right">`+checkNullVal(codemap[obj.statscd])+`</td>
-	      							<td class="text-right border-right">`+priceWithComma(obj.yesterdayprice)+`</td>
+	      							<td class="text-right border-right">`+priceWithComma(Number(checkNullValR(obj.yesterdayprice,'0')) + Number(checkNullValR(obj.befYesterdayPrice,'0')))+`</td>
 	      							<td class="text-right">`+priceWithComma(Number(checkNullValR(obj.yesterdayprice,'0'))+Number(checkNullValR(obj.todayprice,'0')))+`</td>
 	      						</tr>
 	      					`;
+      						befYesBankBookTotal += Number(obj.befYesterdayPrice == null ? 0 : checkNullValR(obj.befYesterdayPrice,'0'));
       						yesBankBookTotal += Number(obj.yesterdayprice == null ? 0 : checkNullValR(obj.yesterdayprice,'0'));
       						todayBankBookTotal += Number(obj.todayprice == null ? 0 : checkNullValR(obj.todayprice,'0'));
       					}      					
@@ -373,7 +375,7 @@
       			html2 += `
       				<tr class="bg-lightyellow">
       			    <td class="text-right border-right">현금합계</td>
-      			    <td class="text-right border-right">`+priceWithComma(yesBankBookTotal)+`</td>
+      			    <td class="text-right border-right">`+priceWithComma(yesBankBookTotal + befYesBankBookTotal)+`</td>
       			    <td class="text-right">`+priceWithComma(yesBankBookTotal+todayBankBookTotal)+`</td>
       			  </tf>
       			`;

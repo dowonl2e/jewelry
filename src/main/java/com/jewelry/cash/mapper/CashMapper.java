@@ -15,6 +15,8 @@ public interface CashMapper {
 	List<CashVO> selectCashList(CashTO vo);
 
 	List<CashVO> selectCashStatsList(CashTO vo);
+	
+	List<CashVO> selectCashMaterialStatsList(CashTO vo);
 
 	int insertCash(CashTO to) throws Exception;
 	

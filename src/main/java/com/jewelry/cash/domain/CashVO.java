@@ -25,6 +25,7 @@ public class CashVO extends CommonVO {
 	
 	private Integer statsord;
 	private String statscd;
+	private Integer befYesterdayPrice;
 	private Integer yesterdayprice;
 	private Integer todayprice;
 	
@@ -141,6 +142,12 @@ public class CashVO extends CommonVO {
 	}
 	public void setTodayprice(Integer todayprice) {
 		this.todayprice = todayprice;
+	}
+	public Integer getBefYesterdayPrice() {
+		return befYesterdayPrice;
+	}
+	public void setBefYesterdayPrice(Integer befYesterdayPrice) {
+		this.befYesterdayPrice = befYesterdayPrice;
 	}
 	
 }

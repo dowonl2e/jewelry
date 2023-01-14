@@ -1,12 +1,15 @@
 package com.jewelry.cash.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.jewelry.cash.domain.CashTO;
@@ -31,8 +34,16 @@ public class CashServiceImpl implements CashService {
 		
 		to.setToday(ObjectUtils.isEmpty(to.getSearcheddt()) ? Utils.getTodayDateFormat("yyyy-MM-dd") : to.getSearcheddt());
 		to.setYesterday(Utils.getDateCalDateFormat(to.getToday(), "yyyy-MM-dd", -1));
+		to.setBefYesterday(Utils.getDateCalDateFormat(to.getYesterday(), "yyyy-MM-dd", -1));
 		
-		response.put("statslist", cashMapper.selectCashStatsList(to));
+		List<CashVO> statsList = cashMapper.selectCashStatsList(to);
+		statsList = statsList == null ? new ArrayList<>() : statsList;
+		
+		List<CashVO> matStatsList = cashMapper.selectCashMaterialStatsList(to);
+		if(!CollectionUtils.isEmpty(matStatsList))
+			for(CashVO item : matStatsList) statsList.add(item);
+		
+		response.put("statslist", statsList);
 		response.put("params", to);
 		response.put("today", to.getToday());
 		response.put("yesterday", to.getYesterday());

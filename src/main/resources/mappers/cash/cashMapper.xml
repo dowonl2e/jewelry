@@ -60,9 +60,10 @@
 	</select>
 	
 	<select id="selectCashStatsList" parameterType="CashTO" resultType="CashVO">
-		SELECT stats_ord, store_cd, stats_cd, yesterday_price, today_price
+		SELECT stats_ord, store_cd, stats_cd, bef_yesterday_price, yesterday_price, today_price
 		FROM (
 			SELECT stats_ord, store_cd, stats_cd
+							, (IFNULL(bef_yesterday_price,0)-IFNULL(bef_yesterday_price2,0)) AS bef_yesterday_price
 							, (IFNULL(yesterday_price,0)-IFNULL(yesterday_price2,0)) AS yesterday_price
 							, (IFNULL(today_price,0)-IFNULL(today_price2,0)) AS today_price
 			FROM (
@@ -73,9 +74,36 @@
 										WHERE cash_type_cd = 'RS01' 
 										AND store_cd = sa.store_cd 
 										AND bankbook_cd = sa.bankbook_cd 
+										AND reg_dt = #{befYesterday}
+										AND del_yn = 'N'
+									) AS bef_yesterday_price									
+								, (
+										SELECT SUM(unit_price)
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS02'
+										AND store_cd = sa.store_cd
+										AND bankbook_cd = sa.bankbook_cd
+										AND reg_dt = #{befYesterday}
+										AND del_yn = 'N'
+									) AS bef_yesterday_price2
+								, (
+										SELECT SUM(unit_price)
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS01' 
+										AND store_cd = sa.store_cd 
+										AND bankbook_cd = sa.bankbook_cd 
 										AND reg_dt = #{yesterday}
 										AND del_yn = 'N'
-									) AS yesterday_price
+									) AS yesterday_price									
+								, (
+										SELECT SUM(unit_price)
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS02'
+										AND store_cd = sa.store_cd
+										AND bankbook_cd = sa.bankbook_cd
+										AND reg_dt = #{yesterday}
+										AND del_yn = 'N'
+									) AS yesterday_price2
 								, (
 										SELECT SUM(unit_price)
 										FROM (
@@ -91,15 +119,6 @@
 											<include refid="commonMapper.paging" />
 										) a
 									) AS today_price
-								, (
-										SELECT SUM(unit_price)
-										FROM tb_cash a
-										WHERE cash_type_cd = 'RS02'
-										AND store_cd = sa.store_cd
-										AND bankbook_cd = sa.bankbook_cd
-										AND reg_dt = #{yesterday}
-										AND del_yn = 'N'
-									) AS yesterday_price2
 								, (
 										SELECT SUM(unit_price)
 										FROM (
@@ -127,10 +146,39 @@
 					) a1
 					GROUP BY stats_ord, reg_dt, store_cd, bankbook_cd
 				) sa
-
-				UNION ALL
-				
+			) ta
+		) ta2
+		GROUP BY ta2.store_cd, ta2.stats_ord, ta2.bef_yesterday_price, ta2.yesterday_price, ta2.today_price
+		ORDER BY ta2.stats_cd ASC
+	</select>
+	
+	<select id="selectCashMaterialStatsList" parameterType="CashTO" resultType="CashVO">
+		SELECT stats_ord, store_cd, stats_cd, bef_yesterday_price, yesterday_price, today_price
+		FROM (
+			SELECT stats_ord, store_cd, stats_cd
+								, (IFNULL(bef_yesterday_price,0)-IFNULL(bef_yesterday_price2,0)) AS bef_yesterday_price
+								, (IFNULL(yesterday_price,0)-IFNULL(yesterday_price2,0)) AS yesterday_price
+								, (IFNULL(today_price,0)-IFNULL(today_price2,0)) AS today_price
+			FROM (
 				SELECT sa.stats_ord, sa.store_cd, sa.material_cd AS stats_cd
+								, (
+										SELECT SUM(unit_price)
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS01'
+										AND store_cd = sa.store_cd
+										AND material_cd = sa.material_cd
+										AND reg_dt = #{befYesterday}
+										AND del_yn = 'N'
+									) AS bef_yesterday_price
+								, (
+										SELECT SUM(unit_price)
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS02'
+										AND store_cd = sa.store_cd
+										AND material_cd = sa.material_cd
+										AND reg_dt = #{befYesterday}
+										AND del_yn = 'N'
+									) AS bef_yesterday_price2
 								, (
 										SELECT SUM(unit_price)
 										FROM tb_cash a
@@ -140,6 +188,15 @@
 										AND reg_dt = #{yesterday}
 										AND del_yn = 'N'
 									) AS yesterday_price
+								, (
+										SELECT SUM(unit_price)
+										FROM tb_cash a
+										WHERE cash_type_cd = 'RS02'
+										AND store_cd = sa.store_cd
+										AND material_cd = sa.material_cd
+										AND reg_dt = #{yesterday}
+										AND del_yn = 'N'
+									) AS yesterday_price2
 								, (
 										SELECT SUM(unit_price)
 										FROM (
@@ -157,15 +214,6 @@
 									) AS today_price
 								, (
 										SELECT SUM(unit_price)
-										FROM tb_cash a
-										WHERE cash_type_cd = 'RS02'
-										AND store_cd = sa.store_cd
-										AND material_cd = sa.material_cd
-										AND reg_dt = #{yesterday}
-										AND del_yn = 'N'
-									) AS yesterday_price
-								, (
-										SELECT SUM(unit_price)
 										FROM (
 											SELECT unit_price
 											FROM tb_cash a
@@ -178,7 +226,7 @@
 											ORDER BY a.reg_dt DESC, a.cash_no DESC
 											<include refid="commonMapper.paging" />
 										) a
-									) AS today_price
+									) AS today_price2
 				FROM (
 					SELECT stats_ord, reg_dt, store_cd, material_cd
 					FROM (
@@ -195,8 +243,7 @@
 				) sa
 			) ta
 		) ta2
-		GROUP BY ta2.store_cd, ta2.stats_ord, ta2.yesterday_price, ta2.today_price
-		ORDER BY ta2.stats_cd ASC
+		GROUP BY ta2.store_cd, ta2.stats_ord, ta2.bef_yesterday_price, ta2.yesterday_price, ta2.today_price
 	</select>
 	
 	<insert id="insertCash" parameterType="CashTO">
