@@ -445,21 +445,22 @@
 				return false;
 			}
 			
+			if(customercnt > 0 && nocustomercnt > 0){
+				alert('재고등록시 고객주문과 기성주문을 별도로 등록가능합니다.');
+				return false;
+			}
+			
 			if(customercnt > 1){
 				alert('재고등록시 고객 주문은 1건만 등록가능합니다.');
 				return false;
 			}
 			
-			if(customercnt > 0 && nocustomercnt > 0){
-				alert('재고등록은 고객주문과 기성주문을 따로 등록가능합니다.');
-				return false;
-			}
-			
-
-			var url = "/order/popup/orders/stock/write?ordersno="+ordersno;
-      var name = "orderVenderModifyPopup";
+			var partUri = (customercnt == 0 && nocustomercnt > 0) ? 'nc-stock' : 'stock';
+			var url = '/order/popup/orders/'+partUri+'/write?ordersno='+ordersno;
+			var name = "orderVenderModifyPopup";
       var option = "width = 1500, height = 800, top = 100, left = 200, location = no";
-      window.open(url, name, option);
+   	  window.open(url, name, option);
+      
 		}
 
 		//새로고침

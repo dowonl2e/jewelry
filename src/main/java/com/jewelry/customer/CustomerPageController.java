@@ -51,6 +51,15 @@ public class CustomerPageController {
 		return "customer/popup/customerList";
 	}
 	
+	@GetMapping("/popup/order/list/{customerno}")
+	public String orderListPopup(@PathVariable("customerno") final Long customerno, ModelMap model) {
+		model.addAttribute("customerno", customerno);
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","SC"}, 2));
+		return "customer/popup/customerOrderList";
+	}
+	
 	@GetMapping("/popup/order/list/{customerno}/{orderstep}")
 	public String orderListPopup(@PathVariable("customerno") final Long customerno, @PathVariable("orderstep") final String orderstep, ModelMap model) {
 		model.addAttribute("customerno", customerno);

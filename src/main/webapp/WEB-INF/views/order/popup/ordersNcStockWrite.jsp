@@ -36,19 +36,6 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<th colspan="16" class="text-center border-right">고객<span class="important"> *</span></th>
-							</tr>
-							<tr>
-								<td colspan="16" class="text-center border-right">
-									<div class="input-group-append">
-										<input type="hidden" name="customer_no" id="customer_no" class="form-data"/>
-										<input type="text" name="customer_nm" id="customer_nm" class="form-control form-data mtb5" readonly="readonly"/>
-										<i class="fas fa-search fa-sm ml5 mt15" onclick="fncCustomerListPop(); return false;"></i>
-										<input type="hidden" id="customer_cel" disabled="disabled"/>
-									</div>
-								</td>
-							</tr>
-							<tr>
 								<td rowspan="8" class="text-center border-right">
 									<label for="file"><img src="/img/no-image.png" id="preview" width="350px" height="300px"/></label>
 									<input type="file" name="file" id="file" class="custom-file-input" style="display:none;"/>
@@ -395,12 +382,6 @@
 		    	return response.json();
 				}).then(json => {
 					if(json.list != null && json.list.length > 0){
-						if(json.list.length == 1){
-							document.getElementById('customer_no').value = checkNullVal(json.list[0].customerno) == '0' ? '' : checkNullVal(json.list[0].customerno);
-							document.getElementById('customer_nm').value = checkNullVal(json.list[0].customernm);
-							document.getElementById('customer_cel').value = checkNullVal(json.list[0].customercel);
-						}
-						
 						json.list.forEach((obj, idx) => {
 							document.getElementById('catalog_no_'+idx).value = checkNullVal(obj.catalogno);
 							document.getElementById('model_id_'+idx).value = checkNullVal(obj.modelid);
@@ -435,13 +416,7 @@
 			  }
 			}
 		
-			function fncSave(){
-				if($("#customer_no").val() == ''){
-					alert('고객을 선택해주세요.');
-					$("#customer_nm").focus();
-					return false;
-				}
-				
+			function fncSave(){				
 				if($("#reg_dt").val() == ''){
 					alert('등록일을 입력해주세요.');
 					$("#reg_dt").focus();
@@ -528,13 +503,6 @@
 				$("#per_price_gold_stdd_"+idx).val('');
 				$("#multiple_cnt_"+idx).val('');
 				$("#consumer_price_"+idx).val('');
-			}
-			
-			function fncCustomerListPop(){
-				var url = "/customer/popup/list";
-	      var name = "customerListPopup";
-	      var option = "width = 1000, height = 800, top = 100, left = 200, location = no";
-	      window.open(url, name, option);
 			}
 			
 			function fncCatalogListPop(idx){

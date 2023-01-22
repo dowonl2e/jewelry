@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jewelry.cms.code.service.CodeService;
+import com.jewelry.util.Utils;
 
 @Controller
 @RequestMapping("/sale")
@@ -21,6 +22,7 @@ public class SalePageController {
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
 		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
 		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[]{"ST","SM","PT"}, 2));
+		model.addAttribute("today", Utils.getTodayDateFormat("yyyy-MM-dd"));
 		return "sale/saleList";
 	}
 	

@@ -116,6 +116,7 @@ public class OrderPageController {
 		return "order/popup/orderVenderModify";
 	}
 
+	//주문관리-재고등록(고객)
 	@GetMapping("/popup/orders/stock/write")
 	public String stocksWritePopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
@@ -125,5 +126,17 @@ public class OrderPageController {
 		model.addAttribute("prevstocklist", stockService.findAllPrevStock());
 		model.addAttribute("ordersno", ordersno);
 		return "order/popup/ordersStockWrite";
+	}
+	
+	//주문관리-재고등록(기성)
+	@GetMapping("/popup/orders/nc-stock/write")
+	public String ncStocksWritePopup(@RequestParam(value = "ordersno") String ordersno, ModelMap model) {
+		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
+		model.addAttribute("smlist", codeService.findAllByUpCdId("SM", 2));
+		model.addAttribute("sclist", codeService.findAllByUpCdId("SC", 2));
+		model.addAttribute("oclist", codeService.findAllByUpCdId("OC", 2));
+		model.addAttribute("prevstocklist", stockService.findAllPrevStock());
+		model.addAttribute("ordersno", ordersno);
+		return "order/popup/ordersNcStockWrite";
 	}
 }

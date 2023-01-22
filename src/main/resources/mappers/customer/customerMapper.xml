@@ -14,7 +14,10 @@
 			<choose>
 				<!-- 검색 유형이 없을 때 -->
 				<when test='searchtype == null or searchtype.equals("")'>
-					AND a.contractor_nm LIKE CONCAT('%', <![CDATA[ #{searchword} ]]>, '%')
+					AND (
+						a.contractor_nm LIKE CONCAT('%', <![CDATA[ #{searchword} ]]>, '%')
+						OR a.contractor_cel LIKE CONCAT('%', <![CDATA[ #{searchword} ]]>, '%')
+					)
 				</when>
 			</choose>
 		</if>
@@ -33,15 +36,14 @@
 		        , a.del_yn, a.reg_dt, a.inpt_dt
 		        
 		        , IFNULL(b.order_cnt, 0) AS order_cnt, IFNULL(b.reserve_cnt, 0) AS reserve_cnt, IFNULL(c.repair_cnt, 0) AS repair_cnt
-		        , IFNULL(b.order_cnt, 0) AS sales_cnt, IFNULL(d.sale_price, 0) AS sale_price
+		        , IFNULL(d.sale_cnt, 0) AS sale_cnt, IFNULL(d.sale_price, 0) AS sale_price
 		FROM tb_customer a
 			LEFT OUTER JOIN (
 				SELECT customer_no
-								, SUM(IF(order_step = 'A', 1, 0)) AS order_cnt
+								, COUNT(customer_no) AS order_cnt
 								, SUM(IF(order_step = 'B', 1, 0)) AS reserve_cnt
 				FROM tb_order
-				WHERE order_step IN ('A','B')
-				AND del_yn = 'N'
+				WHERE del_yn = 'N'
 				GROUP BY customer_no
 			) b
 				ON a.customer_no = b.customer_no
@@ -53,10 +55,12 @@
 			) c
 				ON a.customer_no = c.customer_no
 			LEFT OUTER JOIN (
-				SELECT customer_no, SUM(sale_price) AS sale_price
+				SELECT customer_no
+								, COUNT(customer_no) AS sale_cnt
+								, SUM(sale_price) AS sale_price
 				FROM tb_stock
-				WHERE sale_yn = 'Y'
-				AND IFNULL(customer_no, 0) > 0
+				WHERE IFNULL(customer_no, 0) > 0
+				AND sale_yn = 'Y'
 				AND del_yn = 'N'
 				GROUP BY customer_no
 			) d

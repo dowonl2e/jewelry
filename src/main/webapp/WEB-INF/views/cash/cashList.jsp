@@ -123,6 +123,7 @@
 	</div>
 	
 	<script>
+		//<![CDATA[
 		/**
 		 * 페이지 HTML 렌더링
 		 */
@@ -540,6 +541,7 @@
 		function refresh(){
 			findAll('${param.currentpage}');
 		}
+		//]]>
 	</script>
 </body>
 </html>

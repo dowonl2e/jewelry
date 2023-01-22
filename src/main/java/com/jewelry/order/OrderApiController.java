@@ -119,6 +119,12 @@ public class OrderApiController {
 		return orderService.findAllOrdersNo(to);
 	}
 	
+	@GetMapping("/customer/list/{customerno}")
+	public Map<String, Object> orderCustomerList(@PathVariable("customerno") final Long customerno, final OrderTO to){
+		to.setCustomer_no(customerno);
+		return orderService.findAllCustomerOrder(to);
+	}
+
 	@GetMapping("/customer/list/{customerno}/{orderstep}")
 	public Map<String, Object> orderCustomerList(@PathVariable("customerno") final Long customerno, @PathVariable("orderstep") final String orderstep, final OrderTO to){
 		to.setOrder_step(orderstep);

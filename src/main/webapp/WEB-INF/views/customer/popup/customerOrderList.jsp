@@ -172,9 +172,13 @@
 	
 			const queryString = new URLSearchParams(params).toString();
 			const replaceUri = location.pathname + '?' + queryString;
+			const orderstep = '${orderstep}';
 			history.replaceState({}, '', replaceUri);
+			var url = '/api/order/customer/list/${customerno}';
+			if(orderstep != '')
+				url += '/'+orderstep;
 			
-			getJson('/api/order/customer/list/${customerno}/${orderstep}', params).then(response => {
+			getJson(url, params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
 					document.getElementById('list').innerHTML = '<td colspan="14" class="text-center">주문내역이 없습니다.</td>';
 					drawPages();

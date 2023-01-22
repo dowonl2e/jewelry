@@ -21,7 +21,7 @@
 						<input type="date" id="searchstdt" class="form-control mlr5"/> ~
 						<input type="date" id="searcheddt" class="form-control mlr5"/>
 		        <input type="number" id="searchrecordcnt" class="form-control mlr5" placeholder="행 개수" min="1" max="100" oninput="fncCheckZero(this);" style="width:100px;"/>
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명/연락처"/>
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>
@@ -52,7 +52,7 @@
 							<th class="border-left">주문</th>
 							<th class="border-left">수리</th>
 							<th class="border-left">예약</th>
-							<th class="border-left">상담</th>
+							<th class="border-left">판매</th>
 							<th class="border-left">견적</th>
 							<th class="border-left">매츨</th>
 							<th class="border-left">매수</th>
@@ -70,6 +70,7 @@
 	</div>
 	
 	<script>
+		//<![CDATA[
 		/**
 		 * 페이지 HTML 렌더링
 		 */
@@ -217,7 +218,7 @@
 					}
 					html += `
 							</td>
-							<td class="text-center"></td>
+							<td class="text-center">`+checkNullVal(obj.saleCnt)+`</td>
 							<td class="text-center"></td>
 							<td class="text-center">` + (checkNullVal(obj.saleprice) == '' ? '' : priceWithComma(obj.saleprice)) +`</td>
 							<td class="text-center"></td>
@@ -287,8 +288,8 @@
       window.open(url, name, option);
 		}
 		function fncCustomerOrderListPopup(customerno){
-			var url = "/customer/popup/order/list/"+customerno+"/A";
-      var name = "customeOrderAListPopup";
+			var url = "/customer/popup/order/list/"+customerno;
+      var name = "customeOrderListPopup";
       var option = "width = 1300, height = 800, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
@@ -316,7 +317,7 @@
 		function refresh(){
 			findAll('${param.currentpage}');
 		}
-		
+		//]]>
 	</script>
 </body>
 </html>

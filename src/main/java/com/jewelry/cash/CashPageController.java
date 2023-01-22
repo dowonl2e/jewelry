@@ -26,6 +26,7 @@ public class CashPageController {
 		model.addAttribute("stlist", codeService.findAllByUpCdId("ST", 2));
 		model.addAttribute("cdmapper", codeService.findAllByUpCdId(new String[] {"SM", "ST", "RS", "BT"}, 2));
 		model.addAttribute("cdmapper2", codeService.findAllByUpCdId(new String[] {"RS01", "RS02"}, 3));
+		model.addAttribute("today", Utils.getTodayDateFormat("yyyy-MM-dd"));
 		return "cash/cashList";
 	}
 	

@@ -62,6 +62,7 @@
 	</div>
 	
 	<script>
+		//<![CDATA[
 		/**
 		 * 페이지 HTML 렌더링
 		 */
@@ -238,7 +239,7 @@
       var option = "width = 800, height = 500, top = 100, left = 200, location = no";
       window.open(url, name, option);
 		}
-		
+		//]]>
 	</script>
 </body>
 </html>

@@ -20,7 +20,7 @@
     	<form id="searchForm" onsubmit="return false;">
 				<div class="mb20" id="adv-search">
 					<div class="form-inline">
-		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명을 입력" style="width: auto;" />
+		        <input type="text" id="searchword" class="form-control mlr5" placeholder="계약고객/배우자명/연락처"/>
 				    <button type="button" onclick="findAll(0);" class="btn btn-secondary">
 			        <span aria-hidden="true" class="glyphicon glyphicon-search">검색</span>
 				    </button>

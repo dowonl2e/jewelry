@@ -131,6 +131,7 @@
 	</div>
 	
 	<script>
+		//<![CDATA[
 		/**
 		 * 페이지 HTML 렌더링
 		 */
@@ -223,7 +224,7 @@
 			
 			getJson('/api/sale/list', params).then(response => {
 				if (!Object.keys(response).length || response.list == null || response.list.length == 0) {
-					document.getElementById('list').innerHTML = '<td colspan="22" class="text-center">판매내역이 없습니다.</td>';
+					document.getElementById('list').innerHTML = '<tr class="border-bottom"><td colspan="22" class="text-center">판매내역이 없습니다.</td></tr>';
 					drawPages();
 					return false;
 				}
@@ -619,7 +620,7 @@
 		function refresh(){
 			findAll('${param.currentpage}');
 		}
-		
+		//]]>
 	</script>
 </body>
 </html>
