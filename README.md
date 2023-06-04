@@ -18,7 +18,7 @@ Jewerlry Management System
 - Framework / Library : Spring Boot, Spring Security, Spring Data JPA, Mybatis, Docker
 - Server : Tomcat 9.0
 - Build Tool : Maven
-- Database : MySQL
+- Database : MySQL 8.0
 
 
 
