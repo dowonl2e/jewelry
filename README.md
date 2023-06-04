@@ -11,7 +11,7 @@ Jewerlry Management System
 
 ## 기술스택 / Skill Set
 ### Front-End
-- HTML, BootStrap, Thymeleaf, Javascript, JQuery
+- HTML, BootStrap, JSP, Javascript, JQuery
 
 ### Back-End
 - Program Languages : Java 17
