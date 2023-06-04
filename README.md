@@ -17,7 +17,7 @@ Jewerlry Management System
 - Program Languages : Java 17
 - Framework / Library : Spring Boot, Spring Security, Spring Data JPA, Mybatis, Docker
 - Server : Tomcat 9.0
-- Build Tool : Gradle
+- Build Tool : Maven
 - Database : MySQL
 
 
